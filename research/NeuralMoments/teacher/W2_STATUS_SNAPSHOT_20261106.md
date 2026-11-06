@@ -1,5 +1,7 @@
 # W2 status snapshot — 2026-11-06
 
+Later on 2026-11-06 a fresh Spin_test2 evaluation preserved the full attachment; the new result is recorded under its own run identity. [M23 evidence](M23_HEART_POINT000_FRESH.md)
+
 **Repository:** `volcano-code/Spin_test`  
 **W2 branch:** `research/neuralmoments-w2-teacher-20261019`  
 **Snapshot parent HEAD:** `ab4388af59da20da6826b0d2e3ebad036aee508e`  

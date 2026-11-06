@@ -1,0 +1,79 @@
+{
+  "schema": "w2-m23-point000-fresh-evidence-receipt-v1",
+  "repository": "volcano-code/Spin_test2",
+  "actions_run": 42177937306,
+  "actions_attempt": 1,
+  "artifacts": {
+    "evidence": {
+      "id": 13484791870,
+      "sha256": "d6206f4147eccd478d0798d6f7f4e69914906320621ce75768b08b32010cd96b"
+    },
+    "binaries": {
+      "id": 13484318554,
+      "sha256": "697144d146fb9a1159d27451cbfeb37458922112ad2326dfbf84dec7709499de"
+    }
+  },
+  "readback": {
+    "run_id": "heart-point000-42177937306-1",
+    "build_commit": "25d7187c30f647f04736eeb3fd8f9b1b9daf11da",
+    "capture_sha256": "816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04",
+    "local_replay_matches_runner_bytes": true,
+    "elf_sha_verified": 3,
+    "elf_checksum_entries": 5,
+    "material": "285fde06cde62f49053104e40f82a3ec5c74378bcce670a864fc69e4e6aff955",
+    "evaluation_map": "e8347819b347e54caacaadeb458afdea555615eae99491b19b8eba2b8aac42a7",
+    "faces": 16910,
+    "vertices": 8455,
+    "same_historical_solid": true,
+    "boolean_calls": 1,
+    "exact_components": 10,
+    "maximum_absolute_error_vs_rounded_reference": 0.0,
+    "maximum_exact_error": 2.4071727477604756e-17,
+    "startup_available_bytes": 15515361280,
+    "peak_bytes": 194899968,
+    "native_elapsed": 10.06907683299994,
+    "split": "excluded",
+    "J_D": null,
+    "training_admitted": false
+  },
+  "runner_replay": {
+    "J_D": null,
+    "capture_file_sha256": "816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04",
+    "evaluation_map_identity": "e8347819b347e54caacaadeb458afdea555615eae99491b19b8eba2b8aac42a7",
+    "exact_boundary_sha256": "48aae36777ed15e705f1ab919edac07756d3a7444100c060ee5baabd310afe20",
+    "faces": 16910,
+    "faceted_cutter_sha256": "596d2573abbfee52d77090544f34b11bae17a9a45199df00fe848aa905908850",
+    "fresh_regularized_solid_verified_by_identity": true,
+    "historical_solid_commit": "219b9bc9b5efbe97b6f41060afb48c752c1bb7b6",
+    "material_sha256": "285fde06cde62f49053104e40f82a3ec5c74378bcce670a864fc69e4e6aff955",
+    "maximum_absolute_error_vs_rounded_reference": 0.0,
+    "maximum_exact_error": 2.4071727477604756e-17,
+    "module_sha256": {
+      "_cherchi_core_boolean": "792f9419615078df06f48e5570de8773beed8008802013f3d2b35029a53bce4d",
+      "_cherchi_rational_moments": "ed05436e2796b190ddebb024f67318e2e88bdc46d96b01e9d7db71a6af080dca",
+      "make_it_stand._make_it_stand": "e4ed1f1fe2a37ed6effcfb4626ba2dbc0f042a8be6236d1fbcb93bf17e78082a"
+    },
+    "native_calls_in_offline_replay": 0,
+    "physical_oriented_triangles_sha256": "0b0152079cbfa7bc555e93575caa1971bd5b5b17061e6fc3c08a66353477175a",
+    "request_sha256": "7084fecb6bbd4d17bca842bfe68299f9711ecead09eb01593364424a3e0c4a8a",
+    "run_id": "heart-point000-42177937306-1",
+    "schema": "w2-m23-fresh-heart-offline-replay-v1",
+    "stored_ten_exact_moments_matched": true,
+    "training_admitted": false,
+    "vertices": 8455
+  },
+  "cgroup_termination_events": {
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0
+  },
+  "w0_tetrahedral_reintegration": {
+    "run_id": "heart-point000-42177937306-1",
+    "material_sha256": "285fde06cde62f49053104e40f82a3ec5c74378bcce670a864fc69e4e6aff955",
+    "exact_ten_sha256": "cf1d21a9d3b046f98a7ef92e275e616691fc9d4adc7fd3987dedee38a7fe495f",
+    "maximum_exact_error": 2.4071727477604756e-17,
+    "maximum_error_against_rounded_reference": 0.0,
+    "same_exact_ten_as_certified_historical_point": true,
+    "native_calls_in_w0_replay": 0
+  }
+}
