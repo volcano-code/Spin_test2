@@ -1,0 +1,46 @@
+{
+  "schema": "w2-m29-native-prefix-operands-v1",
+  "run_id": "heart-newton-42194441369-1",
+  "external_receipt_sha256": "d465b30768366dee0f10cf7fe8ec9415b7e5e6763ad1d3b3ac0684117982c2fb",
+  "evaluations": [
+    {
+      "index": 1,
+      "status": "returned",
+      "operation": "intersection",
+      "material_sha256": "207f19d2c9c71e240f87650565625330466aec3e75c4ec63e326f1d7f1cfaf80",
+      "constructions": {
+        "EXPLICIT3D_design": 3702,
+        "LPI_design": 331,
+        "LPI_quadric": 14
+      },
+      "face_support_and_winding": {
+        "design_same": 7747,
+        "quadric_same": 343
+      },
+      "ordered_parent_map_sha256": "1b7c65869a5cfc20ec7f856a4c291eab61028e90085c63fba8175c684bddfb75",
+      "vertices": 4047,
+      "faces": 8090
+    },
+    {
+      "index": 2,
+      "status": "returned",
+      "operation": "intersection",
+      "material_sha256": "d0ea04ff769c8a390c7eaf2f11670ad1ea4c987dc7c0d75221964d4799d31f39",
+      "constructions": {
+        "EXPLICIT3D_design": 4111,
+        "EXPLICIT3D_quadric": 4,
+        "LPI_design": 306,
+        "LPI_quadric": 16
+      },
+      "face_support_and_winding": {
+        "design_same": 8542,
+        "quadric_same": 328
+      },
+      "ordered_parent_map_sha256": "80adfa031257a195419327e0e8fc4f695741a5f8039ae4a1dd6f7f87fd6471a5",
+      "vertices": 4437,
+      "faces": 8870
+    }
+  ],
+  "native_calls_in_replay": 0,
+  "whole_boolean_set_equality_verified": false
+}

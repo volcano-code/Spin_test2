@@ -1,0 +1,49 @@
+{
+  "schema": "w2-m29-endpoint-surface-replay-v1",
+  "run_id": "heart-newton-42194441369-1",
+  "result_sha256": "d465b30768366dee0f10cf7fe8ec9415b7e5e6763ad1d3b3ac0684117982c2fb",
+  "checker_source_sha256": "2536f7783ff6552ac930c294879e69b8430fc8e527873859b3ec1187d39c6ea0",
+  "endpoints": [
+    {
+      "evaluation_index": 1,
+      "material_sha256": "207f19d2c9c71e240f87650565625330466aec3e75c4ec63e326f1d7f1cfaf80",
+      "boolean_operation": "intersection",
+      "volume_exact_sha256": "fe9baadfb9a9c240f872113cf4e3bb792dcbe45a7b5ef96c70f043c828b22b37",
+      "checker_input_sha256": "41d440a091edb5d2200ec3edd30683f8b8c7195ac39aa63103e189efacad317a",
+      "surface_status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "candidate_pairs": 131785,
+      "exact_pairs_checked": 131785,
+      "adjacent_pairs": 60148,
+      "nonadjacent_pairs": 71637,
+      "components": 1,
+      "vertices": 4047,
+      "edges": 12135,
+      "faces": 8090,
+      "euler": 2,
+      "genus": 0,
+      "volume_approx": 0.378823424862111
+    },
+    {
+      "evaluation_index": 2,
+      "material_sha256": "d0ea04ff769c8a390c7eaf2f11670ad1ea4c987dc7c0d75221964d4799d31f39",
+      "boolean_operation": "intersection",
+      "volume_exact_sha256": "b5df510411a4f33262f47a0436f5539dc1995ef058f1128375a7a00aaeda895d",
+      "checker_input_sha256": "12ab94f9ccd5cf242c7df74f43fd4f4b3af3ded5564ca9206bf09322e3f8c4cf",
+      "surface_status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "candidate_pairs": 93375,
+      "exact_pairs_checked": 93375,
+      "adjacent_pairs": 58292,
+      "nonadjacent_pairs": 35083,
+      "components": 1,
+      "vertices": 4437,
+      "edges": 13305,
+      "faces": 8870,
+      "euler": 2,
+      "genus": 0,
+      "volume_approx": 0.43196372632487645
+    }
+  ],
+  "new_native_boolean_calls": 0,
+  "regularized_set_equality_certified": false,
+  "terminal_convergence_certified": false
+}

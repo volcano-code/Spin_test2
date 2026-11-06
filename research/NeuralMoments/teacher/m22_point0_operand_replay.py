@@ -49,7 +49,8 @@ def segment_triangle_point(points):
     return point
 
 
-def audit_face_support(faces, vertices, source_meshes, source_positions, supports):
+def audit_face_support(faces, vertices, source_meshes, source_positions, supports, *, operation='subtraction'):
+    require(operation in ('subtraction', 'intersection'), 'UNSUPPORTED_BOOLEAN_OPERATION')
     counts, assignments = Counter(), []
     for a, b, c in faces:
         common = supports[a] & supports[b] & supports[c]
@@ -60,8 +61,11 @@ def audit_face_support(faces, vertices, source_meshes, source_positions, support
         parent_normal = cross(sub(src[j], src[i]), sub(src[k], src[i]))
         normal = cross(sub(vertices[b], vertices[a]), sub(vertices[c], vertices[a]))
         product = dot(normal, parent_normal)
-        require(product > 0 if obj == 0 else product < 0, 'INVALID_DIFFERENCE_WINDING')
-        counts['design_same' if obj == 0 else 'quadric_reversed'] += 1
+        reversed_cutter = obj == 1 and operation == 'subtraction'
+        require(product < 0 if reversed_cutter else product > 0,
+                'INVALID_DIFFERENCE_WINDING' if operation == 'subtraction' else 'INVALID_INTERSECTION_WINDING')
+        key = 'quadric_reversed' if reversed_cutter else ('quadric_same' if obj else 'design_same')
+        counts[key] += 1
         assignments.append((obj, face))
     return dict(sorted(counts.items())), assignments
 
@@ -122,7 +126,8 @@ def audit_geometry(request, material):
         counts[f'{kind}_' + ('design' if obj == 0 else 'quadric')] += 1
     # Convexity: if all three verified vertices lie in a source triangle, the
     # entire saved triangle lies there. This does not test missing output faces.
-    face_counts, assignments = audit_face_support(material['variable_faces'], vertices, meshes, positions, supports)
+    face_counts, assignments = audit_face_support(material['variable_faces'], vertices, meshes, positions, supports,
+                                                         operation=material.get('boolean_operation','subtraction'))
     return dict(sorted(counts.items())), face_counts, assignments
 
 

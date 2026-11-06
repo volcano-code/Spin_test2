@@ -9,6 +9,18 @@ from run_native_smoke import _write_bound_material, run
 
 
 class Point0OperandReplayTests(unittest.TestCase):
+    def test_intersection_cutter_uses_same_winding(self):
+        vertices = [(0,0,0),(1,0,0),(0,1,0)]
+        mesh = (vertices,[(0,1,2)])
+        support = [{(1,0)}] * 3
+        args = (vertices,[mesh,mesh],[vertices,vertices],support)
+        counts, assignment = audit_face_support([(0,1,2)],*args,operation='intersection')
+        self.assertEqual((counts,assignment),({'quadric_same':1},[(1,0)]))
+        with self.assertRaisesRegex(ValueError,'INVALID_INTERSECTION_WINDING'):
+            audit_face_support([(0,2,1)],*args,operation='intersection')
+        with self.assertRaisesRegex(ValueError,'UNSUPPORTED_BOOLEAN_OPERATION'):
+            audit_face_support([(0,2,1)],*args,operation='union')
+
     def test_intersection_must_be_on_both_primitives(self):
         triangle = ((0, 0, 0), (4, 0, 0), (0, 4, 0))
         self.assertEqual(segment_triangle_point(((1, 1, -2), (1, 1, 3), *triangle)), (1, 1, 0))
