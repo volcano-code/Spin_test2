@@ -1,0 +1,201 @@
+name: W2 fresh Heart point-000 native material
+on:
+  push:
+    branches: [research/neuralmoments-w2-teacher-20261019]
+    paths:
+      - '.github/workflows/w2-heart-point000-fresh.yml'
+      - 'research/NeuralMoments/teacher/m23_fresh_point0.py'
+      - 'research/NeuralMoments/teacher/m23_replay_heart_capture.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: spin-test2-w2-native-heart
+  cancel-in-progress: false
+jobs:
+  fresh-point:
+    if: github.repository == 'volcano-code/Spin_test2' && github.ref == 'refs/heads/research/neuralmoments-w2-teacher-20261019'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      NATIVE_RUN_ID: heart-point000-${{ github.run_id }}-${{ github.run_attempt }}
+      CHERCHI_REV: 7bd6c2697695f555f9a15d7e154e084d841316f0
+      CGAL_REV: f7c3c8212b56c0d6dae63787efc99093f4383415
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: recursive
+      - name: Qualify hosted machine before building
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/runtime
+          sudo swapoff -a
+          cat /proc/meminfo > artifacts/runtime/meminfo-before-build
+          test "$(stat -fc %T /sys/fs/cgroup)" = cgroup2fs
+          awk '/^SwapTotal:/{swap=$2}/^MemAvailable:/{mem=$2} END{exit !(mem>=11*1024*1024 && swap==0)}' /proc/meminfo
+          test "$(git -C libigl rev-parse HEAD)" = f06fb13014aadff7eb1d7423ac018620441a3657
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Install build tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y cmake ninja-build libgmp-dev libmpfr-dev libboost-all-dev libtbb-dev libeigen3-dev libgl1-mesa-dev libglu1-mesa-dev libx11-dev libxi-dev libxrandr-dev libxinerama-dev libxcursor-dev
+          python -m pip install 'pybind11==3.0.1' 'numpy==2.5.4' 'scipy==1.18.1' 'shapely==2.2.0' 'scikit-image==0.26.0' 'trimesh==4.12.2' 'networkx==3.7' 'imageio==2.38.1' 'lazy-loader==0.6'
+      - name: Regenerate Heart input from tracked procedural CAD sources
+        run: |
+          set -euo pipefail
+          source_dir=research/Heart_v1_20261017/Heart_H8_Asymmetric_CAD_20261018/source
+          python "$source_dir/build_heart_h8.py" --output "$RUNNER_TEMP/h8-input" > "$RUNNER_TEMP/w2-cad.log"
+          python "$source_dir/audit_h8.py" --output "$RUNNER_TEMP/h8-input" > "$RUNNER_TEMP/w2-cad-audit.log"
+          python "$source_dir/prepare_h8_solver_request.py" --cad "$RUNNER_TEMP/h8-input" --output "$RUNNER_TEMP/h8-request" > "$RUNNER_TEMP/w2-prepare.log"
+          sha256sum "$RUNNER_TEMP/h8-request/prepared-request.json" > artifacts/runtime/regenerated-request.sha256
+          test "$(cut -d' ' -f1 artifacts/runtime/regenerated-request.sha256)" = 1d2b06063c5b2c7010fcb2764518c05c9707f013d6914bc4e20298f8516e061c
+      - name: Fetch pinned geometry sources
+        run: |
+          set -euo pipefail
+          for src in cherchi cgal; do
+            if [[ "$src" = cherchi ]]; then
+              repo=https://github.com/gcherchi/InteractiveAndRobustMeshBooleans.git
+              dir="external/reference-sources-20260917/sources/InteractiveAndRobustMeshBooleans-$CHERCHI_REV"
+              rev="$CHERCHI_REV"
+            else
+              repo=https://github.com/CGAL/cgal.git
+              dir=libigl/external/cgal
+              rev="$CGAL_REV"
+            fi
+            git init -q "$dir"
+            git -C "$dir" fetch --depth=1 --no-tags "$repo" "$rev"
+            git -C "$dir" checkout --detach FETCH_HEAD
+            test "$(git -C "$dir" rev-parse HEAD)" = "$rev"
+          done
+      - name: Build strict core, Cherchi and GMP extensions
+        run: |
+          set -euo pipefail
+          /usr/bin/cmake -S . -B build/heart-core -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DMAKE_IT_STAND_BUILD_VIEWER=OFF -DMAKE_IT_STAND_BUILD_REACHABILITY=OFF -DMAKE_IT_STAND_BUILD_SPIN_IT_2014=OFF \
+            -DMAKE_IT_STAND_BUILD_SPIN_IT_FASTER=ON -DMAKE_IT_STAND_BUILD_EXACT_GEOMETRY_CHECKS=ON \
+            -DMAKE_IT_STAND_BUILD_PYTHON=ON -DMAKE_IT_STAND_FILTERED_BOUNDARY_KERNEL=ON -DBUILD_TESTING=OFF \
+            -DBoost_USE_STATIC_LIBS=OFF -DBoost_THREAD_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_thread.so \
+            -DBoost_SYSTEM_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_system.so \
+            -DPython_EXECUTABLE="$(command -v python)" -DPython3_EXECUTABLE="$(command -v python)"
+          # Older CGAL metadata can select non-PIC static Boost despite shared-library hints.
+          python - <<'PY'
+          from pathlib import Path
+          file = Path("build/heart-core/build.ninja")
+          rules = file.read_text()
+          for name in ("system", "thread"):
+              shared = Path(f"/usr/lib/x86_64-linux-gnu/libboost_{name}.so")
+              assert shared.is_file(), shared
+              rules = rules.replace(str(shared.with_suffix(".a")), str(shared))
+          file.write_text(rules)
+          PY
+          /usr/bin/cmake --build build/heart-core --target _make_it_stand --parallel 2
+          /usr/bin/cmake -S bindings/cherchi -B build/heart-cherchi -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DPython_EXECUTABLE="$(command -v python)" -DMAKE_IT_STAND_CHERCHI_RATIONAL_ARITHMETIC=ON
+          /usr/bin/cmake --build build/heart-cherchi --parallel 2
+      - name: Freeze binaries before calling the teacher
+        run: |
+          set -euo pipefail
+          paths="$GITHUB_WORKSPACE/python:$GITHUB_WORKSPACE/build/heart-core/python:$GITHUB_WORKSPACE/build/heart-cherchi/python"
+          echo "PYTHONPATH=$paths" >> "$GITHUB_ENV"
+          export PYTHONPATH="$paths"
+          python - <<'PY'
+          import hashlib, json, os, platform, shutil, subprocess
+          from pathlib import Path
+          from make_it_stand.spin import _native_module
+          import _cherchi_core_boolean as boolean, _cherchi_rational_moments as rational
+          out = Path("artifacts/runtime")
+          binaries = Path("native-runtime")
+          binaries.mkdir()
+          mods = {"make_it_stand._make_it_stand": _native_module(), "_cherchi_core_boolean": boolean, "_cherchi_rational_moments": rational}
+          entries = {}
+          for name, module in mods.items():
+              path = Path(module.__file__).resolve()
+              target = binaries / path.name
+              shutil.copy2(path, target)
+              entries[name] = {"path": str(path), "sha256": hashlib.sha256(target.read_bytes()).hexdigest()}
+              deps = subprocess.check_output(["ldd", str(path)], text=True)
+              if "not found" in deps:
+                  raise RuntimeError(deps)
+              (out / (name + ".ldd")).write_text(deps)
+              for row in deps.splitlines():
+                  parts = row.split()
+                  if len(parts) > 2 and parts[1] == "=>" and Path(parts[2]).is_relative_to(Path.cwd() / "build"):
+                      shutil.copy2(parts[2], binaries / parts[0])
+          (out / "module-manifest.json").write_text(json.dumps({"schema": "w2-m16-externally-frozen-ELF-extensions-v1", "extensions": entries}, indent=2))
+          (out / "build.json").write_text(json.dumps({"run_id": os.environ["NATIVE_RUN_ID"], "commit": os.environ["GITHUB_SHA"],
+              "python": platform.python_version(), "runner_image": os.environ.get("ImageVersion"),
+              "cherchi": os.environ["CHERCHI_REV"], "cgal": os.environ["CGAL_REV"],
+              "libigl": subprocess.check_output(["git", "-C", "libigl", "rev-parse", "HEAD"], text=True).strip()}, indent=2))
+          PY
+          dpkg-query -W > artifacts/runtime/packages.tsv
+          python -m pip freeze > artifacts/runtime/python-packages.txt
+          cp artifacts/runtime/{module-manifest.json,build.json} native-runtime/
+          (cd native-runtime && sha256sum *.so* > sha256sums)
+      - name: Call the frozen Heart request once under the guarded 9 GiB profile
+        run: |
+          set -euo pipefail
+          dest="$GITHUB_WORKSPACE/artifacts"
+          unit="w2-heart-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          cat /proc/meminfo > "$dest/runtime/meminfo-before-call"
+          awk '/^SwapTotal:/{swap=$2}/^MemAvailable:/{mem=$2} END{exit !(mem>=11*1024*1024 && swap==0)}' /proc/meminfo
+          set +e
+          sudo systemd-run --unit="$unit" --quiet --wait --pipe --collect -p "User=$(id -un)" \
+            -p "WorkingDirectory=$GITHUB_WORKSPACE" -p MemoryHigh=7G -p MemoryMax=9G -p MemorySwapMax=0 \
+            -p OOMPolicy=continue -p RuntimeMaxSec=3500s -p CPUQuota=200% \
+            --setenv="RUNNER_TEMP=$RUNNER_TEMP" --setenv="PATH=$PATH" --setenv="PYTHONPATH=$PYTHONPATH" --setenv="LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-}" \
+            --setenv=OMP_NUM_THREADS=1 --setenv=OPENBLAS_NUM_THREADS=1 --setenv="NATIVE_RUN_ID=$NATIVE_RUN_ID" \
+            /bin/bash -c '
+              set -eu
+              group=/sys/fs/cgroup$(sed -n "s/^0:://p" /proc/self/cgroup)
+              snapshot() { for key in memory.high memory.max memory.swap.max memory.peak memory.events; do
+                echo "$key"; cat "$group/$key"; done; }
+              snapshot > artifacts/runtime/cgroup-before.txt
+              trap "snapshot > artifacts/runtime/cgroup-after.txt" EXIT
+              python research/NeuralMoments/teacher/m23_fresh_point0.py \
+                --prepared-request "$RUNNER_TEMP/h8-request/prepared-request.json" --module-manifest artifacts/runtime/module-manifest.json --output "artifacts/$NATIVE_RUN_ID"
+            ' > "$RUNNER_TEMP/w2-native.log" 2>&1
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$dest/runtime/exit-code"
+          if (( status != 0 )); then
+            grep -Eo '[A-Z][A-Z0-9_]{4,96}' "$RUNNER_TEMP/w2-native.log" | tail -12 > "$dest/runtime/native-error-codes.txt" || true
+            cat "$dest/runtime/native-error-codes.txt"
+          fi
+          exit "$status"
+      - name: Independently replay the saved evidence without native imports
+        run: |
+          env -u PYTHONPATH python research/NeuralMoments/teacher/m23_replay_heart_capture.py \
+            --capture-dir "$GITHUB_WORKSPACE/artifacts/$NATIVE_RUN_ID" --expected-run-id "$NATIVE_RUN_ID" > artifacts/replay.json
+      - name: Encrypt the newly captured scientific files for independent replay
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/sealed
+          cap="artifacts/$NATIVE_RUN_ID"
+          files=(capture.json spec.json label.json material.json module-manifest.json frozen_normalized_outer.obj resources-before.json resources-after.json native-result.json)
+          for file in "${files[@]}"; do test -s "$cap/$file" && test ! -L "$cap/$file"; done
+          tar -C "$cap" -czf - "${files[@]}" | openssl cms -encrypt -binary -aes-256-gcm -outform DER \
+            -out artifacts/sealed/capture.tar.gz.cms .github/point0-evidence-recipient.pem
+          (cd artifacts/sealed && sha256sum capture.tar.gz.cms > sha256sums)
+      - name: Archive encrypted evidence and geometry-free diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w2-heart-point000-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/replay.json
+            artifacts/sealed/
+            artifacts/runtime/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Archive measured ELF binaries and built runtime libraries
+        if: always() && hashFiles('native-runtime/sha256sums') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: w2-heart-point000-binaries-${{ github.run_id }}-${{ github.run_attempt }}
+          path: native-runtime/
+          retention-days: 90

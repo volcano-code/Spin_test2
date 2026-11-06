@@ -147,6 +147,11 @@ def evaluate_one(evaluator, q, *, model_path, native_module_path,
             if reference_absolute_tolerances is None:
                 raise ValueError('PREDECLARED_TEN_MOMENT_ERROR_BUDGET_REQUIRED')
             extra_proof['same_call_attachment']=audit_same_call_attachment(evaluator,output,q)
+            if 'capture_run_id' in geometry:
+                counts = dict(evaluator.call_counts)
+                if counts.get('source') != 1 or counts.get('boolean') != 1:
+                    raise ValueError('CAPTURE_REQUIRES_ONE_NATIVE_BOOLEAN')
+                extra_proof['native_stage_call_counts'] = counts
             exact_start=time.perf_counter()
             extra_proof["independent_ten_moment_audit"]=audit_same_call_exact_boundary(
                 evaluator,output,density,
