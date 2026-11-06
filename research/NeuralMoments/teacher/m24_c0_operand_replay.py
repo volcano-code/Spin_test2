@@ -8,12 +8,15 @@ from m22_point0_operand_replay import audit_geometry
 from m24_capture_c0 import plan
 from m25_capture_linear import COLUMNS
 from m26_capture_c7 import plan as event_plan
+from m27_capture_base_column import COLUMNS as BASE_COLUMNS, plan as base_column_plan
 from native_cherchi_teacher import digest
 
 
-def replay(group, group_id, expected_result_sha256, *, linear=False, c7=False):
-    require(not (linear and c7), "SPECIFY_ONE_STENCIL_PROTOCOL")
+def replay(group, group_id, expected_result_sha256, *, linear=False, c7=False, base_column=None):
+    require(sum((linear, c7, base_column is not None)) <= 1, "SPECIFY_ONE_STENCIL_PROTOCOL")
     protocol = "w2-m26-c7" if c7 else "w2-m25-linear" if linear else "w2-m24-c0"
+    if base_column is not None:
+        protocol = "w2-m27-base-column"
     count = 6 if c7 else 8 if linear else 4
     result_file = group / 'stencil-result.json'
     require(file_hash(result_file) == expected_result_sha256, 'WRONG_EXTERNAL_RESULT_DIGEST')
@@ -26,11 +29,14 @@ def replay(group, group_id, expected_result_sha256, *, linear=False, c7=False):
             and group_id == result['group_id'] and len(result['samples']) == count
             and result['fresh_native_boolean_calls'] == count, 'STENCIL_GROUP_ID_OR_COUNT')
     args = (group_id, stencil['module_sha256'], stencil['source_checkout'])
-    expected_plan = event_plan(*args) if c7 else plan(*args, columns=COLUMNS if linear else None)
+    if base_column is not None:
+        expected_plan = base_column_plan(*args, column=base_column)
+    else:
+        expected_plan = event_plan(*args) if c7 else plan(*args, columns=COLUMNS if linear else None)
     require(stencil == expected_plan, 'UNEXPECTED_STENCIL')
     samples = []
     for expected, entry in zip(stencil['samples'], result['samples']):
-        if linear or c7:
+        if linear or c7 or base_column is not None:
             require(entry['column'] == expected['column'], 'COLUMN_MISMATCH')
         if c7:
             require(all(entry[k] == expected[k] for k in ('side','location')), 'EVENT_SIDE_MISMATCH')
@@ -84,5 +90,7 @@ if __name__ == '__main__':
     protocol = p.add_mutually_exclusive_group()
     protocol.add_argument('--c7', action='store_true', help='verify the M26 six event-side samples')
     protocol.add_argument('--linear', action='store_true', help='verify the registered M25 eight-point linear stencil')
+    protocol.add_argument('--base-column', type=int, choices=BASE_COLUMNS, help='verify one registered M27 base column')
     args = p.parse_args()
-    print(json.dumps(replay(args.group, args.group_id, args.result_sha256, linear=args.linear,c7=args.c7), indent=2, sort_keys=True))
+    print(json.dumps(replay(args.group, args.group_id, args.result_sha256, linear=args.linear, c7=args.c7,
+                            base_column=args.base_column), indent=2, sort_keys=True))

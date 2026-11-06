@@ -42,6 +42,7 @@ jobs:
           case "$PROTOCOL" in
             linear) echo "DRIVER=m25_capture_linear.py" >> "$GITHUB_ENV"; echo "SAMPLES=8" >> "$GITHUB_ENV" ;;
             c7) echo "DRIVER=m26_capture_c7.py" >> "$GITHUB_ENV"; echo "SAMPLES=6" >> "$GITHUB_ENV" ;;
+            base-c[3-9]) echo "DRIVER=m27_capture_base_column.py" >> "$GITHUB_ENV"; echo "SAMPLES=4" >> "$GITHUB_ENV" ;;
             c0) echo "DRIVER=m24_capture_c0.py" >> "$GITHUB_ENV"; echo "SAMPLES=4" >> "$GITHUB_ENV" ;;
             *) exit 2 ;;
           esac
@@ -118,14 +119,16 @@ jobs:
             -p "WorkingDirectory=$GITHUB_WORKSPACE" -p MemoryHigh=7G -p MemoryMax=9G -p MemorySwapMax=0 \
             -p OOMPolicy=continue -p RuntimeMaxSec=1200s -p CPUQuota=200% \
             --setenv="RUNNER_TEMP=$RUNNER_TEMP" --setenv="PATH=$PATH" --setenv="PYTHONPATH=$PYTHONPATH" --setenv="LD_LIBRARY_PATH=$LD_LIBRARY_PATH" \
-            --setenv=OMP_NUM_THREADS=1 --setenv=OPENBLAS_NUM_THREADS=1 --setenv=PYTHONINTMAXSTRDIGITS=100000 --setenv="GROUP_ID=$GROUP_ID" --setenv="DRIVER=$DRIVER" \
+            --setenv=OMP_NUM_THREADS=1 --setenv=OPENBLAS_NUM_THREADS=1 --setenv=PYTHONINTMAXSTRDIGITS=100000 --setenv="GROUP_ID=$GROUP_ID" --setenv="DRIVER=$DRIVER" --setenv="PROTOCOL=$PROTOCOL" \
             /bin/bash -c '
               set -eu
               group=/sys/fs/cgroup$(sed -n "s/^0:://p" /proc/self/cgroup)
               snapshot() { for key in memory.high memory.max memory.swap.max memory.peak memory.events; do echo "$key"; cat "$group/$key"; done; }
               snapshot > artifacts/runtime/cgroup-before.txt
               trap "snapshot > artifacts/runtime/cgroup-after.txt" EXIT
-              python "research/NeuralMoments/teacher/$DRIVER" --prepared-request "$RUNNER_TEMP/h8-request/prepared-request.json" \
+              args=()
+              if [[ "$PROTOCOL" == base-c[3-9] ]]; then args=(--column "${PROTOCOL#base-c}"); fi
+              python "research/NeuralMoments/teacher/$DRIVER" "${args[@]}" --prepared-request "$RUNNER_TEMP/h8-request/prepared-request.json" \
                 --module-manifest artifacts/runtime/module-manifest.json --output "artifacts/$GROUP_ID"
             ' > "$RUNNER_TEMP/w2-native.log" 2>&1
           status=$?
@@ -149,8 +152,10 @@ jobs:
             done
           done
           for name in "${files[@]}"; do test -s "$group_dir/$name" && test ! -L "$group_dir/$name"; done
+          recipient="$PROTOCOL"
+          if [[ "$PROTOCOL" == base-c[3-9] ]]; then recipient=base; fi
           tar -C "$group_dir" -czf - "${files[@]}" | openssl cms -encrypt -binary -aes-256-gcm -outform DER \
-            -out artifacts/sealed/stencil.tar.gz.cms ".github/point0-$PROTOCOL-evidence-recipient.pem"
+            -out artifacts/sealed/stencil.tar.gz.cms ".github/point0-$recipient-evidence-recipient.pem"
           (cd artifacts/sealed && sha256sum stencil.tar.gz.cms > sha256sums)
           cp "$group_dir/stencil-result.json" artifacts/runtime/
       - name: Retain encrypted captures and non-geometric runtime receipts
