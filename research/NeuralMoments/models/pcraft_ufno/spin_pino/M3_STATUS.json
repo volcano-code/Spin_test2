@@ -1,0 +1,54 @@
+{
+  "schema": "SPIN_PINO_M3_STATUS_V1",
+  "status": "SAME_DATA_TOURNAMENT_PASSED_M7_BEST_COMBINED_PINO_REMAINS_PRIMARY",
+  "workflow_run": 42192701882,
+  "artifact_id": 13490785616,
+  "seeds": [
+    131,
+    137,
+    139
+  ],
+  "steps": 120,
+  "batch_size": 8,
+  "label_source": "ANALYTIC_CONTINUUM_P0_NOT_W2_CHERCHI",
+  "aggregate": {
+    "spin_pino_4node": {
+      "parameters": 14440,
+      "r_relative_l2": 0.42332562804222107,
+      "J_relative_l2": 1.2017941276232402,
+      "combined_score": 0.8125598778327306,
+      "training_seconds": 2.7160025109999992
+    },
+    "spin_pino_6node": {
+      "parameters": 21888,
+      "r_relative_l2": 0.256117840607961,
+      "J_relative_l2": 0.8971940080324808,
+      "combined_score": 0.576655924320221,
+      "training_seconds": 2.9162244710000067
+    },
+    "w6_m7_realizable_ufno": {
+      "parameters": 13448,
+      "r_relative_l2": 0.4371674358844757,
+      "J_relative_l2": 0.4930983980496724,
+      "combined_score": 0.46513291696707404,
+      "training_seconds": 0.7880160769999994
+    },
+    "w5_voxel_deeponet": {
+      "parameters": 13939,
+      "r_relative_l2": 0.7510935664176941,
+      "J_relative_l2": 0.6994086106618246,
+      "combined_score": 0.7252510885397594,
+      "training_seconds": 0.7129464966666651
+    }
+  },
+  "selected_by_combined": "w6_m7_realizable_ufno",
+  "selected_for_moment_accuracy": "spin_pino_6node",
+  "primary_backbone": "P-CRAFT PINO",
+  "next": "M3b port positive Gauss-Legendre quadrature rule into PINO head; compare with midpoint under same PINO trunk",
+  "claims": {
+    "cherchi_supervised": false,
+    "newton_admitted": false,
+    "arbitrary_quadric_certified": false,
+    "real_spin_end_to_end_validated": false
+  }
+}

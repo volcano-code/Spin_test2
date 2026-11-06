@@ -1,0 +1,52 @@
+{
+  "schema": "SPIN_PINO_M5_STATUS_V1",
+  "status": "LOGISTIC_REALIZABLE_ATOM_HEAD_WINS_SAME_DATA_P0_TOURNAMENT",
+  "workflow_run": 42195661322,
+  "artifact_id": 13491169764,
+  "implementation_commit": "0931f2442f50c4572912d27812ffde70c8e38fff",
+  "seeds": [
+    131,
+    137,
+    139
+  ],
+  "steps": 120,
+  "batch_size": 8,
+  "label_source": "ANALYTIC_CONTINUUM_P0_NOT_W2_CHERCHI",
+  "selected_model": "P-CRAFT PINO trunk + logistic_atom head + support-masked positive quadrature",
+  "results": {
+    "spin_pino_logistic": {
+      "parameters": 21888,
+      "r_mae": 0.011575312353670597,
+      "r_relative_l2": 0.20602047940095267,
+      "J_mae": 0.007529379489521186,
+      "J_relative_l2": 0.31465572118759155,
+      "training_seconds": 2.586989692000003,
+      "combined": 0.2603381002942721
+    },
+    "spin_pino_smooth_midpoint": {
+      "parameters": 21888,
+      "r_relative_l2": 0.23203609883785248,
+      "J_relative_l2": 0.8912027676900228,
+      "combined": 0.5616194332639377
+    },
+    "w6_m7": {
+      "parameters": 13448,
+      "r_relative_l2": 0.4371674259503682,
+      "J_relative_l2": 0.4930983980496724,
+      "combined": 0.4651329120000203
+    },
+    "w5_deeponet": {
+      "parameters": 13939,
+      "r_relative_l2": 0.7510936458905538,
+      "J_relative_l2": 0.6994086503982544,
+      "combined": 0.7252511481444042
+    }
+  },
+  "decision": "PROMOTE_LOGISTIC_ATOM_HEAD_FOR_FURTHER_RESEARCH; KEEP_SMOOTH_HINGE_ABLATION; PINO_TRUNK_REMAINS_PRIMARY",
+  "limits": {
+    "cherchi_supervised": false,
+    "newton_admitted": false,
+    "arbitrary_quadric_certified": false,
+    "real_spin_end_to_end_validated": false
+  }
+}

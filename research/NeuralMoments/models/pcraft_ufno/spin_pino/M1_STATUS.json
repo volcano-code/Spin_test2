@@ -1,0 +1,66 @@
+{
+  "schema": "SPIN_PINO_M1_STATUS_V1",
+  "status": "ANALYTIC_DATA_PIPELINE_AND_THREE_SEED_TRAINING_PASSED_PRELIMINARY_ACCURACY_WEAK",
+  "branch": "research/neuralmoments-w6-pcraft-20261019",
+  "implementation_commit": "acbb48f24e95cd1b360319bc679345344985af49",
+  "split_fix_commit": "3c12cd7bc02b1de75789d9c4a8131f17c77cc38c",
+  "training_workflow_commit": "00c17bdfc4c5dff4b0862b428a1c08246c5dc924",
+  "workflow_run": 42188044841,
+  "workflow_conclusion": "success",
+  "tests": {
+    "spin_pino_and_dataset": 11,
+    "failed": 0,
+    "seconds": 1.87,
+    "neuraloperator_quadrann": 8,
+    "algoim_cpp": 1
+  },
+  "dataset": {
+    "fit_samples": 52,
+    "validation_samples": 12,
+    "held_out_test_samples": 16,
+    "fit_families": [
+      "box",
+      "sphere"
+    ],
+    "held_out_test_family": [
+      "ellipsoid"
+    ],
+    "grid_size": 8,
+    "queries_per_geometry": 2,
+    "label_source": "ANALYTIC_CONTINUUM_P0_NOT_W2_CHERCHI",
+    "w2_or_cherchi_labels_used": false
+  },
+  "training": {
+    "seeds": [
+      131,
+      137,
+      139
+    ],
+    "steps": 120,
+    "batch_size": 8,
+    "trainable_parameters": 14440,
+    "selected_steps": [
+      110,
+      120,
+      110
+    ]
+  },
+  "mean_metrics": {
+    "fit_r_mae": 0.049772828817367554,
+    "validation_r_mae": 0.058413720379273094,
+    "held_out_ellipsoid_r_mae": 0.04069356620311737,
+    "held_out_ellipsoid_J_mae": 0.03460638349254926,
+    "held_out_ellipsoid_r_relative_l2": 0.4249621431032817,
+    "held_out_ellipsoid_J_relative_l2": 1.5802433490753174,
+    "negative_mass_fraction": 0
+  },
+  "artifact_id": 13488726149,
+  "artifact_sha256": "3be4a0ffb41345bcef6c5f682d52e5c108bd5a77964b14754c6cbf3a790decbe",
+  "next": "M2 controlled smoothing/node-count/resolution sweep and matched comparison against frozen W6 M13 U-FNO",
+  "claims": {
+    "trained_on_analytic_labels": true,
+    "trained_on_cherchi": false,
+    "newton_admitted": false,
+    "real_spin_end_to_end_validated": false
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "SPIN_PINO_M3B_STATUS_V1",
+  "status": "GAUSS_LEGENDRE_ABLATION_PASSED_TESTS_NOT_PROMOTED",
+  "workflow_run": 42193467406,
+  "artifact_id": 13490493357,
+  "implementation_commit": "ffbf18ecdbb6cd22ae80fa5429b3106e1cfaa79c",
+  "results": {
+    "spin_pino_midpoint": {
+      "r_relative_l2": 0.2320359448591868,
+      "J_relative_l2": 0.8912027875582377,
+      "combined": 0.5616193662087122
+    },
+    "spin_pino_gauss": {
+      "r_relative_l2": 0.47270644704500836,
+      "J_relative_l2": 1.202231725056966,
+      "combined": 0.8374690860509872
+    },
+    "w6_m7": {
+      "r_relative_l2": 0.4371674259503682,
+      "J_relative_l2": 0.4930983980496724,
+      "combined": 0.4651329120000203
+    },
+    "w5_deeponet": {
+      "r_relative_l2": 0.751093586285909,
+      "J_relative_l2": 0.6994086106618246,
+      "combined": 0.7252510984738668
+    }
+  },
+  "decision": "KEEP_MIDPOINT_PINO; DO_NOT_PROMOTE_GAUSS",
+  "claims": {
+    "cherchi_supervised": false,
+    "newton_admitted": false,
+    "real_spin_end_to_end_validated": false
+  }
+}

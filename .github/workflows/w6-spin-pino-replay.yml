@@ -1,0 +1,63 @@
+name: W6 Spin-PINO analytic training and paired rotations
+on:
+  push:
+    branches: [research/neuralmoments-w6-pcraft-20261019]
+    paths:
+      - 'research/NeuralMoments/models/pcraft_ufno/**'
+      - '.github/workflows/w6-spin-pino-replay.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cpu-analytic-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PACKAGE: research.NeuralMoments.models.pcraft_ufno.spin_pino
+      MODEL_DIR: research/NeuralMoments/models/pcraft_ufno
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install CPU dependencies
+        run: |
+          python -m pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'numpy<3' 'pytest<10' 'trimesh>=4' scipy
+      - name: Run Spin-PINO and gradient regressions
+        run: python -m pytest -q "$MODEL_DIR/spin_pino/tests" "$MODEL_DIR/test_smoke.py"
+      - name: Reproduce the M5 tournament and paired orientation panels
+        run: |
+          python -m "$PACKAGE.tournament" --output "$RUNNER_TEMP/w6-replay/m5.json"
+          python -m "$PACKAGE.rotation_sweep" --output "$RUNNER_TEMP/w6-replay/paired.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          outputs = Path(os.environ["RUNNER_TEMP"]) / "w6-replay"
+          model = Path(os.environ["MODEL_DIR"]) / "spin_pino"
+          m5 = json.loads((outputs / "m5.json").read_text())
+          expected = json.loads((model / "M5_STATUS.json").read_text())["results"]["spin_pino_logistic"]
+          current = m5["aggregate"]["spin_pino_6node_logistic"]
+          for metric in ("r_relative_l2", "J_relative_l2"):
+              assert abs(current[metric] - expected[metric]) < 0.001, (metric, current[metric])
+          paired = json.loads((outputs / "paired.json").read_text())
+          reference = json.loads((model / "SPIN_TEST2_ANALYTIC_REPLAY.json").read_text())
+          for arm, panels in reference["paired_means"].items():
+              for name, metrics in panels.items():
+                  for metric, expected_value in metrics.items():
+                      val = paired["means"][arm][name][metric]
+                      assert abs(val - expected_value) < 0.001, (arm, name, metric, val)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: w6-spin-pino-analytic-replay
+          path: ${{ runner.temp }}/w6-replay/*.json
+          if-no-files-found: error

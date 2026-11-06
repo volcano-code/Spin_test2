@@ -1,0 +1,40 @@
+{
+  "schema": "SPIN_PINO_M2B_STATUS_V1",
+  "status": "SUPPORT_MASKED_SWEEP_COMPLETED_RESEARCH_CONFIG_SELECTED_JACOBIAN_NOT_NEWTON_READY",
+  "workflow_run": 42191687667,
+  "artifact_id": 13489614384,
+  "configs": 3,
+  "seeds": [
+    131,
+    137,
+    139
+  ],
+  "steps": 120,
+  "label_source": "ANALYTIC_CONTINUUM_P0_NOT_W2_CHERCHI",
+  "selected": {
+    "grid_size": 8,
+    "points_per_axis": 6,
+    "smoothing": 0.02,
+    "parameters": 21888,
+    "heldout_r_mae": 0.016928992234170437,
+    "heldout_J_mae": 0.018912368764479954,
+    "heldout_r_relative_l2": 0.25611422459284466,
+    "heldout_J_relative_l2": 0.8971941073735555,
+    "combined_score": 0.5766541659832001,
+    "training_seconds": 1.7486193913333306
+  },
+  "baseline_unmasked": {
+    "r_relative_l2": 0.5111733376979828,
+    "J_relative_l2": 0.9614400664965311
+  },
+  "support_masked_selected": {
+    "r_relative_l2": 0.25611422459284466,
+    "J_relative_l2": 0.8971941073735555
+  },
+  "limits": {
+    "cherchi_supervised": false,
+    "newton_admitted": false,
+    "arbitrary_quadric_certified": false,
+    "real_spin_end_to_end_validated": false
+  }
+}

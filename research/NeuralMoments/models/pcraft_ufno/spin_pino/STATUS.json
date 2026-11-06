@@ -1,0 +1,32 @@
+{
+  "schema": "SPIN_PINO_M0_STATUS_V1",
+  "status": "PINO_BACKBONE_AND_MOMENT_IDENTITIES_CPU_SMOKE_PASSED",
+  "branch": "research/neuralmoments-w6-pcraft-20261019",
+  "implementation_commit": "d1ee418a006e7dc41f5260dea19aa02b9f74f1ef",
+  "validation_commit": "3c366be7b0b3476d8f1db7a0e6ab3dbb2ee23ec1",
+  "workflow_run": 42186600269,
+  "workflow_conclusion": "success",
+  "jobs": {
+    "spin_pino_cpu": {
+      "passed": 9,
+      "failed": 0,
+      "seconds": 1.44
+    },
+    "neuraloperator_quadrann_cpu": {
+      "passed": 8,
+      "failed": 0,
+      "seconds": 2.49
+    },
+    "algoim_cpp": {
+      "passed": 1,
+      "failed": 0,
+      "max_abs_error": 7.504485921572268e-11
+    }
+  },
+  "pino_primary_backbone": true,
+  "trained_on_spin_labels": false,
+  "cherchi_labels_admitted": 0,
+  "newton_derivative_admitted": false,
+  "real_spin_end_to_end_validated": false,
+  "source_license_clearance": "PENDING_INTERNAL_OWNERSHIP_REVIEW"
+}

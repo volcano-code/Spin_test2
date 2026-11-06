@@ -1,0 +1,153 @@
+{
+  "batch_size": 8,
+  "dataset_label_source": "ANALYTIC_CONTINUUM_P0_NOT_W2_CHERCHI",
+  "destination_base": "a3fe82ddcc5b418630411017b90cc8502de1ae18",
+  "local_evidence_sha256": {
+    "m5.json": "ccb071ab84a2a41c1e45945c991b4c8fd0b347f6373fb4bda95ae0d8033c6fda",
+    "paired.json": "cc55c5bab24ecd7949c98411636f21b90de578082d01636d9e48ab574c2c304e"
+  },
+  "m5_means": {
+    "spin_pino_4node": {
+      "J_relative_l2": 1.1515729029973347,
+      "combined_score": 0.7853403637806574,
+      "parameters_mean": 14440,
+      "r_relative_l2": 0.4191078245639801
+    },
+    "spin_pino_6node": {
+      "J_relative_l2": 0.8912020325660706,
+      "combined_score": 0.5616189117232958,
+      "parameters_mean": 21888,
+      "r_relative_l2": 0.23203579088052115
+    },
+    "spin_pino_6node_gauss": {
+      "J_relative_l2": 1.202231725056966,
+      "combined_score": 0.8374690860509872,
+      "parameters_mean": 21888,
+      "r_relative_l2": 0.47270644704500836
+    },
+    "spin_pino_6node_logistic": {
+      "J_relative_l2": 0.31465573112169903,
+      "combined_score": 0.26033810526132584,
+      "parameters_mean": 21888,
+      "r_relative_l2": 0.20602047940095267
+    },
+    "w5_voxel_deeponet": {
+      "J_relative_l2": 0.6994086503982544,
+      "combined_score": 0.7252511282761891,
+      "parameters_mean": 13939,
+      "r_relative_l2": 0.7510936061541239
+    },
+    "w6_m7_realizable_ufno": {
+      "J_relative_l2": 0.4930984079837799,
+      "combined_score": 0.46513291696707404,
+      "parameters_mean": 13448,
+      "r_relative_l2": 0.4371674259503682
+    }
+  },
+  "native_newton_admission": false,
+  "native_teacher_samples_used": 0,
+  "paired_means": {
+    "cube": {
+      "cube": {
+        "J_relative_l2": 0.3143043617407481,
+        "r_relative_l2": 0.2056160718202591
+      },
+      "haar": {
+        "J_relative_l2": 0.44900431235631305,
+        "r_relative_l2": 0.3707180420557658
+      },
+      "haar_rerasterized": {
+        "J_relative_l2": 0.31761329372723895,
+        "r_relative_l2": 0.1926207741101583
+      },
+      "original": {
+        "J_relative_l2": 0.31432398160298664,
+        "r_relative_l2": 0.20555506646633148
+      }
+    },
+    "haar": {
+      "cube": {
+        "J_relative_l2": 0.314274142185847,
+        "r_relative_l2": 0.2055374632279078
+      },
+      "haar": {
+        "J_relative_l2": 0.4489104449748993,
+        "r_relative_l2": 0.37065966924031574
+      },
+      "haar_rerasterized": {
+        "J_relative_l2": 0.3176406919956207,
+        "r_relative_l2": 0.19263006746768951
+      },
+      "original": {
+        "J_relative_l2": 0.3142836292584737,
+        "r_relative_l2": 0.20556822419166565
+      }
+    },
+    "none": {
+      "cube": {
+        "J_relative_l2": 0.31454986333847046,
+        "r_relative_l2": 0.20600422223409018
+      },
+      "haar": {
+        "J_relative_l2": 0.4495180944601695,
+        "r_relative_l2": 0.371231347322464
+      },
+      "haar_rerasterized": {
+        "J_relative_l2": 0.31782442331314087,
+        "r_relative_l2": 0.1927693486213684
+      },
+      "original": {
+        "J_relative_l2": 0.31465573112169903,
+        "r_relative_l2": 0.20602047940095267
+      }
+    }
+  },
+  "panels": {
+    "131": {
+      "held_out_geometries": 8,
+      "interpolated_occupancy_relative_l2": 0.4156878888607025,
+      "paired_sha256": {
+        "cube": "84185c2672eec9229f40048bde08de9418db0c743c60158570c9a6a24f48c676",
+        "haar": "4798ecb93edb85440f54c78152b5ee44f550e6560adeb94aa006aa2d6a6e1d8a",
+        "haar_rerasterized": "decf8ee0b4e11e8e29abbfe441e62db91db2b4aa834adb1d75adb9ed8f70d490",
+        "original": "02fd26c2baf84dc5b8786db6ac7ebbaee3a0949f1b166105d827c3a1c7d9ba0e"
+      },
+      "samples_per_panel": 16
+    },
+    "137": {
+      "held_out_geometries": 8,
+      "interpolated_occupancy_relative_l2": 0.4210166931152344,
+      "paired_sha256": {
+        "cube": "b00a5ede71ca134ba6928b4102a14a697a2716c10ba2170420c42b043b4e1bdc",
+        "haar": "68bdf23e957c5fe08b9464390ed86003f26a6e336e0d4d1b9378b7845b49879f",
+        "haar_rerasterized": "ce909e95c25f4683e5660c40ade37ffc868f6678532777d782fab84dd7c777c2",
+        "original": "4e4b006e5b530806b8e3b1abf3cfff0151ec1d3ef34b84d286a834d0104fbc56"
+      },
+      "samples_per_panel": 16
+    },
+    "139": {
+      "held_out_geometries": 8,
+      "interpolated_occupancy_relative_l2": 0.41808363795280457,
+      "paired_sha256": {
+        "cube": "eb07f1574da2597c677d42f2c779add3c0e13399638cabf81120682b52ca6097",
+        "haar": "ee4d2a5a76b108ccf94e5b0e7238ba61b7f26b1774db19987d457ee658d6b7c7",
+        "haar_rerasterized": "f478123a3cc4d54d3084506bf993fd49dafa674dd8ab0e05feec98bd2d82c0bc",
+        "original": "9c2bb70653a91ce613cc8abfb624f1fa569c9c1b55f17493bcebe53f97157f50"
+      },
+      "samples_per_panel": 16
+    }
+  },
+  "python_version": "3.12.14",
+  "reuse_scope": "analytic training and reference implementations",
+  "schema": "W6_SPIN_TEST2_ANALYTIC_REPLAY_V1",
+  "seeds": [
+    131,
+    137,
+    139
+  ],
+  "source_commit": "6bdaca7cc72cf56a1588549e9c148fc16fb0cc23",
+  "source_repo": "volcano-code/Spin_test",
+  "steps": 120,
+  "torch_version": "2.15.0+cpu",
+  "train_grid_size": 8
+}

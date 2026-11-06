@@ -1,0 +1,44 @@
+{
+  "schema": "SPIN_PINO_M4_STATUS_V1",
+  "status": "LOSS_CONDITIONING_ABLATION_PASSED_NO_PROMOTION",
+  "workflow_run": 42194697503,
+  "artifact_id": 13491751590,
+  "model_config": {
+    "grid_size": 8,
+    "points_per_axis": 6,
+    "smoothing": 0.02,
+    "parameters": 21888
+  },
+  "results": {
+    "baseline": {
+      "r_relative_l2": 0.23203609883785248,
+      "J_relative_l2": 0.8912027676900228,
+      "combined": 0.5616194332639377,
+      "training_seconds": 2.528201927999999
+    },
+    "diagonal_preconditioned": {
+      "r_relative_l2": 0.31014883518218994,
+      "J_relative_l2": 0.8962958852450053,
+      "combined": 0.6032223602135975,
+      "training_seconds": 2.507847715333334
+    },
+    "diagonal_preconditioned_pcgrad": {
+      "r_relative_l2": 0.28978949785232544,
+      "J_relative_l2": 0.8907322883605957,
+      "combined": 0.5902608931064606,
+      "training_seconds": 4.557239478000004
+    }
+  },
+  "first_gradient_diagnostics": {
+    "data_physics_cosine": -0.000002313970298928325,
+    "data_jacobian_cosine": 0.38350364565849304,
+    "physics_jacobian_cosine": 0.000024393915737164207,
+    "physics_gradient_norm": 9.131647799133838e-17
+  },
+  "decision": "KEEP_BASELINE_DEFAULT; RETAIN_PRECONDITIONER_AND_PCGRAD_AS_OPTIONAL_ABLATIONS",
+  "claims": {
+    "cherchi_supervised": false,
+    "newton_admitted": false,
+    "real_spin_end_to_end_validated": false
+  }
+}
