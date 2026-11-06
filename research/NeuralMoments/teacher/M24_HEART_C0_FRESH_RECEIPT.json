@@ -1,0 +1,59 @@
+{
+  "github_run": 42184121466,
+  "source_commit": "8659eee06178a77e44f1b0a8de17064594819e85",
+  "base_run_id": "heart-point000-42177937306-1",
+  "base_run": 42177937306,
+  "artifact_id": 13486861753,
+  "artifact_sha256": "3a93822af45d704cde65cac827a60d5b35c4dff2e889acb5aabc194abb853d55",
+  "stencil_result_sha256": "41659f0be8b368120a2d7880f629cae57af3881c01b5321756a60680b2753559",
+  "transport": {
+    "group_id": "heart-c0-42184121466-1",
+    "native_boolean_calls": 4,
+    "whitelisted_files": 38,
+    "module_sha256": {
+      "_cherchi_core_boolean": "792f9419615078df06f48e5570de8773beed8008802013f3d2b35029a53bce4d",
+      "_cherchi_rational_moments": "ed05436e2796b190ddebb024f67318e2e88bdc46d96b01e9d7db71a6af080dca",
+      "make_it_stand._make_it_stand": "e4ed1f1fe2a37ed6effcfb4626ba2dbc0f042a8be6236d1fbcb93bf17e78082a"
+    },
+    "same_build_as_center": true,
+    "zero_swap": true,
+    "cgroup_peak_bytes": 256974848,
+    "per_file_integrity_verified": true,
+    "encrypted_payload_sha256": "b542c71abc097acc13109ac28e9e85cf1472f8cb47b04f2fd2a4c4bd6fa3c8e3"
+  },
+  "capture_result": {
+    "J_D": null,
+    "fresh_native_boolean_calls": 4,
+    "group_id": "heart-c0-42184121466-1",
+    "samples": [
+      {
+        "capture_sha256": "cf1fe3a75b44852e9daeea1564ae0f746356f1b9e6a633d1413c0337d6bcbcf3",
+        "index": 1,
+        "run_id": "heart-c0-42184121466-1-001",
+        "same_call_material_sha256": "ea080ca59de0d32bdfcc3bffd489a1ade571d6cb95dad747a3afb4434a1ae0d0"
+      },
+      {
+        "capture_sha256": "b610ee0a93708e05d9b7a53a059db645315f649ff3c6411a2024becb7406b9f2",
+        "index": 2,
+        "run_id": "heart-c0-42184121466-1-002",
+        "same_call_material_sha256": "5628ca81659ab3d280528315aa26f1e9e2994fca30cc7fa2e86493a7e5fec709"
+      },
+      {
+        "capture_sha256": "1710dc1cf23ecd6a27892fa18cd533ed2e8d6e4e8010cb715e50d176db0a43e4",
+        "index": 3,
+        "run_id": "heart-c0-42184121466-1-003",
+        "same_call_material_sha256": "32e006703a199e9f1d20a1b11f28291b4b7013b362e049cd72ca3fc4c5db6707"
+      },
+      {
+        "capture_sha256": "b562fd002b23fff84606377f1060594f3aa8f07e629112d71e78e5181f77f898",
+        "index": 4,
+        "run_id": "heart-c0-42184121466-1-004",
+        "same_call_material_sha256": "6f1f87f5e72daea64764d39eb1f729061499e3c8c428cbc0d6c09fb64bfc6709"
+      }
+    ],
+    "schema": "w2-m24-c0-result-v1",
+    "stencil_sha256": "c4fc5fa1cbea851c4b6bdf0498f79dbe8022019848591af4c52f8a1a5dd0d443",
+    "training_admitted": false
+  },
+  "operand_report": "M24_HEART_C0_OPERAND_CHECK.json"
+}
