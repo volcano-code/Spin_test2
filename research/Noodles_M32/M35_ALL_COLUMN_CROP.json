@@ -1,0 +1,216 @@
+{
+  "schema": "w3-m35-all-native-columns-equivalent-crop-v1",
+  "primary_derivative_sha256": "8f98c592baf13f2e48f4ab6cd09e5316dfe3f95fbb67e1db83a1201f0e701c35",
+  "crop_protocol": {
+    "columns": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "crop_sha256": "1a4d3f88e7fa76d1e6269ad6157f084edb2dfb608b780502f03ac407468ab15c",
+    "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+    "executor_sha256": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+    "exponents": [
+      19,
+      20
+    ],
+    "parent_protocol_sha": "64c685c735f94f5cceee11fe285d13d1fb4bd3067c12427bf560185f6a790895",
+    "purpose": "complete local ellipsoid FD against exact boxed Dprime; original direct 13-point reference unchanged",
+    "q": [
+      -0.547855614638731,
+      0.04626680759438334,
+      0.051864237839448046,
+      0.7724315288486056,
+      -0.06586723910174554,
+      -0.12948648558553372,
+      -0.2769142655910663,
+      -0.021581080930922286,
+      0.0018064854605963961,
+      0.010838912763578377
+    ],
+    "source_sha256": "829453167b91712fb4483642d830d2453eb44191c8e1ffb5bb9775ed00c5c3fd"
+  },
+  "base_original_parent_construction": {
+    "unambiguous_vertex_stars": true,
+    "construction_sha256": "4bade4729589f741894b3b320c2eb4988cd1fa04c15296ac56ab0570bb0fc0b3",
+    "seam_sha256": "aff5ec95c8ccdec1d341e32d4f0bbd9ef951d1ec4fcfa86ae573818e21b331ad",
+    "oriented_triangulation_sha256": "09312c40f5145eb7d3fd9089742dd30b26e0dded9559bfe81da38a13dde9fd04"
+  },
+  "direct_full_design_comparisons": 13,
+  "distinct_exact_queries": 41,
+  "native_columns": 10,
+  "steps": 2,
+  "scalar_comparisons": 200,
+  "comparisons_passing": 20,
+  "comparisons": [
+    {
+      "column": 0,
+      "step": "1/524288",
+      "max_scaled_error": 1.6708234428509633e-07,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "013dfad7f76756c23d5eef90784335e6c58ada20b712ab760ea7c55906d3ed02",
+      "moment_hash_plus": "55759b0a234cacbfe0d5da82d9d30744c8bbea12bedf33efff308825e7f8fa71"
+    },
+    {
+      "column": 1,
+      "step": "1/524288",
+      "max_scaled_error": 1.2859088734684864e-08,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "08ec569338f2bce23e243a696d335fecd98d184c98c1afa23f2be8c714f6b88a",
+      "moment_hash_plus": "96103e300856aa87777d0c4b6c999752910130b303d9febc1b5612617621d9d2"
+    },
+    {
+      "column": 2,
+      "step": "1/524288",
+      "max_scaled_error": 1.4807754273156767e-10,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "fe66210155a5fc0a67a3f2ee77034f75b618e2a21e5c3b6e82bd3985498e2700",
+      "moment_hash_plus": "4d7363da05a796cb3cff1e3bfe7d8642dcd93d8eac2a8ac275adcf0a7725701c"
+    },
+    {
+      "column": 3,
+      "step": "1/524288",
+      "max_scaled_error": 3.4618396575234253e-07,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "f1786353e6096286738011662c9891587d261d7a2a4e34d65be15dfc374d0084",
+      "moment_hash_plus": "c701bc428c3b52273f43fffc506c0cfcea6f6b5a1eabe04e31ffaa61058a8292"
+    },
+    {
+      "column": 4,
+      "step": "1/524288",
+      "max_scaled_error": 4.716611976596857e-10,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "7f0f4e5ecfd5b79c8a8551a5984cdf22a3f11973109739f5561b05437f6377fb",
+      "moment_hash_plus": "5316d099b1e19d4e78d0679a0d276ba0e8217568b89997b35503605a09aec324"
+    },
+    {
+      "column": 5,
+      "step": "1/524288",
+      "max_scaled_error": 1.588674812841504e-11,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "3751db185e0f72c136e27e987743aa14d4b60e0e3f01d9f8d41a5b3805581846",
+      "moment_hash_plus": "f51591612311222688b2cbff7290fed96e1aa44db25a11c059825115208bb6e2"
+    },
+    {
+      "column": 6,
+      "step": "1/524288",
+      "max_scaled_error": 7.11000538577016e-07,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "d9abdee2343676603ded84f4df793cdb6b4a54a1a231974c9d38bb4422748ded",
+      "moment_hash_plus": "14b936db55fee5dd44506962df5d5dbeba8ccb973138f88c87198761ecf7a57d"
+    },
+    {
+      "column": 7,
+      "step": "1/524288",
+      "max_scaled_error": 2.340328842747216e-09,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "0759f7d7905b0c107fb922c238c12b0ab63f5a546fbebd546ad87f31198daf8e",
+      "moment_hash_plus": "1dac33da4d95f24e351a71f05d02f3c365b8e9544fe9b623e7ed327b00dd080b"
+    },
+    {
+      "column": 8,
+      "step": "1/524288",
+      "max_scaled_error": 1.325808578214768e-07,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "fee95e8336702d0a65fa01a6246fc33232a007e936b0fa30a2972587274dd07e",
+      "moment_hash_plus": "7cba15ae5d73515524c7abe2c032b2ad7f3f7eb8dda30d4209457e1fcd42f699"
+    },
+    {
+      "column": 9,
+      "step": "1/524288",
+      "max_scaled_error": 6.239792439790088e-11,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "14ddd42e35d10e08e3358f6d05375d392d83913c109318b1982db2140cff8576",
+      "moment_hash_plus": "9f4a3ee513cf2ff74789be4ea963a0539ada0ff5d9e1ced9a8dffdcca45b649d"
+    },
+    {
+      "column": 0,
+      "step": "1/1048576",
+      "max_scaled_error": 4.175798342383092e-08,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "ea0332988b07a6cfed149d13c41c0c14c8ced8bb08c1c0dd8019cd991060701d",
+      "moment_hash_plus": "80aa834ff5f2c58081423faedc9c9f5ae2d841b7c2ec888a497e3eca29ec9150"
+    },
+    {
+      "column": 1,
+      "step": "1/1048576",
+      "max_scaled_error": 3.130738864262732e-09,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "d9adb5aefdf190f713397483c43ecf949c02e31247384ce6d4505d0bc53218f7",
+      "moment_hash_plus": "316cf0af69e230ae0648cbc8c4d5ba00dd4f205a27f9ef5cdcb587da026d1289"
+    },
+    {
+      "column": 2,
+      "step": "1/1048576",
+      "max_scaled_error": 4.1560616601703104e-11,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "e979adb3af7744cc3a04379deb0a1d6dd1c2e5913186592e7c0f42d42640d33b",
+      "moment_hash_plus": "bd5d3f4239e2a3f0dcee2f9aaff419dcefaaf937672afdee6ffc95f1e0f8ac2d"
+    },
+    {
+      "column": 3,
+      "step": "1/1048576",
+      "max_scaled_error": 8.648276013402106e-08,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "e2927991f24cfadf0260132a2b9250fa404e38db4d9f569e2f67b1de79056165",
+      "moment_hash_plus": "dc9db00eed7e02c0871748e8630ab5b1a93daa9ea2f1670ef498a2810c8cd939"
+    },
+    {
+      "column": 4,
+      "step": "1/1048576",
+      "max_scaled_error": 4.953694748946017e-10,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "016e23e16aaafcb14b04c0a580c2e4f579a674f3d4ef5562063ac908bf173208",
+      "moment_hash_plus": "c1d62a25641b240caa49f8259fd017aff07289b05cf907a8b528636349522adb"
+    },
+    {
+      "column": 5,
+      "step": "1/1048576",
+      "max_scaled_error": 1.6799787237521052e-10,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "ae82e2435586b4ecdd9fae2e87022432b884e1e9cfb22698dd27fd99d7034dfa",
+      "moment_hash_plus": "658ee1e131a27ad639bb17086458bfdaa71065d681c58e2fdb6dabdcd2625800"
+    },
+    {
+      "column": 6,
+      "step": "1/1048576",
+      "max_scaled_error": 1.7769990116108809e-07,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "6b775db9dce7ef74bf436c4f937f6a0b095bd7ee24376e07f882493d4ec3de23",
+      "moment_hash_plus": "b6144e4dad657c01f0eaafe2b8f26dfa747d1a4707fcf693b13193a0e38057e3"
+    },
+    {
+      "column": 7,
+      "step": "1/1048576",
+      "max_scaled_error": 6.472870938768799e-10,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "e57ce0f34f6dbe36d561349f3a634d43c7c1c58aab34de9a6b7d25602a5a4852",
+      "moment_hash_plus": "c5fd0d4490e658b7b26c90a849f2044ffe3411e20cdf5d54fa941d3864d49c32"
+    },
+    {
+      "column": 8,
+      "step": "1/1048576",
+      "max_scaled_error": 3.305385219694245e-08,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "1fe64fe5c93fcb116f145cf28a15b8e89b427582c8f56af943f34c3f7bc5e5e6",
+      "moment_hash_plus": "2312a326a252652fd08c8c1b64f184774f107fd0869ff98405b667e730fac5f6"
+    },
+    {
+      "column": 9,
+      "step": "1/1048576",
+      "max_scaled_error": 3.24368838514748e-11,
+      "pass_1e_minus_6": true,
+      "moment_hash_minus": "6806bc5281e32b1dd95823b17c01793b2a1d83b5fb28dcc7dbd143803655bda9",
+      "moment_hash_plus": "5e593ae607e3819301ee645a0787f17f103adb5fde5a7806897af0fe10fa6fc9"
+    }
+  ],
+  "maximum_scaled_error": 7.11000538577016e-07,
+  "scope": "Dyadic tip moment/J intervals, strict features and matching construction at sampled points."
+}

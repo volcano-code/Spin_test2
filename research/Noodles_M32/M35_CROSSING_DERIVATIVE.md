@@ -20,6 +20,16 @@ All 60 scalar comparisons meet the 1e−6 sampled gate. Agreement at endpoints a
 
 The base tip-frame derivative has maximum radial residual |Jc| of about 9.25×10⁻¹⁷. In monomial coefficient coordinates, project both sides of J onto the tangent with normal B⁻¹c, the convention for W6's native logistic temperature. A symmetric tangent operator has relative Frobenius error at least 0.000470293323 on this unshifted example. This expression concerns the model initialized in the tip frame. Transporting the network to another frame also transports the normalization metric. It is distinct from the componentwise finite-difference gate.
 
+## Supplemental checks on all ten native columns
+
+W2 also evaluated 41 exact Boolean queries after clipping D′ to a box that contains each entire cutter strictly in its interior. On this intersection chart, associativity makes the crop exact. The raw crop triangles are mapped back to original design and cutter parents. The thirteen overlapping controls match the direct full-design geometry and parents. Their exact ten integrals also agree on every shared perturbation. W1 supplied independent ten integrals and verified the 112-bit enclosures, original parent/triangle/seam fingerprints, and strict feature tests against the full D′ for all 41 queries.
+
+Against the original 100-entry flux Jacobian the largest scaled discrepancy over all native columns and moment rows is 7.11001×10⁻⁷ at step 2⁻¹⁹ and 1.77700×10⁻⁷ at step 2⁻²⁰, both in column 6 (zz). All 200 scalar comparisons meet the 1e−6 gate. This supplemental stencil reuses the same ellipsoid geometry, base, coefficient chart and thirteen primary parameter values. Six ancillary normalized coefficient values differ at the final floating-point bit between Python and Eigen. The stencil uses raw input perturbations, original native cutter coordinates and native derivatives from the actual source executor.
+
+```bash
+python crop_stencil.py "$CROP" "$W1_SUPPLEMENT" "$W1_CROP_TEN" M35_CROSSING_DERIVATIVE.json > all-column-crop.json
+```
+
 ## Original stock seed
 
 At the first stock hyperboloid iterate W2 used the original general source, including truncation, and independently verified no cap-owned face in the result. W1 checked the regularized retained set. The 14,092-face result has 1,678 moving faces. The independent construction recovers 5,350 fixed vertices and 1,598 transverse edge/face intersections. The two full Jacobians agree to within 2.12×10⁻³⁹ for the represented input geometry and velocities. Direct source-vertex stencils at two steps probe 2,280 source-vertex/native-column components, including cap-associated vertices. Maximum scaled source discrepancies are 5.18×10⁻⁶ and 1.30×10⁻⁶ at the two steps. They check the moving source, separate from the full Boolean/moment stencil on the registered ellipsoid. The two independent analytic matrix checks share the supplied native source velocities.
