@@ -1,0 +1,1917 @@
+{
+  "schema": "w0-heart-m27-base-columns-v1",
+  "source_checkout": "0d2a85533bc3f26695b26c668b35ef7a28288dfb",
+  "prior_m27_report_sha256": null,
+  "nominal_inner_radius": 1.5e-06,
+  "nominal_outer_radius": 3e-06,
+  "run_id": 42190295793,
+  "run_attempt": null,
+  "attempts_by_column": {
+    "3": 2,
+    "4": 2,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 1,
+    "9": 1
+  },
+  "base": {
+    "run_id": "heart-point000-42177937306-1",
+    "capture_sha256": "816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04",
+    "same_call_material_sha256": "285fde06cde62f49053104e40f82a3ec5c74378bcce670a864fc69e4e6aff955",
+    "exact_moments_sha256": "cf1d21a9d3b046f98a7ef92e275e616691fc9d4adc7fd3987dedee38a7fe495f",
+    "vertices": 8455,
+    "faces": 16910,
+    "construction_kinds": {
+      "EXPLICIT3D": 7671,
+      "LPI": 784
+    },
+    "native_c0": 0.3701323978732728,
+    "native_derivative_defined": true
+  },
+  "base_native_coefficients": [
+    0.3701323978732728,
+    -0.15863761828595124,
+    -0.0,
+    -0.7608730119328398,
+    0.293773367196206,
+    0.293773367196206,
+    0.293773367196206,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "evaluation_map_identity": "e8347819b347e54caacaadeb458afdea555615eae99491b19b8eba2b8aac42a7",
+  "module_sha256": {
+    "_cherchi_core_boolean": "792f9419615078df06f48e5570de8773beed8008802013f3d2b35029a53bce4d",
+    "_cherchi_rational_moments": "ed05436e2796b190ddebb024f67318e2e88bdc46d96b01e9d7db71a6af080dca",
+    "make_it_stand._make_it_stand": "e4ed1f1fe2a37ed6effcfb4626ba2dbc0f042a8be6236d1fbcb93bf17e78082a"
+  },
+  "moment_order": [
+    "m",
+    "x",
+    "y",
+    "z",
+    "xx",
+    "yy",
+    "zz",
+    "yz",
+    "xz",
+    "xy"
+  ],
+  "scaled_error_limit": 1e-06,
+  "columns": {
+    "3": {
+      "perturbations": [
+        {
+          "run_id": "heart-base-c3-42190295793-2-001",
+          "capture_sha256": "f4be1dd0587f719199cf6a17442174218696983c0d4c4ba7df74d8ecbcf39145",
+          "same_call_material_sha256": "d49efc204e6346d211c30335a9db5950a5433f1bff5b861a30b7248d4b1ab635",
+          "exact_moments_sha256": "335246d7bb93473d20341ba57d08f41279a0f0de7c2008f015fde6e45531610c",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -0.7608760119328398,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c3-42190295793-2-002",
+          "capture_sha256": "832d311ea9b488892cec9f3bb1b074b8a596d98d3df439de0cf0bb61e2bc187a",
+          "same_call_material_sha256": "09a40c2400aae21bf9e8f1b1e4ffc1de29d98ba6a63d85c4eeee1ccbb571bf76",
+          "exact_moments_sha256": "fd0e310faea787ed96edb40c118f1103f33f636c777360735ef2afa8fe3972f0",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -0.7608745119328398,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c3-42190295793-2-003",
+          "capture_sha256": "3900159e228975c105e7bd5f396df64706a4fbf0e00f6dc64ffbde9c9ba7eb0c",
+          "same_call_material_sha256": "4b9b7a0df709210a72406eb62543a661367573d341132435b7a7f488547f797a",
+          "exact_moments_sha256": "26879ca2d74a4c371368d67880b7f6a5e26c9964040e51d5983af596cd0900d1",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -0.7608715119328399,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c3-42190295793-2-004",
+          "capture_sha256": "eaa196a1335cc5eef43d0c35ca7e2f015be0f36d69bbbc2f33df065713a00fca",
+          "same_call_material_sha256": "3df35f49b7d71aac6c4a768dfcb78bfcfdf32249516b782cca2fc0dccc4b4306",
+          "exact_moments_sha256": "0a4ed35cbd22d8d10ad4c31531ecb59b6add4909e89cff3ca90bd3f7b5bd391e",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -0.7608700119328399,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        5.030509008421964,
+        1.1248094318740074,
+        0.00014494979102046163,
+        6.443033274205418,
+        1.765298273687663,
+        0.13754542795571256,
+        8.998860623626115,
+        0.0002743035275863151,
+        1.285140315973994,
+        -5.670358435300972e-07
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-6755399441/2251799813685248",
+            "0",
+            "6755399441/2251799813685248"
+          ],
+          "derivative_weights_exact": [
+            "-1125899906842624/6755399441",
+            "0",
+            "1125899906842624/6755399441"
+          ],
+          "finite_difference": [
+            5.030509008685794,
+            1.124809431930114,
+            0.000144949748222088,
+            6.443033274647647,
+            1.7652982736093403,
+            0.13754542795535354,
+            8.998860624381155,
+            0.000274303447546013,
+            1.2851403160266366,
+            -5.670374728120649e-07
+          ],
+          "absolute_errors": [
+            2.6382966293674785e-10,
+            5.6106613767174104e-11,
+            4.279837361952247e-11,
+            4.42228189493543e-10,
+            7.832272008073744e-11,
+            3.5900618570671254e-13,
+            7.550403130861311e-10,
+            8.004030211413744e-11,
+            5.264265232654278e-11,
+            1.6292819677603798e-12
+          ],
+          "scaled_errors": [
+            5.244591799657852e-11,
+            4.9880995106608193e-11,
+            4.279837361952247e-11,
+            6.863664529934938e-11,
+            4.436798089487918e-11,
+            3.5900618570671254e-13,
+            8.39039901455753e-11,
+            8.004030211413744e-11,
+            4.0962571691360785e-11,
+            1.6292819677603798e-12
+          ],
+          "max_scaled_error": 8.39039901455753e-11,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496"
+          ],
+          "derivative_weights_exact": [
+            "-2251799813685248/6755399441",
+            "0",
+            "2251799813685248/6755399441"
+          ],
+          "finite_difference": [
+            5.0305090084712605,
+            1.1248094318904385,
+            0.00014494978031984968,
+            6.443033274293637,
+            1.7652982736625873,
+            0.1375454279552527,
+            8.998860623785365,
+            0.0002743035075743242,
+            1.2851403159893484,
+            -5.670362508606312e-07
+          ],
+          "absolute_errors": [
+            4.929637606543293e-11,
+            1.6431100910864498e-11,
+            1.070061195340086e-11,
+            8.821961165674003e-11,
+            2.5075613878002276e-11,
+            4.598666844353386e-13,
+            1.5925059117021372e-10,
+            2.001199090821705e-11,
+            1.5354450786893037e-11,
+            4.0733053406692884e-13
+          ],
+          "scaled_errors": [
+            9.799480725092044e-12,
+            1.4607897520461925e-11,
+            1.070061195340086e-11,
+            1.369224834053331e-11,
+            1.4204746162029581e-11,
+            4.598666844353386e-13,
+            1.7696750492179895e-11,
+            2.001199090821705e-11,
+            1.1947684308118575e-11,
+            4.0733053406692884e-13
+          ],
+          "max_scaled_error": 2.001199090821705e-11,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-6755399441/2251799813685248",
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496",
+            "6755399441/2251799813685248"
+          ],
+          "derivative_weights_exact": [
+            "1125899906842624/20266198323",
+            "-9007199254740992/20266198323",
+            "0",
+            "9007199254740992/20266198323",
+            "-1125899906842624/20266198323"
+          ],
+          "finite_difference": [
+            5.030509008399749,
+            1.1248094318772133,
+            0.00014494979101910356,
+            6.443033274175635,
+            1.7652982736803364,
+            0.13754542795521907,
+            8.998860623586769,
+            0.0002743035275837613,
+            1.285140315976919,
+            -5.670358435434867e-07
+          ],
+          "absolute_errors": [
+            2.221471955833872e-11,
+            3.2059299587612945e-12,
+            1.3580646936557735e-15,
+            2.978324762219428e-11,
+            7.326578477090554e-12,
+            4.934868506782139e-13,
+            3.934598280175873e-11,
+            2.5538395769220132e-15,
+            2.925050273676455e-12,
+            1.3389502445143339e-17
+          ],
+          "scaled_errors": [
+            4.415998365403449e-12,
+            2.850198325079833e-12,
+            1.3580646936557735e-15,
+            4.622550645738714e-12,
+            4.150334584413046e-12,
+            4.934868506782139e-13,
+            4.372329392285238e-12,
+            2.5538395769220132e-15,
+            2.276055180371173e-12,
+            1.3389502445143339e-17
+          ],
+          "max_scaled_error": 4.622550645738714e-12,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true,
+      "group_id": "heart-base-c3-42190295793-2",
+      "run_attempt": 2,
+      "public_result_sha256": "93c889e596614f5bd0b82101c4b767c25860cf0fe502075141660bac5f643ea9"
+    },
+    "4": {
+      "perturbations": [
+        {
+          "run_id": "heart-base-c4-42190295793-2-001",
+          "capture_sha256": "a3e822d2053e7e0929e7f5545d46f9cc343e8be430d589a7e4bafa2599b8d1d2",
+          "same_call_material_sha256": "33a3fca419bd90121e61ad3a765b645a6c2fc00adee13abf783b95d8b44e4749",
+          "exact_moments_sha256": "e2e9d71ccabf2d0e25f706c53701a1bc0beb31b30b08fc1746e07a75eade2e8a",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.29377036719620603,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c4-42190295793-2-002",
+          "capture_sha256": "8795668f2aec4da993605648c7e77ad894b0f32298bc2c50e0447d78e7bf938e",
+          "same_call_material_sha256": "0703c60e4eb7b47a37d70246605df9fedaec394947a0986b62af1abfdc626617",
+          "exact_moments_sha256": "762a7022b3d537cdef3e3391b5fcdc8e9a9b5227de2d6d42d8b8d5e31927b79d",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293771867196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c4-42190295793-2-003",
+          "capture_sha256": "38ffd5af52985f41aa6f54cea5f10c99139a65a1ca28797963dc413f5bacce4d",
+          "same_call_material_sha256": "b02ae98b80e247fa4c3307a768e2b04d1d2bc0818cea0ff6ae7275a975493b09",
+          "exact_moments_sha256": "1447e9574b613e4cb67fe0794748ae6ae753d689e362cb4106b7ee1741a44d4e",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293774867196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c4-42190295793-2-004",
+          "capture_sha256": "22f89d73656d79aee8fb5f0fd264a03c90968839a97d3720e8abcda3caf70144",
+          "same_call_material_sha256": "e6e36b9415f09312830d587daa818193998ad1cbe02acdcb7383ddf16104b4b3",
+          "exact_moments_sha256": "32865504a22370d47783d4b74770d3cb3880918ede0790112470af8e17e543f5",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293776367196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        1.5219278265133622,
+        1.0493040938840146,
+        -1.0882989961307694e-06,
+        1.8221585890389447,
+        0.9833998759033257,
+        0.03827597701899568,
+        2.330038244505992,
+        -1.841905573898604e-06,
+        1.2702606127458005,
+        -6.599090268286351e-07
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-6755399441/2251799813685248",
+            "0",
+            "6755399441/2251799813685248"
+          ],
+          "derivative_weights_exact": [
+            "-1125899906842624/6755399441",
+            "0",
+            "1125899906842624/6755399441"
+          ],
+          "finite_difference": [
+            1.5219278266572225,
+            1.0493040940551208,
+            -1.0882993756876724e-06,
+            1.8221585892129148,
+            0.9833998761467418,
+            0.038275977022711516,
+            2.3300382447292014,
+            -1.8419062160308259e-06,
+            1.270260612941199,
+            -6.599093222971241e-07
+          ],
+          "absolute_errors": [
+            1.4386019632104877e-10,
+            1.7110617532848147e-10,
+            3.7955690308581265e-13,
+            1.7397009047697983e-10,
+            2.4341620051264736e-10,
+            3.7158330466808914e-12,
+            2.232093493856459e-10,
+            6.42132221824982e-13,
+            1.953985888218015e-10,
+            2.954684889746135e-13
+          ],
+          "scaled_errors": [
+            9.452497931562441e-11,
+            1.6306633732374896e-10,
+            3.7955690308581265e-13,
+            9.547472515481559e-11,
+            2.4341620051264736e-10,
+            3.7158330466808914e-12,
+            9.57964316302328e-11,
+            6.42132221824982e-13,
+            1.5382559048211933e-10,
+            2.954684889746135e-13
+          ],
+          "max_scaled_error": 2.4341620051264736e-10,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496"
+          ],
+          "derivative_weights_exact": [
+            "-2251799813685248/6755399441",
+            "0",
+            "2251799813685248/6755399441"
+          ],
+          "finite_difference": [
+            1.52192782656683,
+            1.0493040939514213,
+            -1.0882990971879965e-06,
+            1.8221585890676675,
+            0.9833998759812017,
+            0.03827597702051561,
+            2.330038244496969,
+            -1.8419057461825146e-06,
+            1.270260612819791,
+            -6.599091006743051e-07
+          ],
+          "absolute_errors": [
+            5.34675663192575e-11,
+            6.740664421220422e-11,
+            1.0105722717625296e-13,
+            2.8722769343114655e-11,
+            7.787602731871018e-11,
+            1.519926821180368e-12,
+            9.022802430511706e-12,
+            1.7228391067944382e-13,
+            7.399067790578046e-11,
+            7.384567001050945e-14
+          ],
+          "scaled_errors": [
+            3.5131472983018004e-11,
+            6.423937979951792e-11,
+            1.0105722717625296e-13,
+            1.576304582701762e-11,
+            7.787602731871018e-11,
+            1.519926821180368e-12,
+            3.872383833950629e-12,
+            1.7228391067944382e-13,
+            5.824842332617234e-11,
+            7.384567001050945e-14
+          ],
+          "max_scaled_error": 7.787602731871018e-11,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-6755399441/2251799813685248",
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496",
+            "6755399441/2251799813685248"
+          ],
+          "derivative_weights_exact": [
+            "1125899906842624/20266198323",
+            "-9007199254740992/20266198323",
+            "0",
+            "9007199254740992/20266198323",
+            "-1125899906842624/20266198323"
+          ],
+          "finite_difference": [
+            1.521927826536699,
+            1.0493040939168548,
+            -1.0882990043547713e-06,
+            1.8221585890192518,
+            0.9833998759260216,
+            0.03827597701978364,
+            2.3300382444195584,
+            -1.8419055895664109e-06,
+            1.270260612779322,
+            -6.599090268000322e-07
+          ],
+          "absolute_errors": [
+            2.3336689651993745e-11,
+            3.2840133840111803e-11,
+            8.224001873066391e-15,
+            1.9693004368173733e-11,
+            2.269596958739778e-11,
+            7.879580793468603e-13,
+            8.643351970256424e-11,
+            1.566780696426442e-14,
+            3.3521374267106775e-11,
+            2.860297752522604e-17
+          ],
+          "scaled_errors": [
+            1.5333637538815873e-11,
+            3.1297060624774235e-11,
+            8.224001873066391e-15,
+            1.0807513948915035e-11,
+            2.269596958739778e-11,
+            7.879580793468603e-13,
+            3.709532232201177e-11,
+            1.566780696426442e-14,
+            2.638936760752334e-11,
+            2.860297752522604e-17
+          ],
+          "max_scaled_error": 3.709532232201177e-11,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true,
+      "group_id": "heart-base-c4-42190295793-2",
+      "run_attempt": 2,
+      "public_result_sha256": "acc7261e26711a468f3058b6ffeeb4905d7fe19031c7f3b3860e156359f36069"
+    },
+    "5": {
+      "perturbations": [
+        {
+          "run_id": "heart-base-c5-42190295793-1-001",
+          "capture_sha256": "fccab55e2e5cd5dc1a479b9c8fab7d0b753894737c03f239a3577e9907a16ec5",
+          "same_call_material_sha256": "9e32b86913cba77a1b2b11b1f02405bcb8741225f0236a1b52bdefd710ace803",
+          "exact_moments_sha256": "6b2202177ac49b2c35e21b99a64202fcc70b54cb9b1b5d9e62510aff4c373337",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.29377036719620603,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c5-42190295793-1-002",
+          "capture_sha256": "d62191baa0d19b030082d3af9e109be78824eca21b4c1c652f1f0a923df25723",
+          "same_call_material_sha256": "77b0f969448aa57652f9518f0a265768edf26238dfea8e81be14a2ea104a5564",
+          "exact_moments_sha256": "9b770d315a5e278433ea3f59f2838d2b0e217f3fbd66b3d0bec05e5b592eed64",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293771867196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c5-42190295793-1-003",
+          "capture_sha256": "56f7ac9b1c852bbee6a71e6aa33a79791f03305ee729a6350bb2da7bf01500e9",
+          "same_call_material_sha256": "e63873e47a42437e5ffe7a44a58862f5e16ff8b9926cbbe73854e71f7be69f90",
+          "exact_moments_sha256": "c34128bd38c65e792cb302a0c19022815a1d306fbcc6d83f150a85718a82781d",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293774867196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c5-42190295793-1-004",
+          "capture_sha256": "b6de6b2b17250b3ef53a4ec438e7b6efc9cb0f524b9db8ee6912556a6e861858",
+          "same_call_material_sha256": "99561e68086cf7fc68c511a62b44acf8d22589da0677eed166234e826098bf45",
+          "exact_moments_sha256": "b168b8e612d4de498ae2a4c4f161d47ec4c7373d55963515ee3969e994d0c6ec",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293776367196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        0.1063529651748512,
+        0.025150066849044073,
+        5.844190731948598e-08,
+        0.12258883036231497,
+        0.03296847301449475,
+        0.005568686205908533,
+        0.157377689491988,
+        1.011872099702759e-07,
+        0.026702598974091128,
+        1.3349300022100235e-07
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-6755399441/2251799813685248",
+            "0",
+            "6755399441/2251799813685248"
+          ],
+          "derivative_weights_exact": [
+            "-1125899906842624/6755399441",
+            "0",
+            "1125899906842624/6755399441"
+          ],
+          "finite_difference": [
+            0.10635296518792646,
+            0.025150066854279982,
+            5.844192585606888e-08,
+            0.12258883036692904,
+            0.03296847301828772,
+            0.005568686206429311,
+            0.15737768948587727,
+            1.0118724485107315e-07,
+            0.026702598978163263,
+            1.3349300068635957e-07
+          ],
+          "absolute_errors": [
+            1.307526683489076e-11,
+            5.235909029591963e-12,
+            1.8536582895358884e-14,
+            4.614079847026554e-12,
+            3.792962836424103e-12,
+            5.207780642458287e-13,
+            6.110731838917145e-12,
+            3.488079724304546e-14,
+            4.072133601003235e-12,
+            4.653572290448471e-16
+          ],
+          "scaled_errors": [
+            1.307526683489076e-11,
+            5.235909029591963e-12,
+            1.8536582895358884e-14,
+            4.614079847026554e-12,
+            3.792962836424103e-12,
+            5.207780642458287e-13,
+            6.110731838917145e-12,
+            3.488079724304546e-14,
+            4.072133601003235e-12,
+            4.653572290448471e-16
+          ],
+          "max_scaled_error": 1.307526683489076e-11,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496"
+          ],
+          "derivative_weights_exact": [
+            "-2251799813685248/6755399441",
+            "0",
+            "2251799813685248/6755399441"
+          ],
+          "finite_difference": [
+            0.10635296516609495,
+            0.025150066842787477,
+            5.844191185539129e-08,
+            0.12258883033614416,
+            0.032968473003934545,
+            0.005568686205702939,
+            0.15737768944274372,
+            1.0118721847189958e-07,
+            0.02670259896326504,
+            1.334930003236728e-07
+          ],
+          "absolute_errors": [
+            8.756241336288925e-12,
+            6.256596368382991e-12,
+            4.535905310697336e-15,
+            2.617080216726039e-11,
+            1.0560203822819482e-11,
+            2.0559403219338383e-13,
+            4.9244274705957715e-11,
+            8.501623675997534e-15,
+            1.0826086000568834e-11,
+            1.0267044334326664e-16
+          ],
+          "scaled_errors": [
+            8.756241336288925e-12,
+            6.256596368382991e-12,
+            4.535905310697336e-15,
+            2.617080216726039e-11,
+            1.0560203822819482e-11,
+            2.0559403219338383e-13,
+            4.9244274705957715e-11,
+            8.501623675997534e-15,
+            1.0826086000568834e-11,
+            1.0267044334326664e-16
+          ],
+          "max_scaled_error": 4.9244274705957715e-11,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-6755399441/2251799813685248",
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496",
+            "6755399441/2251799813685248"
+          ],
+          "derivative_weights_exact": [
+            "1125899906842624/20266198323",
+            "-9007199254740992/20266198323",
+            "0",
+            "9007199254740992/20266198323",
+            "-1125899906842624/20266198323"
+          ],
+          "finite_difference": [
+            0.10635296515881779,
+            0.025150066838956642,
+            5.844190718849876e-08,
+            0.12258883032588254,
+            0.03296847299915016,
+            0.005568686205460815,
+            0.15737768942836586,
+            1.0118720967884173e-07,
+            0.02670259895829897,
+            1.334930002027772e-07
+          ],
+          "absolute_errors": [
+            1.603341072668215e-11,
+            1.0087431501041309e-11,
+            1.309872175231811e-16,
+            3.643242950535604e-11,
+            1.5344592709234008e-11,
+            4.47718064339788e-13,
+            6.362212232830458e-11,
+            2.9143417968510657e-16,
+            1.5792159201092858e-11,
+            1.8225151890593475e-17
+          ],
+          "scaled_errors": [
+            1.603341072668215e-11,
+            1.0087431501041309e-11,
+            1.309872175231811e-16,
+            3.643242950535604e-11,
+            1.5344592709234008e-11,
+            4.47718064339788e-13,
+            6.362212232830458e-11,
+            2.9143417968510657e-16,
+            1.5792159201092858e-11,
+            1.8225151890593475e-17
+          ],
+          "max_scaled_error": 6.362212232830458e-11,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true,
+      "group_id": "heart-base-c5-42190295793-1",
+      "run_attempt": 1,
+      "public_result_sha256": "0b05cc335789168aeb73f20ebe6298bd0a476ababa860f647f0202f3ebdc8df4"
+    },
+    "6": {
+      "perturbations": [
+        {
+          "run_id": "heart-base-c6-42190295793-1-001",
+          "capture_sha256": "6c16f6c0a844ab2d25d9f335a7a856380196404e8dc54b3392e7e81567473696",
+          "same_call_material_sha256": "80b74a9aa2310859356f6392ead53c8b41ff679f4fce42e717fd705bc5d7f1e8",
+          "exact_moments_sha256": "c50eb5d5c2671047cf5b4433e564692f7e01f942b0c2cc6c3d91b65ce4b1e0f9",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.29377036719620603,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c6-42190295793-1-002",
+          "capture_sha256": "2ac9436b3e5f621102cc1503bdfcbc3f15d6e8e1c82968b56da9ffa1c60ee3c9",
+          "same_call_material_sha256": "1715f4313fb919ba9ad554fb74aca42fb61b47b163b13abbaec4aba9c7fe09ab",
+          "exact_moments_sha256": "1cf746d1a25a55282601f8071011ca38377c9015297149c79e306828a4558168",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293771867196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c6-42190295793-1-003",
+          "capture_sha256": "b6c9ce30947ef83e9638e3debc78a611adc611a64f071bc890f5338e3452c167",
+          "same_call_material_sha256": "a6278f1f6844e6a36226206c2a4b9f00aabe784c9fc123483042e71420039766",
+          "exact_moments_sha256": "0702658e8ba003b8a35e0d37d5b23382e5f5e009446661ffe4154f7292967254",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293774867196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c6-42190295793-1-004",
+          "capture_sha256": "839d8b2cbb1d5f893b992dfe323572ea240f2adce519106d12722eb9f8749673",
+          "same_call_material_sha256": "984357fd98d5e7a89f0702ea8cd8b95e5bb0bd7726c25c2f388bd7a32013a843",
+          "exact_moments_sha256": "87867369b5a49473d3a498ef76263dd6d19958b8452a22246ff4e2de43cb691e",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 0.293776367196206,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        6.425566289726892,
+        1.2771732993550975,
+        0.00028010366513734247,
+        8.994390349635205,
+        2.2507188923220642,
+        0.1762907583098101,
+        13.392186886614807,
+        0.0005314255539301558,
+        1.5784008704409556,
+        -2.1067471762092584e-07
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-6755399441/2251799813685248",
+            "0",
+            "6755399441/2251799813685248"
+          ],
+          "derivative_weights_exact": [
+            "-1125899906842624/6755399441",
+            "0",
+            "1125899906842624/6755399441"
+          ],
+          "finite_difference": [
+            6.425566291538604,
+            1.2771732994916611,
+            0.00028010337354796185,
+            8.994390352886507,
+            2.250718892430762,
+            0.17629075829398108,
+            13.392186892768454,
+            0.0005314250063019845,
+            1.5784008703782546,
+            -2.1067639177705457e-07
+          ],
+          "absolute_errors": [
+            1.8117113188127783e-09,
+            1.365636869719504e-10,
+            2.9158938063420403e-10,
+            3.251301062059029e-09,
+            1.0869776532341184e-10,
+            1.582903751183882e-11,
+            6.1536459604962285e-09,
+            5.476281713235374e-10,
+            6.270096836924476e-11,
+            1.6741561287347829e-12
+          ],
+          "scaled_errors": [
+            2.81953564421134e-10,
+            1.0692651266739412e-10,
+            2.9158938063420403e-10,
+            3.614809826650336e-10,
+            4.829468739708692e-11,
+            1.582903751183882e-11,
+            4.5949522752304634e-10,
+            5.476281713235374e-10,
+            3.9724362513642096e-11,
+            1.6741561287347829e-12
+          ],
+          "max_scaled_error": 5.476281713235374e-10,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496"
+          ],
+          "derivative_weights_exact": [
+            "-2251799813685248/6755399441",
+            "0",
+            "2251799813685248/6755399441"
+          ],
+          "finite_difference": [
+            6.42556629021008,
+            1.2771732993759704,
+            0.0002801035922453917,
+            8.994390350514644,
+            2.250718892352268,
+            0.17629075830694746,
+            13.39218688827601,
+            0.0005314254170333759,
+            1.5784008704129397,
+            -2.10675136164525e-07
+          ],
+          "absolute_errors": [
+            4.831880659394752e-10,
+            2.0872951535264088e-11,
+            7.289195078308226e-11,
+            8.794393636877595e-10,
+            3.0203665983119344e-11,
+            2.862667743633961e-12,
+            1.6612030878293866e-09,
+            1.3689677997045447e-10,
+            2.8015830100732233e-11,
+            4.1854359915565106e-13
+          ],
+          "scaled_errors": [
+            7.519774042514971e-11,
+            1.6343084799693028e-11,
+            7.289195078308226e-11,
+            9.777642836275477e-11,
+            1.3419563894075753e-11,
+            2.862667743633961e-12,
+            1.2404270504093114e-10,
+            1.3689677997045447e-10,
+            1.7749502439710066e-11,
+            4.1854359915565106e-13
+          ],
+          "max_scaled_error": 1.3689677997045447e-10,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-6755399441/2251799813685248",
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496",
+            "6755399441/2251799813685248"
+          ],
+          "derivative_weights_exact": [
+            "1125899906842624/20266198323",
+            "-9007199254740992/20266198323",
+            "0",
+            "9007199254740992/20266198323",
+            "-1125899906842624/20266198323"
+          ],
+          "finite_difference": [
+            6.425566289767239,
+            1.2771732993374068,
+            0.00028010366514453496,
+            8.994390349724025,
+            2.2507188923261032,
+            0.17629075831126956,
+            13.392186886778529,
+            0.0005314255539438397,
+            1.5784008704245014,
+            -2.1067471762701514e-07
+          ],
+          "absolute_errors": [
+            4.034698164837407e-11,
+            1.7690626943631343e-11,
+            7.192500624988873e-15,
+            8.881879756400295e-11,
+            4.038966203021847e-12,
+            1.4594555124343255e-12,
+            1.6372213027377272e-10,
+            1.3683813906488234e-14,
+            1.6454117344561393e-11,
+            6.089295940458689e-18
+          ],
+          "scaled_errors": [
+            6.279132426488273e-12,
+            1.3851391156207336e-11,
+            7.192500624988873e-15,
+            9.874910261995162e-12,
+            1.7945227264053618e-12,
+            1.4594555124343255e-12,
+            1.222519754689276e-11,
+            1.3683813906488234e-14,
+            1.0424549081732723e-11,
+            6.089295940458689e-18
+          ],
+          "max_scaled_error": 1.3851391156207336e-11,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true,
+      "group_id": "heart-base-c6-42190295793-1",
+      "run_attempt": 1,
+      "public_result_sha256": "be8680077370218ebe5e5dfe55b02043e4e28bcf2bc9e2056ddeccdffa810a2e"
+    },
+    "7": {
+      "perturbations": [
+        {
+          "run_id": "heart-base-c7-42190295793-1-001",
+          "capture_sha256": "05ff2660e2a193c8fafd7e2b7d22b8d9e6cc4b4758e1a40780c3cf95e79bd508",
+          "same_call_material_sha256": "2b8bcc1aa2c9659bb0818d77be734dc5b924a5bf549b6030b3cf6ab3b0ecb85b",
+          "exact_moments_sha256": "1304e18d76680691ce0821c9810bae63424768f2eac6609c56202fc41442a8b7",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -3e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c7-42190295793-1-002",
+          "capture_sha256": "ed8f76df193b7e5d6931c9ee2aa5397e3c9326ed0963e78439f324a1ea84b409",
+          "same_call_material_sha256": "9f2d7eb6cf033473e25402f9de16bd6c1fa46dcc65db6177a0c7d0f2aa8d31fb",
+          "exact_moments_sha256": "ff08c762d7a61fa2ef750fd3ec9ec0dcd0ce879306295a57d65a007009d8ca7b",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c7-42190295793-1-003",
+          "capture_sha256": "44c72ba537cd1949f481976bfe3fa6c3bd29cc2468b4c436e59e4c485667f63f",
+          "same_call_material_sha256": "881f35d1fc85881d2955508c9245a0dda55d5390e0ec3c8366b91a8e948260b3",
+          "exact_moments_sha256": "e494c9df0379829eb4cca4e890cf4d87b7b6f804d81c17938371f237e01dfba4",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c7-42190295793-1-004",
+          "capture_sha256": "e87678c2ad9678e0a76c211271e6da494d914d6f5d592dbcbef23809830960ed",
+          "same_call_material_sha256": "00437cb06b345074ab9207bc96d42009c126d545ceebe4a8c15db94cd8e79821",
+          "exact_moments_sha256": "b44069634c07044e19dad906c1ba8ba743d6af991c28d3c62465ad5c5ef2152a",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 3e-06,
+          "removed_features": 2,
+          "added_features": 2,
+          "removed_oriented_triangles": 17,
+          "added_oriented_triangles": 17,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": false
+        }
+      ],
+      "native_column": [
+        0.0002123538587066687,
+        1.699723931719782e-06,
+        0.28513004988863083,
+        0.0004013592512546468,
+        3.7521931738751358e-06,
+        4.873856027505039e-06,
+        0.0007612012951929515,
+        0.3669661579072601,
+        2.798038567152113e-06,
+        0.062134872371992195
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/590295810358705651712",
+            "0",
+            "1770887431076117/590295810358705651712"
+          ],
+          "derivative_weights_exact": [
+            "-295147905179352825856/1770887431076117",
+            "0",
+            "295147905179352825856/1770887431076117"
+          ],
+          "finite_difference": [
+            0.0002123538705997681,
+            1.6997239501330954e-06,
+            0.285130049762948,
+            0.00040135927338867563,
+            3.7521933187318025e-06,
+            4.873856808578472e-06,
+            0.0007612013366433477,
+            0.3669661577255067,
+            2.7980386553125563e-06,
+            0.06213487233233704
+          ],
+          "absolute_errors": [
+            1.1893099369951499e-11,
+            1.8413313451038796e-14,
+            1.2568284240138412e-10,
+            2.2134028806427527e-11,
+            1.4485666690990767e-13,
+            7.810734329453055e-13,
+            4.145039612484189e-11,
+            1.8175337758843708e-10,
+            8.816044329468258e-14,
+            3.965515367774586e-11
+          ],
+          "scaled_errors": [
+            1.1893099369951499e-11,
+            1.8413313451038796e-14,
+            1.2568284240138412e-10,
+            2.2134028806427527e-11,
+            1.4485666690990767e-13,
+            7.810734329453055e-13,
+            4.145039612484189e-11,
+            1.8175337758843708e-10,
+            8.816044329468258e-14,
+            3.965515367774586e-11
+          ],
+          "max_scaled_error": 1.8175337758843708e-10,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424"
+          ],
+          "derivative_weights_exact": [
+            "-590295810358705651712/1770887431076117",
+            "0",
+            "590295810358705651712/1770887431076117"
+          ],
+          "finite_difference": [
+            0.00021235386173062122,
+            1.6997239372457504e-06,
+            0.2851300498543182,
+            0.00040135925688387854,
+            3.7521932102291563e-06,
+            4.873856225978495e-06,
+            0.0007612013057362511,
+            0.36696615785980086,
+            2.7980385909020504e-06,
+            0.06213487236101453
+          ],
+          "absolute_errors": [
+            3.0239525121178527e-12,
+            5.5259684784286416e-15,
+            3.4312634786898834e-11,
+            5.6292317217661915e-12,
+            3.635402049213931e-14,
+            1.9847345630504516e-13,
+            1.0543299492575618e-11,
+            4.74592764495859e-11,
+            2.3749937296803215e-14,
+            1.0977664774199752e-11
+          ],
+          "scaled_errors": [
+            3.0239525121178527e-12,
+            5.5259684784286416e-15,
+            3.4312634786898834e-11,
+            5.6292317217661915e-12,
+            3.635402049213931e-14,
+            1.9847345630504516e-13,
+            1.0543299492575618e-11,
+            4.74592764495859e-11,
+            2.3749937296803215e-14,
+            1.0977664774199752e-11
+          ],
+          "max_scaled_error": 4.74592764495859e-11,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-1770887431076117/590295810358705651712",
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424",
+            "1770887431076117/590295810358705651712"
+          ],
+          "derivative_weights_exact": [
+            "295147905179352825856/5312662293228351",
+            "-2361183241434822606848/5312662293228351",
+            "0",
+            "2361183241434822606848/5312662293228351",
+            "-295147905179352825856/5312662293228351"
+          ],
+          "finite_difference": [
+            0.00021235385877423893,
+            1.6997239329499688e-06,
+            0.2851300498847749,
+            0.0004013592513822795,
+            3.7521931740616075e-06,
+            4.873856031778503e-06,
+            0.0007612012954338855,
+            0.36696615790456555,
+            2.7980385694318815e-06,
+            0.06213487237057369
+          ],
+          "absolute_errors": [
+            6.757022617330392e-14,
+            1.230186820891924e-15,
+            3.855898915403742e-12,
+            1.2763269354574599e-13,
+            1.864716862165232e-16,
+            4.273464091625038e-15,
+            2.409339484868612e-13,
+            2.6945760699688365e-12,
+            2.2797686308434298e-15,
+            1.4185018063510468e-12
+          ],
+          "scaled_errors": [
+            6.757022617330392e-14,
+            1.230186820891924e-15,
+            3.855898915403742e-12,
+            1.2763269354574599e-13,
+            1.864716862165232e-16,
+            4.273464091625038e-15,
+            2.409339484868612e-13,
+            2.6945760699688365e-12,
+            2.2797686308434298e-15,
+            1.4185018063510468e-12
+          ],
+          "max_scaled_error": 3.855898915403742e-12,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": false,
+      "numeric_column_passed": true,
+      "sampled_column_passed": false,
+      "group_id": "heart-base-c7-42190295793-1",
+      "run_attempt": 1,
+      "public_result_sha256": "732c5890f145e5912b8f56e8fd6d182e80074df8011443134d4caab9a57f3fbd"
+    },
+    "8": {
+      "perturbations": [
+        {
+          "run_id": "heart-base-c8-42190295793-1-001",
+          "capture_sha256": "0a0171c46ecde78dbd51ed01eb279b56eac85fbfbdfddf760b6479ebcedc7cc6",
+          "same_call_material_sha256": "349a64890ddea5f001a0d58104a4ac90e96056839fa37d97c28711b030ef3313",
+          "exact_moments_sha256": "6827f327bf31d52dfe82a5cfc4111970802b820209b8727ce70ee8118c8179fe",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -3e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c8-42190295793-1-002",
+          "capture_sha256": "c1e07eaf381da4630299673a1db678d824a082823e4a92473d5aa684e6274103",
+          "same_call_material_sha256": "63626d50a9bde3c320acfcfeae2724ba899a115593367456c2b15813837cc540",
+          "exact_moments_sha256": "7b9bc340e8f7e71adfda2d5e80789c628f7cfdd7b1526c25d75585b3718b3fef",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c8-42190295793-1-003",
+          "capture_sha256": "6d1247e329922d4ea037725cca580766584a36f1c8ad4844d4dd14be6c0349b9",
+          "same_call_material_sha256": "4f44e5f0a547ed6df6f737649e04119fa339572bd824b596b0e579b6387f869c",
+          "exact_moments_sha256": "e61b76ed3247349849e530e22038ef6153a1d9f92ec9fe44fe9b51ced69ef8aa",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c8-42190295793-1-004",
+          "capture_sha256": "98d40e515223872ba3b7f8a95b15b4b7015a64105a0b136e528c157974afee11",
+          "same_call_material_sha256": "fdf69b3f5d640e22026bd57e0262572d0281aae4b538682d6301776c1603091b",
+          "exact_moments_sha256": "811f90c722e50e999df09324347e73dd086a9a64bd6198fb8bdcf5b20f3c8e25",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 3e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        2.242177788396873,
+        3.5928449607905244,
+        -7.620938766391446e-06,
+        2.5556149768439727,
+        2.5066150256747144,
+        0.05978160204013689,
+        3.14298138985649,
+        -1.376971536969698e-05,
+        4.5997786728029535,
+        5.105357983876318e-07
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/590295810358705651712",
+            "0",
+            "1770887431076117/590295810358705651712"
+          ],
+          "derivative_weights_exact": [
+            "-295147905179352825856/1770887431076117",
+            "0",
+            "295147905179352825856/1770887431076117"
+          ],
+          "finite_difference": [
+            2.2421777865461796,
+            3.5928449602515555,
+            -7.620962607924944e-06,
+            2.555614973743059,
+            2.506615025497867,
+            0.05978160199289127,
+            3.1429813846022276,
+            -1.3769755628026006e-05,
+            4.599778671721781,
+            5.105172804271568e-07
+          ],
+          "absolute_errors": [
+            1.8506933028645399e-09,
+            5.389688329481509e-10,
+            2.38415334983222e-11,
+            3.100913779587274e-09,
+            1.7684759818342106e-10,
+            4.724561513053548e-11,
+            5.2542622753766e-09,
+            4.02583290254844e-11,
+            1.081172441973474e-09,
+            1.8517960474927144e-11
+          ],
+          "scaled_errors": [
+            8.253998913207327e-10,
+            1.500117146244916e-10,
+            2.38415334983222e-11,
+            1.213372831073604e-09,
+            7.055235701214963e-11,
+            4.724561513053548e-11,
+            1.6717446346752031e-09,
+            4.02583290254844e-11,
+            2.3504879666626295e-10,
+            1.8517960474927144e-11
+          ],
+          "max_scaled_error": 1.6717446346752031e-09,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424"
+          ],
+          "derivative_weights_exact": [
+            "-590295810358705651712/1770887431076117",
+            "0",
+            "590295810358705651712/1770887431076117"
+          ],
+          "finite_difference": [
+            2.2421777878896503,
+            3.5928449606453516,
+            -7.620944727614326e-06,
+            2.555614976020374,
+            2.506615025616872,
+            0.059781602027035044,
+            3.1429813884835456,
+            -1.3769725435851799e-05,
+            4.599778672526162,
+            5.105311688645799e-07
+          ],
+          "absolute_errors": [
+            5.072228605413328e-10,
+            1.4517255280106874e-10,
+            5.961222880859954e-12,
+            8.235984080157805e-10,
+            5.7842193230454907e-11,
+            1.310184839339239e-11,
+            1.3729446382112163e-09,
+            1.0066154819218358e-11,
+            2.7679228300103334e-10,
+            4.629523051899065e-12
+          ],
+          "scaled_errors": [
+            2.2621884097067535e-10,
+            4.04060165093032e-11,
+            5.961222880859954e-12,
+            3.2227014455552845e-10,
+            2.307581843960475e-11,
+            1.310184839339239e-11,
+            4.3682875203849226e-10,
+            1.0066154819218358e-11,
+            6.017513073783727e-11,
+            4.629523051899065e-12
+          ],
+          "max_scaled_error": 4.3682875203849226e-10,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-1770887431076117/590295810358705651712",
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424",
+            "1770887431076117/590295810358705651712"
+          ],
+          "derivative_weights_exact": [
+            "295147905179352825856/5312662293228351",
+            "-2361183241434822606848/5312662293228351",
+            "0",
+            "2361183241434822606848/5312662293228351",
+            "-295147905179352825856/5312662293228351"
+          ],
+          "finite_difference": [
+            2.2421777883374734,
+            3.5928449607766173,
+            -7.620938767510787e-06,
+            2.5556149767794794,
+            2.5066150256565405,
+            0.059781602038416294,
+            3.142981389777318,
+            -1.376971537179373e-05,
+            4.5997786727942875,
+            5.105357983437209e-07
+          ],
+          "absolute_errors": [
+            5.939937976693046e-11,
+            1.3907126085374693e-11,
+            1.119341705871863e-15,
+            6.449328415861607e-11,
+            1.817372491279952e-11,
+            1.7205928143446922e-12,
+            7.917209248942181e-11,
+            2.0967504630117383e-15,
+            8.665563343553048e-12,
+            4.391088970511607e-17
+          ],
+          "scaled_errors": [
+            2.649182418732291e-11,
+            3.870783804240399e-12,
+            1.119341705871863e-15,
+            2.5235915716169933e-11,
+            7.250305582089789e-12,
+            1.7205928143446922e-12,
+            2.5190124492921938e-11,
+            2.0967504630117383e-15,
+            1.8839087616953838e-12,
+            4.391088970511607e-17
+          ],
+          "max_scaled_error": 2.649182418732291e-11,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true,
+      "group_id": "heart-base-c8-42190295793-1",
+      "run_attempt": 1,
+      "public_result_sha256": "41528c01917f0965e25dea2174cd9b6afdbbcd754d7f560e9c9ce5ff2d00a3f3"
+    },
+    "9": {
+      "perturbations": [
+        {
+          "run_id": "heart-base-c9-42190295793-1-001",
+          "capture_sha256": "b0a6c3e4f9154097bc1280fa749b34c80119395f02af2b173881400722f3bed7",
+          "same_call_material_sha256": "1089f8389dc526731a4f0c2ddfe1076f7297540aed146742aae46448b0c1fe88",
+          "exact_moments_sha256": "0d59c7029f1f7f47818adf219805c9fd33bf3a3027a0d4808fcb213c40d352d6",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -3e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c9-42190295793-1-002",
+          "capture_sha256": "6472416e3d3a7f126fe7aaf368478cd21e41a8a31bbd37b8f016e290d6e8f1ff",
+          "same_call_material_sha256": "8213b6790f205aea25c7817af2c39cd8ce22c8f7236ac9fe08140c7ff1f1b25d",
+          "exact_moments_sha256": "823bfd455fa206c5316e582166827777cfc927a803df50f26fe956691c554d14",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c9-42190295793-1-003",
+          "capture_sha256": "07ed7cb1a71d8062896362827c84ff492edd4b26096f613df21cac959a072112",
+          "same_call_material_sha256": "14d77b9bcb154f6367e9eee0f26887370a4aac8adef1f3f475f52af8bcc68c0f",
+          "exact_moments_sha256": "907b7e2d6f06cd7156b26db5ae62c6c8e6c07ecbc6c52538b5dceef93f24d067",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c9-42190295793-1-004",
+          "capture_sha256": "71c89c781b7aca5e730b775f5996d114b7cb81df8c94758aed84c2c6dbf44f8b",
+          "same_call_material_sha256": "1c7108ad21381d08de4968df76d23c929b367a755c3bfc68c9b2b515171aeced",
+          "exact_moments_sha256": "10a5b098373160cbd671437acaa77d8a5f2186847f894717cd324ec3d44b0cb8",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 3e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        -1.9834168982646394e-06,
+        6.286869689697873e-07,
+        0.059418473895226774,
+        -3.2256971016622784e-06,
+        1.96336265050912e-07,
+        5.675579777737868e-08,
+        -5.762574482275873e-06,
+        0.06250002227024978,
+        1.245317174358956e-06,
+        0.07997403644280593
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/590295810358705651712",
+            "0",
+            "1770887431076117/590295810358705651712"
+          ],
+          "derivative_weights_exact": [
+            "-295147905179352825856/1770887431076117",
+            "0",
+            "295147905179352825856/1770887431076117"
+          ],
+          "finite_difference": [
+            -1.983417038023878e-06,
+            6.286868664475969e-07,
+            0.05941847388142694,
+            -3.2256973380471676e-06,
+            1.9633618510879852e-07,
+            5.67557865832419e-08,
+            -5.762574882642758e-06,
+            0.06250002225117941,
+            1.24531700184592e-06,
+            0.0799740364321431
+          ],
+          "absolute_errors": [
+            1.3975923874436713e-13,
+            1.0252219030838341e-13,
+            1.3799839438506556e-11,
+            2.363848892510223e-13,
+            7.994211348424669e-14,
+            1.1194136779911957e-14,
+            4.0036688556663496e-13,
+            1.9070365424393475e-11,
+            1.7251303593547728e-13,
+            1.066283032756952e-11
+          ],
+          "scaled_errors": [
+            1.3975923874436713e-13,
+            1.0252219030838341e-13,
+            1.3799839438506556e-11,
+            2.363848892510223e-13,
+            7.994211348424669e-14,
+            1.1194136779911957e-14,
+            4.0036688556663496e-13,
+            1.9070365424393475e-11,
+            1.7251303593547728e-13,
+            1.066283032756952e-11
+          ],
+          "max_scaled_error": 1.9070365424393475e-11,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424"
+          ],
+          "derivative_weights_exact": [
+            "-590295810358705651712/1770887431076117",
+            "0",
+            "590295810358705651712/1770887431076117"
+          ],
+          "finite_difference": [
+            -1.9834169303449835e-06,
+            6.286869430948691e-07,
+            0.05941847389206739,
+            -3.225697155379796e-06,
+            1.9633624500825217e-07,
+            5.675579497699464e-08,
+            -5.762574572148485e-06,
+            0.06250002226618878,
+            1.245317130776508e-06,
+            0.07997403643987888
+          ],
+          "absolute_errors": [
+            3.208034414542805e-14,
+            2.5874918066899266e-14,
+            3.159383471052688e-12,
+            5.3717517280247004e-14,
+            2.004265983533295e-14,
+            2.8003840429954623e-15,
+            8.987261220186809e-14,
+            4.060999031362581e-12,
+            4.358244798560167e-14,
+            2.927046128634801e-12
+          ],
+          "scaled_errors": [
+            3.208034414542805e-14,
+            2.5874918066899266e-14,
+            3.159383471052688e-12,
+            5.3717517280247004e-14,
+            2.004265983533295e-14,
+            2.8003840429954623e-15,
+            8.987261220186809e-14,
+            4.060999031362581e-12,
+            4.358244798560167e-14,
+            2.927046128634801e-12
+          ],
+          "max_scaled_error": 4.060999031362581e-12,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-1770887431076117/590295810358705651712",
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424",
+            "1770887431076117/590295810358705651712"
+          ],
+          "derivative_weights_exact": [
+            "295147905179352825856/5312662293228351",
+            "-2361183241434822606848/5312662293228351",
+            "0",
+            "2361183241434822606848/5312662293228351",
+            "-295147905179352825856/5312662293228351"
+          ],
+          "finite_difference": [
+            -1.9834168944520187e-06,
+            6.286869686439599e-07,
+            0.05941847389561421,
+            -3.2256970944906715e-06,
+            1.9633626497473671e-07,
+            5.6755797774912215e-08,
+            -5.762574468650394e-06,
+            0.0625000222711919,
+            1.2453171737533707e-06,
+            0.07997403644245747
+          ],
+          "absolute_errors": [
+            3.81262072088497e-15,
+            3.258273197378881e-16,
+            3.874351847652682e-13,
+            7.171606710011426e-15,
+            7.617528569503864e-17,
+            2.4664640232973534e-18,
+            1.3625478919720875e-14,
+            9.42123099647717e-13,
+            6.055853356431315e-16,
+            3.4845139565656123e-13
+          ],
+          "scaled_errors": [
+            3.81262072088497e-15,
+            3.258273197378881e-16,
+            3.874351847652682e-13,
+            7.171606710011426e-15,
+            7.617528569503864e-17,
+            2.4664640232973534e-18,
+            1.3625478919720875e-14,
+            9.42123099647717e-13,
+            6.055853356431315e-16,
+            3.4845139565656123e-13
+          ],
+          "max_scaled_error": 9.42123099647717e-13,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true,
+      "group_id": "heart-base-c9-42190295793-1",
+      "run_attempt": 1,
+      "public_result_sha256": "a388eefdf52defbc6d4fcb60d5ae83e99108e499cc5a820e5b4eaaf438b38e47"
+    }
+  },
+  "new_native_boolean_calls_in_w2": 28,
+  "native_calls_in_w0_replay": 0,
+  "accepted_sampled_columns": [
+    3,
+    4,
+    5,
+    6,
+    8,
+    9
+  ],
+  "rejected_sampled_columns": [
+    7
+  ],
+  "all_sampled_columns_passed": false,
+  "continuous_neighborhood_certified": false,
+  "J_D": null,
+  "newton_admitted": false,
+  "training_admitted": false
+}

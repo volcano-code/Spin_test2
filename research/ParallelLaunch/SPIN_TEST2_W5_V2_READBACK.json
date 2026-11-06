@@ -1,0 +1,39 @@
+{
+  "Newton_accepted": false,
+  "W0_full_scientific_admission_certified": false,
+  "W2": {
+    "branch": "research/neuralmoments-w2-teacher-20261019",
+    "commit_sha": "4d6b3d92d7b7e1ba4d57d8168dfd2dc98d5dee98",
+    "excluded_h8f_samples": 81,
+    "manifest_git_blob": "973a796b1720ed2b6e0e844a758b0325cd530d65",
+    "native_teacher_runs": 1,
+    "raw_diagnostic_archive_verified_by_W0": false,
+    "reviewed_archive_audit_blob": "d92d475641ca46501e5360fa82a72d3b7c8cb20c",
+    "reviewed_excluded_receipt_blob": "b7938b4d76822079df72b46ef7d9c7b88d66c1d5",
+    "reviewed_historical_boundary_replay_blob": "feb06c694345030a2a123b2e2f84b1eaca442453",
+    "schema": "w2-cherchi-teacher-v2-pre-w0",
+    "training_samples": 0
+  },
+  "W5": {
+    "branch": "research/neuralmoments-w5-deeponet-20261019",
+    "commit_sha": "5bddf131ac72d114324b778c500d4c3aac81b297",
+    "reviewed_candidate_applied": true,
+    "source_git_blob": "4c97aacc1d50366c7cc97876064f4183469d9910"
+  },
+  "W5_full_branch_tests_verified_by_W0": false,
+  "W5_native_teacher_data_released": false,
+  "runtime": {
+    "actual_W5_candidate_runtime_exercised": true,
+    "excluded_w2_v2_readonly_only": true,
+    "forged_train_split_rejected": true,
+    "test_data_are_synthetic_not_native_training": true,
+    "valid_w0_structural_record_accepted": true,
+    "w0_norm_false_positive_removed": true
+  },
+  "schema": "W0_M19_LIVE_W5_W2_CONSUMER_HANDOFF_V1",
+  "scope": "CODE_IDENTITY_AND_STRUCTURAL_COMPATIBILITY_NOT_NATIVE_TRUTH",
+  "source_branch": "volcano-code/Spin_test2",
+  "source_repository": "volcano-code/Spin_test2",
+  "status": "REVIEWED_W5_M18_SOURCE_PRESENT_ON_W5_BRANCH",
+  "training_admitted": false
+}

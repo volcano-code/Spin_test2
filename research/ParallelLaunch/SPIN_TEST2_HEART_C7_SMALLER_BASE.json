@@ -1,0 +1,332 @@
+{
+  "schema": "w0-heart-m28-base-c7-half-v1",
+  "source_checkout": "e8b61b74375187e5336765cd67c07ca1e8bd6b71",
+  "prior_m27_report_sha256": "c6ccd57318af37a8029aab6aaf7d31b77f1f1076049e4fdc386b43423a982dd4",
+  "nominal_inner_radius": 7.5e-07,
+  "nominal_outer_radius": 1.5e-06,
+  "run_id": 42191401306,
+  "run_attempt": 1,
+  "attempts_by_column": {
+    "7": 1
+  },
+  "base": {
+    "run_id": "heart-point000-42177937306-1",
+    "capture_sha256": "816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04",
+    "same_call_material_sha256": "285fde06cde62f49053104e40f82a3ec5c74378bcce670a864fc69e4e6aff955",
+    "exact_moments_sha256": "cf1d21a9d3b046f98a7ef92e275e616691fc9d4adc7fd3987dedee38a7fe495f",
+    "vertices": 8455,
+    "faces": 16910,
+    "construction_kinds": {
+      "EXPLICIT3D": 7671,
+      "LPI": 784
+    },
+    "native_c0": 0.3701323978732728,
+    "native_derivative_defined": true
+  },
+  "base_native_coefficients": [
+    0.3701323978732728,
+    -0.15863761828595124,
+    -0.0,
+    -0.7608730119328398,
+    0.293773367196206,
+    0.293773367196206,
+    0.293773367196206,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "evaluation_map_identity": "e8347819b347e54caacaadeb458afdea555615eae99491b19b8eba2b8aac42a7",
+  "module_sha256": {
+    "_cherchi_core_boolean": "792f9419615078df06f48e5570de8773beed8008802013f3d2b35029a53bce4d",
+    "_cherchi_rational_moments": "ed05436e2796b190ddebb024f67318e2e88bdc46d96b01e9d7db71a6af080dca",
+    "make_it_stand._make_it_stand": "e4ed1f1fe2a37ed6effcfb4626ba2dbc0f042a8be6236d1fbcb93bf17e78082a"
+  },
+  "moment_order": [
+    "m",
+    "x",
+    "y",
+    "z",
+    "xx",
+    "yy",
+    "zz",
+    "yz",
+    "xz",
+    "xy"
+  ],
+  "scaled_error_limit": 1e-06,
+  "columns": {
+    "7": {
+      "perturbations": [
+        {
+          "run_id": "heart-base-c7-half-42191401306-1-001",
+          "capture_sha256": "046bda3cf0cad65a102838ed7bf34939ac69fc92bdb45c547f34eff8d04a4055",
+          "same_call_material_sha256": "d1bf4b0e90c6afd324f429697e12535f83cb7c241453a52ea129fab55170c4e6",
+          "exact_moments_sha256": "ff08c762d7a61fa2ef750fd3ec9ec0dcd0ce879306295a57d65a007009d8ca7b",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c7-half-42191401306-1-002",
+          "capture_sha256": "a651ad2c7522d1e7a7d1429aca80a24bbcd708dbea8052114c0410ed1933ea13",
+          "same_call_material_sha256": "5bf42af0c8e91ab9835b3e668d05e446e314e32cf8a0a5ffaa88bae0d15e7827",
+          "exact_moments_sha256": "8eaf3aeb0eee9c383d95f03db281e702da31cbe8b92337f6ffed67c94cd78ca1",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -7.5e-07,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c7-half-42191401306-1-003",
+          "capture_sha256": "4fc3267d91ae388bc632732398e60c6fce9609ce8e2c9ade383042ef69c7dc8d",
+          "same_call_material_sha256": "5b6848c6da0141518680e236d864ad7dacdd445e3992b8c06551a838f6389bb0",
+          "exact_moments_sha256": "740374d8e026961145d5937b78d9c3b7d1add1295b76b4e27ebef63eb6e341bb",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 7.5e-07,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-base-c7-half-42191401306-1-004",
+          "capture_sha256": "e43db5adec72933eb573942453dd0b9a6c95eaf466750ffbb4f3a8d0eec31c44",
+          "same_call_material_sha256": "559113488f7a9435822b21c7d76812cc200f0337e4c4c666d537ce2eba3fb298",
+          "exact_moments_sha256": "e494c9df0379829eb4cca4e890cf4d87b7b6f804d81c17938371f237e01dfba4",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        0.0002123538587066687,
+        1.699723931719782e-06,
+        0.28513004988863083,
+        0.0004013592512546468,
+        3.7521931738751358e-06,
+        4.873856027505039e-06,
+        0.0007612012951929515,
+        0.3669661579072601,
+        2.798038567152113e-06,
+        0.062134872371992195
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424"
+          ],
+          "derivative_weights_exact": [
+            "-590295810358705651712/1770887431076117",
+            "0",
+            "590295810358705651712/1770887431076117"
+          ],
+          "finite_difference": [
+            0.00021235386173062122,
+            1.6997239372457504e-06,
+            0.2851300498543182,
+            0.00040135925688387854,
+            3.7521932102291563e-06,
+            4.873856225978495e-06,
+            0.0007612013057362511,
+            0.36696615785980086,
+            2.7980385909020504e-06,
+            0.06213487236101453
+          ],
+          "absolute_errors": [
+            3.0239525121178527e-12,
+            5.5259684784286416e-15,
+            3.4312634786898834e-11,
+            5.6292317217661915e-12,
+            3.635402049213931e-14,
+            1.9847345630504516e-13,
+            1.0543299492575618e-11,
+            4.74592764495859e-11,
+            2.3749937296803215e-14,
+            1.0977664774199752e-11
+          ],
+          "scaled_errors": [
+            3.0239525121178527e-12,
+            5.5259684784286416e-15,
+            3.4312634786898834e-11,
+            5.6292317217661915e-12,
+            3.635402049213931e-14,
+            1.9847345630504516e-13,
+            1.0543299492575618e-11,
+            4.74592764495859e-11,
+            2.3749937296803215e-14,
+            1.0977664774199752e-11
+          ],
+          "max_scaled_error": 4.74592764495859e-11,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/2361183241434822606848",
+            "0",
+            "1770887431076117/2361183241434822606848"
+          ],
+          "derivative_weights_exact": [
+            "-1180591620717411303424/1770887431076117",
+            "0",
+            "1180591620717411303424/1770887431076117"
+          ],
+          "finite_difference": [
+            0.00021235385944754786,
+            1.6997239331023634e-06,
+            0.2851300498815148,
+            0.00040135925263306286,
+            3.7521931827475564e-06,
+            4.8738560767077735e-06,
+            0.0007612012977737929,
+            0.3669661578932209,
+            2.798038573144664e-06,
+            0.06213487237102993
+          ],
+          "absolute_errors": [
+            7.408791366694281e-13,
+            1.3825814904023339e-15,
+            7.116048261587206e-12,
+            1.3784160595806274e-12,
+            8.872420547016437e-15,
+            4.920273435598593e-14,
+            2.5808413774877874e-12,
+            1.4039221880172174e-11,
+            5.992551100726102e-15,
+            9.622662149458381e-13
+          ],
+          "scaled_errors": [
+            7.408791366694281e-13,
+            1.3825814904023339e-15,
+            7.116048261587206e-12,
+            1.3784160595806274e-12,
+            8.872420547016437e-15,
+            4.920273435598593e-14,
+            2.5808413774877874e-12,
+            1.4039221880172174e-11,
+            5.992551100726102e-15,
+            9.622662149458381e-13
+          ],
+          "max_scaled_error": 1.4039221880172174e-11,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-1770887431076117/1180591620717411303424",
+            "-1770887431076117/2361183241434822606848",
+            "0",
+            "1770887431076117/2361183241434822606848",
+            "1770887431076117/1180591620717411303424"
+          ],
+          "derivative_weights_exact": [
+            "590295810358705651712/5312662293228351",
+            "-4722366482869645213696/5312662293228351",
+            "0",
+            "4722366482869645213696/5312662293228351",
+            "-590295810358705651712/5312662293228351"
+          ],
+          "finite_difference": [
+            0.0002123538586865234,
+            1.6997239317212345e-06,
+            0.28513004989058033,
+            0.0004013592512161243,
+            3.752193173587023e-06,
+            4.873856026950866e-06,
+            0.0007612012951196402,
+            0.36696615790436093,
+            2.7980385672255356e-06,
+            0.0621348723743684
+          ],
+          "absolute_errors": [
+            2.0145321813380123e-14,
+            1.4524943935646678e-18,
+            1.949480580183337e-12,
+            3.852249448122732e-14,
+            2.881127680245208e-16,
+            5.541729603671518e-16,
+            7.331132754148927e-14,
+            2.899203690367601e-12,
+            7.342236870039716e-17,
+            2.3761999714721327e-12
+          ],
+          "scaled_errors": [
+            2.0145321813380123e-14,
+            1.4524943935646678e-18,
+            1.949480580183337e-12,
+            3.852249448122732e-14,
+            2.881127680245208e-16,
+            5.541729603671518e-16,
+            7.331132754148927e-14,
+            2.899203690367601e-12,
+            7.342236870039716e-17,
+            2.3761999714721327e-12
+          ],
+          "max_scaled_error": 2.899203690367601e-12,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true,
+      "group_id": "heart-base-c7-half-42191401306-1",
+      "run_attempt": 1,
+      "public_result_sha256": "ff90fbd92fa9ed168d2f75d5790097e39596f3edecc4e482627407353078a281"
+    }
+  },
+  "new_native_boolean_calls_in_w2": 4,
+  "native_calls_in_w0_replay": 0,
+  "accepted_sampled_columns": [
+    7
+  ],
+  "rejected_sampled_columns": [],
+  "all_sampled_columns_passed": true,
+  "continuous_neighborhood_certified": false,
+  "J_D": null,
+  "newton_admitted": false,
+  "training_admitted": false
+}
