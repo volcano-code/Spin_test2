@@ -1,0 +1,901 @@
+{
+  "schema": "w2-heart-base-column-capture-receipts-v1",
+  "repository": "volcano-code/Spin_test2",
+  "m23_base_run_id": "heart-point000-42177937306-1",
+  "m23_base_capture_sha256": "816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04",
+  "request_sha256": "7084fecb6bbd4d17bca842bfe68299f9711ecead09eb01593364424a3e0c4a8a",
+  "frozen_module_sha256": {
+    "_cherchi_core_boolean": "792f9419615078df06f48e5570de8773beed8008802013f3d2b35029a53bce4d",
+    "_cherchi_rational_moments": "ed05436e2796b190ddebb024f67318e2e88bdc46d96b01e9d7db71a6af080dca",
+    "make_it_stand._make_it_stand": "e4ed1f1fe2a37ed6effcfb4626ba2dbc0f042a8be6236d1fbcb93bf17e78082a"
+  },
+  "memory_profile_bytes": {
+    "high": 7516192768,
+    "max": 9663676416,
+    "swap_max": 0
+  },
+  "initial_launch": {
+    "run_id": 42189847862,
+    "argument_parse_failures": [
+      {
+        "column": 3,
+        "artifact_id": 13489566472,
+        "artifact_sha256": "cca607050b3cf40d72007f7bc3552d95ba1f415a904d13cfe2de5827f50e251d",
+        "exit_code": 2
+      },
+      {
+        "column": 4,
+        "artifact_id": 13488659414,
+        "artifact_sha256": "4eb41157d44c082ebde65c3eb0fab86d6489e0d24b4078cb4eb5844641f008af",
+        "exit_code": 2
+      },
+      {
+        "column": 5,
+        "artifact_id": 13489131966,
+        "artifact_sha256": "b5fe81184bc53632e1c754c287969b2d95d40ef96954e1218101eb3bae0a3300",
+        "exit_code": 2
+      },
+      {
+        "column": 6,
+        "artifact_id": 13489546216,
+        "artifact_sha256": "91bb7f16ddf1ecd85946989c2d5dcfa650ffa9e3fc776625610a646382b2c6db",
+        "exit_code": 2
+      },
+      {
+        "column": 7,
+        "artifact_id": 13490080034,
+        "artifact_sha256": "8ab325b0a7721e2b80a37d3328124f6fd995e14fa748f2b867682e3a2064e1ef",
+        "exit_code": 2
+      },
+      {
+        "column": 8,
+        "artifact_id": 13489027814,
+        "artifact_sha256": "d08cdc227eed802b8fa3e379fff5ac6557c4ee28935b5d69c2d71b2afd3c7f49",
+        "exit_code": 2
+      },
+      {
+        "column": 9,
+        "artifact_id": 13489880995,
+        "artifact_sha256": "4e7de067c5c0da6ca3dd92078f4687c02d60c90a0c0210a6ac88bca8774df718",
+        "exit_code": 2
+      }
+    ],
+    "completed_materials": 0
+  },
+  "retry_run": 42190295793,
+  "cancelled_before_capture_on_attempt1": [
+    3,
+    4
+  ],
+  "groups": [
+    {
+      "protocol": "M27",
+      "column": 3,
+      "run_id": 42190295793,
+      "run_attempt": 2,
+      "group_id": "heart-base-c3-42190295793-2",
+      "source_checkout": "0d2a85533bc3f26695b26c668b35ef7a28288dfb",
+      "artifact_id": 13490337366,
+      "archive_sha256": "8b8b56b523cedf7069e2f584c57b215334d842a7d9850772b10a236ed78a239d",
+      "encrypted_payload_sha256": "b82362946971c71bb43ac365aff3536e5dc564364c52dad779fdc75860c24650",
+      "public_result_sha256": "93c889e596614f5bd0b82101c4b767c25860cf0fe502075141660bac5f643ea9",
+      "stencil_sha256": "858c5a942ec685b32b2200bbdfeece4b65ce499c7473cdc59ae9bf251c554248",
+      "zero_host_swap_verified": true,
+      "cgroup_peak_bytes": 257781760,
+      "authenticated_files": 38,
+      "fresh_boolean_calls": 4,
+      "samples": [
+        {
+          "index": 1,
+          "nominal_offset": -3e-06,
+          "actual_offset_exact": "-6755399441/2251799813685248",
+          "native_c_sha256": "fda3ff47cf90ed7e2028f79ef51ae9c376a7f05ecf8406291931cce221bb6aa1",
+          "capture_sha256": "f4be1dd0587f719199cf6a17442174218696983c0d4c4ba7df74d8ecbcf39145",
+          "same_call_material_sha256": "d49efc204e6346d211c30335a9db5950a5433f1bff5b861a30b7248d4b1ab635",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 2,
+          "nominal_offset": -1.5e-06,
+          "actual_offset_exact": "-6755399441/4503599627370496",
+          "native_c_sha256": "2d989c95470b673636d6b3b6d21f95f7cec494bed4f2b34b0593279487522753",
+          "capture_sha256": "832d311ea9b488892cec9f3bb1b074b8a596d98d3df439de0cf0bb61e2bc187a",
+          "same_call_material_sha256": "09a40c2400aae21bf9e8f1b1e4ffc1de29d98ba6a63d85c4eeee1ccbb571bf76",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 3,
+          "nominal_offset": 1.5e-06,
+          "actual_offset_exact": "6755399441/4503599627370496",
+          "native_c_sha256": "c1d701160d7055d75cabf518d153e7e615cd3698880fa5b57772d617aa7b303a",
+          "capture_sha256": "3900159e228975c105e7bd5f396df64706a4fbf0e00f6dc64ffbde9c9ba7eb0c",
+          "same_call_material_sha256": "4b9b7a0df709210a72406eb62543a661367573d341132435b7a7f488547f797a",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 4,
+          "nominal_offset": 3e-06,
+          "actual_offset_exact": "6755399441/2251799813685248",
+          "native_c_sha256": "094c12ee5a52b5af29e8372c5afcc03ec2a00773f03e64210bd246895c6a6138",
+          "capture_sha256": "eaa196a1335cc5eef43d0c35ca7e2f015be0f36d69bbbc2f33df065713a00fca",
+          "same_call_material_sha256": "3df35f49b7d71aac6c4a768dfcb78bfcfdf32249516b782cca2fc0dccc4b4306",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        }
+      ]
+    },
+    {
+      "protocol": "M27",
+      "column": 4,
+      "run_id": 42190295793,
+      "run_attempt": 2,
+      "group_id": "heart-base-c4-42190295793-2",
+      "source_checkout": "0d2a85533bc3f26695b26c668b35ef7a28288dfb",
+      "artifact_id": 13490347448,
+      "archive_sha256": "eaa39342a8d1d0cc11636079c89fb4c7d810f0f7f2354215fee81ff0fe458456",
+      "encrypted_payload_sha256": "89e52b69b9d353c1dbe3f1ffde517424911dcf5fd384ca398313be18b8aa94c9",
+      "public_result_sha256": "acc7261e26711a468f3058b6ffeeb4905d7fe19031c7f3b3860e156359f36069",
+      "stencil_sha256": "69dc5c61aa5367a3c47e5d9771c399764376aaa8decc7abbc26b1ccc262c83de",
+      "zero_host_swap_verified": true,
+      "cgroup_peak_bytes": 257015808,
+      "authenticated_files": 38,
+      "fresh_boolean_calls": 4,
+      "samples": [
+        {
+          "index": 1,
+          "nominal_offset": -3e-06,
+          "actual_offset_exact": "-6755399441/2251799813685248",
+          "native_c_sha256": "3ae1077243aa09dd2f14e52cb3d4d8de1ff3b41f931991ee65c496a2a8ffa70d",
+          "capture_sha256": "a3e822d2053e7e0929e7f5545d46f9cc343e8be430d589a7e4bafa2599b8d1d2",
+          "same_call_material_sha256": "33a3fca419bd90121e61ad3a765b645a6c2fc00adee13abf783b95d8b44e4749",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 2,
+          "nominal_offset": -1.5e-06,
+          "actual_offset_exact": "-6755399441/4503599627370496",
+          "native_c_sha256": "493ce4ed077560ce09b98087a7dc64105780f4c223e23c81da5bf977856910f8",
+          "capture_sha256": "8795668f2aec4da993605648c7e77ad894b0f32298bc2c50e0447d78e7bf938e",
+          "same_call_material_sha256": "0703c60e4eb7b47a37d70246605df9fedaec394947a0986b62af1abfdc626617",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 3,
+          "nominal_offset": 1.5e-06,
+          "actual_offset_exact": "6755399441/4503599627370496",
+          "native_c_sha256": "20cb7526ab3895798e90a5ed2fddf3dc1343954c1a072b263d129c916fc33d0d",
+          "capture_sha256": "38ffd5af52985f41aa6f54cea5f10c99139a65a1ca28797963dc413f5bacce4d",
+          "same_call_material_sha256": "b02ae98b80e247fa4c3307a768e2b04d1d2bc0818cea0ff6ae7275a975493b09",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 4,
+          "nominal_offset": 3e-06,
+          "actual_offset_exact": "6755399441/2251799813685248",
+          "native_c_sha256": "adc397a24c65a94bb3c036ea23428298b0567cc9f5ed001055e119b83151b8dc",
+          "capture_sha256": "22f89d73656d79aee8fb5f0fd264a03c90968839a97d3720e8abcda3caf70144",
+          "same_call_material_sha256": "e6e36b9415f09312830d587daa818193998ad1cbe02acdcb7383ddf16104b4b3",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        }
+      ]
+    },
+    {
+      "protocol": "M27",
+      "column": 5,
+      "run_id": 42190295793,
+      "run_attempt": 1,
+      "group_id": "heart-base-c5-42190295793-1",
+      "source_checkout": "0d2a85533bc3f26695b26c668b35ef7a28288dfb",
+      "artifact_id": 13489711604,
+      "archive_sha256": "6d9edcd13008b871ae8fb884ed0ce89197f35694b514d2f55d29ae9a1d345673",
+      "encrypted_payload_sha256": "de25ca708eefee0fa1fab65b95117613f9bc4045fbd607596f683df27a04c43d",
+      "public_result_sha256": "0b05cc335789168aeb73f20ebe6298bd0a476ababa860f647f0202f3ebdc8df4",
+      "stencil_sha256": "dae93b101ffb3b7ce7e8c9fa8b8f878029e9f2b1b22a1056f0f012ad67983c48",
+      "zero_host_swap_verified": true,
+      "cgroup_peak_bytes": 257572864,
+      "authenticated_files": 38,
+      "fresh_boolean_calls": 4,
+      "samples": [
+        {
+          "index": 1,
+          "nominal_offset": -3e-06,
+          "actual_offset_exact": "-6755399441/2251799813685248",
+          "native_c_sha256": "e9f6a69eafb832122b5ee32aad67936915e8ef6d0f6e936397a180c1feaecdff",
+          "capture_sha256": "fccab55e2e5cd5dc1a479b9c8fab7d0b753894737c03f239a3577e9907a16ec5",
+          "same_call_material_sha256": "9e32b86913cba77a1b2b11b1f02405bcb8741225f0236a1b52bdefd710ace803",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 2,
+          "nominal_offset": -1.5e-06,
+          "actual_offset_exact": "-6755399441/4503599627370496",
+          "native_c_sha256": "f19a17d7bc1308a52b8bfa3c08833338390d159e869987fea862bc51ed6b555b",
+          "capture_sha256": "d62191baa0d19b030082d3af9e109be78824eca21b4c1c652f1f0a923df25723",
+          "same_call_material_sha256": "77b0f969448aa57652f9518f0a265768edf26238dfea8e81be14a2ea104a5564",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 3,
+          "nominal_offset": 1.5e-06,
+          "actual_offset_exact": "6755399441/4503599627370496",
+          "native_c_sha256": "3e7aece29b7861cc9b84f4015f28407f913aa9b44292be990b60a27c08e9047d",
+          "capture_sha256": "56f7ac9b1c852bbee6a71e6aa33a79791f03305ee729a6350bb2da7bf01500e9",
+          "same_call_material_sha256": "e63873e47a42437e5ffe7a44a58862f5e16ff8b9926cbbe73854e71f7be69f90",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 4,
+          "nominal_offset": 3e-06,
+          "actual_offset_exact": "6755399441/2251799813685248",
+          "native_c_sha256": "f6fbd0f6fea4898aba21990e8ce60e167f97367854cb85cd93b841fc893dbc55",
+          "capture_sha256": "b6de6b2b17250b3ef53a4ec438e7b6efc9cb0f524b9db8ee6912556a6e861858",
+          "same_call_material_sha256": "99561e68086cf7fc68c511a62b44acf8d22589da0677eed166234e826098bf45",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        }
+      ]
+    },
+    {
+      "protocol": "M27",
+      "column": 6,
+      "run_id": 42190295793,
+      "run_attempt": 1,
+      "group_id": "heart-base-c6-42190295793-1",
+      "source_checkout": "0d2a85533bc3f26695b26c668b35ef7a28288dfb",
+      "artifact_id": 13490001328,
+      "archive_sha256": "4f26e7ef0d7099dad6054aa056146143a5dd3e621cbf29129774e87391a51b89",
+      "encrypted_payload_sha256": "f2aaec534036df11fc0ea3a4e5955424f78fbd49abefad6a9047a0d72913e9ce",
+      "public_result_sha256": "be8680077370218ebe5e5dfe55b02043e4e28bcf2bc9e2056ddeccdffa810a2e",
+      "stencil_sha256": "7b5acbba93fcee46e39afa54ce2844b468004e1fad3e49d34e814a005d0180e8",
+      "zero_host_swap_verified": true,
+      "cgroup_peak_bytes": 257036288,
+      "authenticated_files": 38,
+      "fresh_boolean_calls": 4,
+      "samples": [
+        {
+          "index": 1,
+          "nominal_offset": -3e-06,
+          "actual_offset_exact": "-6755399441/2251799813685248",
+          "native_c_sha256": "2c0d3baa329ff5159ca7e9b62042f6ed91ad771bda5542249ff9910e90fb09ea",
+          "capture_sha256": "6c16f6c0a844ab2d25d9f335a7a856380196404e8dc54b3392e7e81567473696",
+          "same_call_material_sha256": "80b74a9aa2310859356f6392ead53c8b41ff679f4fce42e717fd705bc5d7f1e8",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 2,
+          "nominal_offset": -1.5e-06,
+          "actual_offset_exact": "-6755399441/4503599627370496",
+          "native_c_sha256": "19105ce5d2ef1366ca2ba2e0b552ed0b6cb7d2067605edbb668ff29d27e9c3ae",
+          "capture_sha256": "2ac9436b3e5f621102cc1503bdfcbc3f15d6e8e1c82968b56da9ffa1c60ee3c9",
+          "same_call_material_sha256": "1715f4313fb919ba9ad554fb74aca42fb61b47b163b13abbaec4aba9c7fe09ab",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 3,
+          "nominal_offset": 1.5e-06,
+          "actual_offset_exact": "6755399441/4503599627370496",
+          "native_c_sha256": "743a94e86f9f852d3c404fa74ccd3d57bcbf74aaa24bc249a96ce25ee716e4d6",
+          "capture_sha256": "b6c9ce30947ef83e9638e3debc78a611adc611a64f071bc890f5338e3452c167",
+          "same_call_material_sha256": "a6278f1f6844e6a36226206c2a4b9f00aabe784c9fc123483042e71420039766",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 4,
+          "nominal_offset": 3e-06,
+          "actual_offset_exact": "6755399441/2251799813685248",
+          "native_c_sha256": "edbc8d7788ea216f7899aade2c900fa5f825fea38522f3d79f6cad422c8470db",
+          "capture_sha256": "839d8b2cbb1d5f893b992dfe323572ea240f2adce519106d12722eb9f8749673",
+          "same_call_material_sha256": "984357fd98d5e7a89f0702ea8cd8b95e5bb0bd7726c25c2f388bd7a32013a843",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        }
+      ]
+    },
+    {
+      "protocol": "M27",
+      "column": 7,
+      "run_id": 42190295793,
+      "run_attempt": 1,
+      "group_id": "heart-base-c7-42190295793-1",
+      "source_checkout": "0d2a85533bc3f26695b26c668b35ef7a28288dfb",
+      "artifact_id": 13489572402,
+      "archive_sha256": "35e12499f4c50c327abbeaec5eaa0ce858fc9cac63e0037c5971bd9dab548f2b",
+      "encrypted_payload_sha256": "3c5db52b6d4e1bd9c7ae59caaeb776558a639aa9d5733e9e8c0a3d0eacb07b46",
+      "public_result_sha256": "732c5890f145e5912b8f56e8fd6d182e80074df8011443134d4caab9a57f3fbd",
+      "stencil_sha256": "f3fe74885277e3002ae0c2e6ee0bc0a789cca731b3b1fa17dd12bfc6f793bfe0",
+      "zero_host_swap_verified": true,
+      "cgroup_peak_bytes": 256700416,
+      "authenticated_files": 38,
+      "fresh_boolean_calls": 4,
+      "samples": [
+        {
+          "index": 1,
+          "nominal_offset": -3e-06,
+          "actual_offset_exact": "-1770887431076117/590295810358705651712",
+          "native_c_sha256": "b675ac6ab64979362b00aeb0a257df3c598a4e302f50ca1a1adf5422af65191a",
+          "capture_sha256": "05ff2660e2a193c8fafd7e2b7d22b8d9e6cc4b4758e1a40780c3cf95e79bd508",
+          "same_call_material_sha256": "2b8bcc1aa2c9659bb0818d77be734dc5b924a5bf549b6030b3cf6ab3b0ecb85b",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 2,
+          "nominal_offset": -1.5e-06,
+          "actual_offset_exact": "-1770887431076117/1180591620717411303424",
+          "native_c_sha256": "54980b66df91acbd451918d7063e3fcf899fce5ce77b94bee4b12330f1c1fb49",
+          "capture_sha256": "ed8f76df193b7e5d6931c9ee2aa5397e3c9326ed0963e78439f324a1ea84b409",
+          "same_call_material_sha256": "9f2d7eb6cf033473e25402f9de16bd6c1fa46dcc65db6177a0c7d0f2aa8d31fb",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 3,
+          "nominal_offset": 1.5e-06,
+          "actual_offset_exact": "1770887431076117/1180591620717411303424",
+          "native_c_sha256": "84b7c60c37811012a9a99ec1ca953963835cb9d396e6e4848ba66d7823fd5205",
+          "capture_sha256": "44c72ba537cd1949f481976bfe3fa6c3bd29cc2468b4c436e59e4c485667f63f",
+          "same_call_material_sha256": "881f35d1fc85881d2955508c9245a0dda55d5390e0ec3c8366b91a8e948260b3",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 4,
+          "nominal_offset": 3e-06,
+          "actual_offset_exact": "1770887431076117/590295810358705651712",
+          "native_c_sha256": "179141d0688689e00def12031896dbbd341dfaf5c6ca0c5596b87c493879a045",
+          "capture_sha256": "e87678c2ad9678e0a76c211271e6da494d914d6f5d592dbcbef23809830960ed",
+          "same_call_material_sha256": "00437cb06b345074ab9207bc96d42009c126d545ceebe4a8c15db94cd8e79821",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "dfbaa00809ed9d9530d78af97aebcb7cd2304c574d11bbb3fe8d826c4a6a48c1"
+        }
+      ]
+    },
+    {
+      "protocol": "M27",
+      "column": 8,
+      "run_id": 42190295793,
+      "run_attempt": 1,
+      "group_id": "heart-base-c8-42190295793-1",
+      "source_checkout": "0d2a85533bc3f26695b26c668b35ef7a28288dfb",
+      "artifact_id": 13490091826,
+      "archive_sha256": "b61222ac7abdb6ef0845e9fa217ecbd577d58fff90cda556f6700a8152387d53",
+      "encrypted_payload_sha256": "cb5d710d561117f6bb7772c6682a56955366ee8f223b639f8c9b5fe134d02cb4",
+      "public_result_sha256": "41528c01917f0965e25dea2174cd9b6afdbbcd754d7f560e9c9ce5ff2d00a3f3",
+      "stencil_sha256": "d4fed887a3c7cf5f2424376094e3257fc6cdbfc00cc31b4d84fb3d0ad5b50b13",
+      "zero_host_swap_verified": true,
+      "cgroup_peak_bytes": 257495040,
+      "authenticated_files": 38,
+      "fresh_boolean_calls": 4,
+      "samples": [
+        {
+          "index": 1,
+          "nominal_offset": -3e-06,
+          "actual_offset_exact": "-1770887431076117/590295810358705651712",
+          "native_c_sha256": "7f7ff7e09d27357f120187a43b39a83a0c2635e46f5cb12dfe1a712a9752fec5",
+          "capture_sha256": "0a0171c46ecde78dbd51ed01eb279b56eac85fbfbdfddf760b6479ebcedc7cc6",
+          "same_call_material_sha256": "349a64890ddea5f001a0d58104a4ac90e96056839fa37d97c28711b030ef3313",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 2,
+          "nominal_offset": -1.5e-06,
+          "actual_offset_exact": "-1770887431076117/1180591620717411303424",
+          "native_c_sha256": "65e1c1daf154eb66eb67ad1938518e583dce473dc3466af242e6d3523f006660",
+          "capture_sha256": "c1e07eaf381da4630299673a1db678d824a082823e4a92473d5aa684e6274103",
+          "same_call_material_sha256": "63626d50a9bde3c320acfcfeae2724ba899a115593367456c2b15813837cc540",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 3,
+          "nominal_offset": 1.5e-06,
+          "actual_offset_exact": "1770887431076117/1180591620717411303424",
+          "native_c_sha256": "c5e0f615f0cd8b433d894340d316116b2c1e3d015ab9644e6162ce0b760bc2ba",
+          "capture_sha256": "6d1247e329922d4ea037725cca580766584a36f1c8ad4844d4dd14be6c0349b9",
+          "same_call_material_sha256": "4f44e5f0a547ed6df6f737649e04119fa339572bd824b596b0e579b6387f869c",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 4,
+          "nominal_offset": 3e-06,
+          "actual_offset_exact": "1770887431076117/590295810358705651712",
+          "native_c_sha256": "2f1e2504935d9d6e7af3a668fea4cf946195e5da296147ade29dc5fff69de1d4",
+          "capture_sha256": "98d40e515223872ba3b7f8a95b15b4b7015a64105a0b136e528c157974afee11",
+          "same_call_material_sha256": "fdf69b3f5d640e22026bd57e0262572d0281aae4b538682d6301776c1603091b",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        }
+      ]
+    },
+    {
+      "protocol": "M27",
+      "column": 9,
+      "run_id": 42190295793,
+      "run_attempt": 1,
+      "group_id": "heart-base-c9-42190295793-1",
+      "source_checkout": "0d2a85533bc3f26695b26c668b35ef7a28288dfb",
+      "artifact_id": 13489319926,
+      "archive_sha256": "538cb15c1ec2778451458f5beb341d1a3cb9d49277109f299002023273bf46bf",
+      "encrypted_payload_sha256": "864b1361ceeda4d7e7bb23887957d6e751f555943555768922ca0e9d2b9f89c1",
+      "public_result_sha256": "a388eefdf52defbc6d4fcb60d5ae83e99108e499cc5a820e5b4eaaf438b38e47",
+      "stencil_sha256": "b8476a05ac68c423cf192df638013e6c034c4f1d7112717473cc9702e9ce669d",
+      "zero_host_swap_verified": true,
+      "cgroup_peak_bytes": 256610304,
+      "authenticated_files": 38,
+      "fresh_boolean_calls": 4,
+      "samples": [
+        {
+          "index": 1,
+          "nominal_offset": -3e-06,
+          "actual_offset_exact": "-1770887431076117/590295810358705651712",
+          "native_c_sha256": "79d56b131fc861e0bfc48fecd7f741041bdb8ced8a2874a37830ca6b8615bec7",
+          "capture_sha256": "b0a6c3e4f9154097bc1280fa749b34c80119395f02af2b173881400722f3bed7",
+          "same_call_material_sha256": "1089f8389dc526731a4f0c2ddfe1076f7297540aed146742aae46448b0c1fe88",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 2,
+          "nominal_offset": -1.5e-06,
+          "actual_offset_exact": "-1770887431076117/1180591620717411303424",
+          "native_c_sha256": "89c5ec88daabd9a4603a4c03f2e4d209a8838d21861f40696ba1210cfb150747",
+          "capture_sha256": "6472416e3d3a7f126fe7aaf368478cd21e41a8a31bbd37b8f016e290d6e8f1ff",
+          "same_call_material_sha256": "8213b6790f205aea25c7817af2c39cd8ce22c8f7236ac9fe08140c7ff1f1b25d",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 3,
+          "nominal_offset": 1.5e-06,
+          "actual_offset_exact": "1770887431076117/1180591620717411303424",
+          "native_c_sha256": "570a4f2f3ed38a4ab53f9d555e59019cd861c00e705cf3126a724d22e6ba3042",
+          "capture_sha256": "07ed7cb1a71d8062896362827c84ff492edd4b26096f613df21cac959a072112",
+          "same_call_material_sha256": "14d77b9bcb154f6367e9eee0f26887370a4aac8adef1f3f475f52af8bcc68c0f",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 4,
+          "nominal_offset": 3e-06,
+          "actual_offset_exact": "1770887431076117/590295810358705651712",
+          "native_c_sha256": "8b9a79d3c6eba5ab1011e1fe220582a18727a49dac0070402d1abce3a489ea2e",
+          "capture_sha256": "71c89c781b7aca5e730b775f5996d114b7cb81df8c94758aed84c2c6dbf44f8b",
+          "same_call_material_sha256": "1c7108ad21381d08de4968df76d23c929b367a755c3bfc68c9b2b515171aeced",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        }
+      ]
+    },
+    {
+      "protocol": "M28",
+      "column": 7,
+      "run_id": 42191401306,
+      "run_attempt": 1,
+      "group_id": "heart-base-c7-half-42191401306-1",
+      "source_checkout": "e8b61b74375187e5336765cd67c07ca1e8bd6b71",
+      "artifact_id": 13489029692,
+      "archive_sha256": "1ad774b47bd52e0137f7b8828def113186eb2691c44e44182f98b8cc5175ef89",
+      "encrypted_payload_sha256": "b9c5d90d70aa09c7c7faf6df15dea1699753e5464796d2d7ed9c1ffd396ac339",
+      "public_result_sha256": "ff90fbd92fa9ed168d2f75d5790097e39596f3edecc4e482627407353078a281",
+      "stencil_sha256": "a6659b0d0642895c59ecd09f32e0f92a88727e6e7f8a0615a221f300ce25061c",
+      "zero_host_swap_verified": true,
+      "cgroup_peak_bytes": 258510848,
+      "authenticated_files": 38,
+      "fresh_boolean_calls": 4,
+      "samples": [
+        {
+          "index": 1,
+          "nominal_offset": -1.5e-06,
+          "actual_offset_exact": "-1770887431076117/1180591620717411303424",
+          "native_c_sha256": "54980b66df91acbd451918d7063e3fcf899fce5ce77b94bee4b12330f1c1fb49",
+          "capture_sha256": "046bda3cf0cad65a102838ed7bf34939ac69fc92bdb45c547f34eff8d04a4055",
+          "same_call_material_sha256": "d1bf4b0e90c6afd324f429697e12535f83cb7c241453a52ea129fab55170c4e6",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 2,
+          "nominal_offset": -7.5e-07,
+          "actual_offset_exact": "-1770887431076117/2361183241434822606848",
+          "native_c_sha256": "9fff5405c580cbecd4f469366b42715ffdf704911a496fb1b9a307e0389a3d4a",
+          "capture_sha256": "a651ad2c7522d1e7a7d1429aca80a24bbcd708dbea8052114c0410ed1933ea13",
+          "same_call_material_sha256": "5bf42af0c8e91ab9835b3e668d05e446e314e32cf8a0a5ffaa88bae0d15e7827",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 3,
+          "nominal_offset": 7.5e-07,
+          "actual_offset_exact": "1770887431076117/2361183241434822606848",
+          "native_c_sha256": "440687d19a3132cc94e155bbaaeecd786d15cae63c31acabfe5e3702853e4a5d",
+          "capture_sha256": "4fc3267d91ae388bc632732398e60c6fce9609ce8e2c9ade383042ef69c7dc8d",
+          "same_call_material_sha256": "5b6848c6da0141518680e236d864ad7dacdd445e3992b8c06551a838f6389bb0",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        },
+        {
+          "index": 4,
+          "nominal_offset": 1.5e-06,
+          "actual_offset_exact": "1770887431076117/1180591620717411303424",
+          "native_c_sha256": "84b7c60c37811012a9a99ec1ca953963835cb9d396e6e4848ba66d7823fd5205",
+          "capture_sha256": "e43db5adec72933eb573942453dd0b9a6c95eaf466750ffbb4f3a8d0eec31c44",
+          "same_call_material_sha256": "559113488f7a9435822b21c7d76812cc200f0337e4c4c666d537ce2eba3fb298",
+          "vertices_reconstructed_in_both_frames": 8455,
+          "face_counts": {
+            "design_same": 16034,
+            "quadric_reversed": 876
+          },
+          "construction_counts": {
+            "EXPLICIT3D_design": 7625,
+            "EXPLICIT3D_quadric": 46,
+            "LPI_design": 696,
+            "LPI_quadric": 88
+          },
+          "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270"
+        }
+      ]
+    }
+  ],
+  "fresh_native_boolean_calls": 32,
+  "independent_operand_replay_calls": 0,
+  "split": "excluded",
+  "J_D": null,
+  "training_admitted": false,
+  "repeated_c7_coordinates": [
+    {
+      "native_c_sha256": "54980b66df91acbd451918d7063e3fcf899fce5ce77b94bee4b12330f1c1fb49",
+      "run_ids": [
+        "heart-base-c7-42190295793-1-002",
+        "heart-base-c7-half-42191401306-1-001"
+      ],
+      "changed_material_fields": [
+        "moment_jacobian"
+      ],
+      "different_diagnostic_jacobian_entries": 42,
+      "max_absolute_jacobian_delta": 1.3877787807814457e-17,
+      "same_material": false,
+      "same_exact_boundary": true,
+      "same_ordered_parent_face_map": true
+    },
+    {
+      "native_c_sha256": "84b7c60c37811012a9a99ec1ca953963835cb9d396e6e4848ba66d7823fd5205",
+      "run_ids": [
+        "heart-base-c7-42190295793-1-003",
+        "heart-base-c7-half-42191401306-1-004"
+      ],
+      "changed_material_fields": [
+        "moment_jacobian"
+      ],
+      "different_diagnostic_jacobian_entries": 45,
+      "max_absolute_jacobian_delta": 2.7755575615628914e-17,
+      "same_material": false,
+      "same_exact_boundary": true,
+      "same_ordered_parent_face_map": true
+    }
+  ]
+}
