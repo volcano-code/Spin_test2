@@ -1,0 +1,72 @@
+{
+  "construction_sha256": "27417dd856cfca3c63cc89e858f04628b34e14057d3fdc3bdf9acba3330bec9e",
+  "newton_evaluations": 0,
+  "operations": [
+    {
+      "executable_sha256": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+      "faces": 36986,
+      "input_sha256": "e1412fb0bea41fdb3bab110c79fb3110b8d86d24fa7628ba5c4c1bba23d28549",
+      "left": "Fprime",
+      "name": "U",
+      "operand_sha256": "05bcae303ca7d7b2b478e1a9f66293ca07f9ef2cc275cda966ded34c62dc5e74",
+      "operation": "union",
+      "output_sha256": "5b279ebed8b8690a80bc22ff95876f73cf38a12dde4f2b52f4f3067669f3f576",
+      "right": "Dprime",
+      "seconds": 423.9152997450001,
+      "vertices": 18495
+    },
+    {
+      "executable_sha256": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+      "faces": 0,
+      "input_sha256": "e1412fb0bea41fdb3bab110c79fb3110b8d86d24fa7628ba5c4c1bba23d28549",
+      "left": "Fprime",
+      "name": "overlap",
+      "operand_sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "operation": "intersection",
+      "output_sha256": "88ffb0466c6f72bb5925b365c819512ece82cac07e88d811ccb041ec985d5a3b",
+      "right": "Dprime",
+      "seconds": 398.3388797680018,
+      "vertices": 0
+    },
+    {
+      "executable_sha256": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+      "faces": 0,
+      "input_sha256": "36e7fed1d1dc840c4a8a7392dc633c4401ba98a279c546521da078c9267e7b95",
+      "left": "A",
+      "name": "missing",
+      "operand_sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "operation": "difference",
+      "output_sha256": "74c74da477e319ca76f2baf7198f87838918af59a198bd776b67204489d1de48",
+      "right": "U",
+      "seconds": 224.95958835000056,
+      "vertices": 0
+    },
+    {
+      "executable_sha256": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+      "faces": 0,
+      "input_sha256": "36e7fed1d1dc840c4a8a7392dc633c4401ba98a279c546521da078c9267e7b95",
+      "left": "U",
+      "name": "excess",
+      "operand_sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "operation": "difference",
+      "output_sha256": "74c74da477e319ca76f2baf7198f87838918af59a198bd776b67204489d1de48",
+      "right": "A",
+      "seconds": 110.57107033499778,
+      "vertices": 0
+    },
+    {
+      "executable_sha256": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+      "faces": 0,
+      "input_sha256": "2c03bf2357229ae5b86f000f4014925a62a1391267c7d2780401eca7c828839b",
+      "left": "F",
+      "name": "fixed-missing",
+      "operand_sha256": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "operation": "difference",
+      "output_sha256": "74c74da477e319ca76f2baf7198f87838918af59a198bd776b67204489d1de48",
+      "right": "Fprime",
+      "seconds": 724.3940117390011,
+      "vertices": 0
+    }
+  ],
+  "schema": "m34-cgal-regularized-partition-checks-v1"
+}
