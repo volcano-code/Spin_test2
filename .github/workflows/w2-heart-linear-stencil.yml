@@ -119,16 +119,14 @@ jobs:
             -p "WorkingDirectory=$GITHUB_WORKSPACE" -p MemoryHigh=7G -p MemoryMax=9G -p MemorySwapMax=0 \
             -p OOMPolicy=continue -p RuntimeMaxSec=1200s -p CPUQuota=200% \
             --setenv="RUNNER_TEMP=$RUNNER_TEMP" --setenv="PATH=$PATH" --setenv="PYTHONPATH=$PYTHONPATH" --setenv="LD_LIBRARY_PATH=$LD_LIBRARY_PATH" \
-            --setenv=OMP_NUM_THREADS=1 --setenv=OPENBLAS_NUM_THREADS=1 --setenv=PYTHONINTMAXSTRDIGITS=100000 --setenv="GROUP_ID=$GROUP_ID" --setenv="DRIVER=$DRIVER" --setenv="PROTOCOL=$PROTOCOL" \
+            --setenv=OMP_NUM_THREADS=1 --setenv=OPENBLAS_NUM_THREADS=1 --setenv=PYTHONINTMAXSTRDIGITS=100000 --setenv="GROUP_ID=$GROUP_ID" --setenv="DRIVER=$DRIVER" \
             /bin/bash -c '
               set -eu
               group=/sys/fs/cgroup$(sed -n "s/^0:://p" /proc/self/cgroup)
               snapshot() { for key in memory.high memory.max memory.swap.max memory.peak memory.events; do echo "$key"; cat "$group/$key"; done; }
               snapshot > artifacts/runtime/cgroup-before.txt
               trap "snapshot > artifacts/runtime/cgroup-after.txt" EXIT
-              args=()
-              if [[ "$PROTOCOL" == base-c[3-9] ]]; then args=(--column "${PROTOCOL#base-c}"); fi
-              python "research/NeuralMoments/teacher/$DRIVER" "${args[@]}" --prepared-request "$RUNNER_TEMP/h8-request/prepared-request.json" \
+              python "research/NeuralMoments/teacher/$DRIVER" --prepared-request "$RUNNER_TEMP/h8-request/prepared-request.json" \
                 --module-manifest artifacts/runtime/module-manifest.json --output "artifacts/$GROUP_ID"
             ' > "$RUNNER_TEMP/w2-native.log" 2>&1
           status=$?

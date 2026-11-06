@@ -4,7 +4,7 @@ import unittest
 from m23_fresh_point0 import HERE, NATIVE_C
 from m24_capture_c0 import H
 from m24_c0_operand_replay import replay
-from m27_capture_base_column import COLUMNS, plan
+from m27_capture_base_column import COLUMNS, column_from_group, plan
 
 
 class BaseColumnCaptureTest(unittest.TestCase):
@@ -36,6 +36,13 @@ class BaseColumnCaptureTest(unittest.TestCase):
         for col in (-1, 0, 2, 10, True, 3.0):
             with self.subTest(col=col), self.assertRaisesRegex(ValueError, 'UNREGISTERED_BASE_COLUMN'):
                 plan('demo', self.modules, 'a'*40, column=col)
+
+    def test_native_cli_selects_only_the_named_base_group(self):
+        for column in COLUMNS:
+            self.assertEqual(column_from_group(f'heart-base-c{column}-42189847862-1'), column)
+        for invalid in ('heart-c7-123-1', 'heart-base-c7-half-123-1', 'heart-base-c3-0-1'):
+            with self.assertRaisesRegex(ValueError, 'UNREGISTERED_BASE_GROUP'):
+                column_from_group(invalid)
 
     def test_cannot_replay_event_as_base_c7(self):
         with self.assertRaisesRegex(ValueError, 'SPECIFY_ONE_STENCIL_PROTOCOL'):

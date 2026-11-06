@@ -2,6 +2,7 @@
 import argparse
 from functools import partial
 import json
+import re
 from pathlib import Path
 
 from m16_native_acceptance import file_hash, require, strict_json
@@ -29,13 +30,18 @@ def plan(group_id, modules, source_checkout, *, column):
     return result
 
 
+def column_from_group(group_id):
+    match = re.fullmatch(r'heart-base-c([3-9])-[1-9][0-9]*-[1-9][0-9]*', group_id)
+    require(match is not None, 'UNREGISTERED_BASE_GROUP')
+    return int(match.group(1))
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--column', type=int, choices=COLUMNS, required=True)
     parser.add_argument('--prepared-request', type=Path, required=True)
     parser.add_argument('--module-manifest', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     result = campaign(args.output, args.module_manifest, args.prepared_request,
-                      event_plan=partial(plan, column=args.column))
+                      event_plan=partial(plan, column=column_from_group(args.output.name)))
     print(json.dumps(result, indent=2))
