@@ -24,8 +24,8 @@ def campaign(tmp_path, monkeypatch):
     base = (cap, q, [F(1)]*10, jac, mesh, dict(exact_moments_sha256=batch.POINT0_EXACT_TEN, capture_sha256=batch.BASE_CAPTURE))
     receipts = {}
     samples = {}
-    for col, half in [(k, False) for k in batch.COLUMNS] + [(7, True)]:
-        group_id = 'heart-base-c7-half-1235-1' if half else f'heart-base-c{col}-1234-1'
+    for col, half, attempt in [(k, False, 1) for k in batch.COLUMNS] + [(3, False, 2), (4, False, 2), (7, True, 1)]:
+        group_id = 'heart-base-c7-half-1235-1' if half else f'heart-base-c{col}-1234-{attempt}'
         schema = 'w2-m28-base-c7-half' if half else batch.SCHEMA
         group = tmp_path / group_id
         group.mkdir()
@@ -54,7 +54,7 @@ def campaign(tmp_path, monkeypatch):
         (group/'stencil.json').write_bytes(encode(plan))
         result['stencil_sha256'] = digest_bytes(encode(plan))
         (group/'stencil-result.json').write_bytes(encode(result))
-        if not half:
+        if not half and attempt == 1:
             receipts[str(col)] = digest_bytes(encode(result))
 
     def load_sample(path, run_id, capture_sha, expected_c, *, sample_schema):
@@ -123,3 +123,35 @@ def test_m28_smaller_radius_is_scored_separately_and_requires_m27_outer_rejectio
     m27_path.write_bytes(encode(m27))
     with pytest.raises(ValueError, match='requires an M27 outer geometry rejection'):
         batch.audit(*args, prior_m27=m27_path)
+
+
+def test_mixed_attempts_bind_the_receipt_and_every_packet_to_the_requested_job(campaign):
+    base, group, run_id, _, sha, receipts = campaign
+    attempts = {str(k): 2 if k in (3, 4) else 1 for k in batch.COLUMNS}
+    for k in (3,4):
+        path = group / f'heart-base-c{k}-1234-2' / 'stencil-result.json'
+        receipts[str(k)] = digest_bytes(path.read_bytes())
+    out = batch.audit(base, group, run_id, None, sha, receipts, attempts_by_column=attempts)
+    assert out['run_attempt'] is None and out['attempts_by_column'] == attempts
+    for k, attempt in attempts.items():
+        row = out['columns'][k]
+        assert row['run_attempt'] == attempt and row['group_id'] == f'heart-base-c{k}-1234-{attempt}'
+    attempts['3'] = 1
+    with pytest.raises(ValueError, match='published result mismatch'):
+        batch.audit(base, group, run_id, None, sha, receipts, attempts_by_column=attempts)
+
+
+@pytest.mark.parametrize('bad', [True, 0, -1, 1.0, '2', None])
+def test_invalid_mixed_attempt_identity_rejected(campaign, bad):
+    attempts = dict.fromkeys(map(str, batch.COLUMNS), 1)
+    if bad is None:
+        del attempts['3']
+    else:
+        attempts['3'] = bad
+    with pytest.raises(ValueError, match='one positive attempt per M27 column'):
+        batch.audit(*campaign[:3], None, *campaign[4:], attempts_by_column=attempts)
+
+
+def test_c7_half_requires_one_explicit_attempt(campaign):
+    with pytest.raises(ValueError, match='one positive attempt per M27 column'):
+        batch.audit(*campaign[:3], None, *campaign[4:], attempts_by_column={'7':1}, prior_m27=campaign[0])
