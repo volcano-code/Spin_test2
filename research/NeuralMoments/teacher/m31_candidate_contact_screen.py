@@ -83,7 +83,7 @@ def voxel_facts(asset):
                 registered_origin_below_outer_by_at_least=bottom,design_cells_touching_exterior=exposed,
                 minimum_clearance_lower_bound=float(step.min()) if exposed==0 else 0.)
 
-def noodles_sources(root, manifest):
+def noodles_sources(root, manifest, *, consume=None):
     """Regenerate and authenticate every model OBJ shipped under the original V7 manifest."""
     generator=root/NOODLES/'source/generator'
     sources={'noodles_dense_v3_input.py':'c345c4034d41f39f64fd6d19ee9ca32ea8d6c2fbd528b00d68ff3a12f3a39447',
@@ -110,6 +110,8 @@ def noodles_sources(root, manifest):
             original.write_obj(file,mesh)
             data=read(file.parent,file.name,manifest['parts'][name]['sha256_model'])
             vertices,faces=obj(data)
+            if consume is not None:
+                consume(name, vertices, faces)
             if name=='outer-ellipsoid':
                 envelope=vertices; tris=faces
             else:
