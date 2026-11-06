@@ -37,3 +37,12 @@ python "$p/m35_verify_crossing.py" --directory "$out" --output "$out/replayed.js
 ```
 
 归档 `Spin_test2_M35_W2_exact_crossing_packets.tar.gz` 含 84 个文件，SHA-256 为 `9ce3ab218674744af3ced17e2cf04d720a2fd59dd53c858d696f01184b9f7267`。内含所有 14 份精确输出、源面、原生运动、裁刀、回执、逐项完整源映射复查，以及五组缓存对照。原始 seed0 捕获使用归档中的早期通用适配器；仓库版本另输出 Eigen 实际归一化后的 q。14 份归档样本的系数、几何、运动与原始索引都已逐项复查。时间与编译器相关的可执行程序摘要是本次运行记录。M35 研究后端采用精确输入 CGAL/libigl 布尔。Cherchi 教师准入、交叉样本的 Newton 结果、制造约束及端到端加速分别由其对应实验判断。
+
+## 局部椭球的完整原生系数差分补充
+
+同一基点的 10 个原生系数方向各使用两种步长、正负两个扰动，共 41 点。对全部裁刀验证其顶点严格在同一个凸盒内，因此先裁 D′ 再求交与直接求交给出同一实体。保留 41 份原始裁剪布尔输出，再把子面来源映回原始 D′ 和裁刀索引。所有输出均有 482 面，都未出现来自盒边界的面。与直接全域运算重叠的 13 点还逐个验证了精确坐标、有向面和原始来源面的多重集相等。其余 28 点通过局部域取得。该补充扩大的是同一局部椭球的导数覆盖范围，其他初值与曲面类型仍需各自检验。[41 点逐样本摘要](M35_NOODLES_CROP_STENCIL.json)
+
+```bash
+python "$p/m35_crop_stencil.py" --parent "$out" --out "$out/all-columns" \
+    --source "$build/source" --csg "$build/exact-input-boolean"
+```

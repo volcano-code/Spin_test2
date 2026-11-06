@@ -1,0 +1,257 @@
+{
+  "additional_csg_calls": 36,
+  "all_receipts_sha256": "080db4a63b39b5887a266c798725bb7a6aaaf0d80d147407d02aba71e278aca4",
+  "based_on_w2_commit": "b8f8308eddee6ba407ae62c0dfeee819cefe614e",
+  "direct_matches": 13,
+  "faces_per_position": [
+    482
+  ],
+  "geometry_identity": "All vertices strictly inside dyadic box; zero remapped box parents; exact rational oriented faces and their original parents match at all 13 direct probes.",
+  "positions": 41,
+  "protocol": {
+    "columns": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "crop_sha256": "1a4d3f88e7fa76d1e6269ad6157f084edb2dfb608b780502f03ac407468ab15c",
+    "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+    "executor_sha256": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+    "exponents": [
+      19,
+      20
+    ],
+    "parent_protocol_sha": "64c685c735f94f5cceee11fe285d13d1fb4bd3067c12427bf560185f6a790895",
+    "purpose": "complete local ellipsoid FD against exact boxed Dprime; original direct 13-point reference unchanged",
+    "q": [
+      -0.547855614638731,
+      0.04626680759438334,
+      0.051864237839448046,
+      0.7724315288486056,
+      -0.06586723910174554,
+      -0.12948648558553372,
+      -0.2769142655910663,
+      -0.021581080930922286,
+      0.0018064854605963961,
+      0.010838912763578377
+    ],
+    "source_sha256": "829453167b91712fb4483642d830d2453eb44191c8e1ffb5bb9775ed00c5c3fd"
+  },
+  "protocol_sha256": "1f6804346b8ea0b351d75a9c4b0146adf78e48b152f892f56b7feb4910fed939",
+  "retained_region": "Dprime intersect bounded ellipsoid",
+  "reuse_five_preexisting": true,
+  "samples": {
+    "base": {
+      "direct_comparison": true,
+      "receipt_sha256": "e20d12a5f4dcc33e1fb494badafd84242ae024d418b56a04da0ca54082db20a2",
+      "remapped_result_sha256": "83eaffde3d0eda4f8b49deb9cbcab611c3d4bb05afea62474004808f89a20120"
+    },
+    "c0_m19": {
+      "direct_comparison": true,
+      "receipt_sha256": "e8901d83cfe47758f5d9ccf01522a6bae6591a33567114782634c442954e13cc",
+      "remapped_result_sha256": "1c2d2707f3d36dd74600778c67b6424f5c31b26fc9cd099af92a5106af4cdede"
+    },
+    "c0_m20": {
+      "direct_comparison": true,
+      "receipt_sha256": "f82c86edc73fed4afed66ea3dde6d865810459268f4bbfd16049bef6183da03c",
+      "remapped_result_sha256": "7ca5baf87dcf38e20af2dbc4aa76f94363fc17d55cde30c8d7694156063bb06f"
+    },
+    "c0_p19": {
+      "direct_comparison": true,
+      "receipt_sha256": "caa39879ad5caf081c5586ea6791ca95a4136964f45eb19665465bc503161099",
+      "remapped_result_sha256": "960d1a9672c6a0fdd62ac94ea5edc4a920bf97a8e4bae589e64ae5a10228bd1d"
+    },
+    "c0_p20": {
+      "direct_comparison": true,
+      "receipt_sha256": "23ee4eaf123af0fc9e913e5efc7a9ccfa74d28c09f58aeca04685f0ce51e03f0",
+      "remapped_result_sha256": "9cf7bd48f732b1458e73cc3a4fc23fef47f5e9536b576f1559d303f9dcf1bc02"
+    },
+    "c1_m19": {
+      "direct_comparison": true,
+      "receipt_sha256": "41c5f75d21419505906d7948b7be0a1a9914addfada89b740e90e376581a1f2e",
+      "remapped_result_sha256": "f89a75c8c3d8616634bbe7826e986c93053e985ad83dd586fa3db662c9d59f5b"
+    },
+    "c1_m20": {
+      "direct_comparison": true,
+      "receipt_sha256": "db99bdf288ec8d4d6f38eca4db351b8009434dc06b4a68a341aa9f973c2f9462",
+      "remapped_result_sha256": "0bb5ae314c73748f4ebe0cee34c6615e52c2c979aa6177c8aced5e3ce73cdae2"
+    },
+    "c1_p19": {
+      "direct_comparison": true,
+      "receipt_sha256": "b57cf7b7ae107fbb07adbb8a97050039211c6cd4e20fe9b767427bd118857f23",
+      "remapped_result_sha256": "0ace0b5542109f83855ee5370044039bed9f702c11c60e24dd1f2d8249a6e4a9"
+    },
+    "c1_p20": {
+      "direct_comparison": true,
+      "receipt_sha256": "66bb953e54bf33fc7a71191a25fac35edbb08bb336227437917f78f8c6ad8b0a",
+      "remapped_result_sha256": "393bd737cc76a0a618e8dac116d7d2d9ec1ffe6bd3984111786047d525e2498f"
+    },
+    "c2_m19": {
+      "direct_comparison": false,
+      "receipt_sha256": "5b43067279bacbfddf9a50e5d89e1a20dee47f8f2b3baabc0c6ac6e9889c0206",
+      "remapped_result_sha256": "5799704657955a4460318e6e53c0790904c828f0a9bb10291712ed0f05c1f188"
+    },
+    "c2_m20": {
+      "direct_comparison": false,
+      "receipt_sha256": "c3c5792119cea75ceed40b21a2699108f6be2f0d40eb25a5cd5b01a30dee51d8",
+      "remapped_result_sha256": "5b5453a5d7926629b1c1a14c937ad823010c29fd9159c6d0804cf9a2b47ef5ef"
+    },
+    "c2_p19": {
+      "direct_comparison": false,
+      "receipt_sha256": "fa30baecc7e00410bc68c269cc330e5f664f1ab1235da8f36647d1891706e396",
+      "remapped_result_sha256": "4b63e31f257159c7911e7d2c0c38c3f650493a0c4eee637b1652525937a248fc"
+    },
+    "c2_p20": {
+      "direct_comparison": false,
+      "receipt_sha256": "c990136a35cf80205b64490691f5a07b59e7b6d36d47c8059b59d9b0f25dde65",
+      "remapped_result_sha256": "44a9eb3dcd7b7b4def2cceef9d8baf44c6b9b17f1974ed07f4f4c27ff17e88ee"
+    },
+    "c3_m19": {
+      "direct_comparison": false,
+      "receipt_sha256": "083ad3ae787a44b41a28d7afcf48c275dd3132b0a815a5beb2f453f397c4e6f9",
+      "remapped_result_sha256": "b9b99c466d476503911a2c4dc7434644d7538a457363e194832e4e3f04e21945"
+    },
+    "c3_m20": {
+      "direct_comparison": false,
+      "receipt_sha256": "556b6b53b1f5a9f2f58b1d92eefcc58778658fb9ccc5b6ed30e4e29ef02f736e",
+      "remapped_result_sha256": "adac4c127c06f572085e692ecbeeab5dbe474dff1086f014c2ff643021a02c04"
+    },
+    "c3_p19": {
+      "direct_comparison": false,
+      "receipt_sha256": "977173ad0f65b7a14096120f7bdb6f759d179dcad2c3fa4bb7fd18f0eb9aacc2",
+      "remapped_result_sha256": "5f25260805f328b834b7d3ed92b5586a45074c2c85f04fa1f07e25e34d39fd5a"
+    },
+    "c3_p20": {
+      "direct_comparison": false,
+      "receipt_sha256": "6cbb2cb2f188015fdcd00a09aa6e3af1372c18804c86a238ab989ba1dc010e08",
+      "remapped_result_sha256": "5cd4899118fdfcc2259efa2fc37959b11dbd672828f0d7256ab93a9faf49455e"
+    },
+    "c4_m19": {
+      "direct_comparison": false,
+      "receipt_sha256": "56f7a15eaeb9023a59e917fdd9d0a58dea9f435afcfec84dc25378bdab9a94a0",
+      "remapped_result_sha256": "0b0dae1d346e497dbf3842bec8d4ca3ad052f4610e79e6352e287fc560446dff"
+    },
+    "c4_m20": {
+      "direct_comparison": false,
+      "receipt_sha256": "2732dd3a4710747b46caa7da1445f1f8ddfa90beff95ee964b662c632939af0b",
+      "remapped_result_sha256": "16200e9969f9b91ae17f3060343d70119ca050ca90dbfbe3e8329adc838d87ee"
+    },
+    "c4_p19": {
+      "direct_comparison": false,
+      "receipt_sha256": "4cba4adbf1617e89f8d5d6c6d37e171e96d9604671a0f2bde59aa4629631a48e",
+      "remapped_result_sha256": "0634c349975bca352af4dda786512409894f8dc794ae39ab3e42dab29cfe74d0"
+    },
+    "c4_p20": {
+      "direct_comparison": false,
+      "receipt_sha256": "2136f83fc2016d21f5eda2f42bde123847ca502f8613f3d7dec54f72d48fe99f",
+      "remapped_result_sha256": "d84f556a9e99c4c5bdb4512db0ee0b3659bd839b0c02df05019f52002738d222"
+    },
+    "c5_m19": {
+      "direct_comparison": false,
+      "receipt_sha256": "6cb70287d99eb2b2ad099529d657c8095e940f7f5a5e3014978c578ffca6c3bc",
+      "remapped_result_sha256": "5e2370d5f9909818c9772dfda0040a42c907be637fe5128c873cfe7f832e8c55"
+    },
+    "c5_m20": {
+      "direct_comparison": false,
+      "receipt_sha256": "d131dfb2ba68972b02920bf1e6e04366398e3766d29dc9aea712acb4ac9f754b",
+      "remapped_result_sha256": "abee0eaf4210aa2a93d69ba1dd4c96356a80ca79b0e6ecb3df5ea56dd43edfd6"
+    },
+    "c5_p19": {
+      "direct_comparison": false,
+      "receipt_sha256": "89c39f59a17bce4424ea8a55bc3b971b015ddbc8a5556a9195bbb5d270c42dad",
+      "remapped_result_sha256": "871d0478ea723de46acd05a7c2bff385022f1c72582f547bc0012b5b806c30e9"
+    },
+    "c5_p20": {
+      "direct_comparison": false,
+      "receipt_sha256": "576641c1ca97b36e5cb465b85735dd9243e4f2e5f9cf3bbf1fffad63a6cb335b",
+      "remapped_result_sha256": "737ef6cfd1a6304cf97201fd37c11777d52644ebfff0f398a36cb4e356733bc2"
+    },
+    "c6_m19": {
+      "direct_comparison": false,
+      "receipt_sha256": "9082f6353ecbb0041d4360d5991ecbbefbc3cb9402cbc6a1e46561a85f895cf9",
+      "remapped_result_sha256": "a7cfbf5799677514fc9f80630b4923a2452e16b6058417fd86604670e13d0f2c"
+    },
+    "c6_m20": {
+      "direct_comparison": false,
+      "receipt_sha256": "b1d71c55672b20c25f9e36199276edb05714dddac2815973f5c3b3f89413adaa",
+      "remapped_result_sha256": "aaddf0f7e7168b77ec6e5cded81d4bfa79ef8d001b4b231d83f13dbe2028499d"
+    },
+    "c6_p19": {
+      "direct_comparison": false,
+      "receipt_sha256": "3e2f6b4911a2bd46488d89d855648a97b1f01cda0bd0ac939fe0e15090e550b9",
+      "remapped_result_sha256": "ed00ab76084c3d46e587647aa86b6f58b96b1370fed68f676206bf3a10fa182b"
+    },
+    "c6_p20": {
+      "direct_comparison": false,
+      "receipt_sha256": "c258fa52d9dd0720770a9940b5d3549210d699c9aaff30246ff3d601f6213cdf",
+      "remapped_result_sha256": "b15c63a8bb162c8eae0ba1d831602483d8a234f76ad19c0574ec65f95e72603d"
+    },
+    "c7_m19": {
+      "direct_comparison": false,
+      "receipt_sha256": "e30ce67157740dbf0130039e6920b34fa7ad375ae0af50293f654535ef6bee12",
+      "remapped_result_sha256": "46861639bc1b5f147728b81b58ca1e72ad06d71e3f7f65e05b21a14d88f04e14"
+    },
+    "c7_m20": {
+      "direct_comparison": false,
+      "receipt_sha256": "0a0ce93e16e303a3f52fb713100ef7855350d91b668afe0fc027c4ba744596c3",
+      "remapped_result_sha256": "60fc1c5a2598554ee88c6ddfd4ae2f065adb941d9a35977c68fbbc63cee503ba"
+    },
+    "c7_p19": {
+      "direct_comparison": false,
+      "receipt_sha256": "928f5c5c3217f62a98004d1551fb1d6f9781e07274abe87776359263cb9001ba",
+      "remapped_result_sha256": "e0c2c54d81fe642ab9e03d9a4041d5de14e3780b60549faca5afd30ab0f776c3"
+    },
+    "c7_p20": {
+      "direct_comparison": false,
+      "receipt_sha256": "dfc61677a5f03559381dc0e2fe074522a0c98bea780dc375eaf9b04a8499a470",
+      "remapped_result_sha256": "78de7de03ec4c0aaae09b3e80c63ef692946dcd18b850cad698fd30207ebf485"
+    },
+    "c8_m19": {
+      "direct_comparison": true,
+      "receipt_sha256": "da3f7eb00e80db386905a3b6c4b9730363802e5f2cef7d298e993f0073e760dd",
+      "remapped_result_sha256": "0ed162e80bfe73a061c6778cfbde8ef73577dec7cbd1a50a871c290a7efedd74"
+    },
+    "c8_m20": {
+      "direct_comparison": true,
+      "receipt_sha256": "6eb1b9cf2b1383fde70c9eeeba49fe91187b475388e9ff3faee9b2ee98eb56a8",
+      "remapped_result_sha256": "f25bb269ea56389482cae3c559d8dc24ce7857d9d4696f33a0904035ae5e37c1"
+    },
+    "c8_p19": {
+      "direct_comparison": true,
+      "receipt_sha256": "c09fc91cf076952b7e1ae474385c489b2be1e957fd21e1d998db85b980054eaf",
+      "remapped_result_sha256": "823128733da7e260cced6ab6c1d1269af02eb6adf1bf4b85616c7f8631639c05"
+    },
+    "c8_p20": {
+      "direct_comparison": true,
+      "receipt_sha256": "4cc7f53ab3192fe2eafcb7e4dd4bb3a47dd91638dc01a79003ed9caef2b9e5b3",
+      "remapped_result_sha256": "6394c43f4c576acf3aaf8f524cd26b78ef1c1ce47012b42933a21b6326e50a1b"
+    },
+    "c9_m19": {
+      "direct_comparison": false,
+      "receipt_sha256": "6754032af451de4f86a45544f0901ce130fe4c3190a331ca8222d5beb90e6588",
+      "remapped_result_sha256": "5f916e1299c75847466c1797c9b00efacbc3e7b6518a45b97deea169726cd684"
+    },
+    "c9_m20": {
+      "direct_comparison": false,
+      "receipt_sha256": "2625309ada65dc772f515343c844ae0e69733133ef5f97e59f75db628fadbf42",
+      "remapped_result_sha256": "46da6b9e545e7056f5ef2dab09a9fd297b078d3bed9e4bb08c73716890d63390"
+    },
+    "c9_p19": {
+      "direct_comparison": false,
+      "receipt_sha256": "7a61338a7717ccde29895253200c92755dcea2ea390f1c0b6597e439dad561aa",
+      "remapped_result_sha256": "d4cdd3cee1e4baae1bef7bfdfa7b866eb8f6bfb59474ce9bb925c447b42e53ca"
+    },
+    "c9_p20": {
+      "direct_comparison": false,
+      "receipt_sha256": "1eb2d0e1369011a70ad85641888959b8edfb797406f21a8c485457f9c464d40c",
+      "remapped_result_sha256": "72345787b8554d4db9680a33ecb462d138fb617527d6ebccab13e639b2bb5067"
+    }
+  }
+}
