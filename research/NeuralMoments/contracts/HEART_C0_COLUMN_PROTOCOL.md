@@ -1,0 +1,10 @@
+# First Heart coefficient derivative check
+
+Freeze the accepted M23 point-000 material (capture SHA-256 `816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04`), request, evaluator configuration and all three ELF modules. Perturb only native `c[0]`, the constant coefficient; its conversion to the polynomial coefficient has factor one. Compare the base material's ten stored `moment_jacobian[i][0]` values to differences of exact target-frame variable-domain moments in order `m,x,y,z,xx,yy,zz,yz,xz,xy`. The fixed domain contributes zero to these derivatives.
+
+1. Use four fresh calls at nominal offsets `-0.000003, -0.0000015, +0.0000015, +0.000003`, and the separately authenticated base point. Independently reintegrate all five saved oriented meshes and check each saved rational moment.
+2. Compare source triangle connectivity, the set of normalized per-vertex operand/construction identities, and the multiset of oriented output triangles in those identities. Canonicalize edge/plane operand order and cyclic rotations; retain face winding and multiplicity. Record changed identities and triangles even if the finite-difference check passes.
+3. Build exact Lagrange differentiation weights at the base for the two three-point stencils and the five-point stencil. Use the actual stored binary64 coefficients as rationals. For each stencil require all ten component errors divided by `max(1,abs(J[i][0]))` to be at most `1e-6`. This scale and threshold follow the frozen H8f numerical check. Record individual values and errors at both step sizes and on the combined stencil.
+4. Report numerical agreement and sampled geometry agreement separately, plus the conjunction for this one column. These finite samples leave continuous-neighborhood validity, the complete Jacobian, Newton admission and training admission open.
+
+Historical normalization: `research/NeuralMoments/contracts/real_h8f_81_m9.py`; error convention: `research/Heart_v1_20261017/Heart_H8_Asymmetric_CAD_20261018/source/probe_h8_jacobian.py` (`finite_checks`).
