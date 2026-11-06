@@ -1,9 +1,28 @@
 """Regression tests for M21 numeric success versus intentional W0 exclusion."""
 import hashlib
 import json
+import math
+from pathlib import Path
+from types import ModuleType
 import unittest
-import test_memory_policy as harness
-pilot=harness.p
+
+
+def load_archived_m21_gate():
+    """Load the predicate shipped by ce578183 (the M21 launcher is external)."""
+    path = Path(__file__).with_name('M21_DIAGNOSTIC_EXIT_SEMANTICS.patch')
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != '56d5d5030a4f49b39bf010a417d4d0ea7d6c229de0728c5f101f3b12089732da':
+        raise ValueError('M21 pilot patch differs from the reviewed release')
+    # Unified diff lines 10–67 are all new lines plus the retained "return False".
+    # Remove only the diff prefix. Exercise the historical code itself.
+    source = ''.join(line[1:] for line in raw.decode().splitlines(keepends=True)[9:67])
+    module = ModuleType('archived_m21_pilot_gate')
+    module.__dict__.update(json=json, math=math)
+    exec(compile(source, str(path), 'exec'), module.__dict__)
+    return module
+
+
+pilot = load_archived_m21_gate()
 
 
 def digest(value):

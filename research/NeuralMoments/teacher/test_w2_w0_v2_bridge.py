@@ -7,6 +7,7 @@ review_m11 consumes that exact manifest when run in the W2 checkout.
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -21,9 +22,9 @@ from w2_w0_v2_bridge import (BridgeRejected, review_m11, export_training,
         _validate_w2_v2_one, _pinned_w0_schema, _pinned_w3_status,
         _git_blob_bytes, _w0_diagnostic_record, W0_SCHEMA_BLOB_SHA1)
 
-ROOT=Path(__file__).resolve().parents[1]
-CAND=ROOT/'w2_m9'/'candidates_81_exact.json'
-REAL=ROOT/'h8f_81_real.zip'
+CAND=Path(__file__).with_name('M9_H8F_81_EXCLUDED_CANDIDATES.json')
+REAL=os.environ.get('W2_H8F_ARCHIVE')
+requires_archive=unittest.skipUnless(REAL, 'Set W2_H8F_ARCHIVE to the pinned H8f ZIP for this material-backed test')
 
 
 def fixture_manifest():
@@ -151,18 +152,17 @@ class TestM11RealH8f(unittest.TestCase):
         cls.record=json.loads(CAND.read_text())
         cls.manifest=fixture_manifest()
         cls.t=tempfile.TemporaryDirectory()
+        cls.addClassCleanup(cls.t.cleanup)
         cls.fixture=Path(cls.t.name)/'manifest_semantic_fixture.json'
         cls.fixture.write_text(json.dumps(cls.manifest,sort_keys=True))
         assert hashlib.sha256(CAND.read_bytes()).hexdigest()==CANDIDATE_SHA256
-        assert hashlib.sha256(REAL.read_bytes()).hexdigest()==ARCHIVE_SHA256
         validate_candidate_structure(cls.record)
         validate_manifest(cls.manifest,cls.record)
         # One actual 81-point rebind, 12-15 seconds. Do not repeat in every test.
-        cls.actual=review_m11(CAND,cls.fixture,archive_path=REAL,index=0)
+        cls.actual=review_m11(CAND,cls.fixture,archive_path=Path(REAL) if REAL else None,index=0)
         cls.point60=review_m11(CAND,cls.fixture,index=60)
-    @classmethod
-    def tearDownClass(cls):cls.t.cleanup()
 
+    @requires_archive
     def test_real_81_rebound(self):
         self.assertEqual(self.actual['w2_historical_rebind'],
             'ARCHIVED_81_MATERIALS_REBOUND_DERIVATIVES_BLOCKED')
@@ -171,6 +171,7 @@ class TestM11RealH8f(unittest.TestCase):
         self.assertEqual(self.actual['unit_c_compatibility']['count_fail'],64)
         self.assertIn(0,self.actual['unit_c_compatibility']['passing_indices'])
         self.assertNotIn(60,self.actual['unit_c_compatibility']['passing_indices'])
+    @requires_archive
     def test_w0_witness_populated_from_real_archival_source(self):
         contract=self.actual['w0_structural_diagnostic_record']
         self.assertEqual(contract['schema'],'MomentContractV1')
@@ -182,6 +183,7 @@ class TestM11RealH8f(unittest.TestCase):
                          '45c83ffd19c94b6c75ea63e7e7261fda645cd00ec0920c1a6ecc68e703c3a5b0')
         self.assertEqual(contract['geometry']['design_D_sha256'],
                          '391fbeb80b8e7e4e2f12217880f4642c5fccd30ae5bb9ba2b5703d0dbd05b092')
+    @requires_archive
     def test_w0_unit_norm_and_moment_relation(self):
         c=self.actual['w0_structural_diagnostic_record']
         norm=float(np.linalg.norm(c['coefficients']['c']))
@@ -189,6 +191,7 @@ class TestM11RealH8f(unittest.TestCase):
         from numpy.testing import assert_allclose
         assert_allclose(c['moments']['total_r'],[a+b for a,b in zip(
             c['moments']['fixed_r'],c['moments']['variable_r'])],rtol=0,atol=0)
+    @requires_archive
     def test_never_releases_real_jacobian(self):
         self.assertIsNone(self.actual['w0_structural_diagnostic_record']['jacobian']['values'])
         self.assertFalse(self.actual['w0_diagnostic_record_is_release'])

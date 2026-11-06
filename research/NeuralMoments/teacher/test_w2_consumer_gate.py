@@ -1,8 +1,7 @@
 """W2 M10 negative/real-data tests. No new Cherchi call or W0 admission.
 
-GitHub W2 manifest fields are copied into an explicitly labelled local fixture
-for standalone tests when direct Git clone is unavailable. The 81 candidates
-and 81-point archived ZIP are unmodified, SHA-pinned historical artifacts.
+The manifest fixture is the exact W2 M9 snapshot from f129edd2f668c845ab60ab3ac5b0616773106a9c.
+The 81 candidates and the optional archived ZIP are also SHA-pinned historical inputs.
 """
 import copy
 import json
@@ -18,7 +17,7 @@ from w2_consumer_gate import (
 
 DATA=Path(__file__).resolve().parents[1]
 CANDIDATES=Path(__file__).with_name('M9_H8F_81_EXCLUDED_CANDIDATES.json')
-MANIFEST=Path(__file__).with_name('teacher_manifest.json')
+MANIFEST=Path(__file__).parent/'fixtures'/'m9_teacher_manifest.json'
 # Optional real H8f ZIP path; leave unset for routine fast smoke.
 import os
 ARCHIVE=Path(os.environ['W2_H8F_ARCHIVE']) if os.environ.get('W2_H8F_ARCHIVE') else None
@@ -46,6 +45,8 @@ class TestPinnedCandidateGate(unittest.TestCase):
         self.assertTrue(r['point60_feature_change'])
 
     def test_03_pinned_manifest_handoff_fields(self):
+        self.assertEqual(sha256(MANIFEST.read_bytes()),
+                         '750ea92a0370e5aee844cb4e227ad7a73d53c551bf1adcea6e5ead1cef2863a8')
         r=validate_manifest(self.manifest,self.candidates)
         self.assertFalse(r['w0_formal_verifier_integrated_into_w2'])
 
