@@ -32,3 +32,17 @@ python -m unittest -q test_m35_noodles_crossing test_m29_heart_cut_faces test_m3
 ```
 
 通用区域验证器接受 intersection 和 difference。星形验证器接受 intersection。原生默认种子的非星形多分量刀具使用通用验证器。W3 负责同源导数及差分检验。W0 负责外层原生求解器判定。
+
+## 十个系数的补充实验与默认种子整件
+
+W2 先用包围盒裁剪 D′ 并映射回原始父面。在基点和十个系数各自正负两个步长处，W1 对全部 41 个输出重算有理十矩。每个分量都落在第二套积分实现给出的 112 位向外舍入区间内。全部 41 组原始父面顶点标识、接缝、有向三角剖分一致。每个刀具均在原始、未裁剪的 D′ 上通过严格特征位置检查。先前 13 个直接全域布尔样本还与对应裁剪样本逐面重合。其余 28 个样本采用 W2 裁剪区域构造，W1 核查十矩与接触特征。下列命令重算单个样本。
+
+```bash
+python m35_cropped_stencil.py sample Dprime.txt evidence BIN_M25 > sample.supplement.json
+```
+
+默认种子第 3 次调用与 F′ 的整体并集为 61,796 点、124,352 面，模型坐标质量约 0.7952362492363927。6,172 张未能按三角形直接抵消的差异面在各自支撑平面上精确抵消。全部十矩的独立区间包含对应精确部件矩之和，最低点为唯一的预定尖端。此例的切削体通过通用多分量载体检验，单独提供的区域收据与十矩收据必须绑定同一组操作数及输出。
+
+```bash
+python m35_assembled.py Fprime.json Fprime.ten stock-003/result.json evidence/stock-003.ten evidence/stock-003.w1.json assembled.json --region stock-003.general.json
+```

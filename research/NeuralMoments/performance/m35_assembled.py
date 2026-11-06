@@ -18,11 +18,19 @@ def rational_inside(raw,off,l,r):
     return lo.numerator*da<=na*lo.denominator and na*hi.denominator<=hi.numerator*da
 
 
-def audit(fixed, fixed_ten, clip, clip_ten, clip_w1, assembled):
+def audit(fixed, fixed_ten, clip, clip_ten, clip_w1, assembled, region=None):
     f_sha,fv,ff=surface_data(fixed);c_sha,cv,cf=surface_data(clip);u_sha,uv,uf=surface_data(assembled)
     fdata=fixed_ten.read_bytes();cdata=clip_ten.read_bytes()
     cproof=json.loads(clip_w1.read_text())
-    if (f_sha!=FIXED_SHA or sha(fdata)!=FIXED_TEN_SHA or not cproof['regularized_intersection_verified']
+    if region is None:
+        region_valid=cproof.get('regularized_intersection_verified') is True
+    else:
+        evidence=json.loads(region.read_bytes())
+        region_valid=(evidence.get('regularized_set_equality') is True and
+                      evidence.get('result_sha256')==c_sha and
+                      evidence.get('design_sha256')==cproof.get('design_sha256') and
+                      evidence.get('cutter_sha256')==cproof.get('cutter_sha256'))
+    if (f_sha!=FIXED_SHA or sha(fdata)!=FIXED_TEN_SHA or not region_valid
         or cproof['output_sha256']!=c_sha or cproof['exact_ten_sha256']!=sha(cdata)):
         raise ValueError('OPERAND_OR_SOURCE_MISMATCH')
     nums=integrate(uv,uf)
@@ -45,4 +53,5 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for arg in ('fixed','fixed_ten','clip','clip_ten','clip_w1','assembled'):
         p.add_argument(arg,type=Path)
+    p.add_argument('--region',type=Path,help='Independent oriented-seam receipt for a general source')
     a=p.parse_args(); print(json.dumps(audit(**vars(a)),indent=2))
