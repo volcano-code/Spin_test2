@@ -13,6 +13,7 @@ CELLS_SHA = "be78242bb9675aa2c69a20c83f31ffef9b378946fab95f6b84cd2519a98be29d"
 TEN_SHA = "5912e9f1dc44378919f5c00690983d284189edadc857ea3b354f09c4b86a1986"
 TAU = Q(9, 10)
 GRID = 32
+TIP_Z = Q.from_float(-0.16)  # the registered binary64 model coordinate
 
 
 def enclosure(s, digits=18):
@@ -126,7 +127,7 @@ def solve(centers, width, moments):
     iz_lo=xx[0]+yy[0]
     transverse_hi = max(xx[1],yy[1]) + zz[1] - min_lz2/retained_mass[1]+max(map(abs,xy))
     lower_height=min(v[0] for v in volumes)/width**2
-    return dict(centroid_height_above_registered_tip_mm_interval=[str((v+Q(4,25))*25) for v in (min(cz_vals),max(cz_vals))],
+    return dict(centroid_height_above_registered_tip_mm_interval=[str((v-TIP_Z)*25) for v in (min(cz_vals),max(cz_vals))],
                 axial_principal_dominance_gap_lower=str(iz_lo-transverse_hi),candidate_cells=len(centers),width_model=str(width),capacity_per_cell=str(cap),
                 optimal_in_this_finite_family=True,unrestricted_or_quadric_optimum=False,
                 full_height_index_ranges=[[g[0][1],g[-1][1]] for g in
