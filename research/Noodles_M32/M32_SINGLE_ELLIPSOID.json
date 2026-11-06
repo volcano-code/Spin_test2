@@ -1,0 +1,105 @@
+{
+  "analytic_zero_total_moments": [
+    "x",
+    "y",
+    "xz",
+    "yz"
+  ],
+  "axis_inertia_ratio_interval": [
+    "499917152550029/500000000000000",
+    "999834305100059/1000000000000000"
+  ],
+  "centroidal_dominant_Izz_gap_lower": "66341238857027/500000000000000",
+  "certified_positive_volume_inside_exact_design": true,
+  "coefficient_hint_model_normalized_native_order": [
+    0.2944453016297294,
+    0.035360486103165036,
+    -0.5577089183051769,
+    -0.5979863862867689,
+    0.0034493497142112,
+    0.26522595869961846,
+    0.3042760719606838,
+    0.28260284231688343,
+    -0.01922401239500857,
+    -0.01581392872552005
+  ],
+  "coefficient_hint_tip_frame_model_unit_normalized_native_order": [
+    0.3480448463008614,
+    0.036309725258014694,
+    -0.5669145134522665,
+    -0.6082105352706803,
+    0.0030170656034586877,
+    0.23198694926181604,
+    0.2661431709536106,
+    0.24718610336351718,
+    -0.01681479448676526,
+    -0.01383207397520276
+  ],
+  "design_operand_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+  "exact_aabb_separated": 92723,
+  "faces": 94150,
+  "height_semiaxis": "16089/125000",
+  "min_support_ratio_squared_floor": "9235679801/5000000000",
+  "native_coefficient_order": [
+    "constant",
+    "x",
+    "y",
+    "z",
+    "xx",
+    "yy",
+    "zz",
+    "2yz",
+    "2xz",
+    "2xy"
+  ],
+  "nominal_center_model": [
+    "486743/1000000",
+    "32927808133/549755813888",
+    "957761/1000000"
+  ],
+  "nominal_matrix": [
+    [
+      "-961786390859523/2127846124001000000",
+      "-85239234691/1099511627776",
+      "67020774115/549755813888"
+    ],
+    [
+      "15978867046/2127846124001",
+      "-2565323801/549755813888",
+      "-71400113331/549755813888"
+    ],
+    [
+      "0",
+      "0",
+      "16089/125000"
+    ]
+  ],
+  "objective_optimality_claimed": false,
+  "parametric_error_box_sup_model_upper": "428407/1000000000000000000",
+  "physical_prototype_validated": false,
+  "positive_z_hits": [
+    1
+  ],
+  "quadric_kind": "continuous bounded ellipsoid fully contained in Dprime",
+  "rational_separators": 1427,
+  "ray_winding": 1,
+  "removed_volume_model_interval": [
+    "315009551441/1000000000000000",
+    "157504775721/500000000000000"
+  ],
+  "represented_native_coefficient_vector_validated": false,
+  "retained_mass_ratio_interval": [
+    "49989057981613/50000000000000",
+    "999781159632261/1000000000000000"
+  ],
+  "retained_side": "outside ellipsoid: beta >= 0; binary64 hints are not feasibility certificates",
+  "schema": "W4_M32_INTERIOR_SINGLE_ELLIPSOID_V1",
+  "strict_newton_terminal": false,
+  "unit_density": true,
+  "vertices": 46679,
+  "whole_body_exact_ten_payload_sha256": "5912e9f1dc44378919f5c00690983d284189edadc857ea3b354f09c4b86a1986",
+  "x": "486743/1000000",
+  "xy_semiaxis": "7523/1000000",
+  "yaw_tan_half": "1062001/1000000",
+  "z": "957761/1000000"
+}
