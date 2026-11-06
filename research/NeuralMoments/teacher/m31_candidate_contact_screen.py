@@ -83,8 +83,8 @@ def voxel_facts(asset):
                 registered_origin_below_outer_by_at_least=bottom,design_cells_touching_exterior=exposed,
                 minimum_clearance_lower_bound=float(step.min()) if exposed==0 else 0.)
 
-def noodles_clearance(root, manifest):
-    """Byte-verified source meshes. A strict support patch outside all fixed boxes lies on A and D."""
+def noodles_sources(root, manifest):
+    """Regenerate and authenticate every model OBJ shipped under the original V7 manifest."""
     generator=root/NOODLES/'source/generator'
     sources={'noodles_dense_v3_input.py':'c345c4034d41f39f64fd6d19ee9ca32ea8d6c2fbd528b00d68ff3a12f3a39447',
              'noodles_dense_v5_input.py':'817fdce9b9602d6470da588364a85160261a3e90f1b16a9765c0a88853f55f40',
@@ -114,6 +114,12 @@ def noodles_clearance(root, manifest):
                 envelope=vertices; tris=faces
             else:
                 bounds.append((vertices.min(axis=0),vertices.max(axis=0)))
+    return envelope,tris,bounds,sources
+
+
+def noodles_clearance(root,manifest):
+    """A support patch outside all fixed boxes lies on both A and D."""
+    envelope,tris,bounds,sources=noodles_sources(root,manifest)
     lower,upper=np.asarray(bounds).transpose(1,0,2)
     triangles=envelope[tris]
     lo=triangles.min(axis=1);hi=triangles.max(axis=1)
@@ -131,7 +137,7 @@ def noodles_clearance(root, manifest):
     separation=min(max(max(x-y for x,y in zip(rat(lo[i]),rat(part_hi))),
                        max(x-y for x,y in zip(rat(part_lo),rat(hi[i])))) for part_lo,part_hi in bounds)
     require(separation>0,'PATCH_TOUCHES_A_FIXED_BOX')
-    return dict(source_mesh_hashes_matched=len(generated),fixed_part_count=len(bounds),generator_sha256=sources,
+    return dict(source_mesh_hashes_matched=len(bounds)+1,fixed_part_count=len(bounds),generator_sha256=sources,
                 envelope_faces=len(tris),whole_faces_disjoint_from_every_fixed_box=int(separated.sum()),
                 witness_face_index_zero_based=i,witness_vertex_indices=tris[i].tolist(),
                 exact_minimum_separating_coordinate_gap_model_units=str(separation),

@@ -1,0 +1,57 @@
+{
+  "candidate": "Noodles V7 inset 9/10, new design registration",
+  "center_exact_model": [
+    "0",
+    "0",
+    "8106479329266893/9007199254740992"
+  ],
+  "design_ball_radius_lower_bound_squared_mm2": "83965727218785781945915769434493078156829199517540566933523832077137486617437565081822883890625/7628989585695368807362993151821283877526939516453739504125956676815357258731135533192128585793536",
+  "envelope_support_planes_checked": 1280,
+  "envelope_vertices": 642,
+  "exact_evaluator_registered": false,
+  "generator_sha256": {
+    "noodles_dense_v3_input.py": "c345c4034d41f39f64fd6d19ee9ca32ea8d6c2fbd528b00d68ff3a12f3a39447",
+    "noodles_dense_v5_input.py": "817fdce9b9602d6470da588364a85160261a3e90f1b16a9765c0a88853f55f40",
+    "noodles_input.py": "a69d239cdec2dd2550f043f8c62eebf0f9dc80e820f3119214fc9a8d12b4cef1",
+    "noodles_paper_geometry_v7.py": "8c1ccc9f2bf2b7bd16cf08335f8bc8b19fed9141eef261d98aca2b517ef93329"
+  },
+  "limiting_envelope_face": 538,
+  "locked_parts": 93,
+  "locked_pin": "pin-fixed",
+  "mm_per_model_unit": 25,
+  "model_obj_sha256_matches": 94,
+  "new_fixed": "Fprime=A minus Dprime",
+  "new_native_boolean_calls": 0,
+  "new_variable": "Dprime=(center+9/10*(E-center)) minus F",
+  "newton_calls": 0,
+  "one_mm_lower_bound_proved": true,
+  "open_design_ball_witness_exact_model": [
+    "-1383893646883966063/21617278211378380800",
+    "1957658235157088941/2702159776422297600",
+    "309593423769082981/337769972052787200"
+  ],
+  "original_outer": "A=E union F",
+  "physical_feasibility_proved": false,
+  "positive_design_volume_proved": true,
+  "proof_scope": "continuous registered polyhedral subsets before Boolean tessellation or solver",
+  "scale_exact": "9/10",
+  "schema": "w2-m32-noodles-inset-wall-preflight-v1",
+  "source_manifest_sha256": "67364abba55c74ccd377eef6174b8c96ee04e4af1aadbd7e505466bafabd2a3a",
+  "unchanged_registered_axis": [
+    0.0,
+    0.0,
+    1.0
+  ],
+  "unchanged_registered_tip_model": [
+    0.0,
+    0.0,
+    -0.16
+  ],
+  "wall_floor_mm_approx": 1.0491015189757942,
+  "wall_floor_mm_interval": [
+    "41964060759/40000000000",
+    "8196105617/7812500000"
+  ],
+  "wall_floor_squared_exact_mm2": "2099143180469644548647894235862326953920729987938514173338095801928437165435939127045572097265625/1907247396423842201840748287955320969381734879113434876031489169203839314682783883298032146448384",
+  "witness_fixed_box_gap_model": "49145693209729141/2702159776422297600"
+}
