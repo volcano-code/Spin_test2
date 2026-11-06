@@ -1,0 +1,104 @@
+{
+  "schema": "W5_M32_PAIRED_REAL_PILOT_V1",
+  "state": "PREREGISTERED_BLOCKED",
+  "object": "Noodles M32",
+  "density": 1,
+  "w4_reference": {
+    "repo": "volcano-code/Spin_test2",
+    "commit": "05cb670c38ca19560637b12b40af9e4e4d44eeca",
+    "path": "research/Noodles_M32/M32_SINGLE_ELLIPSOID.json",
+    "sha256": "af14f1d246a07e391e08a549be4c49d52d9eaf7d249aad0ec5a23a1b49fabdb6"
+  },
+  "w2_manifest": {
+    "commit": "2f9cd722fa024b0144a73809933743831d5fe6b3",
+    "path": "research/NeuralMoments/teacher/teacher_manifest.json",
+    "sha256": "d9a23b1e093928b1a4bd9c3e8d7ca0ae5c5941663934311799e9e0a77db70719"
+  },
+  "start_list": [
+    {
+      "source_field": "coefficient_hint_tip_frame_model_unit_normalized_native_order",
+      "c_native": [
+        0.3480448463008614,
+        0.036309725258014694,
+        -0.5669145134522665,
+        -0.6082105352706803,
+        0.0030170656034586877,
+        0.23198694926181604,
+        0.2661431709536106,
+        0.24718610336351718,
+        -0.01681479448676526,
+        -0.01383207397520276
+      ],
+      "frame": "model units, origin at registered tip, +z axis, retain beta>=0",
+      "status": "record once as a shared W4 diagnostic; charge this evaluation and its admission outcome; no certified original numerical initial multiplier"
+    },
+    {
+      "kind": "native_deterministic_restarts",
+      "mode": "SPINNING_TOP",
+      "deterministic_seed": 0,
+      "maximum_restarts": 8,
+      "native_source_commit": "2a79008d9faf0da1876c6dba5ee2d4719f6a78b1",
+      "native_source_path": "src/spin/QuadricHollowingSolver.cpp",
+      "source_git_blob": "93862501b6e3c27f44ceadb8d48a5c713619bbeb",
+      "generator": "deterministicInitialQuadrics: ten SplitMix64 signed-unit draws per restart, set c[6] = -abs(c[6])-0.1 before fromUnnormalized, then normalize",
+      "restart_order": "native indices 0..7 in generated order across all arms; no shuffling or new seed per timing repeat; halt on first qualified result or shared cap"
+    }
+  ],
+  "trials": [
+    "original_faster_spinning_top",
+    "min_mass_Iaxis_at_least_0.90_initial_full"
+  ],
+  "arms": {
+    "A": "full numerical Faster",
+    "B": "local numerical model and exact fallback",
+    "C": "frozen W5 ordinary predictor and exact correction",
+    "D": "frozen Spin-PINO and exact correction"
+  },
+  "primary_online_adaptation_steps": 0,
+  "secondary_online_adaptation_steps": [
+    2
+  ],
+  "timing": [
+    "cold",
+    "warm_geometry_only",
+    "same_geometry_mass_continuation"
+  ],
+  "paired_repetitions": 3,
+  "cpu_threads": 1,
+  "hardware": "same physical host and single CPU core class for every paired run; record CPU model, memory cap, library versions, model/code/checkpoint hashes",
+  "warm_policy": "Only immutable geometry preprocessing/encoding can be cached. Same option for every arm; report setup cost and cache policy. Reset solver state. No cached outputs/labels from prior trial.",
+  "adaptation": "Log 2-step as a different secondary panel if sealed support records and held-out queries are disjoint and permitted; charge all support calls and wall time to the same cap.",
+  "accounting": "Common wall-clock starts before per-arm setup, stops after independent final checks. Count attempted exact geometry requests including failed/backtracking/validation/adaptation. Stop at first cap; charge failed elapsed time. Log offline pretraining separately. Coordinate hints and up to eight native starts share one pair of caps. No fresh allocation per restart.",
+  "admission": [
+    "W0 checked objective-specific solver termination and trusted final whole-body mesh",
+    "same registered geometry, units, tip, axis, minimum wall, connectivity, four physical checks",
+    "original Faster raw residual <=1e-12, relative physics <=1e-6 and mu>0; separate 90% problem requires its registered inequality and multiplier/complementarity gate"
+  ],
+  "solution_quality": {
+    "direction": "minimize",
+    "original": "independently evaluated original frozen objective",
+    "mass90": "independently evaluated final mass divided by full original mass",
+    "relative_tolerance": 0.001,
+    "scale": "max(1,abs(A verified objective on same start and trial))"
+  },
+  "comparison": "For each common ordered-start schedule, repeat and cache state: compare end-to-end time only after common physical and objective quality passes. A failure leaves speed ratio null. Report best independently feasible mass by both caps, all attempts and success counts. Do not average away failures.",
+  "partitions": "Same parent geometry including all rotations/trajectories stays in one split; enforce contract_gate.audit_family_split, immutable approved hashes and separately sealed train/val/test permissions.",
+  "admitted_real_training_hashes": [],
+  "admitted_real_evaluation_hashes": [],
+  "completed_real_runs": [],
+  "mass_continuation": {
+    "order": [
+      0.95,
+      0.9
+    ],
+    "task": "mass-only",
+    "all_arms_same_rule": true,
+    "first_point": "common W4 diagnostic plus shared native ordered starts to solve 0.95; independent acceptance of that solution required",
+    "second_point": "each arm uses its own verified 0.95 solution first, then remaining authorized seed-0 fallback under the same total pair cap; do not restart the budget",
+    "cost": "same per-arm cap 600 s and 120 exact requests across the entire pair including 0.95 seed solve/cache/correction/failures; additionally report incremental cost to 0.90",
+    "if_no_verified_previous_solution": "mark continuation unavailable, account for attempts, no substitution"
+  },
+  "start_policy": "W4 q is a common diagnostic. Use native seed-0 ordered starts for the primary solve; preserve admission/rejection records at every attempted start. All starts, restarts and diagnostics within one arm/repetition/condition share both caps.",
+  "wall_seconds_per_arm_repeat": 600,
+  "maximum_exact_geometry_requests_per_arm_repeat": 120
+}

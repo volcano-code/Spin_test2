@@ -1,0 +1,25 @@
+{
+  "actual_solver_runs": 0,
+  "benchmark_ready": false,
+  "native_training_rows": 0,
+  "numerical_reference_terminal": false,
+  "protocol_sha256": "3a871bc9a48d7f56bb44061ab220c5a3b69817ee38a90d341b857a81a6d985df",
+  "real_evaluation_rows": 0,
+  "schema": "W5_M32_PAIRED_READINESS_V1",
+  "speedup": null,
+  "split_check": {
+    "by_split": {
+      "test": 0,
+      "train": 0,
+      "val": 0
+    },
+    "families": {
+      "test": [],
+      "train": [],
+      "val": []
+    },
+    "leakage": false,
+    "total": 0
+  },
+  "timing_measured": false
+}
