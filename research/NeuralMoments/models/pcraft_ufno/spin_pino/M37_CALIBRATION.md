@@ -19,3 +19,23 @@ p=research/NeuralMoments/models/pcraft_ufno/spin_pino
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m research.NeuralMoments.models.pcraft_ufno.spin_pino.residual_calibration --output /tmp/m37-calibration.json
 python -m pytest -q "$p/tests"
 ```
+
+## 在实际 Newton 轨迹上检查惯量门槛
+
+对 W0 三条已完成轨迹中的每个实际系数 q 分别调用两个 M36 冻结算子。沿用原生首步对照的种子 131、24³ 节点、温度 0.0075 及 8³ 几何输入。算子在网格系预测二次多项式正侧的保留变量材料十矩，沿用 W6 的原生系数和矩平移至尖端坐标。按 W0 约定，将固定材料 F′ 加入后用 (xx+yy)/Izz(A) 计算相对固定轴惯量。每个精确结果同时核对 W0 保存的整模十矩和惯量区间，两个算子在共享锚点的预测质量也与原始 M36 记录一致。
+
+三条轨迹合计 14 次求值，其中同一锚点出现三次。单独统计锚点之后的 11 个不同试探，精确几何通过 4 个、拒绝 7 个。共享锚点的精确保留率为 98.231%，学习和数值算子的直接预测分别为 69.993% 和 71.855%。观察到这一偏差后，补做了事后锚点校正：每个候选的修正值等于该锚点的精确保留率加上代理从锚点至候选的保留率预测变化。计算这个修正值只用了共同锚点的精确值。所有四组均使用原 90% 门槛。
+
+| 预测方式 | 正确放行 | 正确拒绝 | 误放 | 误拒 |
+|---|---:|---:|---:|---:|
+| PINO 直接预测 | 0 | 7 | 0 | 4 |
+| 单位权重直接预测 | 0 | 7 | 0 | 4 |
+| PINO 锚点校正 | 4 | 0 | 7 | 0 |
+| 单位权重锚点校正 | 4 | 1 | 6 | 0 |
+
+直接筛选会丢掉全部通过惯量检查的试探，锚点校正后仍放行大部分未达标试探。这里的放行仅指惯量检查。事后校正公式没有给出误差界。这次回放未测量在线筛选时间。[逐次结果、真实几何摘要与轨迹摘要](M37_TRAJECTORY_INERTIA.json)
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m research.NeuralMoments.models.pcraft_ufno.spin_pino.trajectory_inertia \
+  --traces /path/to/m37/runs --fixed-ten /path/to/Fprime.ten --original-ten /path/to/A.ten --output /tmp/m37-inertia.json
+```

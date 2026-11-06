@@ -34,9 +34,8 @@ def analytic(cases):
     return [('analytic', name, X, q, r, J, eye, eye, key) for name, X, q, r, J, key in cases]
 
 
-def run():
+def frozen_model(seed):
     torch.set_num_threads(1)
-    seed = 131
     data = generate_splits(seed=seed)
     torch.manual_seed(seed)
     model = _build(PINO)
@@ -47,6 +46,12 @@ def run():
     if fit['selected_step'] != expected['validation_selected_step']:
         raise ValueError('the frozen checkpoint selection changed')
     model.eval()
+    return model, data, fit
+
+
+def run():
+    seed = 131
+    model, data, fit = frozen_model(seed)
 
     def gates_for(X):
         with torch.inference_mode():
