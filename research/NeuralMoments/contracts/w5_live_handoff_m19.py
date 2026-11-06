@@ -178,8 +178,11 @@ def _real_m18_runtime(candidate_path, original_bytes):
             "test_data_are_synthetic_not_native_training":True}
 
 
-def inspect(*, w5_source, w5_head, w5_blob, w2_manifest, w2_head, w2_blob,
+def inspect(*, source_repository, w5_source, w5_head, w5_blob, w2_manifest, w2_head, w2_blob,
             reviewed_candidate):
+    demand(isinstance(source_repository, str) and
+           re.fullmatch(r"[A-Za-z0-9-]+/[A-Za-z0-9_.-]+", source_repository),
+           "INVALID_SOURCE_REPOSITORY")
     for label, head in (("W5",w5_head),("W2",w2_head),
                         ("W5_BLOB",w5_blob),("W2_BLOB",w2_blob)):
         demand(isinstance(head,str) and HEX40.fullmatch(head),
@@ -235,7 +238,8 @@ def inspect(*, w5_source, w5_head, w5_blob, w2_manifest, w2_head, w2_blob,
         raise HandoffRejected("W5_UNREVIEWED_REMOTE_SOURCE_DRIFT")
     return {"schema":"W0_M19_LIVE_W5_W2_CONSUMER_HANDOFF_V1",
             "status":status,
-            "source_branch":"volcano-code/Spin_test",
+            "source_repository":source_repository,
+            "source_branch":source_repository,  # Legacy field for the repository slug in v1 receipts.
             "W5":{"branch":W5_BRANCH,"commit_sha":w5_head,"source_git_blob":w5_blob,
                   "reviewed_candidate_applied":status.startswith("REVIEWED_")},
             "W2":{"branch":W2_BRANCH,"commit_sha":w2_head,"manifest_git_blob":w2_blob,
@@ -256,6 +260,7 @@ def inspect(*, w5_source, w5_head, w5_blob, w2_manifest, w2_head, w2_blob,
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--source-repository",required=True,help="GitHub owner/repo used to fetch both refs")
     p.add_argument("--w5-source",required=True,type=Path)
     p.add_argument("--w5-head",required=True)
     p.add_argument("--w5-blob",required=True)
@@ -269,7 +274,7 @@ def main(argv=None):
     if a.output.exists():
         raise FileExistsError("DO_NOT_OVERWRITE_LIVE_REVIEW")
     result=inspect(**{k:getattr(a,k) for k in (
-        "w5_source","w5_head","w5_blob","w2_manifest","w2_head","w2_blob",
+        "source_repository","w5_source","w5_head","w5_blob","w2_manifest","w2_head","w2_blob",
         "reviewed_candidate")})
     a.output.parent.mkdir(parents=True,exist_ok=True)
     with a.output.open("x",encoding="utf-8") as f:

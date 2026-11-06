@@ -30,7 +30,7 @@ def write_inputs(tmp_path, monkeypatch):
     candidate.write_text('"""Synthetic candidate for identity-only tests."""\n')
     monkeypatch.setattr(gate,"LEGACY_W5_BLOB",gate.git_blob(w5.read_bytes()))
     monkeypatch.setattr(gate,"REVIEWED_M18_BLOB",gate.git_blob(candidate.read_bytes()))
-    args=dict(w5_source=w5,w5_head="a"*40,w5_blob=gate.git_blob(w5.read_bytes()),
+    args=dict(source_repository="volcano-code/Spin_test2",w5_source=w5,w5_head="a"*40,w5_blob=gate.git_blob(w5.read_bytes()),
               w2_manifest=w2,w2_head="b"*40,w2_blob=gate.git_blob(w2.read_bytes()),
               reviewed_candidate=candidate)
     return args,manifest
@@ -43,6 +43,21 @@ def test_current_pending_is_not_training_release(tmp_path,monkeypatch):
     assert not result["W5"]["reviewed_candidate_applied"]
     assert result["W2"]["excluded_h8f_samples"]==81
     assert not result["training_admitted"] and not result["Newton_accepted"]
+
+
+@pytest.mark.parametrize("repository", ["volcano-code/Spin_test", "volcano-code/Spin_test2"])
+def test_receipt_records_the_repository_that_supplied_both_refs(tmp_path, monkeypatch, repository):
+    args, _ = write_inputs(tmp_path, monkeypatch)
+    args["source_repository"] = repository
+    result = gate.inspect(**args)
+    assert result["source_repository"] == result["source_branch"] == repository
+
+
+def test_malformed_repository_rejected(tmp_path, monkeypatch):
+    args, _ = write_inputs(tmp_path, monkeypatch)
+    args["source_repository"] = "refs/heads/main"
+    with pytest.raises(gate.HandoffRejected, match="INVALID_SOURCE_REPOSITORY"):
+        gate.inspect(**args)
 
 
 def test_unrecognized_w5_source_rejected_without_code_execution(tmp_path,monkeypatch):
@@ -105,7 +120,7 @@ def test_record_must_be_new(tmp_path,monkeypatch):
     args,_=write_inputs(tmp_path,monkeypatch)
     out=tmp_path/"old.json";out.write_text("original")
     with pytest.raises(FileExistsError,match="DO_NOT_OVERWRITE"):
-        gate.main(["--w5-source",str(args["w5_source"]),"--w5-head",args["w5_head"],
+        gate.main(["--source-repository",args["source_repository"],"--w5-source",str(args["w5_source"]),"--w5-head",args["w5_head"],
                    "--w5-blob",args["w5_blob"],"--w2-manifest",str(args["w2_manifest"]),
                    "--w2-head",args["w2_head"],"--w2-blob",args["w2_blob"],
                    "--reviewed-candidate",str(args["reviewed_candidate"]),
@@ -118,7 +133,7 @@ def test_actual_old_w5_source_is_pending_and_no_release():
         pytest.skip("actual frozen W5/W2 snapshots available on complete W0 checkout")
     assert gate.git_blob(W5_LEGACY.read_bytes())==gate.LEGACY_W5_BLOB
     assert gate.git_blob(M18.read_bytes())==gate.REVIEWED_M18_BLOB
-    result=gate.inspect(w5_source=W5_LEGACY,w5_head="a"*40,
+    result=gate.inspect(source_repository="volcano-code/Spin_test",w5_source=W5_LEGACY,w5_head="a"*40,
                         w5_blob=gate.LEGACY_W5_BLOB,
                         w2_manifest=W2_FROZEN,w2_head="b"*40,
                         w2_blob=gate.git_blob(W2_FROZEN.read_bytes()),
@@ -133,7 +148,7 @@ def test_reviewer_can_replay_real_m18_candidate_without_releasing_labels(tmp_pat
     assert gate.git_blob(M18.read_bytes())==gate.REVIEWED_M18_BLOB
     mirror=tmp_path/"w5_merged_candidate.py"
     mirror.write_bytes(M18.read_bytes())  # SIMULATED adopted branch, not actual W5.
-    result=gate.inspect(w5_source=mirror,w5_head="a"*40,
+    result=gate.inspect(source_repository="volcano-code/Spin_test",w5_source=mirror,w5_head="a"*40,
        w5_blob=gate.REVIEWED_M18_BLOB,
        w2_manifest=W2_FROZEN,w2_head="b"*40,
        w2_blob=gate.git_blob(W2_FROZEN.read_bytes()),reviewed_candidate=M18)

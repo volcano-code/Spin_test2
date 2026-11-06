@@ -64,6 +64,7 @@ jobs:
           w2_blob="$(git rev-parse 'FETCH_HEAD:research/NeuralMoments/teacher/teacher_manifest.json')"
           git show 'FETCH_HEAD:research/NeuralMoments/teacher/teacher_manifest.json' > "$RUNNER_TEMP/w0-m19-current-w2-manifest.json"
           python -m research.NeuralMoments.contracts.w5_live_handoff_m19 \
+            --source-repository "$GITHUB_REPOSITORY" \
             --w5-source "$RUNNER_TEMP/w0-m19-current-w5-gate.py" \
             --w5-head "$w5_head" --w5-blob "$w5_blob" \
             --w2-manifest "$RUNNER_TEMP/w0-m19-current-w2-manifest.json" \

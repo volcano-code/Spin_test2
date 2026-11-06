@@ -147,15 +147,16 @@ def check_stencil(points, native):
                 passed=max(scaled)<=TOL)
 
 
-def audit_column(base_data, group, group_id, source_checkout, column, planned, recorded, first_index, sample_schema):
+def audit_column(base_data, group, group_id, source_checkout, column, planned, recorded, first_index, sample_schema,
+                 *, offsets=OFFSETS):
     base, q0, m0, jac, mesh, _ = base_data
     require(type(column) is int and 0 <= column < 10, "invalid column index")
-    require(len(planned) == len(recorded) == len(OFFSETS), "incomplete column stencil")
+    require(len(planned) == len(recorded) == len(offsets) == 4, "incomplete column stencil")
     require(len(jac)==10 and all(len(row)==10 for row in jac), 'incomplete native diagnostic matrix')
     native=[F(row[column]) for row in jac]
     samples=[]
     points=[(F(0),m0)]
-    for i,(offset,pr,rr) in enumerate(zip(OFFSETS,planned,recorded),first_index):
+    for i,(offset,pr,rr) in enumerate(zip(offsets,planned,recorded),first_index):
         run_id=f'{group_id}-{i:03d}'
         require(pr['index']==rr['index']==i and pr['run_id']==rr['run_id']==run_id and
                 pr['nominal_offset']==offset,'wrong stencil sample layout')

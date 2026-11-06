@@ -42,7 +42,8 @@ All outputs preserve `training_admitted=false`, no release of native
 ## Reproduction
 
 ```bash
-# From a real W0 checkout with GitHub remote:
+# Use the owner/repository of the origin from which both refs are fetched.
+source_repo=volcano-code/Spin_test2
 git fetch --no-tags --depth=1 origin refs/heads/research/neuralmoments-w5-deeponet-20261019
 w5_head="$(git rev-parse FETCH_HEAD)"
 w5_blob="$(git rev-parse 'FETCH_HEAD:research/NeuralMoments/models/deeponet/contract_gate.py')"
@@ -52,6 +53,7 @@ w2_head="$(git rev-parse FETCH_HEAD)"
 w2_blob="$(git rev-parse 'FETCH_HEAD:research/NeuralMoments/teacher/teacher_manifest.json')"
 git show 'FETCH_HEAD:research/NeuralMoments/teacher/teacher_manifest.json' > /tmp/w2-live.json
 python -m research.NeuralMoments.contracts.w5_live_handoff_m19 \
+  --source-repository "$source_repo" \
   --w5-source /tmp/w5-live.py --w5-head "$w5_head" --w5-blob "$w5_blob" \
   --w2-manifest /tmp/w2-live.json --w2-head "$w2_head" --w2-blob "$w2_blob" \
   --output /tmp/w0-m19-review.json
