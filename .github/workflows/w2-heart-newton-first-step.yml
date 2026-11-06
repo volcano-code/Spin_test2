@@ -1,0 +1,16 @@
+name: W2 Heart original Newton first-step diagnostic
+on:
+  push:
+    branches: [research/neuralmoments-w2-teacher-20261019]
+    paths:
+      - '.github/workflows/w2-heart-newton-first-step.yml'
+      - 'research/NeuralMoments/teacher/m29_native_first_step.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  first-step:
+    uses: ./.github/workflows/w2-heart-linear-stencil.yml
+    with:
+      protocol: newton

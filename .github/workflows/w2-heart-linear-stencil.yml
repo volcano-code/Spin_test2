@@ -40,6 +40,7 @@ jobs:
           set -euo pipefail
           mkdir -p artifacts/runtime
           case "$PROTOCOL" in
+            newton) echo "DRIVER=m29_native_first_step.py" >> "$GITHUB_ENV" ;;
             linear) echo "DRIVER=m25_capture_linear.py" >> "$GITHUB_ENV"; echo "SAMPLES=8" >> "$GITHUB_ENV" ;;
             c7) echo "DRIVER=m26_capture_c7.py" >> "$GITHUB_ENV"; echo "SAMPLES=6" >> "$GITHUB_ENV" ;;
             base-c[3-9]|base-c7-half) echo "DRIVER=m27_capture_base_column.py" >> "$GITHUB_ENV"; echo "SAMPLES=4" >> "$GITHUB_ENV" ;;
@@ -137,7 +138,30 @@ jobs:
             cat artifacts/runtime/native-error-codes.txt
           fi
           exit "$status"
+      - name: Seal native Newton trace and disposition
+        if: always() && env.PROTOCOL == 'newton'
+        run: |
+          set -euo pipefail
+          group_dir="artifacts/$GROUP_ID"
+          # Even if the solver was stopped, retain completed evidence files.
+          if [[ ! -d "$group_dir" ]]; then exit 0; fi
+          files=()
+          for name in request.json module-manifest.json evaluations.jsonl events.jsonl resources.json result.json; do
+            if [[ -f "$group_dir/$name" && ! -L "$group_dir/$name" ]]; then files+=("$name"); fi
+          done
+          if [[ "$(cat artifacts/runtime/exit-code 2>/dev/null || true)" = 0 ]]; then
+            test "${#files[@]}" = 6
+          fi
+          if (( ${#files[@]} == 0 )); then exit 0; fi
+          mkdir -p artifacts/sealed
+          tar -C "$group_dir" -czf - "${files[@]}" | openssl cms -encrypt -binary -aes-256-gcm -outform DER \
+            -out artifacts/sealed/newton.tar.gz.cms .github/point0-newton-evidence-recipient.pem
+          (cd artifacts/sealed && sha256sum newton.tar.gz.cms > sha256sums)
+          if [[ -s "$group_dir/result.json" && ! -L "$group_dir/result.json" ]]; then
+            cp "$group_dir/result.json" artifacts/runtime/result.json
+          fi
       - name: Seal freshly generated material packets and their provenance
+        if: success() && env.PROTOCOL != 'newton'
         run: |
           set -euo pipefail
           mkdir -p artifacts/sealed
