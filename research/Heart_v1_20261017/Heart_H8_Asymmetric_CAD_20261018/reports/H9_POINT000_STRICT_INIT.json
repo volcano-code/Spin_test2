@@ -1,0 +1,31 @@
+{
+  "schema": "w3-heart-point000-strict-init-preflight-v1",
+  "base_run_id": "heart-point000-42177937306-1",
+  "capture_sha256": "816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04",
+  "request_sha256": "7084fecb6bbd4d17bca842bfe68299f9711ecead09eb01593364424a3e0c4a8a",
+  "capture_commit": "25d7187c30f647f04736eeb3fd8f9b1b9daf11da",
+  "objective_selector": "INERTIA_AND_LOWERING",
+  "center_of_mass_weight": 0.0,
+  "spin2014_objective_override": null,
+  "objective_value": 2.8700080345575976,
+  "constraint_order": [
+    "x",
+    "y",
+    "I13",
+    "I23"
+  ],
+  "constraints": [
+    0.3149417137918156,
+    3.6830399066526442e-06,
+    0.028837880412172445,
+    6.4357897629989926e-06
+  ],
+  "multiplier_mu": -16.812030434192025,
+  "raw_equation_residual": 17.94170379708749,
+  "strict_positive_initial_multiplier": false,
+  "expected_initial_reason": "initial_multiplier_nonpositive",
+  "input_type": "exploratory_sphere_as_hypothetical_initial_guess",
+  "native_calls_in_preflight": 0,
+  "newton_trial_evaluations": 0,
+  "accepted_newton_steps": 0
+}

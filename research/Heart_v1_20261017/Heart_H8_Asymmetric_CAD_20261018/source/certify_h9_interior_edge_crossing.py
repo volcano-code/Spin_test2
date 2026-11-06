@@ -160,7 +160,7 @@ def incident(faces,edge):
     return {tuple(sorted(f)) for f in faces if set(edge).issubset(f)}
 
 
-def archival_data(archive):
+def archival_data(archive, sample_indices=SAMPLES):
     need(file_sha(archive)==ZIP_SHA,'UNTRUSTED_ARCHIVE_SHA256')
     with zipfile.ZipFile(archive) as z:
         request_bytes=z.read('artifacts/h8-request/prepared-request.json')
@@ -182,7 +182,7 @@ def archival_data(archive):
                  'SYMBOLIC_PATCH_AND_TRIANGLE_IDENTITY_STABLE_NOT_CERTIFIED':79},
              'INVALID_H8F_FAILED_HISTORICAL_PROTOCOL')
         loaded={}
-        for i in SAMPLES:
+        for i in sample_indices:
             path=f'artifacts/h8f-all81-points/point-{i:03d}'
             point=json.loads(z.read(path+'.json'))
             raw=z.read(path+'-material.json.gz')
