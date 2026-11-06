@@ -1,0 +1,123 @@
+{
+  "source_sha256": "e0af9f000dd5e62c0b8366b261eea0fc78dc24fa75ccad5bcb34486b90279906",
+  "source_executable": "97ee6c190387340eda6cb265da10d69bf84f0e5cb30988feca5b56d098166998",
+  "source_type": "HYPERBOLOID",
+  "vertices": 76,
+  "native_calls_excluding_baseline": 40,
+  "two_sided_source_stencils": [
+    {
+      "step": "2^-19",
+      "columns": [
+        {
+          "column": 0,
+          "maximum_absolute_error": 4.86380002939768e-09,
+          "maximum_scaled_error": 1.7896211306767786e-09
+        },
+        {
+          "column": 1,
+          "maximum_absolute_error": 6.9662284829519194e-09,
+          "maximum_scaled_error": 1.986134923193106e-09
+        },
+        {
+          "column": 2,
+          "maximum_absolute_error": 7.562460879739774e-09,
+          "maximum_scaled_error": 1.1777396131606135e-09
+        },
+        {
+          "column": 3,
+          "maximum_absolute_error": 7.0526278150850885e-09,
+          "maximum_scaled_error": 2.059745651816769e-09
+        },
+        {
+          "column": 4,
+          "maximum_absolute_error": 6.757803134860296e-07,
+          "maximum_scaled_error": 8.792982049068811e-09
+        },
+        {
+          "column": 5,
+          "maximum_absolute_error": 0.00012792913881298773,
+          "maximum_scaled_error": 1.2838479819942974e-06
+        },
+        {
+          "column": 6,
+          "maximum_absolute_error": 0.00021644309737212097,
+          "maximum_scaled_error": 1.3546283575064763e-06
+        },
+        {
+          "column": 7,
+          "maximum_absolute_error": 0.0013832695915994009,
+          "maximum_scaled_error": 5.1790150396818115e-06
+        },
+        {
+          "column": 8,
+          "maximum_absolute_error": 6.328480947104254e-05,
+          "maximum_scaled_error": 3.796262312507989e-07
+        },
+        {
+          "column": 9,
+          "maximum_absolute_error": 6.234116460746009e-05,
+          "maximum_scaled_error": 4.97156818379807e-07
+        }
+      ],
+      "max_scaled_error": 5.1790150396818115e-06
+    },
+    {
+      "step": "2^-20",
+      "columns": [
+        {
+          "column": 0,
+          "maximum_absolute_error": 4.1653045457223925e-09,
+          "maximum_scaled_error": 1.464367215137326e-09
+        },
+        {
+          "column": 1,
+          "maximum_absolute_error": 1.934363424993535e-08,
+          "maximum_scaled_error": 5.697276317384592e-09
+        },
+        {
+          "column": 2,
+          "maximum_absolute_error": 5.504517730514635e-09,
+          "maximum_scaled_error": 2.027391643455445e-09
+        },
+        {
+          "column": 3,
+          "maximum_absolute_error": 1.5882243076248415e-08,
+          "maximum_scaled_error": 4.808758335972385e-09
+        },
+        {
+          "column": 4,
+          "maximum_absolute_error": 1.6703833694009518e-07,
+          "maximum_scaled_error": 2.290568018439187e-09
+        },
+        {
+          "column": 5,
+          "maximum_absolute_error": 3.198190066200368e-05,
+          "maximum_scaled_error": 3.20959042380466e-07
+        },
+        {
+          "column": 6,
+          "maximum_absolute_error": 5.411162266000247e-05,
+          "maximum_scaled_error": 3.387659041849502e-07
+        },
+        {
+          "column": 7,
+          "maximum_absolute_error": 0.00034581658138677085,
+          "maximum_scaled_error": 1.294789057185287e-06
+        },
+        {
+          "column": 8,
+          "maximum_absolute_error": 1.5817247799532197e-05,
+          "maximum_scaled_error": 9.488866498124625e-08
+        },
+        {
+          "column": 9,
+          "maximum_absolute_error": 1.558551173275191e-05,
+          "maximum_scaled_error": 1.2416212724630782e-07
+        }
+      ],
+      "max_scaled_error": 1.294789057185287e-06
+    }
+  ],
+  "total_source_vertex_component_column_count": 2280,
+  "scope": "Native source motion only, including cap/truncation. No fresh Boolean or moment solve."
+}

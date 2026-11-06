@@ -1,0 +1,21 @@
+name: W3 Noodles moving-boundary derivative
+on:
+  push:
+    branches: [research/neuralmoments-w3-heart-h9-20261019]
+    paths:
+      - 'research/Noodles_M32/**'
+      - '.github/workflows/w3-noodles-discrete-derivative.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  formula-regressions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'numpy>=2,<3'
+      - run: python -m unittest discover -s research/Noodles_M32 -p 'test_crossing_*.py' -v
