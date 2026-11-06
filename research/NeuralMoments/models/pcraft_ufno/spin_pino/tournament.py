@@ -80,13 +80,13 @@ def _metrics(model, kind, data):
     }
 
 
-def _fit(model, kind, fit, validation, *, seed, steps=120, batch_size=8):
+def _fit(model, kind, fit, validation, *, seed, steps=120, batch_size=8, physics_weight=0.05):
     generator = torch.Generator().manual_seed(seed + 31337)
     schedule = torch.randint(
         len(fit[0]), (steps, min(batch_size, len(fit[0]))), generator=generator
     )
     optimizer = torch.optim.Adam(model.parameters(), lr=1.5e-3)
-    pino_loss = SpinPINOLoss(lambda_data=1.0, lambda_physics=0.05, lambda_jacobian=0.25)
+    pino_loss = SpinPINOLoss(lambda_data=1.0, lambda_physics=physics_weight, lambda_jacobian=0.25)
     best_score = math.inf
     best_step = 0
     best_state = copy.deepcopy(model.state_dict())

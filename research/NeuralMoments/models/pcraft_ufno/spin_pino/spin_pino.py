@@ -76,8 +76,10 @@ class SpinPINO(nn.Module):
         moment_parameterization: str = "smooth_hinge",
         temperature: float = 0.12,
         use_gradient_checkpoint: bool = False,
+        density_is_premultiplied: bool = False,
     ):
         super().__init__()
+        self.density_is_premultiplied = density_is_premultiplied
         if not math.isfinite(smoothing) or not 0.0 < smoothing <= 1.0:
             raise ValueError("smoothing must be finite and in (0,1]")
         if moment_parameterization not in ("smooth_hinge", "logistic_atom"):
@@ -134,6 +136,9 @@ class SpinPINO(nn.Module):
         occupancy_nodes = F.grid_sample(
             occupancy, grid, mode="bilinear", padding_mode="zeros", align_corners=True
         ).flatten(1)
+        # Effective-density inputs already include the occupied fraction at the boundary.
+        if self.density_is_premultiplied:
+            occupancy_nodes = occupancy_nodes > 0
         learned_gate = torch.sigmoid(self.weight_head(features))
         return (
             self.node_volume.to(features).unsqueeze(0)

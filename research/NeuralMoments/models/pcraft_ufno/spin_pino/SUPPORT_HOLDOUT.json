@@ -1,0 +1,276 @@
+{
+  "schema": "spin-pino-effective-density-analytic-holdout-v1",
+  "torch_version": "2.15.0+cpu",
+  "settings": {
+    "grid": 8,
+    "queries_per_parent": 2,
+    "parents_per_seed": 8,
+    "training_steps": 120,
+    "batch_size": 8,
+    "Jv_columns": [
+      0,
+      1,
+      5
+    ],
+    "adaptation_steps": 0
+  },
+  "raw": [
+    {
+      "seed": 131,
+      "parents": [
+        "301ac40b95d0302623bee286b60804e176e3a22473ad6232fc96956ef8b50596",
+        "345a0a63ac682ee695b949e806925bcae2f7659bd03f710ae5cede8fb0a71401",
+        "82e1a45f1644f3916820bf017c664d4e9105b1c7b94fb7de063c133ff39c8ae2",
+        "969a2084ac85e1a8c45537fc7292ebb975bcea50b2a900441239ded45246dcb4",
+        "aced4f2e094461ad3d30289f09f858972a83a6c3f5733776255de1d5826460fc",
+        "b293f1fd3dca0ba9b99164bcc36a5e119deeb65a5be706bcbe1f7c06af76eca1",
+        "c424e9d2b30c78b593ca1a6800186d4c9cb2f2ceeab41e4d9bd62fe3200c1b65",
+        "d0b0ea2e9477000d2ef9d0c4c1554c92b1d4366adebf37aa96e6d9e07524deed"
+      ],
+      "test_tensor_sha256": "6bbe994e4bcf44f7696d5b3d393140e5fdf7c0090aa4eef45ba8cbb1396ca376",
+      "arms": {
+        "w5": {
+          "two_component": {
+            "r": 0.5839616060256958,
+            "J": 0.4243408143520355,
+            "Jv": 0.33918240666389465
+          },
+          "validation_selected_step": 110,
+          "original_ellipsoid": {
+            "r": 0.621563732624054,
+            "J": 0.5793588757514954
+          }
+        },
+        "double_physics": {
+          "two_component": {
+            "r": 0.3040115535259247,
+            "J": 0.4034728407859802,
+            "Jv": 0.40072494745254517
+          },
+          "validation_selected_step": 120,
+          "original_ellipsoid": {
+            "r": 0.1977553367614746,
+            "J": 0.32416433095932007
+          }
+        },
+        "double_data": {
+          "two_component": {
+            "r": 0.3040115535259247,
+            "J": 0.4034728407859802,
+            "Jv": 0.40072494745254517
+          },
+          "validation_selected_step": 120,
+          "original_ellipsoid": {
+            "r": 0.1977553367614746,
+            "J": 0.32416433095932007
+          }
+        },
+        "single_physics": {
+          "two_component": {
+            "r": 0.13824644684791565,
+            "J": 0.26442065834999084,
+            "Jv": 0.26532360911369324
+          },
+          "validation_selected_step": 20,
+          "original_ellipsoid": {
+            "r": 0.1053418517112732,
+            "J": 0.2075192928314209
+          }
+        },
+        "single_data": {
+          "two_component": {
+            "r": 0.13824644684791565,
+            "J": 0.26442065834999084,
+            "Jv": 0.26532360911369324
+          },
+          "validation_selected_step": 20,
+          "original_ellipsoid": {
+            "r": 0.10534185916185379,
+            "J": 0.2075193077325821
+          }
+        }
+      }
+    },
+    {
+      "seed": 137,
+      "parents": [
+        "8ec6bd44f0d0a966382ff67fd80bc959ac574a6f0db50dc2badf41dc1a67e620",
+        "9021b82fdb46930041b06e48510e7bba4a8b3aecb32f9a7d1c491ac31ef222cb",
+        "91a6442fa971bd387266090366e4091e35ef81a9d4df5aafbbbca644d91767c7",
+        "9e80efa70e2b3cd5fb23cdf6f07c4ea689caa0b8b653dd2f4f7d7f9b67887f62",
+        "a68814afd4131d3552c977b6f8169be8fb1688b7639a6ee4f7a0e7a8e5bcabd1",
+        "b6c8a41d9bcece4bd864bf0b1e7909f0aa6d78e1ff9d1873498cc862f86322f3",
+        "e3765d0fbf967f30c542457e3ba03691b40b83afecabacfba49a8bb18adfe329",
+        "fcf384e574196f0976a5da54422e47f52c3570f05ce2840a42a972ce389e92cc"
+      ],
+      "test_tensor_sha256": "51983f1a86c21b8f58e7a75fd6793e61b64c09b4c0917be866ae9343cda620d6",
+      "arms": {
+        "w5": {
+          "two_component": {
+            "r": 0.8315026164054871,
+            "J": 0.5585623979568481,
+            "Jv": 0.5113102197647095
+          },
+          "validation_selected_step": 80,
+          "original_ellipsoid": {
+            "r": 0.8176665902137756,
+            "J": 0.8857089281082153
+          }
+        },
+        "double_physics": {
+          "two_component": {
+            "r": 0.320648729801178,
+            "J": 0.41636762022972107,
+            "Jv": 0.41109082102775574
+          },
+          "validation_selected_step": 40,
+          "original_ellipsoid": {
+            "r": 0.22309215366840363,
+            "J": 0.3221459984779358
+          }
+        },
+        "double_data": {
+          "two_component": {
+            "r": 0.320648729801178,
+            "J": 0.41636762022972107,
+            "Jv": 0.41109082102775574
+          },
+          "validation_selected_step": 40,
+          "original_ellipsoid": {
+            "r": 0.22309215366840363,
+            "J": 0.3221459984779358
+          }
+        },
+        "single_physics": {
+          "two_component": {
+            "r": 0.20085877180099487,
+            "J": 0.33307477831840515,
+            "Jv": 0.33175623416900635
+          },
+          "validation_selected_step": 20,
+          "original_ellipsoid": {
+            "r": 0.15416759252548218,
+            "J": 0.25511857867240906
+          }
+        },
+        "single_data": {
+          "two_component": {
+            "r": 0.20085875689983368,
+            "J": 0.33307477831840515,
+            "Jv": 0.33175626397132874
+          },
+          "validation_selected_step": 20,
+          "original_ellipsoid": {
+            "r": 0.1541675627231598,
+            "J": 0.25511854887008667
+          }
+        }
+      }
+    },
+    {
+      "seed": 139,
+      "parents": [
+        "075e5b8d7723e0e1186e63ab282ca93ebdadf194396321cfa4abea5afd1c0094",
+        "0d86644bde382c49019f2c8fda7923fe9ba5032cb10b90d7d2505775d45ef5bc",
+        "0dfb651f387786f148d5938543c70a21456b8f95a4eed65b3b46c35b61b4beef",
+        "0ffbb485ab5c694bf3a78d202df5d31cc94c7463edb4b304cbf70a7f718dfaf2",
+        "477656f19412b153a11f8cd5ea16ec77019bb6c675f81d166c54818048fb2b3b",
+        "515924a9a81d7ae31b8acde09e0007aa5a3ec808bcaf615b3752133d5f5f2a8d",
+        "52690ae6b458fcbef57a51745932a80c1a364e0d6cf7a281b82f33f611f96980",
+        "98a519c6fbe1eced6a4719f7ae02466d6ed98b7053701dcc7165e62c70069d76"
+      ],
+      "test_tensor_sha256": "07251c10a0ff531649dfb85149f8213fd50952e2ef0c9eb6ad0cb505ddf1aad6",
+      "arms": {
+        "w5": {
+          "two_component": {
+            "r": 0.7076764106750488,
+            "J": 0.5252775549888611,
+            "Jv": 0.46165674924850464
+          },
+          "validation_selected_step": 90,
+          "original_ellipsoid": {
+            "r": 0.8140504956245422,
+            "J": 0.6331581473350525
+          }
+        },
+        "double_physics": {
+          "two_component": {
+            "r": 0.3093911111354828,
+            "J": 0.4131959080696106,
+            "Jv": 0.41200709342956543
+          },
+          "validation_selected_step": 120,
+          "original_ellipsoid": {
+            "r": 0.19721394777297974,
+            "J": 0.2976568639278412
+          }
+        },
+        "double_data": {
+          "two_component": {
+            "r": 0.3093911111354828,
+            "J": 0.4131959080696106,
+            "Jv": 0.41200709342956543
+          },
+          "validation_selected_step": 120,
+          "original_ellipsoid": {
+            "r": 0.19721394777297974,
+            "J": 0.2976568639278412
+          }
+        },
+        "single_physics": {
+          "two_component": {
+            "r": 0.1443411111831665,
+            "J": 0.2624281048774719,
+            "Jv": 0.26186326146125793
+          },
+          "validation_selected_step": 60,
+          "original_ellipsoid": {
+            "r": 0.10094068199396133,
+            "J": 0.15213491022586823
+          }
+        },
+        "single_data": {
+          "two_component": {
+            "r": 0.14434118568897247,
+            "J": 0.26242825388908386,
+            "Jv": 0.2618634104728699
+          },
+          "validation_selected_step": 60,
+          "original_ellipsoid": {
+            "r": 0.1009405329823494,
+            "J": 0.15213504433631897
+          }
+        }
+      }
+    }
+  ],
+  "means": {
+    "w5": {
+      "r": 0.7077135443687439,
+      "J": 0.5027269224325815,
+      "Jv": 0.43738312522570294
+    },
+    "double_physics": {
+      "r": 0.3113504648208618,
+      "J": 0.4110121230284373,
+      "Jv": 0.40794095396995544
+    },
+    "double_data": {
+      "r": 0.3113504648208618,
+      "J": 0.4110121230284373,
+      "Jv": 0.40794095396995544
+    },
+    "single_physics": {
+      "r": 0.16114877661069235,
+      "J": 0.2866411805152893,
+      "Jv": 0.28631436824798584
+    },
+    "single_data": {
+      "r": 0.16114879647890726,
+      "J": 0.2866412301858266,
+      "Jv": 0.2863144278526306
+    }
+  },
+  "real_cherchi_samples": 0,
+  "newton_runs": 0
+}
