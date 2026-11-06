@@ -80,15 +80,28 @@ class TestW6Milestone1(unittest.TestCase):
                                         positive_projective_coefficients(-c)))
 
     def test_geometry_encoder_train_grad(self):
-        model = self.make_model().train()
-        geometry = solid_box_geometry(grid_size=8)
-        geometry["density"] = geometry["density"].clone().requires_grad_()
-        z = model.cache_geometry(geometry, detach=False)
+        with torch.random.fork_rng(devices=[]):
+            torch.manual_seed(20261019)
+            model = self.make_model().train()
+        # Stay inside the density clamp and away from the occupancy threshold.
+        rho = torch.full((1, 1, 8, 8, 8), 0.75, requires_grad=True)
         c = slab_coefficients(torch.tensor([.3]))
-        model.moment(z, c).square().sum().backward()
-        self.assertIsNotNone(geometry["density"].grad)
-        self.assertGreater(float(geometry["density"].grad.abs().sum()), 0)
+
+        def loss(density):
+            z = model.cache_geometry({"density": density}, detach=False)
+            return model.moment(z, c).square().sum()
+
+        loss(rho).backward()
+        self.assertIsNotNone(rho.grad)
         self.assertIsNotNone(model.encoder.lift.weight.grad)
+        self.assertGreater(model.encoder.lift.weight.grad.norm().item(), 0)
+        direction = torch.linspace(-1, 1, 8).view(1, 1, 8, 1, 1)
+        derivative = (rho.grad * direction).sum()
+        with torch.no_grad():
+            step = 0.01
+            fd = (loss(rho + step * direction) - loss(rho - step * direction)) / (2 * step)
+        self.assertGreater(fd.abs().item(), 1e-5)
+        torch.testing.assert_close(derivative, fd, rtol=0.02, atol=1e-6)
 
     def test_invalid_coefficients(self):
         model = self.make_model()
