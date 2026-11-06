@@ -1,0 +1,152 @@
+name: W2 Heart c0 four-point stencil
+on:
+  push:
+    branches: [research/neuralmoments-w2-teacher-20261019]
+    paths:
+      - '.github/workflows/w2-heart-c0-stencil.yml'
+      - 'research/NeuralMoments/teacher/m24_capture_c0.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: spin-test2-w2-native-heart
+  cancel-in-progress: false
+jobs:
+  c0-stencil:
+    if: github.repository == 'volcano-code/Spin_test2' && github.ref == 'refs/heads/research/neuralmoments-w2-teacher-20261019'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GROUP_ID: heart-c0-${{ github.run_id }}-${{ github.run_attempt }}
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONINTMAXSTRDIGITS: '100000'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+      - name: Prepare the guarded host and recorded Python stack
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/runtime
+          sudo swapoff -a
+          test "$(stat -fc %T /sys/fs/cgroup)" = cgroup2fs
+          cat /proc/meminfo > artifacts/runtime/meminfo-before-setup
+          awk '/^SwapTotal:/{sw=$2}/^MemAvailable:/{m=$2} END{exit !(m>=11*1024*1024 && sw==0)}' /proc/meminfo
+          sudo apt-get update -qq
+          sudo apt-get install -y libgmp10 libmpfr6 libboost-thread1.83.0
+          python -m pip install 'numpy==2.5.4' 'scipy==1.18.1' 'shapely==2.2.0' 'scikit-image==0.26.0' 'trimesh==4.12.2' 'networkx==3.7' 'imageio==2.38.1' 'lazy-loader==0.6'
+      - name: Restore the exact M23 ELF archive
+        env:
+          READ_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/m23-runtime.zip"
+          curl --fail --silent --show-error --location --retry 3 \
+            --header "Authorization: Bearer $READ_TOKEN" --header 'Accept: application/vnd.github+json' \
+            --output "$archive" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts/13484318554/zip"
+          echo "697144d146fb9a1159d27451cbfeb37458922112ad2326dfbf84dec7709499de  $archive" | sha256sum --check
+          rt="$RUNNER_TEMP/m23-elf"
+          unzip -q "$archive" -d "$rt"
+          (cd "$rt" && sha256sum --check sha256sums)
+          cp "$rt/build.json" artifacts/runtime/m23-build.json
+          cp "$rt/sha256sums" artifacts/runtime/m23-elf-sha256sums
+          echo "PYTHONPATH=$GITHUB_WORKSPACE/python:$rt" >> "$GITHUB_ENV"
+          echo "LD_LIBRARY_PATH=$rt:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
+      - name: Verify the imported binary identities and rebind only their absolute paths
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          from make_it_stand.spin import _native_module
+          import _cherchi_core_boolean, _cherchi_rational_moments
+          rt = Path(os.environ['RUNNER_TEMP']) / 'm23-elf'
+          report = Path('artifacts/runtime')
+          receipt = json.loads(Path('research/NeuralMoments/teacher/M23_HEART_POINT000_FRESH.json').read_bytes())
+          recorded = receipt['runner_replay']['module_sha256']
+          manifest = json.loads((rt / 'module-manifest.json').read_bytes())
+          units = {'make_it_stand._make_it_stand': _native_module(), '_cherchi_core_boolean': _cherchi_core_boolean,
+                   '_cherchi_rational_moments': _cherchi_rational_moments}
+          assert set(units) == set(recorded) == set(manifest['extensions'])
+          build = json.loads((rt / 'build.json').read_bytes())
+          assert build['run_id'] == 'heart-point000-42177937306-1' and build['commit'] == receipt['readback']['build_commit']
+          for k, mod in units.items():
+              path = Path(mod.__file__).resolve()
+              entry = manifest['extensions'][k]
+              assert path.parent == rt and path.name == Path(entry['path']).name
+              assert path.read_bytes()[:4] == b'\x7fELF' and hashlib.sha256(path.read_bytes()).hexdigest() == recorded[k] == entry['sha256']
+              libs = subprocess.check_output(['ldd', str(path)], text=True)
+              assert 'not found' not in libs
+              if k == '_cherchi_core_boolean':
+                  assert f'libtbb.so.12 => {rt}/libtbb.so.12' in libs
+              (report / (k + '.ldd')).write_text(libs)
+              entry['path'] = str(path)
+          (report / 'module-manifest.json').write_text(json.dumps(manifest, indent=2))
+          PY
+      - name: Regenerate and authenticate the Heart request
+        run: |
+          set -euo pipefail
+          s=research/Heart_v1_20261017/Heart_H8_Asymmetric_CAD_20261018/source
+          python "$s/build_heart_h8.py" --output "$RUNNER_TEMP/h8-input" > "$RUNNER_TEMP/cad.log"
+          python "$s/audit_h8.py" --output "$RUNNER_TEMP/h8-input" > "$RUNNER_TEMP/audit.log"
+          python "$s/prepare_h8_solver_request.py" --cad "$RUNNER_TEMP/h8-input" --output "$RUNNER_TEMP/h8-request" > "$RUNNER_TEMP/prepare.log"
+          echo "1d2b06063c5b2c7010fcb2764518c05c9707f013d6914bc4e20298f8516e061c  $RUNNER_TEMP/h8-request/prepared-request.json" | sha256sum --check
+      - name: Run four new native calls in the zero-swap 9 GiB scope
+        run: |
+          set -euo pipefail
+          cat /proc/meminfo > artifacts/runtime/meminfo-before-call
+          awk '/^SwapTotal:/{sw=$2}/^MemAvailable:/{m=$2} END{exit !(m>=11*1024*1024 && sw==0)}' /proc/meminfo
+          set +e
+          sudo systemd-run --unit="$GROUP_ID" --quiet --wait --pipe --collect -p "User=$(id -un)" \
+            -p "WorkingDirectory=$GITHUB_WORKSPACE" -p MemoryHigh=7G -p MemoryMax=9G -p MemorySwapMax=0 \
+            -p OOMPolicy=continue -p RuntimeMaxSec=1200s -p CPUQuota=200% \
+            --setenv="RUNNER_TEMP=$RUNNER_TEMP" --setenv="PATH=$PATH" --setenv="PYTHONPATH=$PYTHONPATH" --setenv="LD_LIBRARY_PATH=$LD_LIBRARY_PATH" \
+            --setenv=OMP_NUM_THREADS=1 --setenv=OPENBLAS_NUM_THREADS=1 --setenv=PYTHONINTMAXSTRDIGITS=100000 --setenv="GROUP_ID=$GROUP_ID" \
+            /bin/bash -c '
+              set -eu
+              group=/sys/fs/cgroup$(sed -n "s/^0:://p" /proc/self/cgroup)
+              snapshot() { for key in memory.high memory.max memory.swap.max memory.peak memory.events; do echo "$key"; cat "$group/$key"; done; }
+              snapshot > artifacts/runtime/cgroup-before.txt
+              trap "snapshot > artifacts/runtime/cgroup-after.txt" EXIT
+              python research/NeuralMoments/teacher/m24_capture_c0.py --prepared-request "$RUNNER_TEMP/h8-request/prepared-request.json" \
+                --module-manifest artifacts/runtime/module-manifest.json --output "artifacts/$GROUP_ID"
+            ' > "$RUNNER_TEMP/w2-native.log" 2>&1
+          status=$?
+          set -e
+          echo "$status" > artifacts/runtime/exit-code
+          if (( status != 0 )); then
+            grep -Eo '[A-Z][A-Z0-9_]{4,96}' "$RUNNER_TEMP/w2-native.log" | tail -12 > artifacts/runtime/native-error-codes.txt || true
+            cat artifacts/runtime/native-error-codes.txt
+          fi
+          exit "$status"
+      - name: Seal four freshly generated material packets and their provenance
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/sealed
+          group_dir="artifacts/$GROUP_ID"
+          files=(stencil.json stencil-result.json)
+          for i in 001 002 003 004; do
+            for name in capture.json spec.json label.json material.json module-manifest.json frozen_normalized_outer.obj resources-before.json resources-after.json native-result.json; do
+              files+=("$GROUP_ID-$i/$name")
+            done
+          done
+          for name in "${files[@]}"; do test -s "$group_dir/$name" && test ! -L "$group_dir/$name"; done
+          tar -C "$group_dir" -czf - "${files[@]}" | openssl cms -encrypt -binary -aes-256-gcm -outform DER \
+            -out artifacts/sealed/stencil.tar.gz.cms .github/point0-c0-evidence-recipient.pem
+          (cd artifacts/sealed && sha256sum stencil.tar.gz.cms > sha256sums)
+          cp "$group_dir/stencil-result.json" artifacts/runtime/
+      - name: Retain encrypted captures and non-geometric runtime receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w2-c0-stencil-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/runtime/
+            artifacts/sealed/
+          if-no-files-found: warn
+          retention-days: 90

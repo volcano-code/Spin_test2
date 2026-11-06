@@ -72,9 +72,9 @@ def qualify(snapshot, *, startup):
         require(snapshot['available'] >= 11*GIB, '11GIB_HOST_AVAILABLE_REQUIRED')
 
 
-def prepare(out, modules, prepared_request):
+def prepare(out, modules, prepared_request, *, native_c=NATIVE_C, expected_c_sha=C_SHA):
     raw = prepared_request.read_bytes()
-    require(h256(raw) == REQUEST_SHA and digest(NATIVE_C) == C_SHA, 'FROZEN_REQUEST_OR_C_DRIFT')
+    require(h256(raw) == REQUEST_SHA and digest(native_c) == expected_c_sha, 'FROZEN_REQUEST_OR_C_DRIFT')
     frozen = strict_json(raw)
     request = frozen['request']
     model = out/'frozen_normalized_outer.obj'
@@ -86,8 +86,8 @@ def prepare(out, modules, prepared_request):
             f.write(f'f {a+1} {b+1} {c+1}\n')
     require(file_hash(model) == MODEL_SHA, 'FROZEN_NORMALIZED_OBJ_MISMATCH')
     spec = dict(schema='w2-one-cherchi-request-v3', source_sha=SOURCE_SHA,
-                request=request, evaluator_settings=frozen['evaluator_settings'], native_c=NATIVE_C,
-                expected_native_c_sha256=C_SHA, model_path=str(model.resolve()),
+                request=request, evaluator_settings=frozen['evaluator_settings'], native_c=native_c,
+                expected_native_c_sha256=expected_c_sha, model_path=str(model.resolve()),
                 expected_model_sha256=MODEL_SHA, expected_native_module_sha256=modules[MODULES[0]]['sha256'],
                 reference_absolute_tolerances=[1e-10]*10, derivative_contract=None,
                 rational_arithmetic_backend='NATIVE_GMP_SURFACE_V1',
@@ -103,7 +103,7 @@ def prepare(out, modules, prepared_request):
     return digest(request)
 
 
-def capture(out, manifest, prepared_request):
+def capture(out, manifest, prepared_request, *, native_c=NATIVE_C, expected_c_sha=C_SHA):
     # The exact H8f signed moments require more decimal digits than Python's default.
     sys.set_int_max_str_digits(100000)
     out = out.resolve()
@@ -123,7 +123,7 @@ def capture(out, manifest, prepared_request):
     for name, module in zip(MODULES, (spin._native_module(), bridge, gmp)):
         require(Path(module.__file__).resolve() == Path(modules[name]['path']), 'WRONG_MODULE_PATH:'+name)
     require(Path(spin.__file__).resolve() == ROOT/'python/make_it_stand/spin.py', 'WRONG_PYTHON_SOURCE')
-    request_sha = prepare(out, modules, prepared_request)
+    request_sha = prepare(out, modules, prepared_request, native_c=native_c, expected_c_sha=expected_c_sha)
     result = run(out/'spec.json', out/'label.json', material_output=out/'material.json')
     write_json(out/'native-result.json', result)
     after = resource_snapshot()
@@ -156,6 +156,8 @@ def capture(out, manifest, prepared_request):
                   native_stage_call_counts=proof['native_stage_call_counts'], same_call_material_sha256=material_sha,
                   exact_boundary_sha256=exact['exact_boundary_sha256'],evaluation_map_identity=proof['evaluation_map_identity'],
                   fresh_evaluation_verified=True, training_admitted=False,J_D=None)
+    if expected_c_sha != C_SHA:
+        record.update(schema='w2-m24-c0-sample-v1', native_c_sha256=expected_c_sha)
     write_json(out/'capture.json',record)
     return record
 

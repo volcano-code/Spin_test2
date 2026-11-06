@@ -3,9 +3,8 @@ on:
   push:
     branches: [research/neuralmoments-w2-teacher-20261019]
     paths:
-      - '.github/workflows/w2-heart-point000-fresh.yml'
-      - 'research/NeuralMoments/teacher/m23_fresh_point0.py'
-      - 'research/NeuralMoments/teacher/m23_replay_heart_capture.py'
+      # Change this marker on W2 to request a new baseline run.
+      - 'research/NeuralMoments/teacher/launch/m23-point000.txt'
   workflow_dispatch:
 permissions:
   contents: read
