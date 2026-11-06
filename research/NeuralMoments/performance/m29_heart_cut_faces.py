@@ -4,7 +4,7 @@ The archive contains model-frame exact Cherchi output and the two Boolean inputs
 Use exact arithmetic after decoding. NumPy only narrows the saved-triangle search.
 """
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict
 from fractions import Fraction as Q
 import gzip
 from hashlib import sha256
@@ -128,7 +128,30 @@ def projected_overlap(parent, out):
     return bool(area2(poly))
 
 
-def audit_cut(tri, hp, footprint, planes, output, output_h, faces, lo, hi):
+def saved_triangles(tri, parent, equation, axis, output, output_h, faces, lo, hi, indices=None):
+    # Binary64 rounding is monotone. Inclusive overlap admits rounding ties.
+    pts = np.array(tri, dtype='float64')
+    lower = lo if indices is None else lo[indices]
+    upper = hi if indices is None else hi[indices]
+    ix = np.flatnonzero(((upper >= pts.min(axis=0)) & (lower <= pts.max(axis=0))).all(axis=1))
+    triangles, face_ids = [], []
+    for oi in ix if indices is None else indices[ix]:
+        face = faces[oi]
+        if any(dot(equation, output_h[k]) for k in face):
+            continue
+        out = tuple(projected(output[k], axis) for k in face)
+        if not all(contains(parent, p) for p in out):
+            if projected_overlap(parent, out):
+                raise ValueError(f'output triangle crosses parent perimeter: {oi}')
+            continue
+        if area2(out)*area2(parent) <= 0:
+            raise ValueError(f'wrong winding on design-owned output triangle: {oi}')
+        triangles.append(out)
+        face_ids.append(int(oi))
+    return triangles, face_ids
+
+
+def audit_cut(tri, hp, footprint, planes, output, output_h, faces, lo, hi, indices=None):
     equation = plane(tri)
     axis = max(range(3), key=lambda i: abs(equation[i]))
     parent = tuple(projected(p, axis) for p in tri)
@@ -137,23 +160,7 @@ def audit_cut(tri, hp, footprint, planes, output, output_h, faces, lo, hi):
         return None
     if any(all(dot(p,h)==0 for h in hp) for p in planes):
         raise ValueError('positive-area cutter facet coplanarity requires a separate surface audit')
-    # Binary64 rounding is monotone. Inclusive overlap admits rounding ties.
-    pts = np.array(tri, dtype='float64')
-    candidates = np.flatnonzero(((hi >= pts.min(axis=0)) & (lo <= pts.max(axis=0))).all(axis=1))
-    triangles, face_ids = [], []
-    for oi in candidates:
-        face = faces[oi]
-        if any(dot(equation, output_h[k]) for k in face):
-            continue
-        out = tuple(projected(output[k], axis) for k in face)
-        if not projected_overlap(parent, out):
-            continue
-        if not all(contains(parent, p) for p in out):
-            raise ValueError(f'output triangle crosses parent perimeter: {oi}')
-        if area2(out)*area2(parent) <= 0:
-            raise ValueError(f'wrong winding on design-owned output triangle: {oi}')
-        triangles.append(out)
-        face_ids.append(int(oi))
+    triangles, face_ids = saved_triangles(tri,parent,equation,axis,output,output_h,faces,lo,hi,indices)
 
     def keep(p):
         xyz = list(p)
@@ -171,7 +178,19 @@ def audit_cut(tri, hp, footprint, planes, output, output_h, faces, lo, hi):
                 **{k: str(v) if isinstance(v,Q) else v for k,v in result.items()})
 
 
-def run(path, limit=None):
+def canonical(p):
+    return p if next(x for x in p if x) > 0 else tuple(-x for x in p)
+
+
+def verify_whole(parent, triangles, keep):
+    if not keep:
+        return not triangles
+    if len(triangles) == 1 and set(parent) == set(triangles[0]):
+        return True
+    return audit(parent, [], triangles, lambda _: True)['passes']
+
+
+def run(path, limit=None, ledger_path=None):
     checked(path.read_bytes(), ARCHIVE)
     with ZipFile(path) as z:
         req = json.loads(checked(z.read('artifacts/h8-request/prepared-request.json'), REQUEST))['request']
@@ -198,17 +217,68 @@ def run(path, limit=None):
     close = np.flatnonzero(((boxes.max(axis=1) >= cutter_bounds.min(axis=0)) &
                             (boxes.min(axis=1) <= cutter_bounds.max(axis=0))).all(axis=1))
     records = []
-    for fi in close:
+    all_design = ledger_path is not None
+    seen_outputs = set()
+    counts = Counter()
+    all_rows = []
+    if all_design:
+        close = set(close)
+        by_plane = defaultdict(list)
+        for oi, face in enumerate(faces):
+            by_plane[canonical(plane(tuple(out[k] for k in face)))].append(oi)
+        by_plane = {p: np.array(ids, dtype=int) for p, ids in by_plane.items()}
+        cutter_plane_keys = set(map(canonical, planes))
+        empty = np.array([], dtype=int)
+    for fi in range(len(boxes)) if all_design else close:
         idx = req['design_faces'][fi]
         tri, hp = tuple(design[i] for i in idx), tuple(dh[i] for i in idx)
-        footprint = cut_polygon(tri, hp, planes)
-        if len(footprint) < 3 or footprint == list(tri):
-            continue
-        rec = audit_cut(tri, hp, footprint, planes, out, oh, faces, lo, hi)
-        if rec is not None:
-            records.append(dict(design_face=int(fi), **rec))
-            if len(records) == limit:
-                break
+        footprint = cut_polygon(tri, hp, planes) if not all_design or fi in close else []
+        if all_design:
+            equation = plane(tri)
+            axis = max(range(3), key=lambda i: abs(equation[i]))
+            parent = tuple(projected(p,axis) for p in tri)
+            polygon = [projected(p,axis) for p in footprint]
+            cut_area = abs(area2(polygon))
+            key = canonical(equation)
+            if cut_area and key in cutter_plane_keys:
+                raise ValueError(f'positive-area overlap with a cutter facet on parent {fi}')
+            indices = by_plane.get(key, empty)
+            if cut_area == 0 or cut_area == abs(area2(parent)):
+                triangles, ids = saved_triangles(tri,parent,equation,axis,out,oh,faces,lo,hi,indices)
+                keep = cut_area == 0
+                if not verify_whole(parent,triangles,keep):
+                    raise ValueError(f'whole parent coverage mismatch on {fi}')
+                status = 'retained' if keep else 'removed'
+            else:
+                rec = audit_cut(tri, hp, footprint, planes, out, oh, faces, lo, hi, indices)
+                if not rec or not rec['passes']:
+                    raise ValueError(f'cut parent coverage mismatch on {fi}')
+                records.append(dict(design_face=int(fi), **rec))
+                ids, status = rec['output_faces'], 'cut'
+            if seen_outputs.intersection(ids):
+                raise ValueError(f'nonunique design-side output on parent {fi}')
+            seen_outputs.update(ids)
+            counts[status] += 1
+            all_rows.append([int(fi),status,ids])
+        else:
+            if len(footprint) < 3 or footprint == list(tri):
+                continue
+            rec = audit_cut(tri, hp, footprint, planes, out, oh, faces, lo, hi)
+            if rec is not None:
+                records.append(dict(design_face=int(fi), **rec))
+                if len(records) == limit:
+                    break
+    if all_design:
+        data = ''.join(json.dumps(row,separators=(',',':'))+'\n' for row in all_rows).encode()
+        ledger_path.write_bytes(data)
+        return dict(archive_sha256=ARCHIVE, prepared_request_sha256=REQUEST,
+                    historical_compressed_material_sha256=PACKET, evaluation='H8f/point-000',
+                    expected_region='design_minus_convex_cutter', scope='design_face_relative_interiors',
+                    design_faces=len(boxes), full_retained=counts['retained'], full_removed=counts['removed'],
+                    partially_cut=counts['cut'], assigned_output_faces=len(seen_outputs),
+                    cells_on_partially_cut_faces=sum(x['cells'] for x in records),
+                    failed=0, design_parent_ledger_sha256=sha256(data).hexdigest(),
+                    global_region_certified=False)
     return dict(archive_sha256=ARCHIVE, prepared_request_sha256=REQUEST,
                 historical_compressed_material_sha256=PACKET, evaluation='H8f/point-000',
                 operation='design_minus_convex_cutter', frame='model', design_faces=len(boxes),
@@ -223,11 +293,14 @@ if __name__ == '__main__':
     parser.add_argument('archive',type=Path)
     parser.add_argument('--limit',type=int)
     parser.add_argument('--out',type=Path,required=True)
+    parser.add_argument('--all-design-ledger',type=Path,help='audit every design face and write ordered JSONL')
     args = parser.parse_args()
+    if args.limit and args.all_design_ledger:
+        parser.error('choose a partial cut scan or an all-design ledger')
     if args.limit is not None and args.limit < 1:
         parser.error('limit must be positive')
-    result = run(args.archive, args.limit)
+    result = run(args.archive, args.limit, args.all_design_ledger)
     args.out.write_text(json.dumps(result,indent=2)+'\n')
     print({k:v for k,v in result.items() if k!='records'})
-    if not result['positive_area_cut_parents_audited'] or result['failed']:
+    if not result.get('positive_area_cut_parents_audited',result.get('partially_cut',0)) or result['failed']:
         raise SystemExit(1)

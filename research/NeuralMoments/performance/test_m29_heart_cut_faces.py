@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from m29_heart_cut_faces import audit_cut, convex_planes, cut_polygon, homogeneous
+from m29_heart_cut_faces import audit_cut, convex_planes, cut_polygon, homogeneous, verify_whole
 
 
 def pts(rows):
@@ -26,6 +26,20 @@ class ExactDesignCutTest(unittest.TestCase):
         coords = np.asarray(self.out,dtype='float64')[np.asarray(faces)]
         return audit_cut(self.tri,h,poly,self.planes,self.out,list(map(homogeneous,self.out)),
                          faces,coords.min(axis=1),coords.max(axis=1))
+
+    def test_whole_retained_and_removed(self):
+        parent = tuple(pts([(0,0),(2,0),(0,2)]))
+        self.assertTrue(verify_whole(parent, [parent], True))
+        self.assertFalse(verify_whole(parent, [parent, parent], True))
+        self.assertFalse(verify_whole(parent, [], True))
+        self.assertTrue(verify_whole(parent, [], False))
+        self.assertFalse(verify_whole(parent, [parent], False))
+
+    def test_whole_retained_subdivided(self):
+        a,b,c = parent = tuple(pts([(0,0),(2,0),(0,2)]))
+        d = (Q(1),Q(1))
+        self.assertTrue(verify_whole(parent, [(a,b,d),(a,d,c)], True))
+        self.assertFalse(verify_whole(parent, [(a,b,d),(a,b,d)], True))
 
     def test_oblique_cut(self):
         r = self.run_audit(self.saved)

@@ -1,0 +1,17 @@
+{
+  "archive_sha256": "99a050f4604109e0323c0110a029aa5d7601d729d755e6956ad48ed8c77ccda9",
+  "prepared_request_sha256": "1d2b06063c5b2c7010fcb2764518c05c9707f013d6914bc4e20298f8516e061c",
+  "historical_compressed_material_sha256": "c372f749bf7b85015e2dcdad4a445aeab4f2f6fbd25d622089ec58d471992973",
+  "evaluation": "H8f/point-000",
+  "expected_region": "design_minus_convex_cutter",
+  "scope": "design_face_relative_interiors",
+  "design_faces": 26244,
+  "full_retained": 14900,
+  "full_removed": 10648,
+  "partially_cut": 696,
+  "assigned_output_faces": 16034,
+  "cells_on_partially_cut_faces": 3200,
+  "failed": 0,
+  "design_parent_ledger_sha256": "fd3c67802be26e267d41f2bbe823b557fb13de18b9bc5907ecc2e6ea90076783",
+  "global_region_certified": false
+}
