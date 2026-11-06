@@ -2,7 +2,7 @@
 
 2026-11-06 至 2026-12-05，北京时间。当前对话负责调度，W0–W6 沿用新仓库中已有的七条研究分支。每项实现归属一个分支和一个独立工作副本。用户在本对话给出优先级和材料。交接以新仓库中的提交、输入身份、复现命令和结果路径为准。
 
-11 月 6 日已复现历史 Heart point-000 的完整多面体差集。当前推进新原生调用的材料留存与复核。[验收结果](SPIN_TEST2_HEART_POINT0_SOLID.md)
+11 月 6 日完成历史 Heart point-000 差集验收，随后进行一次新原生调用。新材料、输入和运行身份均已保存，十矩跨环境复算通过。下一步冻结第一个系数方向并验证扰动邻域。[历史差集](SPIN_TEST2_HEART_POINT0_SOLID.md) · [新原生运行](https://github.com/volcano-code/Spin_test2/blob/6aa9db4f4f4286cb5551ab8a4571b7159b781134/research/NeuralMoments/teacher/M23_HEART_POINT000_FRESH.md) · [W0 十矩](SPIN_TEST2_HEART_POINT0_FRESH_MOMENTS.json)
 
 ## 总体交付
 

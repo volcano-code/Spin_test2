@@ -1,5 +1,7 @@
 # Heart point-000 的实体差集验收
 
+同日后续的新原生运行已经完成，实体有向曲面与本记录一致，十个精确矩逐项相等。新运行拥有独立的完整材料身份。[新运行记录](https://github.com/volcano-code/Spin_test2/blob/6aa9db4f4f4286cb5551ab8a4571b7159b781134/research/NeuralMoments/teacher/M23_HEART_POINT000_FRESH.md)
+
 2026-11-06。在 H8f 的原始物理模型坐标下，设 D 为冻结设计网格围成的实体，C 为该评估点使用的 320 面切割体。保存网格围成的实体等于正则化差集，即 D 去除 C 后，取内部再取闭包所得的实体。验收绑定到归档 `99a050f4…` 和历史完整材料 `6be4faf5…`。[机器可读结果](SPIN_TEST2_HEART_POINT0_SOLID.json)
 
 | 验证 | 实测结果 |

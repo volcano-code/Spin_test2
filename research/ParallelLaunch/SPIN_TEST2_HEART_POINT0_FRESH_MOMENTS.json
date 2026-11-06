@@ -1,0 +1,9 @@
+{
+  "run_id": "heart-point000-42177937306-1",
+  "material_sha256": "285fde06cde62f49053104e40f82a3ec5c74378bcce670a864fc69e4e6aff955",
+  "exact_ten_sha256": "cf1d21a9d3b046f98a7ef92e275e616691fc9d4adc7fd3987dedee38a7fe495f",
+  "maximum_exact_error": 2.4071727477604756e-17,
+  "maximum_error_against_rounded_reference": 0.0,
+  "same_exact_ten_as_certified_historical_point": true,
+  "native_calls_in_w0_replay": 0
+}
