@@ -1,6 +1,6 @@
 """Reconstruct H8f point-000 vertices from input operands, independently of saved coordinates."""
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict
 from fractions import Fraction
 import json
 from pathlib import Path
@@ -49,15 +49,32 @@ def segment_triangle_point(points):
     return point
 
 
-def audit_vertices(request, material):
+def audit_face_support(faces, vertices, source_meshes, source_positions, supports):
+    counts, assignments = Counter(), []
+    for a, b, c in faces:
+        common = supports[a] & supports[b] & supports[c]
+        require(len(common) == 1, 'SAVED_FACE_REQUIRES_ONE_SUPPORTING_TRIANGLE')
+        obj, face = next(iter(common))
+        i, j, k = source_meshes[obj][1][face]
+        src = source_positions[obj]
+        parent_normal = cross(sub(src[j], src[i]), sub(src[k], src[i]))
+        normal = cross(sub(vertices[b], vertices[a]), sub(vertices[c], vertices[a]))
+        product = dot(normal, parent_normal)
+        require(product > 0 if obj == 0 else product < 0, 'INVALID_DIFFERENCE_WINDING')
+        counts['design_same' if obj == 0 else 'quadric_reversed'] += 1
+        assignments.append((obj, face))
+    return dict(sorted(counts.items())), assignments
+
+
+def audit_geometry(request, material):
     meshes = ((request['design_vertices'], request['design_faces']),
               (material['quadric_source_vertices'], material['quadric_source_faces']))
-    positions, triangles, edges = [], [], []
-    for vertices, faces in meshes:
+    positions, incident = [], defaultdict(set)
+    for obj, (vertices, faces) in enumerate(meshes):
         positions.append([tuple(map(Fraction, point)) for point in vertices])
-        triangles.append({tuple(sorted(face)) for face in faces})
-        edges.append({tuple(sorted((u, v))) for a, b, c in faces
-                      for u, v in ((a, b), (b, c), (c, a))})
+        for index, face in enumerate(faces):
+            for vertex in face:
+                incident[(obj, vertex)].add((obj, index))
     proof = material['material_proof']
     records, resolved = proof['construction_records'], proof['resolved_construction_records']
     physical_points = proof['exact_vertices']
@@ -66,7 +83,7 @@ def audit_vertices(request, material):
             'RECORD_COUNT_MISMATCH')
     origin = tuple(map(Fraction, request['target_origin']))
     axes = [tuple(map(Fraction, axis)) for axis in zip(*request['target_axes'])]
-    counts = Counter()
+    counts, supports, vertices = Counter(), [], []
     for i, (raw, linked) in enumerate(zip(records, resolved)):
         require(raw['vertex_index'] == linked['vertex_index'] == i, 'VERTEX_INDEX_MISMATCH')
         kind = raw['point_type']
@@ -89,19 +106,27 @@ def audit_vertices(request, material):
         if kind == 'LPI':
             require([key for key, _ in refs] == [obj, obj] + [1-obj]*3,
                     'CROSS_OPERAND_CONSTRUCTION_REQUIRED')
-            require(tuple(sorted(v for _, v in refs[:2])) in edges[obj], 'NOT_A_SOURCE_EDGE')
-            require(tuple(sorted(v for _, v in refs[2:])) in triangles[1-obj], 'NOT_A_SOURCE_FACE')
+            edge_faces = incident[refs[0]] & incident[refs[1]]
+            triangle_faces = incident[refs[2]] & incident[refs[3]] & incident[refs[4]]
+            require(edge_faces and len(set(refs[:2])) == 2, 'NOT_A_SOURCE_EDGE')
+            require(triangle_faces and len(set(refs[2:])) == 3, 'NOT_A_SOURCE_FACE')
             point = segment_triangle_point(exact)
+            supports.append(edge_faces | triangle_faces)
         else:
             point = exact[0]
+            supports.append(incident[refs[0]])
+        vertices.append(point)
         require(point == exact_point(physical_points[i]), 'PHYSICAL_VERTEX_MISMATCH')
         target = tuple(dot(sub(point, origin), axis) for axis in axes)
         require(target == exact_point(target_points[i]), 'TARGET_VERTEX_MISMATCH')
         counts[f'{kind}_' + ('design' if obj == 0 else 'quadric')] += 1
-    return dict(sorted(counts.items()))
+    # Convexity: if all three verified vertices lie in a source triangle, the
+    # entire saved triangle lies there. This does not test missing output faces.
+    face_counts, assignments = audit_face_support(material['variable_faces'], vertices, meshes, positions, supports)
+    return dict(sorted(counts.items())), face_counts, assignments
 
 
-def replay(pilot_dir, archive):
+def replay(pilot_dir, archive, face_map=None):
     entries = strict_json((TEACHER/'M22_M21_HEART_ARCHIVE_AUDIT_20261106.json').read_bytes())['files']
     docs = {}
     for name in ('spec', 'label'):
@@ -131,7 +156,11 @@ def replay(pilot_dir, archive):
     proof = label['exact_proof']
     require(all(proof[k] == material[k] for k in ('geometry_hash', 'topology_hash')),
             'HISTORICAL_M21_OUTPUT_IDENTITY_MISMATCH')
-    counts = audit_vertices(archived_request, material)
+    counts, face_counts, assignments = audit_geometry(archived_request, material)
+    if face_map is not None:
+        with face_map.open('x', encoding='utf-8') as stream:
+            json.dump(assignments, stream, separators=(',', ':'))
+            stream.write('\n')
     return dict(schema='w2-m22-p3-heart-point000-operand-replay-v1',
                 status='HISTORICAL_CONSTRUCTION_INCIDENCE_VERIFIED', request_sha256=digest(archived_request),
                 prepared_request_file_sha256=REQUEST_SHA,
@@ -144,6 +173,7 @@ def replay(pilot_dir, archive):
                 design_operand_sha256=digest(dict(vertices=archived_request['design_vertices'],
                                                    faces=archived_request['design_faces'])),
                 quadric_source_identity=digest(source), counts=counts, vertices_verified=sum(counts.values()),
+                face_map_canonical_sha256=digest(assignments), saved_face_support_and_winding=face_counts, faces_verified=sum(face_counts.values()),
                 real_native_calls_this_replay=0, fresh_same_call_material_recovered=False,
                 boolean_set_equality_proved=False, J_D=None, split='excluded', training_admitted=False)
 
@@ -152,5 +182,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--pilot-dir', type=Path, required=True)
     parser.add_argument('--h8f', type=Path, required=True)
+    parser.add_argument('--face-map', type=Path, help='New JSON file, [operand, parent] per saved face')
     args = parser.parse_args()
-    print(json.dumps(replay(args.pilot_dir, args.h8f), sort_keys=True, indent=2))
+    print(json.dumps(replay(args.pilot_dir, args.h8f, args.face_map), sort_keys=True, indent=2))

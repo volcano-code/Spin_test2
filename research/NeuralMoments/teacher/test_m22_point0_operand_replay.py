@@ -3,7 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from m22_point0_operand_replay import audit_vertices, segment_triangle_point
+from m22_point0_operand_replay import audit_geometry, audit_face_support, segment_triangle_point
 from native_cherchi_teacher import digest
 from run_native_smoke import _write_bound_material, run
 
@@ -28,16 +28,30 @@ class Point0OperandReplayTests(unittest.TestCase):
         linked = dict(vertex_index=0, point_type='EXPLICIT3D',
                       operands=[dict(status='UNIQUE', source_vertices=[ref])])
         proof = dict(construction_records=[raw], resolved_construction_records=[linked], exact_vertices=[point])
-        material = dict(quadric_source_vertices=[], quadric_source_faces=[], material_proof=proof,
+        material = dict(variable_faces=[], quadric_source_vertices=[], quadric_source_faces=[], material_proof=proof,
                         variable_rational_vertices=[['1/1', '2/1', '2/1']])
-        self.assertEqual(audit_vertices(request, material), {'EXPLICIT3D_design': 1})
+        self.assertEqual(audit_geometry(request, material), ({'EXPLICIT3D_design': 1}, {}, []))
         ref['input_vertex'] = -1
         with self.assertRaisesRegex(ValueError, 'INVALID_OPERAND_INDEX'):
-            audit_vertices(request, material)
+            audit_geometry(request, material)
         ref['input_vertex'] = 0
         material['variable_rational_vertices'] = [point]
         with self.assertRaisesRegex(ValueError, 'TARGET_VERTEX_MISMATCH'):
-            audit_vertices(request, material)
+            audit_geometry(request, material)
+
+    def test_face_support_and_subtraction_winding(self):
+        vertices = [(0, 0, 0), (1, 0, 0), (0, 1, 0)]
+        triangle = [(0, 1, 2)]
+        meshes = [(vertices, triangle), (vertices, triangle)]
+        positions = [vertices, vertices]
+        def check(faces, supports):
+            return audit_face_support(faces, vertices, meshes, positions, supports)
+        self.assertEqual(check(triangle, [{(0, 0)}]*3), ({'design_same': 1}, [(0, 0)]))
+        self.assertEqual(check([(0, 2, 1)], [{(1, 0)}]*3), ({'quadric_reversed': 1}, [(1, 0)]))
+        with self.assertRaisesRegex(ValueError, 'INVALID_DIFFERENCE_WINDING'):
+            check(triangle, [{(1, 0)}]*3)
+        with self.assertRaisesRegex(ValueError, 'ONE_SUPPORTING_TRIANGLE'):
+            check(triangle, [{(0, 0)}, {(0, 0)}, {(1, 0)}])
 
     def test_full_attachment_persisted_only_against_original_digest(self):
         with TemporaryDirectory() as tmp:

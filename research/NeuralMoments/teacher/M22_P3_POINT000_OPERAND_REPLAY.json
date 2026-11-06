@@ -9,6 +9,8 @@
     "LPI_quadric": 88
   },
   "design_operand_sha256": "aa20340259e057f5c22d2ae3f29d39685081f4cbd8ab064e2c31788b2f9edfa2",
+  "face_map_canonical_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+  "faces_verified": 16910,
   "fresh_same_call_material_recovered": false,
   "historical_evaluation_map_identity": "c0d6befe4a99ec3d0b34944db14a5e9e69f4b319c23c67493878535b285bcfa9",
   "historical_material_sha256": "6be4faf58ef2fc31b6a1e6d67e601417150d0b43dbd37104b61565a2ca6708c1",
@@ -20,6 +22,10 @@
   "quadric_source_identity": "596d2573abbfee52d77090544f34b11bae17a9a45199df00fe848aa905908850",
   "real_native_calls_this_replay": 0,
   "request_sha256": "7084fecb6bbd4d17bca842bfe68299f9711ecead09eb01593364424a3e0c4a8a",
+  "saved_face_support_and_winding": {
+    "design_same": 16034,
+    "quadric_reversed": 876
+  },
   "schema": "w2-m22-p3-heart-point000-operand-replay-v1",
   "split": "excluded",
   "status": "HISTORICAL_CONSTRUCTION_INCIDENCE_VERIFIED",
