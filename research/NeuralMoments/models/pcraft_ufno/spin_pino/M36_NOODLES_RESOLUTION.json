@@ -1,0 +1,205 @@
+{
+  "schema": "M36_SUPPLEMENTARY_UNIT_DENSITY_OCCUPANCY_RESOLUTION",
+  "input_sha256": "ea00df0d7622d05eb1229f17ad7c6fdb4d5456e315722ef542969efb2f2f8f69",
+  "scores": [
+    {
+      "case": "ellipsoid-1",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 8,
+      "grid_file_sha256": "ea00df0d7622d05eb1229f17ad7c6fdb4d5456e315722ef542969efb2f2f8f69",
+      "mass": 0.001385252454950133,
+      "relative_mass": 0.8820321860686748,
+      "r": 0.7624093651647841,
+      "J": 0.7476391193204117
+    },
+    {
+      "case": "ellipsoid-1",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 8,
+      "grid_file_sha256": "ea00df0d7622d05eb1229f17ad7c6fdb4d5456e315722ef542969efb2f2f8f69",
+      "mass": 0.00011075568569546393,
+      "relative_mass": 0.8495250706655685,
+      "r": 0.8493714688510269,
+      "J": 0.8300222853727526
+    },
+    {
+      "case": "ellipsoid-6",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 8,
+      "grid_file_sha256": "ea00df0d7622d05eb1229f17ad7c6fdb4d5456e315722ef542969efb2f2f8f69",
+      "mass": 0.002515154506470383,
+      "relative_mass": 2.3543991049687256,
+      "r": 2.049178610723991,
+      "J": 0.608492193742829
+    },
+    {
+      "case": "ellipsoid-6",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 8,
+      "grid_file_sha256": "ea00df0d7622d05eb1229f17ad7c6fdb4d5456e315722ef542969efb2f2f8f69",
+      "mass": 0.0001156242686518038,
+      "relative_mass": 0.8457947842645422,
+      "r": 0.8455316579324608,
+      "J": 0.8248830513188282
+    },
+    {
+      "case": "hyperboloid-1",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 8,
+      "grid_file_sha256": "ea00df0d7622d05eb1229f17ad7c6fdb4d5456e315722ef542969efb2f2f8f69",
+      "mass": 0.05812324530003486,
+      "relative_mass": 0.5640236571208819,
+      "r": 0.6165970085507833,
+      "J": 0.6976266060008065
+    },
+    {
+      "case": "hyperboloid-1",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 8,
+      "grid_file_sha256": "ea00df0d7622d05eb1229f17ad7c6fdb4d5456e315722ef542969efb2f2f8f69",
+      "mass": 0.05812324530003486,
+      "relative_mass": 0.5640236571208819,
+      "r": 0.6165970085507833,
+      "J": 0.6976266060008065
+    },
+    {
+      "case": "ellipsoid-1",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 16,
+      "grid_file_sha256": "e064d941fe0694680378c67481fa1fe4688a7f4a5aa22543adb40022b1f0e639",
+      "mass": 0.007079154511082303,
+      "relative_mass": 8.617883435182046,
+      "r": 8.16693396496077,
+      "J": 0.2782252753058274
+    },
+    {
+      "case": "ellipsoid-1",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 16,
+      "grid_file_sha256": "e064d941fe0694680378c67481fa1fe4688a7f4a5aa22543adb40022b1f0e639",
+      "mass": 0.0010177553055062771,
+      "relative_mass": 0.38274307737929547,
+      "r": 0.39686529993060343,
+      "J": 0.5259036672802829
+    },
+    {
+      "case": "ellipsoid-6",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 16,
+      "grid_file_sha256": "e064d941fe0694680378c67481fa1fe4688a7f4a5aa22543adb40022b1f0e639",
+      "mass": 0.00941826435704952,
+      "relative_mass": 11.560905283700023,
+      "r": 10.74899245894516,
+      "J": 0.4902689285343315
+    },
+    {
+      "case": "ellipsoid-6",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 16,
+      "grid_file_sha256": "e064d941fe0694680378c67481fa1fe4688a7f4a5aa22543adb40022b1f0e639",
+      "mass": 0.001320051209401204,
+      "relative_mass": 0.7605195163704843,
+      "r": 0.7959221893571451,
+      "J": 0.5049820787903233
+    },
+    {
+      "case": "hyperboloid-1",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 16,
+      "grid_file_sha256": "e064d941fe0694680378c67481fa1fe4688a7f4a5aa22543adb40022b1f0e639",
+      "mass": 0.2025595422092182,
+      "relative_mass": 0.5193777975021354,
+      "r": 0.47500504030520235,
+      "J": 0.8046978145768818
+    },
+    {
+      "case": "hyperboloid-1",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 16,
+      "grid_file_sha256": "e064d941fe0694680378c67481fa1fe4688a7f4a5aa22543adb40022b1f0e639",
+      "mass": 0.2025595422092182,
+      "relative_mass": 0.5193777975021354,
+      "r": 0.47500504030520235,
+      "J": 0.8046978145768818
+    },
+    {
+      "case": "ellipsoid-1",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 32,
+      "grid_file_sha256": "2726b2b644e3bb46596512b4d838ae0b47f4208f57909b0b84d0ebe3ec4f0bc0",
+      "mass": 0.004583312958101992,
+      "relative_mass": 5.226982291313894,
+      "r": 4.910931417950088,
+      "J": 0.17626544542848926
+    },
+    {
+      "case": "ellipsoid-1",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 32,
+      "grid_file_sha256": "2726b2b644e3bb46596512b4d838ae0b47f4208f57909b0b84d0ebe3ec4f0bc0",
+      "mass": 0.0005120303038434422,
+      "relative_mass": 0.30434520535784104,
+      "r": 0.30642312715842296,
+      "J": 0.18529815203533365
+    },
+    {
+      "case": "ellipsoid-6",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 32,
+      "grid_file_sha256": "2726b2b644e3bb46596512b4d838ae0b47f4208f57909b0b84d0ebe3ec4f0bc0",
+      "mass": 0.006545442348538295,
+      "relative_mass": 7.729493913426822,
+      "r": 7.106448014938212,
+      "J": 0.11767327694796051
+    },
+    {
+      "case": "ellipsoid-6",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 32,
+      "grid_file_sha256": "2726b2b644e3bb46596512b4d838ae0b47f4208f57909b0b84d0ebe3ec4f0bc0",
+      "mass": 0.0005282509174380534,
+      "relative_mass": 0.29548486977852384,
+      "r": 0.29555298383429274,
+      "J": 0.17979312530017463
+    },
+    {
+      "case": "hyperboloid-1",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 32,
+      "grid_file_sha256": "2726b2b644e3bb46596512b4d838ae0b47f4208f57909b0b84d0ebe3ec4f0bc0",
+      "mass": 0.1931414452767679,
+      "relative_mass": 0.44873364409509464,
+      "r": 0.43678444784202836,
+      "J": 0.781074307212595
+    },
+    {
+      "case": "hyperboloid-1",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 32,
+      "grid_file_sha256": "2726b2b644e3bb46596512b4d838ae0b47f4208f57909b0b84d0ebe3ec4f0bc0",
+      "mass": 0.1931414452767679,
+      "relative_mass": 0.44873364409509464,
+      "r": 0.43678444784202836,
+      "J": 0.781074307212595
+    }
+  ],
+  "scope": "Same comparison arms after primary experiment. Geometry acquisition cost excluded."
+}

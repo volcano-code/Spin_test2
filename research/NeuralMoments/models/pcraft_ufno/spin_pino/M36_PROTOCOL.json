@@ -1,0 +1,17 @@
+{
+  "training_seeds": [131, 137, 139],
+  "analytic_only_fit_steps": 120,
+  "moment_and_jacobian": "variable Dprime only, native ten coefficients, same frame for each pair",
+  "coarse_gate_grid": 6,
+  "node_grids": [6, 24],
+  "temperatures": [0.12, 0.0075],
+  "primary_cartesian_arm": [24, 0.0075],
+  "reference_cartesian_arm": [6, 0.12],
+  "gate_modes": ["frozen learned", "numerical unit"],
+  "child_gate_policy": "piecewise constant prolongation of the 216 gates; density trilinear from same 8^3 input",
+  "ellipsoid_chart": "inside-cube negative definite cut: 6 radial Gauss x 8 polar Gauss x 16 azimuth, same coarse gates; surface coarea derivative. Other quadrics use 24^3 at 0.0075",
+  "analytic_holdout": "8 new boxes, independent seed 3601, one small ellipsoid centered on the maximum-x face, orthogonal axes, exact half-ball integral",
+  "M35": ["ellipsoid-1", "ellipsoid-6", "hyperboloid-1"],
+  "new_real_query": "if provided, consume every designated query in order; no retuning or test-based model selection",
+  "real_train_queries": 0
+}

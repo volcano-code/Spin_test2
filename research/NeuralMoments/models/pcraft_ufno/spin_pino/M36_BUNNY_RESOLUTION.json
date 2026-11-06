@@ -1,0 +1,205 @@
+{
+  "schema": "M36_SUPPLEMENTARY_UNIT_DENSITY_OCCUPANCY_RESOLUTION",
+  "input_sha256": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c",
+  "scores": [
+    {
+      "case": "largest-face-small",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 8,
+      "grid_file_sha256": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c",
+      "mass": 0.007300013552615253,
+      "relative_mass": 6.78044211445891,
+      "r": 6.341471968460457,
+      "J": 0.11274706699899599
+    },
+    {
+      "case": "largest-face-small",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 8,
+      "grid_file_sha256": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c",
+      "mass": 0.0008506522383218687,
+      "relative_mass": 0.09336462842221394,
+      "r": 0.08116884766543589,
+      "J": 0.0551337094332565
+    },
+    {
+      "case": "largest-face-medium",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 8,
+      "grid_file_sha256": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c",
+      "mass": 0.03043225406371497,
+      "relative_mass": 0.13694939073094736,
+      "r": 0.12467390712572893,
+      "J": 0.05962347788491741
+    },
+    {
+      "case": "largest-face-medium",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 8,
+      "grid_file_sha256": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c",
+      "mass": 0.03043225406371497,
+      "relative_mass": 0.13694939073094736,
+      "r": 0.12467390712572893,
+      "J": 0.05962347788491741
+    },
+    {
+      "case": "left-face-large",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 8,
+      "grid_file_sha256": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c",
+      "mass": 0.11605292904216766,
+      "relative_mass": 0.035398915612787074,
+      "r": 0.031306479909523295,
+      "J": 0.15694700739122028
+    },
+    {
+      "case": "left-face-large",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 8,
+      "grid_file_sha256": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c",
+      "mass": 0.11605292904216766,
+      "relative_mass": 0.035398915612787074,
+      "r": 0.031306479909523295,
+      "J": 0.15694700739122028
+    },
+    {
+      "case": "largest-face-small",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 16,
+      "grid_file_sha256": "4d1f29703d6f80de443a744742b93a20230c9d548bb9cab81094250c81df7c83",
+      "mass": 0.00937454581373279,
+      "relative_mass": 8.991503512614816,
+      "r": 8.656451650989545,
+      "J": 0.1916163050863595
+    },
+    {
+      "case": "largest-face-small",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 16,
+      "grid_file_sha256": "4d1f29703d6f80de443a744742b93a20230c9d548bb9cab81094250c81df7c83",
+      "mass": 0.0016465125445033514,
+      "relative_mass": 0.7548728438523704,
+      "r": 0.7887809134757021,
+      "J": 0.7809287538374915
+    },
+    {
+      "case": "largest-face-medium",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 16,
+      "grid_file_sha256": "4d1f29703d6f80de443a744742b93a20230c9d548bb9cab81094250c81df7c83",
+      "mass": 0.03657326715255219,
+      "relative_mass": 0.3663777161913697,
+      "r": 0.3832947483761069,
+      "J": 0.16436634714269419
+    },
+    {
+      "case": "largest-face-medium",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 16,
+      "grid_file_sha256": "4d1f29703d6f80de443a744742b93a20230c9d548bb9cab81094250c81df7c83",
+      "mass": 0.03657326715255219,
+      "relative_mass": 0.3663777161913697,
+      "r": 0.3832947483761069,
+      "J": 0.16436634714269419
+    },
+    {
+      "case": "left-face-large",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 16,
+      "grid_file_sha256": "4d1f29703d6f80de443a744742b93a20230c9d548bb9cab81094250c81df7c83",
+      "mass": 0.11710366571806823,
+      "relative_mass": 0.026665471783800743,
+      "r": 0.03031471913034968,
+      "J": 0.019979028395077408
+    },
+    {
+      "case": "left-face-large",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 16,
+      "grid_file_sha256": "4d1f29703d6f80de443a744742b93a20230c9d548bb9cab81094250c81df7c83",
+      "mass": 0.11710366571806823,
+      "relative_mass": 0.026665471783800743,
+      "r": 0.03031471913034968,
+      "J": 0.019979028395077408
+    },
+    {
+      "case": "largest-face-small",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 32,
+      "grid_file_sha256": "ca1a59c290cecc9b4222be022d3f7c2d7ee6cf8b43244851a98d4232bc09556d",
+      "mass": 0.007817935558435586,
+      "relative_mass": 7.332449608286906,
+      "r": 6.87665634273404,
+      "J": 0.08117868635334996
+    },
+    {
+      "case": "largest-face-small",
+      "arm": "chart",
+      "method": "ellipsoid_coarea",
+      "occupancy_side": 32,
+      "grid_file_sha256": "ca1a59c290cecc9b4222be022d3f7c2d7ee6cf8b43244851a98d4232bc09556d",
+      "mass": 0.00103354092272775,
+      "relative_mass": 0.10156032783348046,
+      "r": 0.11725796530623336,
+      "J": 0.09548107357577408
+    },
+    {
+      "case": "largest-face-medium",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 32,
+      "grid_file_sha256": "ca1a59c290cecc9b4222be022d3f7c2d7ee6cf8b43244851a98d4232bc09556d",
+      "mass": 0.03236487639809652,
+      "relative_mass": 0.20915218520643153,
+      "r": 0.2001260362358125,
+      "J": 0.06688700407107966
+    },
+    {
+      "case": "largest-face-medium",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 32,
+      "grid_file_sha256": "ca1a59c290cecc9b4222be022d3f7c2d7ee6cf8b43244851a98d4232bc09556d",
+      "mass": 0.03236487639809652,
+      "relative_mass": 0.20915218520643153,
+      "r": 0.2001260362358125,
+      "J": 0.06688700407107966
+    },
+    {
+      "case": "left-face-large",
+      "arm": "fine_cool",
+      "method": "midpoint_logistic",
+      "occupancy_side": 32,
+      "grid_file_sha256": "ca1a59c290cecc9b4222be022d3f7c2d7ee6cf8b43244851a98d4232bc09556d",
+      "mass": 0.11834274831314846,
+      "relative_mass": 0.016366546761189427,
+      "r": 0.022835352781235684,
+      "J": 0.035055804798252245
+    },
+    {
+      "case": "left-face-large",
+      "arm": "chart",
+      "method": "cartesian_fallback",
+      "occupancy_side": 32,
+      "grid_file_sha256": "ca1a59c290cecc9b4222be022d3f7c2d7ee6cf8b43244851a98d4232bc09556d",
+      "mass": 0.11834274831314846,
+      "relative_mass": 0.016366546761189427,
+      "r": 0.022835352781235684,
+      "J": 0.035055804798252245
+    }
+  ],
+  "scope": "Same comparison arms after primary experiment. Geometry acquisition cost excluded."
+}
