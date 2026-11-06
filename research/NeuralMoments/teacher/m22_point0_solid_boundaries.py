@@ -43,13 +43,13 @@ def oriented_shell(vertices, faces):
                 volume_approx=float(volume6/6))
 
 
-def audit_surface(binary, vertices, faces):
+def audit_embedding(binary, vertices, faces, max_seconds=120):
     rows = [f'{len(vertices)} {len(faces)}']
     rows.extend(' '.join(map(str, p)) for p in vertices)
     rows.extend(' '.join(map(str, f)) for f in faces)
     stream = ('\n'.join(rows)+'\n').encode('ascii')
-    run = subprocess.run([str(binary), '--max-seconds', '120'], input=stream,
-                         capture_output=True, timeout=150)
+    run = subprocess.run([str(binary), '--max-seconds', str(max_seconds)], input=stream,
+                         capture_output=True, timeout=max_seconds+30)
     fields = dict(line.split('=', 1) for line in run.stdout.decode().splitlines())
     require(run.returncode == 0 and fields.get('status') == 'EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE',
             'SURFACE_CHECK_FAILED:'+str(fields))
@@ -60,7 +60,11 @@ def audit_surface(binary, vertices, faces):
             (int(fields['vertices']), int(fields['faces'])) == (len(vertices),len(faces)),
             'INCOMPLETE_SURFACE_CHECK')
     return dict(checker_input_sha256=h256(stream), surface_status=fields['status'],
-                **counts, **oriented_shell(vertices, faces))
+                **counts)
+
+
+def audit_surface(binary, vertices, faces):
+    return dict(**audit_embedding(binary, vertices, faces), **oriented_shell(vertices, faces))
 
 
 def replay(archive, checker_source):

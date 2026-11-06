@@ -1,0 +1,103 @@
+{
+  "schema": "w2-m30-selected-trajectory-operands-v1",
+  "run_id": "heart-trajectory-42195720689-1",
+  "external_receipt_sha256": "6e0ccf6efa3d1a19e321e92a23e5ad23b93aff957e910365e93843aedce0c5d0",
+  "accepted_evaluation_count": 21,
+  "accepted_trial_count": 20,
+  "selected_evaluations": [
+    {
+      "index": 1,
+      "roles": [
+        "initial_accepted"
+      ],
+      "restart": 0,
+      "iteration": 0,
+      "operation": "intersection",
+      "material_sha256": "d605fda2ea69f63cdc086b4f8fd1dc0d7364f5e969046a8927aa5a76ae17ef6f",
+      "constructions": {
+        "EXPLICIT3D_design": 3702,
+        "LPI_design": 331,
+        "LPI_quadric": 14
+      },
+      "face_support_and_winding": {
+        "design_same": 7747,
+        "quadric_same": 343
+      },
+      "ordered_parent_map_sha256": "1b7c65869a5cfc20ec7f856a4c291eab61028e90085c63fba8175c684bddfb75",
+      "vertices": 4047,
+      "faces": 8090
+    },
+    {
+      "index": 17,
+      "roles": [
+        "best_accepted_physical_residual"
+      ],
+      "restart": 0,
+      "iteration": 12,
+      "operation": "intersection",
+      "material_sha256": "0e1aecfb5230ff680dd9305f007c0ad8b9028d5d1054005fb768453769242063",
+      "constructions": {
+        "EXPLICIT3D_design": 7634,
+        "EXPLICIT3D_quadric": 19,
+        "LPI_design": 738,
+        "LPI_quadric": 67
+      },
+      "face_support_and_winding": {
+        "design_same": 16079,
+        "quadric_same": 841
+      },
+      "ordered_parent_map_sha256": "c73f57d137d5a3433abbe5f8986e039fd59c52c639f9d8a3be3846581a8e42da",
+      "vertices": 8458,
+      "faces": 16920
+    },
+    {
+      "index": 45,
+      "roles": [
+        "previous_accepted"
+      ],
+      "restart": 0,
+      "iteration": 19,
+      "operation": "intersection",
+      "material_sha256": "6c545eb9f3211f1f168e8f0d034774bbedf40bb06c8511e4ff50eef4e66f313c",
+      "constructions": {
+        "EXPLICIT3D_design": 4148,
+        "EXPLICIT3D_quadric": 6,
+        "LPI_design": 875,
+        "LPI_quadric": 112
+      },
+      "face_support_and_winding": {
+        "design_same": 9277,
+        "quadric_same": 993
+      },
+      "ordered_parent_map_sha256": "2394dbaaff90df2a51079aaca86af53eb6c67e8795ec8661266f29e5fef883e8",
+      "vertices": 5141,
+      "faces": 10270
+    },
+    {
+      "index": 54,
+      "roles": [
+        "last_accepted",
+        "best_accepted_raw_residual"
+      ],
+      "restart": 0,
+      "iteration": 20,
+      "operation": "intersection",
+      "material_sha256": "c3a38c6989f0928466f8a609283f88373816d563ff3383e27498b429514d6f92",
+      "constructions": {
+        "EXPLICIT3D_design": 4112,
+        "EXPLICIT3D_quadric": 5,
+        "LPI_design": 873,
+        "LPI_quadric": 108
+      },
+      "face_support_and_winding": {
+        "design_same": 9199,
+        "quadric_same": 985
+      },
+      "ordered_parent_map_sha256": "f8280872669286b6895942da53defe96e2adadcb42542b76d4bb554005016b36",
+      "vertices": 5098,
+      "faces": 10184
+    }
+  ],
+  "native_calls_in_replay": 0,
+  "whole_boolean_set_equality_verified": false
+}

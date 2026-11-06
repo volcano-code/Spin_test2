@@ -1,0 +1,246 @@
+{
+  "faster_proxy_pivot_contact_count": 0,
+  "geometry_redesigns": 0,
+  "measurement": "integer voxel occupancy, binary64 proxy triangle distances, exact recorded binary64 V7 tip equality",
+  "new_native_calls": 0,
+  "new_solver_runs": 0,
+  "noodles_v7": {
+    "archived_terminal_outer_tip_matches_unique_lowest_vertex": true,
+    "center_of_mass_weight": 1.0,
+    "classification": "RECONSTRUCTED_METHOD_VALIDATION",
+    "faces": 86076,
+    "fixed_part": "pin-fixed",
+    "global_positive_clearance_certified": false,
+    "historical_status": "CONVERGED",
+    "original_fixed_construction": "EXACT_UNION(ALL fixed_parts)",
+    "original_variable_construction": "EXACT_DIFFERENCE(outer-ellipsoid, fixed)",
+    "permanent_ellipsoid_shell": false,
+    "registered_tip_mm": [
+      0.0,
+      0.0,
+      -4.0
+    ],
+    "root": "research/Noodles_v7_20261017",
+    "separate_binary64_partition_passed": false,
+    "sha256": {
+      "V7_STAGE_STATUS.json": "7b292bbd57d0393b360be5ef4297fbd8ee0678ecc2939474b2102e2af69b1e01",
+      "evidence/ideal-pinned-pivot-only/report.json": "9557f1e6720e25672eaaf4674b3ea1d3ffccc76f295d9ca11002b1edd4c6a45d",
+      "frozen-parts-v7c/manifest.json": "67364abba55c74ccd377eef6174b8c96ee04e4af1aadbd7e505466bafabd2a3a",
+      "models/complete-mm-repaired.obj": "e979bd3980a5efaf9b03d047c4e19e9296ddb426267a7322ff4e1a4b954fe80a"
+    },
+    "vertices": 42932
+  },
+  "paper_cases": {
+    "faster": {
+      "manifest": "experiments/spin_it_reproduction/faster/paper_cases.json",
+      "rows": [
+        {
+          "axis": [
+            0.33607333789498767,
+            7.771561172376096e-16,
+            0.9418358198519112
+          ],
+          "case": "heart-spinning-top",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_domain": {
+            "faces": 192,
+            "file": "experiments/spin_it_reproduction/faster/paper-assets/heart-spinning-top-design.obj",
+            "minimum_axial_projection": 0.541002558847,
+            "pivot_to_surface_distance": 0.688803203144,
+            "sha256": "cb45928002bcb737649d4805d1b40e6a6a415517c64a2fac265ca0af887aab9b",
+            "vertices": 98
+          },
+          "outer": {
+            "faces": 192,
+            "file": "experiments/spin_it_reproduction/faster/paper-assets/heart-spinning-top-outer.obj",
+            "minimum_axial_projection": 0.0,
+            "pivot_to_surface_distance": 0.260762855141,
+            "sha256": "3f0247d24f233e086f591414d52b95c26b09cef0bde910149f1ed46f2faabb9d",
+            "vertices": 98
+          },
+          "target_origin": [
+            -0.5492066981089954,
+            -1.2976157764712145e-15,
+            -1.616538440729317
+          ]
+        },
+        {
+          "axis": [
+            -0.01059256515459353,
+            -0.010592565154593503,
+            0.9998877912680461
+          ],
+          "case": "noodles-spinning-top",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_domain": {
+            "faces": 192,
+            "file": "experiments/spin_it_reproduction/faster/paper-assets/noodles-spinning-top-design.obj",
+            "minimum_axial_projection": 0.491030984605,
+            "pivot_to_surface_distance": 0.503415635256,
+            "sha256": "d8db1de729a498e737bf91827c313c663bae6c72ae0cd47c537bbc42158561ed",
+            "vertices": 98
+          },
+          "outer": {
+            "faces": 192,
+            "file": "experiments/spin_it_reproduction/faster/paper-assets/noodles-spinning-top-outer.obj",
+            "minimum_axial_projection": 0.0,
+            "pivot_to_surface_distance": 0.017415635256,
+            "sha256": "918867f8aa1b5e269632f226dc64b3cf98267cb09d65549489ff890674ff089f",
+            "vertices": 98
+          },
+          "target_origin": [
+            0.0031494769558033306,
+            0.025822652389806577,
+            -1.3674156352558091
+          ]
+        }
+      ],
+      "sha256": "6f041346f9254fcd6141a2349039ab48a7420abaffe7c7757e1da9be2c232142"
+    },
+    "spin2014": {
+      "manifest": "experiments/spin_it_reproduction/spin2014/paper_cases.json",
+      "rows": [
+        {
+          "case": "ellipsoid-top",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 352,
+          "design_cells_touching_exterior": 152,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/ellipsoid-top.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 608,
+          "outer_min_z": 0.5,
+          "registered_origin_below_outer_by_at_least": 0.5,
+          "sha256": "6036f03ff83777a636cbb8cf67bd57675caa44b90c40b3d2e442f5fb27d85983"
+        },
+        {
+          "case": "heart-top",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 456,
+          "design_cells_touching_exterior": 172,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/heart-top.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 780,
+          "outer_min_z": 0.5,
+          "registered_origin_below_outer_by_at_least": 0.5,
+          "sha256": "68edcd5c61dc7f71f4dbdebb8bf1a5f6875b5c8ecd93eb5ba46b2be32a208f51"
+        },
+        {
+          "case": "armadillo-hand",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 276,
+          "design_cells_touching_exterior": 116,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/armadillo-hand.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 504,
+          "outer_min_z": 0.5,
+          "registered_origin_below_outer_by_at_least": 0.5,
+          "sha256": "8a7e2051df7a32503f09725061365e0792ee76446dc6d1377d1c65969da09973"
+        },
+        {
+          "case": "armadillo-shell",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 272,
+          "design_cells_touching_exterior": 120,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/armadillo-shell.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 504,
+          "outer_min_z": 0.5,
+          "registered_origin_below_outer_by_at_least": 0.5,
+          "sha256": "666c14fd628fd791d9868fda7a05ce07b4d87da529f11564dfdf65735276e13b"
+        },
+        {
+          "case": "teapot-inertia",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 208,
+          "design_cells_touching_exterior": 108,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/teapot-inertia.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 412,
+          "outer_min_z": 0.625,
+          "registered_origin_below_outer_by_at_least": 0.625,
+          "sha256": "7c3523884ca0907ab3f1f748ae612a8fc71101e007f488d50796e4fd03c71ce7"
+        },
+        {
+          "case": "teapot-lowering",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 208,
+          "design_cells_touching_exterior": 108,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/teapot-lowering.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 412,
+          "outer_min_z": 0.625,
+          "registered_origin_below_outer_by_at_least": 0.625,
+          "sha256": "7c3523884ca0907ab3f1f748ae612a8fc71101e007f488d50796e4fd03c71ce7"
+        },
+        {
+          "case": "teapot-mass-reduction",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 208,
+          "design_cells_touching_exterior": 108,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/teapot-mass-reduction.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 412,
+          "outer_min_z": 0.625,
+          "registered_origin_below_outer_by_at_least": 0.625,
+          "sha256": "7c3523884ca0907ab3f1f748ae612a8fc71101e007f488d50796e4fd03c71ce7"
+        },
+        {
+          "case": "dancing-couple-hollowing",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 200,
+          "design_cells_touching_exterior": 0,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/dancing-couple-hollowing.vox.json",
+          "minimum_clearance_lower_bound": 0.125,
+          "outer_cells": 600,
+          "outer_min_z": 0.5,
+          "registered_origin_below_outer_by_at_least": 0.5,
+          "sha256": "44ccfb488148aa11f2c4b37fad5360731421a5210661e4a1f8b0a6501f2d13cf"
+        },
+        {
+          "case": "dancing-couple-deformation",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 200,
+          "design_cells_touching_exterior": 0,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/dancing-couple-deformation.vox.json",
+          "minimum_clearance_lower_bound": 0.125,
+          "outer_cells": 600,
+          "outer_min_z": 0.5,
+          "registered_origin_below_outer_by_at_least": 0.5,
+          "sha256": "44ccfb488148aa11f2c4b37fad5360731421a5210661e4a1f8b0a6501f2d13cf"
+        },
+        {
+          "case": "sumone-dual-density",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 196,
+          "design_cells_touching_exterior": 96,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/sumone-dual-density.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 388,
+          "outer_min_z": 0.5,
+          "registered_origin_below_outer_by_at_least": 0.5,
+          "sha256": "b52280d7b8c0c94a52242d4c147e2795cbd370379c53a9ce613bd2064cdc16f6"
+        },
+        {
+          "case": "elephant-accessibility",
+          "classification": "RECONSTRUCTED_ASSET",
+          "design_cells": 204,
+          "design_cells_touching_exterior": 100,
+          "file": "experiments/spin_it_reproduction/spin2014/paper-assets/elephant-accessibility.vox.json",
+          "minimum_clearance_lower_bound": 0.0,
+          "outer_cells": 400,
+          "outer_min_z": 0.625,
+          "registered_origin_below_outer_by_at_least": 0.625,
+          "sha256": "9b86e69dbee9f6adedfa246ba4389e2d5af35b5d966f6c5b594ddb6ad9e4b858"
+        }
+      ],
+      "sha256": "d4c28d438ed4ec4bd07023bda066a35d6e38e6d0949c0ed6813148145b6f0c20"
+    }
+  },
+  "schema": "w2-m31-registered-candidate-contact-screen-v1",
+  "spin2014_pivot_contact_count": 0,
+  "spin2014_registered_origin": [
+    0,
+    0,
+    0
+  ]
+}

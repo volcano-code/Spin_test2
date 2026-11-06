@@ -1,0 +1,51 @@
+{
+  "schema": "w2-m31-ellipsoid-strict-input-preflight-v1",
+  "case": "ellipsoid-top",
+  "status": "STRICT_INPUT_BLOCKED",
+  "input_sha256": {
+    "occupancy": "6036f03ff83777a636cbb8cf67bd57675caa44b90c40b3d2e442f5fb27d85983",
+    "outer.obj": "79c635bdef17b6e95ce0c7436bf24db238f65d26688eaee85f021b071585c45a",
+    "design.obj": "bf1471cac1bf4a8e1781675957186e28838eab55f5fff9a6a01d9a9db2e274c1",
+    "diagnostics.json": "7fb4d52e920188b710af8e5999e594f086f92d20714db328d3be8f6967e64728"
+  },
+  "source_w2": "1cdf704660c0ca5c70714915b4e2dae53e409715",
+  "outer_cells": 608,
+  "design_cells": 352,
+  "fixed_cells": 256,
+  "common_design_outer_lattice_edges": 208,
+  "sample_common_edge_model": [
+    [
+      "-5/8",
+      "-3/8",
+      "7/8"
+    ],
+    [
+      "-5/8",
+      "-3/8",
+      "1"
+    ]
+  ],
+  "exact_whole_design_clearance_model": "0",
+  "fixed_boundary_four_face_edges": 208,
+  "target_origin": [
+    0,
+    0,
+    0
+  ],
+  "target_axis": [
+    0.0,
+    0.0,
+    1.0
+  ],
+  "on_axis_bottom_z_model": "1/2",
+  "lowest_horizontal_surface_area_model": "7/16",
+  "target_to_outer_distance_model": "1/2",
+  "blockers": [
+    "POSITIVE_WHOLE_DESIGN_WALL_IMPOSSIBLE",
+    "NONMANIFOLD_FIXED_MASK_BOUNDARY",
+    "FROZEN_TARGET_ORIGIN_OUTSIDE_SOLID"
+  ],
+  "native_request_emitted": false,
+  "native_boolean_calls": 0,
+  "solver_calls": 0
+}

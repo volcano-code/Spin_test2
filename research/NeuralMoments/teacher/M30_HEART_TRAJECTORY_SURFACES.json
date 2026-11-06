@@ -1,0 +1,89 @@
+{
+  "schema": "w2-m30-last-accepted-surface-replay-v1",
+  "run_id": "heart-trajectory-42195720689-1",
+  "result_sha256": "6e0ccf6efa3d1a19e321e92a23e5ad23b93aff957e910365e93843aedce0c5d0",
+  "checker_source_sha256": "2536f7783ff6552ac930c294879e69b8430fc8e527873859b3ec1187d39c6ea0",
+  "endpoints": [
+    {
+      "evaluation_index": 1,
+      "material_sha256": "d605fda2ea69f63cdc086b4f8fd1dc0d7364f5e969046a8927aa5a76ae17ef6f",
+      "boolean_operation": "intersection",
+      "volume_exact_sha256": "fe9baadfb9a9c240f872113cf4e3bb792dcbe45a7b5ef96c70f043c828b22b37",
+      "vertices": 4047,
+      "faces": 8090,
+      "shells": [
+        {
+          "first_vertex": 0,
+          "vertices": 4047,
+          "edges": 12135,
+          "faces": 8090,
+          "genus": 0,
+          "signed_volume": 0.378823424862111,
+          "volume_exact_sha256": "fe9baadfb9a9c240f872113cf4e3bb792dcbe45a7b5ef96c70f043c828b22b37",
+          "containing_shells": [],
+          "nesting_depth": 0
+        }
+      ],
+      "volume_approx": 0.378823424862111,
+      "checker_input_sha256": "41d440a091edb5d2200ec3edd30683f8b8c7195ac39aa63103e189efacad317a",
+      "surface_status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "candidate_pairs": 131785,
+      "exact_pairs_checked": 131785,
+      "adjacent_pairs": 60148,
+      "nonadjacent_pairs": 71637
+    },
+    {
+      "evaluation_index": 54,
+      "material_sha256": "c3a38c6989f0928466f8a609283f88373816d563ff3383e27498b429514d6f92",
+      "boolean_operation": "intersection",
+      "volume_exact_sha256": "a1c1e304647152b1dc24080f2d0d8eed9fa279044eba4445fa90583abb49f08b",
+      "vertices": 5098,
+      "faces": 10184,
+      "shells": [
+        {
+          "first_vertex": 0,
+          "vertices": 4388,
+          "edges": 13158,
+          "faces": 8772,
+          "genus": 0,
+          "signed_volume": 0.27229739215136156,
+          "volume_exact_sha256": "77e000cde207aaa25df4d303ce703cd9092f560bc7974c05c10a6aec81db2395",
+          "containing_shells": [],
+          "nesting_depth": 0
+        },
+        {
+          "first_vertex": 2496,
+          "vertices": 413,
+          "edges": 1233,
+          "faces": 822,
+          "genus": 0,
+          "signed_volume": 0.003378728881588458,
+          "volume_exact_sha256": "3e5cc0115f975c786e2d85e467517b689bc86439d87440098e9b81659d01c422",
+          "containing_shells": [],
+          "nesting_depth": 0
+        },
+        {
+          "first_vertex": 3932,
+          "vertices": 297,
+          "edges": 885,
+          "faces": 590,
+          "genus": 0,
+          "signed_volume": 0.0015413951706117995,
+          "volume_exact_sha256": "7d38d55ccb02b84df4ae29a00a4c561e3f0207dc1224f2dc7de823db05d9295d",
+          "containing_shells": [],
+          "nesting_depth": 0
+        }
+      ],
+      "volume_approx": 0.27721751620356183,
+      "checker_input_sha256": "74f8d1d5e4d0778310d2a7431377e83f24564c56e736b976b94c1689499cc6a8",
+      "surface_status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "candidate_pairs": 141886,
+      "exact_pairs_checked": 141886,
+      "adjacent_pairs": 69411,
+      "nonadjacent_pairs": 72475
+    }
+  ],
+  "new_native_boolean_calls": 0,
+  "regularized_set_equality_certified": false,
+  "terminal_convergence_certified": false
+}
