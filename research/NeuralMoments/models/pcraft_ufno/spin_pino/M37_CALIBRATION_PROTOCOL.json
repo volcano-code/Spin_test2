@@ -1,0 +1,10 @@
+{
+  "base": "22a0d69094062b6bb3a6078c4a548fff4ae891d6",
+  "seed": 131,
+  "fit": "Freeze M36 seed 131's analytic-trained PINO weights and validation checkpoint. Fit one real scalar coefficient on 32 newly generated analytic half-ellipsoid cuts from seed 3701 using the M36 geometry and cut distributions. No real-label fitting.",
+  "weights": "1 + coefficient * (sigmoid(raw) - 1), with coefficient in [-0.5, 1]. Coefficient zero reproduces matched unit weights. Use a single coefficient for every output and test geometry.",
+  "objective": "Equal sample weighting and equal weighting of squared relative L2 ten-moment error and squared relative Frobenius Jacobian error. One bounded least-squares solve in native coordinates.",
+  "evaluation": "All 8 original analytic M36 cuts (seed 3601), all 3 previously scored Noodles and all 3 previously scored Bunny queries; M36 localized rule with the registered Cartesian fallback. Publish each result and the equal-query group mean. No post hoc choice of sign, coefficient, quadrature or seed. Training distributions of this added scalar include only bounded chart cases; the same coefficient is applied to fallback cases.",
+  "controls": ["unit", "frozen_m36", "calibrated"],
+  "limitations": "Development diagnostics on previously examined real geometries. No timing, solver or new real-model generalization claim."
+}
