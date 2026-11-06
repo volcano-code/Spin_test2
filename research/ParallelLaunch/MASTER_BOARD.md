@@ -1,6 +1,6 @@
 # Spin_test2 Neural Moments 开发入口
 
-当前对话统一调度 W0–W6，开发与验收均在 `volcano-code/Spin_test2`。见[首月计划](SPIN_TEST2_30_DAY_PLAN.md)和[首轮 Heart 验证](SPIN_TEST2_HEART_POINT0_FIRST.md)。
+当前对话统一调度 W0–W6，开发与验收均在 `volcano-code/Spin_test2`。见[首月计划](SPIN_TEST2_30_DAY_PLAN.md)、[首轮 Heart 验证](SPIN_TEST2_HEART_POINT0_FIRST.md)和[完整差集验收](SPIN_TEST2_HEART_POINT0_SOLID.md)。
 
 ## 迁移前协调记录
 

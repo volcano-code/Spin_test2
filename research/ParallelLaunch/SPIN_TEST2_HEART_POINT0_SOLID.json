@@ -1,0 +1,37 @@
+{
+  "point": "H8f/point-000",
+  "frame": "physical_model",
+  "archive_sha256": "99a050f4604109e0323c0110a029aa5d7601d729d755e6956ad48ed8c77ccda9",
+  "material_sha256": "6be4faf58ef2fc31b6a1e6d67e601417150d0b43dbd37104b61565a2ca6708c1",
+  "w1_commit": "15db682052e9a97779c34ba02000095b78cf4b91",
+  "w2_commit": "519906bc1447eddc74fb3ca0c2117b1d3c9eca09",
+  "historical_regularized_polyhedral_difference_verified": true,
+  "design_parent_counts": {
+    "retained": 14900,
+    "cut": 696,
+    "removed": 10648
+  },
+  "cutter_parent_counts": {
+    "removed": 187,
+    "retained": 48,
+    "partial": 85
+  },
+  "cut_design_cells": 3200,
+  "cutter_cells": 4763,
+  "w1_w2_output_faces_matched": 16910,
+  "output_face_ownership": {
+    "design_same": 16034,
+    "quadric_reversed": 876
+  },
+  "oriented_seam_segments": 784,
+  "seam_loop_lengths": [
+    102,
+    682
+  ],
+  "output_volume_model_units_cubed": 0.4638104336177978,
+  "m21_material_sha256": "b136cbcc09740915cd70615d73fab3ab2aa0b680cdb823cfed12375bed6c20e8",
+  "fresh_native_boolean_calls": 0,
+  "m21_full_same_call_material_verified": false,
+  "J_D": null,
+  "training_admitted": false
+}
