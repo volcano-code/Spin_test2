@@ -42,3 +42,7 @@ class C0OperandReceiptTest(unittest.TestCase):
                        fresh_native_boolean_calls=8, samples=entries))
             with self.assertRaisesRegex(ValueError, 'COLUMN_MISMATCH'):
                 replay(root, 'linear', file_hash(result_path), linear=True)
+
+    def test_cannot_mix_linear_and_event_protocols(self):
+        with self.assertRaisesRegex(ValueError, 'ONE_STENCIL_PROTOCOL'):
+            replay(None, None, None, linear=True, c7=True)

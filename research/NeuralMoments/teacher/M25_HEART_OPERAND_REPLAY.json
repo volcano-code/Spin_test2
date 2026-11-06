@@ -1,0 +1,164 @@
+{
+  "J_D": null,
+  "fresh_native_calls_in_replay": 0,
+  "group_id": "heart-linear-42185824300-1",
+  "samples": [
+    {
+      "column": 1,
+      "construction_counts": {
+        "EXPLICIT3D_design": 7625,
+        "EXPLICIT3D_quadric": 46,
+        "LPI_design": 696,
+        "LPI_quadric": 88
+      },
+      "face_counts": {
+        "design_same": 16034,
+        "quadric_reversed": 876
+      },
+      "faces_with_exact_support_and_winding": 16910,
+      "material_sha256": "75701cea2b51ad530a2bfdc0b4ee74e357a97355240ada7b63f81b1c8ce8f337",
+      "native_c_sha256": "710b87b25330055748280a9ca717748ed8bc964dc50daa5d5b25e0ac350e4ebc",
+      "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+      "run_id": "heart-linear-42185824300-1-001",
+      "vertices_in_model_and_target": 8455
+    },
+    {
+      "column": 1,
+      "construction_counts": {
+        "EXPLICIT3D_design": 7625,
+        "EXPLICIT3D_quadric": 46,
+        "LPI_design": 696,
+        "LPI_quadric": 88
+      },
+      "face_counts": {
+        "design_same": 16034,
+        "quadric_reversed": 876
+      },
+      "faces_with_exact_support_and_winding": 16910,
+      "material_sha256": "26b85e9de4b918b1a05e9dc223ac41ade218456d0f5c78e05df3324d14845edd",
+      "native_c_sha256": "93bb83aea96b6626f4da2749ffa3767f55583487e6877e3f45c6fe03b62bca75",
+      "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+      "run_id": "heart-linear-42185824300-1-002",
+      "vertices_in_model_and_target": 8455
+    },
+    {
+      "column": 1,
+      "construction_counts": {
+        "EXPLICIT3D_design": 7625,
+        "EXPLICIT3D_quadric": 46,
+        "LPI_design": 696,
+        "LPI_quadric": 88
+      },
+      "face_counts": {
+        "design_same": 16034,
+        "quadric_reversed": 876
+      },
+      "faces_with_exact_support_and_winding": 16910,
+      "material_sha256": "6179ea39096be9e480c9e9bff977621cd8f61ec28a78bc04753dbced0748a6dc",
+      "native_c_sha256": "1cc92b40b41cce4562b52708ae6bd0d042399bba19922a3d5445a9513d8e4025",
+      "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+      "run_id": "heart-linear-42185824300-1-003",
+      "vertices_in_model_and_target": 8455
+    },
+    {
+      "column": 1,
+      "construction_counts": {
+        "EXPLICIT3D_design": 7625,
+        "EXPLICIT3D_quadric": 46,
+        "LPI_design": 696,
+        "LPI_quadric": 88
+      },
+      "face_counts": {
+        "design_same": 16034,
+        "quadric_reversed": 876
+      },
+      "faces_with_exact_support_and_winding": 16910,
+      "material_sha256": "09dd72d440920b0f98ce08049290afc1081b3720e20952cda67dd6ab688f0867",
+      "native_c_sha256": "b0ce1437c2ec81a3462e2d3d4b0ac60a6be4c51217ac18b4512c0c241b855cdc",
+      "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+      "run_id": "heart-linear-42185824300-1-004",
+      "vertices_in_model_and_target": 8455
+    },
+    {
+      "column": 2,
+      "construction_counts": {
+        "EXPLICIT3D_design": 7625,
+        "EXPLICIT3D_quadric": 46,
+        "LPI_design": 696,
+        "LPI_quadric": 88
+      },
+      "face_counts": {
+        "design_same": 16034,
+        "quadric_reversed": 876
+      },
+      "faces_with_exact_support_and_winding": 16910,
+      "material_sha256": "d6f354aa1e986e76e6af1d4613c608c0883e4471e5c0a90a35ed77ae584a2d6f",
+      "native_c_sha256": "3050355b97a159bd3c93fa3e863d398d7984cf47437462e2221d5f7bb9b46f3e",
+      "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+      "run_id": "heart-linear-42185824300-1-005",
+      "vertices_in_model_and_target": 8455
+    },
+    {
+      "column": 2,
+      "construction_counts": {
+        "EXPLICIT3D_design": 7625,
+        "EXPLICIT3D_quadric": 46,
+        "LPI_design": 696,
+        "LPI_quadric": 88
+      },
+      "face_counts": {
+        "design_same": 16034,
+        "quadric_reversed": 876
+      },
+      "faces_with_exact_support_and_winding": 16910,
+      "material_sha256": "c034c98855ae3405168c175138a49ed839cd762fa64702f1815a16670069f850",
+      "native_c_sha256": "5746b72e9582019be105cb7fae68db23bf35e54e9ab75b67e30bed3b981600ec",
+      "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+      "run_id": "heart-linear-42185824300-1-006",
+      "vertices_in_model_and_target": 8455
+    },
+    {
+      "column": 2,
+      "construction_counts": {
+        "EXPLICIT3D_design": 7625,
+        "EXPLICIT3D_quadric": 46,
+        "LPI_design": 696,
+        "LPI_quadric": 88
+      },
+      "face_counts": {
+        "design_same": 16034,
+        "quadric_reversed": 876
+      },
+      "faces_with_exact_support_and_winding": 16910,
+      "material_sha256": "ab3d03ef16fa888df48d4987585b4504e8334c49351a7005d00f2d91e5bc9d4c",
+      "native_c_sha256": "0f1b2df0f7262050cfc287757ea619110884e99057adc564b6986ea3939c790e",
+      "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+      "run_id": "heart-linear-42185824300-1-007",
+      "vertices_in_model_and_target": 8455
+    },
+    {
+      "column": 2,
+      "construction_counts": {
+        "EXPLICIT3D_design": 7625,
+        "EXPLICIT3D_quadric": 46,
+        "LPI_design": 696,
+        "LPI_quadric": 88
+      },
+      "face_counts": {
+        "design_same": 16034,
+        "quadric_reversed": 876
+      },
+      "faces_with_exact_support_and_winding": 16910,
+      "material_sha256": "6c091ba1ff90b646d4f5145e28763bc57dc38ce17ab909ecea9647118a507a98",
+      "native_c_sha256": "47b339f0f6f2b2e3b12024781cba82bbc402b08f80711e02d64e8b0d4e6eb29b",
+      "ordered_face_to_operand_sha256": "c1de258442374ba9678da93b3f12e4cfc150d82dabcbefcdc966a1d0ea2e0270",
+      "run_id": "heart-linear-42185824300-1-008",
+      "vertices_in_model_and_target": 8455
+    }
+  ],
+  "schema": "w2-m25-linear-operands-v1",
+  "smooth_interval_verified": false,
+  "stencil_result_sha256": "0649f8554abbef2e8e2597300284db2f1c1bce4f985d8116db10e3e2bce8c82d",
+  "training_admitted": false,
+  "whole_boolean_set_equality_verified": false
+}

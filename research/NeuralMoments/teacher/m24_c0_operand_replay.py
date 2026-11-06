@@ -7,12 +7,14 @@ from m16_native_acceptance import file_hash, require, strict_json
 from m22_point0_operand_replay import audit_geometry
 from m24_capture_c0 import plan
 from m25_capture_linear import COLUMNS
+from m26_capture_c7 import plan as event_plan
 from native_cherchi_teacher import digest
 
 
-def replay(group, group_id, expected_result_sha256, *, linear=False):
-    protocol = "w2-m25-linear" if linear else "w2-m24-c0"
-    count = 8 if linear else 4
+def replay(group, group_id, expected_result_sha256, *, linear=False, c7=False):
+    require(not (linear and c7), "SPECIFY_ONE_STENCIL_PROTOCOL")
+    protocol = "w2-m26-c7" if c7 else "w2-m25-linear" if linear else "w2-m24-c0"
+    count = 6 if c7 else 8 if linear else 4
     result_file = group / 'stencil-result.json'
     require(file_hash(result_file) == expected_result_sha256, 'WRONG_EXTERNAL_RESULT_DIGEST')
     result = strict_json(result_file.read_bytes())
@@ -23,12 +25,15 @@ def replay(group, group_id, expected_result_sha256, *, linear=False):
             and result['J_D'] is None and Path(group_id).name == group_id and group_id not in ('', '.', '..')
             and group_id == result['group_id'] and len(result['samples']) == count
             and result['fresh_native_boolean_calls'] == count, 'STENCIL_GROUP_ID_OR_COUNT')
-    require(stencil == plan(group_id, stencil['module_sha256'], stencil['source_checkout'], columns=COLUMNS if linear else None),
-            'UNEXPECTED_STENCIL')
+    args = (group_id, stencil['module_sha256'], stencil['source_checkout'])
+    expected_plan = event_plan(*args) if c7 else plan(*args, columns=COLUMNS if linear else None)
+    require(stencil == expected_plan, 'UNEXPECTED_STENCIL')
     samples = []
     for expected, entry in zip(stencil['samples'], result['samples']):
-        if linear:
+        if linear or c7:
             require(entry['column'] == expected['column'], 'COLUMN_MISMATCH')
+        if c7:
+            require(all(entry[k] == expected[k] for k in ('side','location')), 'EVENT_SIDE_MISMATCH')
         run_id = expected['run_id']
         require(entry['run_id'] == run_id and entry['index'] == expected['index'], 'POINT_ID_MISMATCH')
         folder = group / run_id
@@ -65,8 +70,7 @@ def replay(group, group_id, expected_result_sha256, *, linear=False):
                             vertices_in_model_and_target=sum(counts.values()), construction_counts=counts,
                             faces_with_exact_support_and_winding=sum(faces.values()), face_counts=faces,
                             ordered_face_to_operand_sha256=digest(assignments)))
-        if linear:
-            samples[-1]['column'] = expected['column']
+        samples[-1].update({k:expected[k] for k in ('column','side','location') if k in expected})
     return dict(schema=protocol+'-operands-v1', group_id=group_id, stencil_result_sha256=expected_result_sha256,
                 samples=samples, fresh_native_calls_in_replay=0, whole_boolean_set_equality_verified=False,
                 smooth_interval_verified=False, J_D=None, training_admitted=False)
@@ -77,6 +81,8 @@ if __name__ == '__main__':
     p.add_argument('group', type=Path)
     p.add_argument('group_id')
     p.add_argument('result_sha256', help='SHA-256 of the independently retrieved public stencil-result.json')
-    p.add_argument('--linear', action='store_true', help='verify the registered M25 eight-point linear stencil')
+    protocol = p.add_mutually_exclusive_group()
+    protocol.add_argument('--c7', action='store_true', help='verify the M26 six event-side samples')
+    protocol.add_argument('--linear', action='store_true', help='verify the registered M25 eight-point linear stencil')
     args = p.parse_args()
-    print(json.dumps(replay(args.group, args.group_id, args.result_sha256, linear=args.linear), indent=2, sort_keys=True))
+    print(json.dumps(replay(args.group, args.group_id, args.result_sha256, linear=args.linear,c7=args.c7), indent=2, sort_keys=True))
