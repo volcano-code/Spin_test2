@@ -1,0 +1,18 @@
+{
+  "cylinder": {
+    "sha256": {
+      "positive": "b0a29616092d002daa8e0c0b1e6a5e227ccba7843cd7f2ed6dcdeb32584ba8c8",
+      "negative": "d25fedd8366508ae7d83a0ee4e8fed32c8f1c484b132de77960df45f74889065",
+      "observed": "e7f8fe4a52c7877aad184501e615da4ffb4977e9c9834a561bc31b854f973398"
+    },
+    "mismatched_faces": 0
+  },
+  "cone-": {
+    "sha256": {
+      "positive": "b0a29616092d002daa8e0c0b1e6a5e227ccba7843cd7f2ed6dcdeb32584ba8c8",
+      "negative": "80618c478eddd7980dd03d84fe12ab6b2d090e53bc3760b921cf7a2111a4d313",
+      "observed": "63894cb093e5956755e937120dcc9cc1413082a7a7b17579fc5568c825142bdd"
+    },
+    "mismatched_faces": 0
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "task": "M32 Noodles, native InertiaAndLowering and a conservative reference-axis inertia floor",
+  "primary_floor": 0.9,
+  "first_start": "negation of M35 elliptic crossing native coefficients; preserve the exterior of that cutter",
+  "second_start_selection": "after initial_multiplier_nonpositive, choose a retained ellipsoid using the upper 97.5th percentile of the tip-frame Dprime vertices in a fixed triaxial metric; independent of model predictions and trial scores",
+  "stock_trajectory": {"initializations_per_start": 1, "max_iterations": 2, "max_evaluations": 6, "admission_seconds": 1200},
+  "paired_first_trial": {
+    "arms": ["exact", "seed131_learned_24nodes_per_axis_tau_0.0075", "unit_gate_24nodes_per_axis_tau_0.0075"],
+    "shared_inputs": ["same exact anchor raw moments", "same fixed shell and unit density", "same start, native spherical solver and inertia gate", "same exact evaluator for each trial"],
+    "budget_per_arm": "one native trial from the initial anchor",
+    "acceptance": "before native comparison reject if the independently integrated fixed-axis inertia lower bound falls below 90%; then apply the native residual rule",
+    "scope": "pilot on one start. Training/setup/geometry cache and full-solve runtime are unmeasured. No end-to-end speed claim."
+  }
+}

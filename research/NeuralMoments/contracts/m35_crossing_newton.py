@@ -1,8 +1,10 @@
 """Drive unmodified native Newton with a fail-closed discrete M32 crossing map in tip coordinates."""
 import argparse
 from fractions import Fraction as Q
+from .m32_mass_bound import FULL_TEN_SHA
 from hashlib import sha256
 import json
+import math
 from pathlib import Path
 import shutil
 import subprocess
@@ -128,6 +130,25 @@ def cached_sample(original, folder, q, design, source, boolean, bounds):
     shutil.copyfile(original/"receipt.json",folder/"receipt.json")
 
 
+def inertia_gate(total, original):
+    """Conservatively compare Izz about the fixed registered axis in model units.
+
+    W1 bounds each variable second moment to width <=2^-90. The fixed
+    and original exact inputs each lose <2^-190 per entry in read_ten.
+    A shift along z leaves xx and yy unchanged.
+    """
+    margin = Q(1, 2**86)
+    retained = total[4] + total[5]
+    reference = original[4] + original[5]
+    if reference <= margin:
+        raise ValueError("nonpositive reference inertia")
+    lower = (retained - margin) / (reference + margin)
+    upper = (retained + margin) / (reference - margin)
+    return dict(lower=math.nextafter(float(lower), -math.inf),
+                upper=math.nextafter(float(upper), math.inf), passes=lower >= Q(9, 10),
+                mass_fraction=float(total[0]/original[0]))
+
+
 def execute(args):
     for d in (args.w1,args.w2,args.w3):sys.path.insert(0,str(d.resolve()))
     from m35_exact_crossing import evaluate
@@ -138,6 +159,11 @@ def execute(args):
     lines=design.decode().splitlines()
     design_keys=keys([r.split() for r in lines[1:1+int(lines[0].split()[0])]])
     fixed=shift(read_ten(args.fixed_ten))
+    original = None
+    if args.enforce_inertia90:
+        if digest(args.enforce_inertia90.read_bytes()) != FULL_TEN_SHA:
+            raise ValueError("incorrect fixed-axis reference")
+        original = read_ten(args.enforce_inertia90)
     if args.chart=="full-rank" and args.bounds is None:raise ValueError("missing finite-source bounds")
     if args.start_index is not None:
         starts=subprocess.check_output([str(args.kernel),"--starts"],text=True).splitlines()
@@ -191,12 +217,18 @@ def execute(args):
                 receipt=json.loads((folder/'receipt.json').read_text())
                 source=json.loads((folder/'source.json').read_text())
                 if q!=source["raw_q"]:raise ValueError("native_query_changed")
-                obj=json.loads((folder/"result.json").read_text());jac=sample_flux(folder)
+                obj=json.loads((folder/"result.json").read_text())
                 if args.moment_method=="exact":
                     variable=exact_moments(args,folder,out,receipt["result_sha256"])
                 else:
                     variable=bounded_moments(args,folder,receipt["result_sha256"])
                 total=[x+y for x,y in zip(variable,fixed)]
+                if original is not None:
+                    row["inertia_gate"] = inertia_gate(total, original)
+                    if not row["inertia_gate"]["passes"]:
+                        row["result_sha256"] = receipt["result_sha256"]
+                        raise ValueError("fixed_axis_inertia_below_90_percent")
+                jac=sample_flux(folder)
                 r=list(map(float,total));v=list(map(float,variable))
                 if jac["result_sha256"]!=receipt["result_sha256"]:
                     raise ValueError("unpaired material")
@@ -232,4 +264,6 @@ if __name__=="__main__":
     p.add_argument("--bounds",type=Path);p.add_argument("--replay-first",type=Path)
     p.add_argument("--moment-method",choices=("exact","bounded"),default="bounded")
     p.add_argument("--ten",type=Path);p.add_argument("--embedding",type=Path)
+    p.add_argument("--enforce-inertia90",type=Path,metavar="A.ten",
+                   help="Reject a trial before passing its mass map to the native solver if its certified fixed-axis inertia lower bound is below 90 percent of A.")
     execute(p.parse_args())

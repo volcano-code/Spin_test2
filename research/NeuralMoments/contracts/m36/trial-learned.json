@@ -1,0 +1,147 @@
+{
+  "schema": "m36-one-proposal-one-exact-trial-v1",
+  "arm": "learned",
+  "anchor_q": [
+    -0.2920860472949892,
+    0.003998158706747257,
+    -0.019984980568121452,
+    0.8147288359917657,
+    -0.1792984604575227,
+    -0.2604304282120897,
+    -0.38788290939418335,
+    0.005744788857619627,
+    -0.00011912991260023211,
+    0.005400556037877188
+  ],
+  "anchor_geometry": "627898a26173f534bd418cc823daee21a9c4be777b962a29c9c4ce190d83f97f",
+  "anchor_mass_fraction": 0.9901728818593061,
+  "anchor_equation_residual": 5.446777706571614,
+  "predictor_sha256": "ac48535d35bb849d588c86642c3edba524003354863be92b2a44e873b574fa9c",
+  "kernel_sha256": "e876724bb8405d29e55cfb8ede94bbb2c518875dc23de6363bf022d2d945033c",
+  "true_anchor_moments": true,
+  "trial_true_callback": true,
+  "trial": {
+    "q": [
+      -0.40705665862025364,
+      0.016994800170648167,
+      -0.014452855771708248,
+      0.8100366725559295,
+      0.03324825236469909,
+      0.10210021500206026,
+      -0.4070956047284735,
+      0.014994481860308823,
+      -0.012872526539770453,
+      -0.0006996505145539663
+    ],
+    "result_sha256": "19eb639cd4fadb87f9f503fa6f12aa3a492abcc6043e6a8305091462e81837ae",
+    "operation": "difference",
+    "inertia_gate": {
+      "lower": 0.8672208411815239,
+      "upper": 0.8672208411815241,
+      "passes": false,
+      "mass_fraction": 0.7421284947676428
+    },
+    "retained_ten_tip": [
+      1.0682561296340374,
+      -0.021688075286109443,
+      0.020384969473616583,
+      1.1217158495773292,
+      0.23836050262138755,
+      0.17063476724809098,
+      1.219031497207978,
+      0.022810574631698825,
+      -0.023484894097667956,
+      0.0008696476750577554
+    ],
+    "variable_ten_tip": [
+      0.3958665902122516,
+      -0.02192067949274669,
+      0.020508507251139427,
+      0.40487526233008164,
+      0.07787786300544199,
+      0.06815324578872291,
+      0.41848725611470144,
+      0.022928706860710996,
+      -0.02370688733676177,
+      0.0009512680820872467
+    ],
+    "variable_mesh": [
+      20329,
+      41094
+    ],
+    "independent": {
+      "objective": 1.785950601477208,
+      "raw_residual": 0.5094227699712812,
+      "physical_relative": 0.014952931889861814,
+      "mu": 14.018355192448057,
+      "projection_rank": 5,
+      "constraints": [
+        -0.021688075286109443,
+        0.020384969473616583,
+        0.000711462595253308,
+        -0.001405461459505545
+      ]
+    }
+  },
+  "events": [
+    {
+      "type": "attempt_start",
+      "restart": "0",
+      "iteration": "0",
+      "index": "0",
+      "outcome": "started",
+      "reason": "restart_started",
+      "step": "null",
+      "raw_residual": "null",
+      "physical_relative": "null",
+      "objective": "null",
+      "mu": "null"
+    },
+    {
+      "type": "evaluation",
+      "restart": "0",
+      "iteration": "0",
+      "index": "1",
+      "outcome": "accepted",
+      "reason": "initial_evaluation_succeeded",
+      "step": "0",
+      "raw_residual": "5.4467777065716154",
+      "physical_relative": "0.0025165320743437197",
+      "objective": "1.8629693835073793",
+      "mu": "12.065094462003119"
+    },
+    {
+      "type": "evaluation",
+      "restart": "0",
+      "iteration": "1",
+      "index": "2",
+      "outcome": "failed",
+      "reason": "evaluation_exception",
+      "step": "0.44108824276423625",
+      "raw_residual": "null",
+      "physical_relative": "null",
+      "objective": "null",
+      "mu": "null"
+    },
+    {
+      "type": "attempt_terminal",
+      "restart": "0",
+      "iteration": "1",
+      "index": "2",
+      "outcome": "terminated",
+      "reason": "maximum_evaluations_reached",
+      "step": "null",
+      "raw_residual": "null",
+      "physical_relative": "null",
+      "objective": "null",
+      "mu": "null"
+    }
+  ],
+  "terminal": [
+    "RESOURCE_LIMIT_REACHED",
+    "2",
+    "1",
+    "1",
+    "860f1d52b7ad5860fcaa0fa3b6a960554cbfd7150d162c57e5861a9ef0558919"
+  ]
+}

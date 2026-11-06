@@ -1,0 +1,91 @@
+{
+  "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+  "vertices": 56793,
+  "faces": 114214,
+  "input_sha256": "080dbf6a73e9718444ba453332b93ec69d58d3524bbc2a9446e4b2107123600e",
+  "m26_sha256": "2536f7783ff6552ac930c294879e69b8430fc8e527873859b3ec1187d39c6ea0",
+  "generated_source_sha256": "22246f29795257f8067804feff8e062d05b6aef824ffe5b927c5c91c12445577",
+  "shards": [
+    {
+      "shard": 0,
+      "status": "EXACT_SHARD_COMPLETE",
+      "vertices": "56793",
+      "faces": "114214",
+      "candidate_pairs": "189626",
+      "exact_pairs_checked": "189626",
+      "adjacent_pairs": "153873",
+      "nonadjacent_pairs": "35753",
+      "elapsed_seconds": "82.6225"
+    },
+    {
+      "shard": 1,
+      "status": "EXACT_SHARD_COMPLETE",
+      "vertices": "56793",
+      "faces": "114214",
+      "candidate_pairs": "189630",
+      "exact_pairs_checked": "189630",
+      "adjacent_pairs": "153647",
+      "nonadjacent_pairs": "35983",
+      "elapsed_seconds": "83.3164"
+    },
+    {
+      "shard": 2,
+      "status": "EXACT_SHARD_COMPLETE",
+      "vertices": "56793",
+      "faces": "114214",
+      "candidate_pairs": "190051",
+      "exact_pairs_checked": "190051",
+      "adjacent_pairs": "154098",
+      "nonadjacent_pairs": "35953",
+      "elapsed_seconds": "84.985"
+    },
+    {
+      "shard": 3,
+      "status": "EXACT_SHARD_COMPLETE",
+      "vertices": "56793",
+      "faces": "114214",
+      "candidate_pairs": "190532",
+      "exact_pairs_checked": "190532",
+      "adjacent_pairs": "154593",
+      "nonadjacent_pairs": "35939",
+      "elapsed_seconds": "82.8445"
+    },
+    {
+      "shard": 4,
+      "status": "EXACT_SHARD_COMPLETE",
+      "vertices": "56793",
+      "faces": "114214",
+      "candidate_pairs": "190025",
+      "exact_pairs_checked": "190025",
+      "adjacent_pairs": "153602",
+      "nonadjacent_pairs": "36423",
+      "elapsed_seconds": "84.8593"
+    },
+    {
+      "shard": 5,
+      "status": "EXACT_SHARD_COMPLETE",
+      "vertices": "56793",
+      "faces": "114214",
+      "candidate_pairs": "189422",
+      "exact_pairs_checked": "189422",
+      "adjacent_pairs": "153935",
+      "nonadjacent_pairs": "35487",
+      "elapsed_seconds": "83.8645"
+    },
+    {
+      "shard": 6,
+      "status": "EXACT_SHARD_COMPLETE",
+      "vertices": "56793",
+      "faces": "114214",
+      "candidate_pairs": "190215",
+      "exact_pairs_checked": "190215",
+      "adjacent_pairs": "153816",
+      "nonadjacent_pairs": "36399",
+      "elapsed_seconds": "84.4519"
+    }
+  ],
+  "candidate_pairs": 1329501,
+  "exact_pairs_checked": 1329501,
+  "adjacent_pairs": 1077564,
+  "nonadjacent_pairs": 251937
+}

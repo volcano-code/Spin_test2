@@ -1,0 +1,76 @@
+{
+  "sha256": "080dbf6a73e9718444ba453332b93ec69d58d3524bbc2a9446e4b2107123600e",
+  "components": [
+    {
+      "vertices": 38234,
+      "faces": 77132,
+      "edges": 115698,
+      "chi": -332,
+      "boundary_genus": 167
+    },
+    {
+      "vertices": 18495,
+      "faces": 36986,
+      "edges": 55479,
+      "chi": 2,
+      "boundary_genus": 0
+    },
+    {
+      "vertices": 8,
+      "faces": 12,
+      "edges": 18,
+      "chi": 2,
+      "boundary_genus": 0
+    },
+    {
+      "vertices": 8,
+      "faces": 12,
+      "edges": 18,
+      "chi": 2,
+      "boundary_genus": 0
+    },
+    {
+      "vertices": 8,
+      "faces": 12,
+      "edges": 18,
+      "chi": 2,
+      "boundary_genus": 0
+    },
+    {
+      "vertices": 8,
+      "faces": 12,
+      "edges": 18,
+      "chi": 2,
+      "boundary_genus": 0
+    },
+    {
+      "vertices": 8,
+      "faces": 12,
+      "edges": 18,
+      "chi": 2,
+      "boundary_genus": 0
+    },
+    {
+      "vertices": 8,
+      "faces": 12,
+      "edges": 18,
+      "chi": 2,
+      "boundary_genus": 0
+    },
+    {
+      "vertices": 8,
+      "faces": 12,
+      "edges": 18,
+      "chi": 2,
+      "boundary_genus": 0
+    },
+    {
+      "vertices": 8,
+      "faces": 12,
+      "edges": 18,
+      "chi": 2,
+      "boundary_genus": 0
+    }
+  ],
+  "sum_boundary_genera": 167
+}

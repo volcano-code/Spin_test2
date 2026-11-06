@@ -1,0 +1,67 @@
+{
+  "schema": "M36_BLIND_W6_PROPOSAL_ANCHOR_SCORING",
+  "anchor_sha256": "c572fb76ed75eb254d4ba1199f9dd241c881821a8b1b4e3705ef1c9a8c5b3899",
+  "actual_result_sha256": "627898a26173f534bd418cc823daee21a9c4be777b962a29c9c4ce190d83f97f",
+  "scores": [
+    {
+      "seed": 131,
+      "mode": "learned",
+      "arm": "coarse",
+      "r": 0.6560541394115829,
+      "J": 0.6282020944053515,
+      "true_mass": 0.7529138384990188,
+      "prediction": 0.26472052481753944,
+      "query_max_absolute_difference": 0.0
+    },
+    {
+      "seed": 131,
+      "mode": "learned",
+      "arm": "fine_cool",
+      "r": 0.6052904452907655,
+      "J": 0.6860047398518173,
+      "true_mass": 0.7529138384990188,
+      "prediction": 0.3051402362065035,
+      "query_max_absolute_difference": 0.0
+    },
+    {
+      "seed": 131,
+      "mode": "learned",
+      "arm": "chart",
+      "r": 0.6040719323972435,
+      "J": 0.6659979264213327,
+      "true_mass": 0.7529138384990188,
+      "prediction": 0.30558923715155284,
+      "query_max_absolute_difference": 0.0
+    },
+    {
+      "seed": 131,
+      "mode": "unit",
+      "arm": "coarse",
+      "r": 0.6129507330745425,
+      "J": 0.58361102808694,
+      "true_mass": 0.7529138384990188,
+      "prediction": 0.30142835326854184,
+      "query_max_absolute_difference": 0.0
+    },
+    {
+      "seed": 131,
+      "mode": "unit",
+      "arm": "fine_cool",
+      "r": 0.5593538045868294,
+      "J": 0.6466520759005906,
+      "true_mass": 0.7529138384990188,
+      "prediction": 0.3431619622123074,
+      "query_max_absolute_difference": 0.0
+    },
+    {
+      "seed": 131,
+      "mode": "unit",
+      "arm": "chart",
+      "r": 0.5582106144920908,
+      "J": 0.6170891547784118,
+      "true_mass": 0.7529138384990188,
+      "prediction": 0.34349971430479626,
+      "query_max_absolute_difference": 0.0
+    }
+  ]
+}
