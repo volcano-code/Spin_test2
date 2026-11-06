@@ -29,6 +29,7 @@ jobs:
           python -m pytest -q \
             research/NeuralMoments/contracts/test_mass90_cylinder_reference.py \
             research/NeuralMoments/contracts/test_m32_mass_bound.py \
+            research/NeuralMoments/contracts/test_m35_crossing_newton.py \
             research/NeuralMoments/contracts/test_heart_newton_prefix.py \
             research/NeuralMoments/contracts/test_heart_newton_intersection.py \
             research/NeuralMoments/contracts/test_heart_axis_feasibility.py \

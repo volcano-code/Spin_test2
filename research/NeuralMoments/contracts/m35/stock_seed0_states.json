@@ -1,0 +1,53 @@
+{
+  "map": "M35-exact-design-stock-finite-quadric-v1",
+  "fixed_axis": "registered z axis through the unique tip",
+  "thresholds": {
+    "minimum_inertia_ratio": 0.9
+  },
+  "terminal": {
+    "status": "RESOURCE_LIMIT_REACHED",
+    "calls": "3",
+    "starts": "1",
+    "trace_entries": "3",
+    "event_hash": "e7f0196fef9d7f9e7a4fb86881192884b6b2dc3c884e794bf6bbfe2cfa3d1c13"
+  },
+  "states": [
+    {
+      "index": 1,
+      "outcome": "accepted",
+      "reason": "initial_evaluation_succeeded",
+      "step": "0",
+      "mass_fraction": 0.559732898682481,
+      "axial_inertia_fraction": 0.6729367098594752,
+      "passes_axial_inertia_90": false,
+      "raw_residual": 17.498347931187727,
+      "physical_relative": 0.04880063819623176,
+      "result_sha256": "7bbb8380d2468a050a077fdec0b1fd0afa90a1adf75a84d962b6f19dbdd90b03"
+    },
+    {
+      "index": 2,
+      "outcome": "accepted",
+      "reason": "topology_transition_relinearized",
+      "step": "0.5",
+      "mass_fraction": 0.5730940195311672,
+      "axial_inertia_fraction": 0.6850627125796361,
+      "passes_axial_inertia_90": false,
+      "raw_residual": 15.036334847856585,
+      "physical_relative": 0.05259827494689712,
+      "result_sha256": "88f2825bb8b74d13b95e2d2b31fb50c6862188fc69734a7bd21e5b984787a1f8"
+    },
+    {
+      "index": 3,
+      "outcome": "accepted",
+      "reason": "topology_transition_relinearized",
+      "step": "0.5",
+      "mass_fraction": 0.5524587823639723,
+      "axial_inertia_fraction": 0.6685899335297659,
+      "passes_axial_inertia_90": false,
+      "raw_residual": 13.48667035767425,
+      "physical_relative": 0.046713700138146234,
+      "result_sha256": "23a754bc521b7b2f3f14d16a34e4bc713a95afcf96a9610af50e398a441ef221"
+    }
+  ],
+  "native_cherchi_calls": 0
+}

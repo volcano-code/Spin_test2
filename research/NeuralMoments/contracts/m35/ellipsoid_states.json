@@ -1,0 +1,71 @@
+{
+  "map": "M35-exact-design-discrete-negative-ellipsoid-intersection-v1",
+  "fixed_axis": "registered z axis through the unique tip",
+  "thresholds": {
+    "minimum_inertia_ratio": 0.9
+  },
+  "terminal": {
+    "status": "RESOURCE_LIMIT_REACHED",
+    "calls": "6",
+    "starts": "1",
+    "trace_entries": "3",
+    "event_hash": "3d8734e70827fb5834fcd0206f3cbe39403343b23551d146b191b5790e9733be"
+  },
+  "states": [
+    {
+      "index": 1,
+      "outcome": "accepted",
+      "reason": "initial_evaluation_succeeded",
+      "step": "0",
+      "mass_fraction": 0.4676272475988309,
+      "axial_inertia_fraction": 0.5577954230759182,
+      "passes_axial_inertia_90": false,
+      "raw_residual": 7.518883096556672,
+      "physical_relative": 0.0004054769719905124,
+      "result_sha256": "445c09bedacc5be9fbfa6ac574ebd46582d0541443bbc331ee9553623ac0bced"
+    },
+    {
+      "index": 2,
+      "outcome": "failed",
+      "reason": "evaluation_exception",
+      "step": "0.5"
+    },
+    {
+      "index": 3,
+      "outcome": "accepted",
+      "reason": "topology_transition_relinearized",
+      "step": "0.25",
+      "mass_fraction": 0.467638002660258,
+      "axial_inertia_fraction": 0.5578004724346637,
+      "passes_axial_inertia_90": false,
+      "raw_residual": 7.502996975091509,
+      "physical_relative": 0.0004098548736253587,
+      "result_sha256": "099f0f96fbbe08f7910d73bd18f866fabd8f1ea302fa7ab3a99457e505eb1dd7"
+    },
+    {
+      "index": 4,
+      "outcome": "failed",
+      "reason": "evaluation_exception",
+      "step": "0.5"
+    },
+    {
+      "index": 5,
+      "outcome": "failed",
+      "reason": "evaluation_exception",
+      "step": "0.25"
+    },
+    {
+      "index": 6,
+      "outcome": "accepted",
+      "reason": "topology_transition_relinearized",
+      "step": "0.125",
+      "mass_fraction": 0.46763681166060617,
+      "axial_inertia_fraction": 0.5577993940658582,
+      "passes_axial_inertia_90": false,
+      "raw_residual": 7.493579275921422,
+      "physical_relative": 0.0004088217087439631,
+      "result_sha256": "29bbb5f57c5ceb865948369e8d1231ac7d49b9583b4f0fbf53fae4b1ef222aef"
+    }
+  ],
+  "native_cherchi_calls": 0
+}
