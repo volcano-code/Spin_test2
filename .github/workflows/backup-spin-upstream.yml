@@ -1,19 +1,14 @@
-name: Backup original Spin branch into Spin_test
+name: Back up original Spin branch into Spin_test2
 
 on:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/backup-spin-upstream.yml']
   workflow_dispatch:
-  issues:
-    types: [opened]
 
 permissions:
   contents: write
 
 jobs:
   mirror-original:
-    if: github.event_name != 'issues' || github.event.issue.title == 'RUN_SOURCE_BACKUP_20261016'
+    if: github.repository == 'volcano-code/Spin_test2' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -25,16 +20,16 @@ jobs:
           echo "Original HEAD: $actual"
           test "$actual" = "a17ff49cd8a1e6e8b388bc591410bda56d67c28a"
           git -C upstream fsck --no-reflogs
-      - name: Publish the source branch ONLY in this backup repository
+      - name: Publish and verify the pinned branch in this repository
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BACKUP_URL: ${{ github.server_url }}/${{ github.repository }}.git
         run: |
           set -euo pipefail
+          ref=refs/heads/upstream-spin-it-strict-computational-v2
           header="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
-          git -C upstream -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $header" push https://github.com/volcano-code/Spin_test.git HEAD:refs/heads/upstream-spin-it-strict-computational-v2
-      - name: Verify backup branch points at the source commit
-        run: |
-          set -euo pipefail
-          actual="$(git ls-remote https://github.com/volcano-code/Spin_test.git refs/heads/upstream-spin-it-strict-computational-v2 | cut -f1)"
+          auth="http.${BACKUP_URL}.extraHeader=AUTHORIZATION: basic $header"
+          git -C upstream -c "$auth" push "$BACKUP_URL" "HEAD:$ref"
+          actual="$(git -c "$auth" ls-remote --exit-code "$BACKUP_URL" "$ref" | cut -f1)"
           echo "Backup HEAD: $actual"
           test "$actual" = "a17ff49cd8a1e6e8b388bc591410bda56d67c28a"
