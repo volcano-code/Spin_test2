@@ -103,7 +103,8 @@ def prepare(out, modules, prepared_request, *, native_c=NATIVE_C, expected_c_sha
     return digest(request)
 
 
-def capture(out, manifest, prepared_request, *, native_c=NATIVE_C, expected_c_sha=C_SHA):
+def capture(out, manifest, prepared_request, *, native_c=NATIVE_C, expected_c_sha=C_SHA,
+            sample_schema="w2-m24-c0-sample-v1"):
     # The exact H8f signed moments require more decimal digits than Python's default.
     sys.set_int_max_str_digits(100000)
     out = out.resolve()
@@ -157,7 +158,7 @@ def capture(out, manifest, prepared_request, *, native_c=NATIVE_C, expected_c_sh
                   exact_boundary_sha256=exact['exact_boundary_sha256'],evaluation_map_identity=proof['evaluation_map_identity'],
                   fresh_evaluation_verified=True, training_admitted=False,J_D=None)
     if expected_c_sha != C_SHA:
-        record.update(schema='w2-m24-c0-sample-v1', native_c_sha256=expected_c_sha)
+        record.update(schema=sample_schema, native_c_sha256=expected_c_sha)
     write_json(out/'capture.json',record)
     return record
 

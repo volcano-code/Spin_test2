@@ -20,29 +20,39 @@ SAMPLES = (
 )
 
 
-def plan(group_id, modules, source_checkout):
+def plan(group_id, modules, source_checkout, *, columns=None):
     baseline = strict_json((HERE/'M23_HEART_POINT000_FRESH.json').read_bytes())['runner_replay']
     require(modules == baseline['module_sha256'], 'M23_NATIVE_MODULE_DRIFT')
+    registered = {0:SAMPLES} if columns is None else columns
     points = []
-    for index, (offset, expected) in enumerate(SAMPLES, 1):
-        c = list(NATIVE_C)
-        c[0] += offset
-        require(digest(c) == expected, 'H8F_STENCIL_COEFFICIENT_DRIFT')
-        delta = Fraction(c[0]) - Fraction(NATIVE_C[0])
-        points.append(dict(index=index, run_id=f'{group_id}-{index:03d}', nominal_offset=offset,
-                           actual_offset_exact=str(delta), native_c_sha256=expected, native_c=c))
-    return dict(schema='w2-m24-c0-plan-v1', group_id=group_id, source_checkout=source_checkout,
-                base_run_id=baseline['run_id'], base_capture_sha256=baseline['capture_file_sha256'],
-                module_sha256=modules, request_sha256=baseline['request_sha256'], column=0, h=H,
-                samples=points)
+    for column, samples in registered.items():
+        for offset, expected in samples:
+            index = len(points) + 1
+            c = list(NATIVE_C)
+            c[column] += offset
+            require(digest(c) == expected, 'H8F_STENCIL_COEFFICIENT_DRIFT')
+            delta = Fraction(c[column]) - Fraction(NATIVE_C[column])
+            point = dict(index=index, run_id=f'{group_id}-{index:03d}', nominal_offset=offset,
+                         actual_offset_exact=str(delta), native_c_sha256=expected, native_c=c)
+            if columns is not None:
+                point['column'] = column
+            points.append(point)
+    result = dict(group_id=group_id, source_checkout=source_checkout,
+                  base_run_id=baseline['run_id'], base_capture_sha256=baseline['capture_file_sha256'],
+                  module_sha256=modules, request_sha256=baseline['request_sha256'], h=H, samples=points)
+    if columns is None:
+        result.update(schema='w2-m24-c0-plan-v1', column=0)
+    else:
+        result.update(schema='w2-m25-linear-plan-v1', columns=list(columns))
+    return result
 
 
-def campaign(out, manifest, prepared_request):
+def campaign(out, manifest, prepared_request, *, columns=None):
     out = out.resolve()
     out.mkdir(exist_ok=False)
     modules = {name: m['sha256'] for name, m in validate_module_manifest(manifest).items()}
     source = subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()
-    stencil = plan(out.name, modules, source)
+    stencil = plan(out.name, modules, source, columns=columns)
     plan_path = out/'stencil.json'
     write_json(plan_path, stencil)
     plan_sha = file_hash(plan_path)
@@ -50,7 +60,8 @@ def campaign(out, manifest, prepared_request):
     for point in stencil['samples']:
         sample = out/point['run_id']
         record = capture(sample, manifest, prepared_request,
-                         native_c=point['native_c'], expected_c_sha=point['native_c_sha256'])
+                         native_c=point['native_c'], expected_c_sha=point['native_c_sha256'],
+                         sample_schema='w2-m25-linear-sample-v1' if columns is not None else 'w2-m24-c0-sample-v1')
         require(record['run_id'] == point['run_id'] and record['source_checkout'] == source
                 and record['native_c_sha256'] == point['native_c_sha256']
                 and record['request_sha256'] == stencil['request_sha256']
@@ -59,8 +70,11 @@ def campaign(out, manifest, prepared_request):
         records.append(dict(index=point['index'], run_id=point['run_id'],
                             capture_sha256=file_hash(sample/'capture.json'),
                             same_call_material_sha256=record['same_call_material_sha256']))
+        if columns is not None:
+            records[-1]['column'] = point['column']
     require(file_hash(plan_path) == plan_sha, 'STENCIL_PLAN_CHANGED')
-    result = dict(schema='w2-m24-c0-result-v1', group_id=out.name, stencil_sha256=plan_sha,
+    result = dict(schema='w2-m25-linear-result-v1' if columns is not None else 'w2-m24-c0-result-v1',
+                  group_id=out.name, stencil_sha256=plan_sha,
                   fresh_native_boolean_calls=len(records), samples=records, J_D=None,
                   training_admitted=False)
     write_json(out/'stencil-result.json', result)
