@@ -145,7 +145,7 @@ def saved_triangles(tri, parent, equation, axis, output, output_h, faces, lo, hi
                 raise ValueError(f'output triangle crosses parent perimeter: {oi}')
             continue
         if area2(out)*area2(parent) <= 0:
-            raise ValueError(f'wrong winding on design-owned output triangle: {oi}')
+            raise ValueError(f'wrong winding on owned output triangle: {oi}')
         triangles.append(out)
         face_ids.append(int(oi))
     return triangles, face_ids
@@ -190,7 +190,7 @@ def verify_whole(parent, triangles, keep):
     return audit(parent, [], triangles, lambda _: True)['passes']
 
 
-def run(path, limit=None, ledger_path=None):
+def load_point0(path):
     checked(path.read_bytes(), ARCHIVE)
     with ZipFile(path) as z:
         req = json.loads(checked(z.read('artifacts/h8-request/prepared-request.json'), REQUEST))['request']
@@ -198,16 +198,27 @@ def run(path, limit=None, ledger_path=None):
     mat = json.loads(gzip.decompress(blob))
     if mat['boolean_operation'] != 'subtraction':
         raise ValueError('unexpected Boolean operation')
-    def vertices(data):
-        return [tuple(map(Q, p)) for p in data]
+    return req, mat
+
+
+def input_points(rows):
+    return [tuple(map(Q, p)) for p in rows]
+
+
+def exact_output_points(material):
     def token(x):
         n,d = x.split('/')
         return Q(int(n,0), int(d,0))
-    design = vertices(req['design_vertices'])
+    return [tuple(map(token,p)) for p in material['material_proof']['exact_vertices']]
+
+
+def run(path, limit=None, ledger_path=None):
+    req, mat = load_point0(path)
+    design = input_points(req['design_vertices'])
     dh = list(map(homogeneous, design))
-    cutter = vertices(mat['quadric_source_vertices'])
+    cutter = input_points(mat['quadric_source_vertices'])
     planes = convex_planes(cutter, mat['quadric_source_faces'])
-    out = [tuple(map(token,p)) for p in mat['material_proof']['exact_vertices']]
+    out = exact_output_points(mat)
     oh = list(map(homogeneous,out))
     faces = mat['variable_faces']
     coords = np.asarray(out, dtype='float64')[np.asarray(faces)]
