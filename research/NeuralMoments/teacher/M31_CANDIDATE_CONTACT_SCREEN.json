@@ -8,6 +8,28 @@
     "archived_terminal_outer_tip_matches_unique_lowest_vertex": true,
     "center_of_mass_weight": 1.0,
     "classification": "RECONSTRUCTED_METHOD_VALIDATION",
+    "clearance_replay": {
+      "envelope_faces": 1280,
+      "exact_minimum_separating_coordinate_gap_model_units": "29107456510069/281474976710656",
+      "fixed_part_count": 93,
+      "generator_sha256": {
+        "noodles_dense_v3_input.py": "c345c4034d41f39f64fd6d19ee9ca32ea8d6c2fbd528b00d68ff3a12f3a39447",
+        "noodles_dense_v5_input.py": "817fdce9b9602d6470da588364a85160261a3e90f1b16a9765c0a88853f55f40",
+        "noodles_input.py": "a69d239cdec2dd2550f043f8c62eebf0f9dc80e820f3119214fc9a8d12b4cef1",
+        "noodles_paper_geometry_v7.py": "8c1ccc9f2bf2b7bd16cf08335f8bc8b19fed9141eef261d98aca2b517ef93329"
+      },
+      "reason": "A and D share an open envelope face outside all fixed operands",
+      "registered_design_to_exterior_clearance_exact": "0",
+      "source_mesh_hashes_matched": 94,
+      "whole_faces_disjoint_from_every_fixed_box": 260,
+      "witness_face_index_zero_based": 74,
+      "witness_is_strict_envelope_support_face": true,
+      "witness_vertex_indices": [
+        163,
+        201,
+        12
+      ]
+    },
     "faces": 86076,
     "fixed_part": "pin-fixed",
     "global_positive_clearance_certified": false,
@@ -237,10 +259,10 @@
     }
   },
   "schema": "w2-m31-registered-candidate-contact-screen-v1",
-  "spin2014_pivot_contact_count": 0,
   "spin2014_registered_origin": [
     0,
     0,
     0
-  ]
+  ],
+  "spin2014_rows_with_material_reaching_origin_height": 0
 }

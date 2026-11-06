@@ -1,13 +1,17 @@
 """Screen registered spinning-top assets for physical pivot contact and protected carve space."""
 import argparse
+from fractions import Fraction
 from hashlib import sha256
 import itertools
 import json
 from pathlib import Path
+import sys
+from tempfile import TemporaryDirectory
 
 import numpy as np
 
 from m16_native_acceptance import require
+from m22_point0_operand_replay import cross, dot, sub
 
 
 REPRO = Path('experiments/spin_it_reproduction')
@@ -79,6 +83,61 @@ def voxel_facts(asset):
                 registered_origin_below_outer_by_at_least=bottom,design_cells_touching_exterior=exposed,
                 minimum_clearance_lower_bound=float(step.min()) if exposed==0 else 0.)
 
+def noodles_clearance(root, manifest):
+    """Byte-verified source meshes. A strict support patch outside all fixed boxes lies on A and D."""
+    generator=root/NOODLES/'source/generator'
+    sources={'noodles_dense_v3_input.py':'c345c4034d41f39f64fd6d19ee9ca32ea8d6c2fbd528b00d68ff3a12f3a39447',
+             'noodles_dense_v5_input.py':'817fdce9b9602d6470da588364a85160261a3e90f1b16a9765c0a88853f55f40',
+             'noodles_input.py':'a69d239cdec2dd2550f043f8c62eebf0f9dc80e820f3119214fc9a8d12b4cef1',
+             'noodles_paper_geometry_v7.py':'8c1ccc9f2bf2b7bd16cf08335f8bc8b19fed9141eef261d98aca2b517ef93329'}
+    for name,expected in sources.items():
+        read(generator,name,expected)
+    sys.path.insert(0,str(generator.resolve()))
+    try:
+        import noodles_paper_geometry_v7 as original
+        generated=original.components()
+    finally:
+        sys.path.pop(0)
+    chain=manifest['construction']
+    require(chain['variable']=='EXACT_DIFFERENCE(outer-ellipsoid, fixed)' and
+            chain['fixed']=='EXACT_UNION(ALL fixed_parts)' and chain['initial']=='EXACT_UNION(outer-ellipsoid, fixed)' and
+            set(generated)==set(manifest['parts'])=={'outer-ellipsoid',*chain['fixed_parts']},
+            'NOODLES_PARTITION_CHANGED')
+    bounds=[]
+    with TemporaryDirectory() as tmp:
+        for name,mesh in generated.items():
+            file=Path(tmp)/(name+'.obj')
+            original.write_obj(file,mesh)
+            data=read(file.parent,file.name,manifest['parts'][name]['sha256_model'])
+            vertices,faces=obj(data)
+            if name=='outer-ellipsoid':
+                envelope=vertices; tris=faces
+            else:
+                bounds.append((vertices.min(axis=0),vertices.max(axis=0)))
+    lower,upper=np.asarray(bounds).transpose(1,0,2)
+    triangles=envelope[tris]
+    lo=triangles.min(axis=1);hi=triangles.max(axis=1)
+    # Binary64 coordinate order is exact; max-minus-min only ranks witnesses.
+    separated=((lo[:,None,:]>upper[None,:,:]) | (hi[:,None,:]<lower[None,:,:])).any(axis=2).all(axis=1)
+    scores=np.maximum(lo[:,None,:]-upper,lower-hi[:,None,:]).max(axis=2).min(axis=1)
+    i=int(scores.argmax())
+    require(separated[i],'NO_SEPARATING_PATCH')
+    def rat(point):
+        return tuple(map(Fraction,point))
+    a,b,c=map(rat,triangles[i])
+    normal=cross(sub(b,a),sub(c,a))
+    sides=[dot(normal,sub(rat(p),a)) for p in envelope]
+    require(any(normal) and max(sides)==0 and sides.count(0)==3,'NOT_A_STRICT_SUPPORT_FACE')
+    separation=min(max(max(x-y for x,y in zip(rat(lo[i]),rat(part_hi))),
+                       max(x-y for x,y in zip(rat(part_lo),rat(hi[i])))) for part_lo,part_hi in bounds)
+    require(separation>0,'PATCH_TOUCHES_A_FIXED_BOX')
+    return dict(source_mesh_hashes_matched=len(generated),fixed_part_count=len(bounds),generator_sha256=sources,
+                envelope_faces=len(tris),whole_faces_disjoint_from_every_fixed_box=int(separated.sum()),
+                witness_face_index_zero_based=i,witness_vertex_indices=tris[i].tolist(),
+                exact_minimum_separating_coordinate_gap_model_units=str(separation),
+                witness_is_strict_envelope_support_face=True,registered_design_to_exterior_clearance_exact='0',
+                reason='A and D share an open envelope face outside all fixed operands')
+
 
 def screen(tree,main_tree):
     paper={}
@@ -116,14 +175,15 @@ def screen(tree,main_tree):
     tip=v[v[:,2]==v[:,2].min()]
     valid=len(tip)==1 and np.array_equal(tip[0],target)
     return dict(schema='w2-m31-registered-candidate-contact-screen-v1',paper_cases=paper,
-                spin2014_registered_origin=[0,0,0],spin2014_pivot_contact_count=sum(
-                    r['outer_min_z']==0 for r in paper['spin2014']['rows']),
+                spin2014_registered_origin=[0,0,0],spin2014_rows_with_material_reaching_origin_height=sum(
+                    r['outer_min_z']<=0 for r in paper['spin2014']['rows']),
                 faster_proxy_pivot_contact_count=sum(r['outer']['pivot_to_surface_distance']==0 for r in paper['faster']['rows']),
                 noodles_v7=dict(root=str(NOODLES),sha256=NOODLES_SHA,registered_tip_mm=target.tolist(),
                     archived_terminal_outer_tip_matches_unique_lowest_vertex=valid,vertices=len(v),faces=len(f),
                     fixed_part='pin-fixed',permanent_ellipsoid_shell=chain['permanent_ellipsoid_shell'],
                     original_variable_construction=chain['variable'],original_fixed_construction=chain['fixed'],
-                    global_positive_clearance_certified=False,classification=spec['classification'],
+                    global_positive_clearance_certified=False,clearance_replay=noodles_clearance(main_tree,frozen),
+                    classification=spec['classification'],
                     center_of_mass_weight=spec['center_of_mass_weight'],historical_status=stage['warm_restart_status'],
                     separate_binary64_partition_passed=stage['formal_separate_F_D_A_binary64_partition_passed']),
                 measurement='integer voxel occupancy, binary64 proxy triangle distances, exact recorded binary64 V7 tip equality',
