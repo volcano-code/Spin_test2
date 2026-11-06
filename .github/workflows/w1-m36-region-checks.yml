@@ -1,0 +1,29 @@
+name: W1 Bunny and Noodles region checks
+on:
+  push:
+    branches:
+      - research/neuralmoments-w1-native-20261019
+    paths:
+      - .github/workflows/w1-m36-region-checks.yml
+      - data/bunny.off
+      - research/NeuralMoments/performance/m3*.py
+      - research/NeuralMoments/performance/test_m3*.py
+      - research/NeuralMoments/performance/evidence/m36-*/**
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-region-regressions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'numpy>=2,<3' 'pytest>=8,<10'
+      - name: Replay Bunny occupancy and audit finite-difference and seam receipts
+        working-directory: research/NeuralMoments/performance
+        run: python -m pytest -q test_m35_noodles_crossing.py test_m36_bunny_holdout.py test_m36_native_region_receipts.py

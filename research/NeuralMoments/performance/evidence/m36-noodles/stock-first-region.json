@@ -1,0 +1,83 @@
+{
+  "schema": "w1-m35-general-exact-regions-v1",
+  "sample": "call-002",
+  "result_sha256": "c93ff190d44b5f43212b6913791008785b4c95c720cf3a556f7608ca6fa9e9e2",
+  "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+  "cutter_sha256": "983361826e12aea5a873f37f84b24c58c92de3edb59152d1cb409255c7bcd9da",
+  "operation": "difference",
+  "exact_input_candidate_pairs": 206582,
+  "matching_oriented_seam_segments": 3781,
+  "seam_cycles": [
+    4,
+    26,
+    30,
+    36,
+    36,
+    36,
+    36,
+    38,
+    40,
+    42,
+    42,
+    50,
+    60,
+    71,
+    107,
+    119,
+    119,
+    262,
+    730,
+    903,
+    994
+  ],
+  "design_carrier": {
+    "nonempty": 58063,
+    "partial": 3673,
+    "components": [
+      {
+        "facets": 94150,
+        "partial_anchor": 1822
+      }
+    ]
+  },
+  "cutter_carrier": {
+    "nonempty": 28,
+    "partial": 28,
+    "components": [
+      {
+        "facets": 32,
+        "partial_anchor": 1
+      },
+      {
+        "facets": 32,
+        "partial_anchor": 9
+      }
+    ]
+  },
+  "cutter_embedding": {
+    "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+    "vertices": "36",
+    "faces": "64",
+    "candidate_pairs": "598",
+    "exact_pairs_checked": "598",
+    "adjacent_pairs": "436",
+    "nonadjacent_pairs": "162"
+  },
+  "output_embedding": {
+    "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+    "vertices": "31646",
+    "faces": "63876",
+    "candidate_pairs": "766099",
+    "exact_pairs_checked": "766099",
+    "adjacent_pairs": "552143",
+    "nonadjacent_pairs": "213956"
+  },
+  "cutter_components": [
+    32,
+    32
+  ],
+  "output_components": [
+    63876
+  ],
+  "regularized_set_equality": true
+}
