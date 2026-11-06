@@ -1,0 +1,82 @@
+{
+  "schema": "w0-heart-frozen-axis-feasibility-v1",
+  "prepared_request_sha256": "1d2b06063c5b2c7010fcb2764518c05c9707f013d6914bc4e20298f8516e061c",
+  "design_boundary_sha256": "eff414f5daaf52f8ae847bb851d3cbb5cfd604bce0f88a5a56f99ed6b1efb9ad",
+  "design_vertices": 13122,
+  "design_faces": 26244,
+  "crossing_faces": 553,
+  "target_origin": [
+    0.0,
+    0.0,
+    -0.11499998450279236
+  ],
+  "target_axes": [
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "material_density": 1.0,
+  "units": "normalized target frame, first moment = material mass times normalized length",
+  "fixed_shell_first_x_exact": "3623286431931019/18014398509481984",
+  "fixed_shell_first_x_interval": [
+    "0.201132801077087",
+    "0.201132801077088"
+  ],
+  "minimum_variable_first_x_interval": [
+    "-0.109559210383829",
+    "-0.109559210383828"
+  ],
+  "maximum_variable_first_x_interval": [
+    "0.405402032743987",
+    "0.405402032743988"
+  ],
+  "full_design_first_x_interval": [
+    "0.295842822360159",
+    "0.295842822360160"
+  ],
+  "full_design_mass_exact": "617273755697705140613467616825798672277078198452227/561216628735066720590214975763052679547878096502784",
+  "raw_equation_residual_lower_bound_interval": [
+    "0.091573590693259",
+    "0.091573590693260"
+  ],
+  "total_mass_upper_bound_interval": [
+    "2.035353206936567",
+    "2.035353206936568"
+  ],
+  "com_x_normalized_lower_bound_interval": [
+    "0.044991498468753",
+    "0.044991498468754"
+  ],
+  "normalized_scale_mm_per_unit": 25,
+  "com_x_mm_lower_bound_interval": [
+    "1.124787461718836",
+    "1.124787461718837"
+  ],
+  "physical_normalizer_upper_bound_interval": [
+    "18.905088562226177",
+    "18.905088562226178"
+  ],
+  "physical_relative_residual_lower_bound_interval": [
+    "0.004843859386949",
+    "0.004843859386950"
+  ],
+  "equation_tolerance": 1e-12,
+  "physical_tolerance": 1e-06,
+  "negative_half_x_flux_equals_y_flux_exactly": true,
+  "negative_and_positive_half_fluxes_sum_to_signed_tetra_moment_exactly": true,
+  "scope": "fixed locked shell, registered axis, uniform density, variable support a subset of the frozen design solid",
+  "feasible_strict_terminal_under_frozen_contract": false,
+  "native_calls": 0
+}

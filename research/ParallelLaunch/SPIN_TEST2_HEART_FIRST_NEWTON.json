@@ -1,0 +1,122 @@
+{
+  "schema": "w0-heart-first-strict-newton-prefix-v1",
+  "run_id": "heart-newton-42194441369-1",
+  "public_result_sha256": "d465b30768366dee0f10cf7fe8ec9415b7e5e6763ad1d3b3ac0684117982c2fb",
+  "source_commit": "96ffecd25bbba2b9227be1b67679378738e43b1c",
+  "native_status": "FIRST_TRIAL_ACCEPTED",
+  "native_terminal": null,
+  "verified_starts": 1,
+  "registered_starts": 8,
+  "native_boolean_calls": 2,
+  "evaluations": [
+    {
+      "index": 1,
+      "restart": 0,
+      "iteration": 0,
+      "step": 0.0,
+      "outcome": "accepted",
+      "reason": "initial_evaluation_succeeded",
+      "material_returned": true,
+      "material_sha256": "207f19d2c9c71e240f87650565625330466aec3e75c4ec63e326f1d7f1cfaf80",
+      "geometry_hash": "0c5402130562f39d269aaf00e069e624ef1d4719458ba46d93914d1de75fa76a",
+      "topology_hash": "6cde7c063f35e3f6dd7e37961ce496fbbc4c47d1f19556766c3317095d096771",
+      "raw_equation_residual": 21.33093297371596,
+      "normalized_equation_residual": 0.7392593190575663,
+      "physical_relative_residual": 0.17087138995450085,
+      "objective": 2.7577601940605203,
+      "multiplier_mu": 20.720293343271912,
+      "constraints": [
+        0.5071631478201409,
+        -0.012362145185944483,
+        0.0046117369531187835,
+        -0.0005754993746852864
+      ],
+      "multiplier_lambda": [
+        31.150311663503924,
+        -10.113842012939774,
+        -13.085216145136059,
+        2.9767935913045256
+      ],
+      "projection_rank": 5,
+      "exact_material": {
+        "vertices": 4047,
+        "faces": 8090,
+        "moment_hash": "6c83b115e34ee91745ef950fa60211105e7e33d384c3868b6ebddfd1bbae785f",
+        "max_abs_exact_error": 2.749421386876893e-17,
+        "variable_mass": 0.378823424862111,
+        "empty": false
+      }
+    },
+    {
+      "index": 2,
+      "restart": 0,
+      "iteration": 1,
+      "step": 0.5,
+      "outcome": "accepted",
+      "reason": "topology_transition_relinearized",
+      "material_returned": true,
+      "material_sha256": "d0ea04ff769c8a390c7eaf2f11670ad1ea4c987dc7c0d75221964d4799d31f39",
+      "geometry_hash": "853222a5a330b14c76cb1672c349f8b60977c28d82ee7fac442b689627b50d39",
+      "topology_hash": "3a972a0d03c2c6b0abfc4f94dc50ab739fe20575e9ef1f70461aef6ae2bde3ff",
+      "raw_equation_residual": 21.08673550215201,
+      "normalized_equation_residual": 0.729031803408043,
+      "physical_relative_residual": 0.1736235096350951,
+      "objective": 2.7979499642976586,
+      "multiplier_mu": 18.964637661145176,
+      "constraints": [
+        0.5363105233386323,
+        -0.006213896888037118,
+        0.002894581729139034,
+        0.0004540806126544705
+      ],
+      "multiplier_lambda": [
+        28.421941420856037,
+        -0.46036356938883927,
+        -12.165274332180498,
+        3.1003282234719713
+      ],
+      "projection_rank": 5,
+      "exact_material": {
+        "vertices": 4437,
+        "faces": 8870,
+        "moment_hash": "71507eef82c78607a9d551d0b10ac727ce991ce29b9f4faa6f7b65debba40632",
+        "max_abs_exact_error": 2.084208490247296e-17,
+        "variable_mass": 0.43196372632487645,
+        "empty": false
+      }
+    }
+  ],
+  "independently_verified_systems": [
+    {
+      "state_evaluation": 1,
+      "restart": 0,
+      "iteration": 1,
+      "event_type": "newton_linear_solve",
+      "reason": "regular_system_payload_captured"
+    },
+    {
+      "state_evaluation": 2,
+      "restart": 0,
+      "iteration": 2,
+      "event_type": "newton_linear_solve",
+      "reason": "regular_system_payload_captured"
+    }
+  ],
+  "terminations": [],
+  "verified_positive_step": {
+    "angle": 0.5,
+    "geodesic_max_abs_error": 1.3877787807814457e-16,
+    "captured_system_condition": 2333869.159211092,
+    "from_evaluation": 1,
+    "to_evaluation": 2,
+    "raw_residual_drop": 0.24419747156395033,
+    "drop_exceeds_replay_tolerance": true,
+    "topology_hash_changed": true,
+    "objective_delta": 0.04018977023713832,
+    "next_system_rebuilt_at_accepted_trial": true
+  },
+  "raw_terminal_packet_and_convergence_certified": false,
+  "whole_boolean_regions_certified": false,
+  "training_admitted": false,
+  "native_calls_in_replay": 0
+}

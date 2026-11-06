@@ -1,5 +1,7 @@
 # Spin_test2 Neural Moments 开发入口
 
+本月执行以 [Spin_test2 首月计划](SPIN_TEST2_30_DAY_PLAN.md) 及 [Heart 轨迹与候选可行性验收](SPIN_TEST2_HEART_TRAJECTORY.md) 为准。
+
 当前对话统一调度 W0–W6，开发与验收均在 `volcano-code/Spin_test2`。见[首月计划](SPIN_TEST2_30_DAY_PLAN.md)、[首轮 Heart 验证](SPIN_TEST2_HEART_POINT0_FIRST.md)和[完整差集验收](SPIN_TEST2_HEART_POINT0_SOLID.md)。
 
 ## 迁移前协调记录

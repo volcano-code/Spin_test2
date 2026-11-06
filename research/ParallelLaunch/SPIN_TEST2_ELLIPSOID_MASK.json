@@ -1,0 +1,69 @@
+{
+  "schema": "w0-reconstructed-ellipsoid-mask-witness-v1",
+  "case": "ellipsoid-top",
+  "method": "exact voxel integrals",
+  "source_asset_sha256": "6036f03ff83777a636cbb8cf67bd57675caa44b90c40b3d2e442f5fb27d85983",
+  "viewer_bundle_sha256": {
+    "cavity.obj": "ab03154a15f1446b3c6ac86c01d74e529a86b1c9d7eaa09dec9e395dbbae5663",
+    "design.obj": "bf1471cac1bf4a8e1781675957186e28838eab55f5fff9a6a01d9a9db2e274c1",
+    "diagnostics.json": "7fb4d52e920188b710af8e5999e594f086f92d20714db328d3be8f6967e64728",
+    "material.obj": "79c635bdef17b6e95ce0c7436bf24db238f65d26688eaee85f021b071585c45a",
+    "outer.obj": "79c635bdef17b6e95ce0c7436bf24db238f65d26688eaee85f021b071585c45a"
+  },
+  "input_hash": "4f25304b370c7e43e2fa0d68d074a7e89b8c06ca5e833bb4a6144e25efcf9a39",
+  "target_origin": [
+    0,
+    0,
+    0
+  ],
+  "target_axes": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "outer_cells": 608,
+  "design_cells": 352,
+  "locked_cells": 256,
+  "cavity_cells": 336,
+  "retained_variable_cells": 16,
+  "total_material_cells": 272,
+  "total_material_raw_moments": [
+    "17/32",
+    "0",
+    "0",
+    "17/32",
+    "277/3072",
+    "223/3072",
+    "1759/3072",
+    "0",
+    "0",
+    "0"
+  ],
+  "exact_constraints": [
+    "0",
+    "0",
+    "0",
+    "0"
+  ],
+  "exact_center_of_mass": [
+    "0",
+    "0",
+    "1"
+  ],
+  "archived_2014_status": "CONVERGED",
+  "reconstructed_asset": true,
+  "measured_physical_validation": false,
+  "faster2024_trajectory_or_terminal_verified": false
+}

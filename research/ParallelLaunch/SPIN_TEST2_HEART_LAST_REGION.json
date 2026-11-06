@@ -1,0 +1,65 @@
+{
+  "run_id": "heart-trajectory-42195720689-1",
+  "public_result_sha256": "6e0ccf6efa3d1a19e321e92a23e5ad23b93aff957e910365e93843aedce0c5d0",
+  "evaluations": {
+    "54": {
+      "material_sha256": "c3a38c6989f0928466f8a609283f88373816d563ff3383e27498b429514d6f92",
+      "constructions": {
+        "EXPLICIT3D_design": 4112,
+        "EXPLICIT3D_quadric": 5,
+        "LPI_design": 873,
+        "LPI_quadric": 108
+      },
+      "face_winding": {
+        "design_same": 9199,
+        "quadric_same": 985
+      },
+      "design": {
+        "vertices": 13122,
+        "faces": 26244,
+        "components": 1,
+        "exact_pairs_checked": 218939,
+        "signed_volumes": [
+          1.0998850071299318
+        ]
+      },
+      "cutter": {
+        "vertices": 92,
+        "faces": 176,
+        "components": 2,
+        "exact_pairs_checked": 3588,
+        "signed_volumes": [
+          53.763023699927935,
+          26.748542637150525
+        ]
+      },
+      "output": {
+        "vertices": 5098,
+        "faces": 10184,
+        "components": 3,
+        "exact_pairs_checked": 141886,
+        "signed_volumes": [
+          0.27229739215136156,
+          0.003378728881588458,
+          0.0015413951706117995
+        ]
+      },
+      "input_candidate_pairs": 122299,
+      "exact_directed_seams": 981,
+      "loops": [
+        117,
+        193,
+        671
+      ],
+      "anchors": {
+        "design_inside": 8206,
+        "design_outside": 18038,
+        "cutter_inside": 3,
+        "cutter_outside": 173
+      },
+      "regularized_intersection_verified": true
+    }
+  },
+  "native_calls_in_replay": 0,
+  "full_mesh_of_top_verified": false
+}
