@@ -1,0 +1,16 @@
+{
+  "schema": "w0-m32-mass90-slab-dual-v1",
+  "unit_density_model_frame": true,
+  "source_A_sha256": "b0a29616092d002daa8e0c0b1e6a5e227ccba7843cd7f2ed6dcdeb32584ba8c8",
+  "source_A_ten_sha256": "5912e9f1dc44378919f5c00690983d284189edadc857ea3b354f09c4b86a1986",
+  "Eprime_sha256": "b68f810266a94e0c4e2489f2a1005ae0be1f7f321e9d9f092b047e374dd12133",
+  "required_axial_fraction": "9/10",
+  "slab_height": "136188852731683803/180143985094819840",
+  "eta": "5",
+  "initial_mass_lower": "14394490134333189/10000000000000000",
+  "allowed_removed_I_upper": "2358080263109527/50000000000000000",
+  "removed_mass_upper": "18218117036398266648871117457/38482906972160000000000000000",
+  "retained_mass_fraction_lower": "37176065438723634747187584367/55394182475121901396058701824",
+  "retained_mass_fraction_lower_floor_1e9": "671118586/1000000000",
+  "scope": "all removable subsets of Eprime subject to the inertia budget; balance and connectivity relaxed"
+}
