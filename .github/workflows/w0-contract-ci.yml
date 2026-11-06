@@ -27,6 +27,8 @@ jobs:
       - name: Run exact committed W0 math and interface tests
         run: |
           python -m pytest -q \
+            research/NeuralMoments/contracts/test_heart_linear_columns.py \
+            research/NeuralMoments/contracts/test_heart_c7_event.py \
             research/NeuralMoments/contracts/test_heart_c0_column.py \
             research/NeuralMoments/contracts/test_heart_point0_capture_moments.py \
             research/NeuralMoments/contracts/test_heart_point0_solid.py \

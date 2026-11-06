@@ -28,11 +28,11 @@ def get_json(path):
     return read_json(path.read_bytes())
 
 
-def load_capture(directory, run_id, capture_sha, expected_c=None):
+def load_capture(directory, run_id, capture_sha, expected_c=None, *, sample_schema="w2-m24-c0-sample-v1"):
     raw = (directory / 'capture.json').read_bytes()
     require(digest_bytes(raw) == capture_sha, 'capture digest mismatch')
     cap = read_json(raw)
-    schema = 'w2-m23-fresh-heart-capture-v1' if expected_c is None else 'w2-m24-c0-sample-v1'
+    schema = 'w2-m23-fresh-heart-capture-v1' if expected_c is None else sample_schema
     require(cap['schema'] == schema and cap['run_id'] == run_id and cap['fresh_evaluation_verified'] is True
             and type(cap['native_cherchi_calls']) is int and cap['native_cherchi_calls'] == 1
             and cap['training_admitted'] is False and cap['J_D'] is None, 'invalid native capture')
@@ -147,6 +147,43 @@ def check_stencil(points, native):
                 passed=max(scaled)<=TOL)
 
 
+def audit_column(base_data, group, group_id, source_checkout, column, planned, recorded, first_index, sample_schema):
+    base, q0, m0, jac, mesh, _ = base_data
+    require(type(column) is int and 0 <= column < 10, "invalid column index")
+    require(len(planned) == len(recorded) == len(OFFSETS), "incomplete column stencil")
+    require(len(jac)==10 and all(len(row)==10 for row in jac), 'incomplete native diagnostic matrix')
+    native=[F(row[column]) for row in jac]
+    samples=[]
+    points=[(F(0),m0)]
+    for i,(offset,pr,rr) in enumerate(zip(OFFSETS,planned,recorded),first_index):
+        run_id=f'{group_id}-{i:03d}'
+        require(pr['index']==rr['index']==i and pr['run_id']==rr['run_id']==run_id and
+                pr['nominal_offset']==offset,'wrong stencil sample layout')
+        if column:
+            require(pr['column']==rr['column']==column, 'wrong column index')
+        expected_c=q0.copy()
+        expected_c[column] += offset
+        cap,q,m,_,other,info=load_capture(group/run_id,run_id,rr['capture_sha256'],expected_c, sample_schema=sample_schema)
+        x=F(q[column])-F(q0[column])
+        require(F(pr['actual_offset_exact'])==x and digest(q)==pr['native_c_sha256']==digest(pr['native_c']) and
+                cap['source_checkout']==source_checkout and
+                cap['module_sha256']==base['module_sha256'] and
+                cap['evaluation_map_identity']==base['evaluation_map_identity'] and
+                info['same_call_material_sha256']==rr['same_call_material_sha256'], 'changed sample identity')
+        if column:
+            info['native_coefficient_value'] = q[column]
+        info.update(geometry_comparison(mesh,other))
+        points.append((x,m))
+        samples.append(info)
+    stencils={key:check_stencil([points[i] for i in subset],native) for key,subset in (
+        ('three_point_h',(1,0,4)),('three_point_half_h',(2,0,3)),('five_point',(1,2,0,3,4)))}
+    geometric=all(row['sampled_geometry_equal'] for row in samples)
+    numeric=all(row['passed'] for row in stencils.values())
+    return dict(perturbations=samples, native_column=list(map(float,native)), stencils=stencils,
+                sampled_geometry_equal=geometric, numeric_column_passed=numeric,
+                sampled_column_passed=geometric and numeric)
+
+
 def audit(base_directory, group, expected_group_id):
     plan = get_json(group/'stencil.json')
     result = get_json(group/'stencil-result.json')
@@ -157,41 +194,21 @@ def audit(base_directory, group, expected_group_id):
             result['stencil_sha256']==digest_bytes((group/'stencil.json').read_bytes()) and
             result['fresh_native_boolean_calls']==4 and result['J_D'] is None and result['training_admitted'] is False,
             'unexpected stencil capture')
-    base,q0,m0,jac,mesh,base_info=load_capture(base_directory, BASE_ID, BASE_CAPTURE)
+    base_data = load_capture(base_directory, BASE_ID, BASE_CAPTURE)
+    base, *_, base_info = base_data
     require(base_info['exact_moments_sha256']==POINT0_EXACT_TEN and
             plan['module_sha256']==base['module_sha256'] and plan['request_sha256']==POINT0_REQUEST,
             'different base or native modules')
-    require(len(jac)==10 and all(len(row)==10 for row in jac), 'incomplete native diagnostic matrix')
-    native=[F(row[0]) for row in jac]
-    samples=[]
-    points=[(F(0),m0)]
-    for i,(offset,pr,rr) in enumerate(zip(OFFSETS,plan['samples'],result['samples']),1):
-        run_id=f'{expected_group_id}-{i:03d}'
-        require(pr['index']==rr['index']==i and pr['run_id']==rr['run_id']==run_id and
-                pr['nominal_offset']==offset,'wrong stencil sample layout')
-        expected_c=q0.copy()
-        expected_c[0] += offset
-        cap,q,m,_,other,info=load_capture(group/run_id,run_id,rr['capture_sha256'],expected_c)
-        x=F(q[0])-F(q0[0])
-        require(F(pr['actual_offset_exact'])==x and digest(q)==pr['native_c_sha256']==digest(pr['native_c']) and
-                cap['source_checkout']==plan['source_checkout'] and
-                cap['module_sha256']==base['module_sha256'] and
-                cap['evaluation_map_identity']==base['evaluation_map_identity'] and
-                info['same_call_material_sha256']==rr['same_call_material_sha256'], 'changed sample identity')
-        info.update(geometry_comparison(mesh,other))
-        points.append((x,m))
-        samples.append(info)
-    stencils={key:check_stencil([points[i] for i in subset],native) for key,subset in (
-        ('three_point_h',(1,0,4)),('three_point_half_h',(2,0,3)),('five_point',(1,2,0,3,4)))}
-    geometric=all(row['sampled_geometry_equal'] for row in samples)
-    numeric=all(row['passed'] for row in stencils.values())
+    column_result = audit_column(base_data, group, expected_group_id, plan['source_checkout'], 0, plan['samples'],
+                                result['samples'], 1, 'w2-m24-c0-sample-v1')
     return dict(schema='w0-c0-literal-coefficient-stencil-v1', group_id=expected_group_id,
                 new_native_boolean_calls_in_w2=4, native_calls_in_w0_replay=0,
                 source_checkout=plan['source_checkout'], evaluation_map_identity=base['evaluation_map_identity'],
-                module_sha256=base['module_sha256'], base=base_info, perturbations=samples, moment_order=list(NAMES),
-                native_column=list(map(float,native)), stencils=stencils, scaled_error_limit=float(TOL),
-                sampled_geometry_equal=geometric, numeric_column_passed=numeric,
-                sampled_column_passed=geometric and numeric, continuous_neighborhood_certified=False,
+                module_sha256=base['module_sha256'], base=base_info,
+                perturbations=column_result['perturbations'], moment_order=list(NAMES),
+                native_column=column_result['native_column'], stencils=column_result['stencils'], scaled_error_limit=float(TOL),
+                sampled_geometry_equal=column_result['sampled_geometry_equal'], numeric_column_passed=column_result['numeric_column_passed'],
+                sampled_column_passed=column_result['sampled_column_passed'], continuous_neighborhood_certified=False,
                 J_D=None, newton_admitted=False, training_admitted=False)
 
 

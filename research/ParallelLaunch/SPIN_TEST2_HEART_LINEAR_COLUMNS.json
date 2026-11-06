@@ -1,0 +1,578 @@
+{
+  "schema": "w0-heart-linear-column-stencils-v1",
+  "group_id": "heart-linear-42185824300-1",
+  "public_result_sha256": "0649f8554abbef2e8e2597300284db2f1c1bce4f985d8116db10e3e2bce8c82d",
+  "source_checkout": "79bd60ea7158b859c3f8349b2ba0d65d9180f21e",
+  "new_native_boolean_calls_in_w2": 8,
+  "native_calls_in_w0_replay": 0,
+  "module_sha256": {
+    "_cherchi_core_boolean": "792f9419615078df06f48e5570de8773beed8008802013f3d2b35029a53bce4d",
+    "_cherchi_rational_moments": "ed05436e2796b190ddebb024f67318e2e88bdc46d96b01e9d7db71a6af080dca",
+    "make_it_stand._make_it_stand": "e4ed1f1fe2a37ed6effcfb4626ba2dbc0f042a8be6236d1fbcb93bf17e78082a"
+  },
+  "evaluation_map_identity": "e8347819b347e54caacaadeb458afdea555615eae99491b19b8eba2b8aac42a7",
+  "base": {
+    "run_id": "heart-point000-42177937306-1",
+    "capture_sha256": "816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04",
+    "same_call_material_sha256": "285fde06cde62f49053104e40f82a3ec5c74378bcce670a864fc69e4e6aff955",
+    "exact_moments_sha256": "cf1d21a9d3b046f98a7ef92e275e616691fc9d4adc7fd3987dedee38a7fe495f",
+    "vertices": 8455,
+    "faces": 16910,
+    "construction_kinds": {
+      "EXPLICIT3D": 7671,
+      "LPI": 784
+    },
+    "native_c0": 0.3701323978732728,
+    "native_derivative_defined": true
+  },
+  "base_native_coefficients": [
+    0.3701323978732728,
+    -0.15863761828595124,
+    -0.0,
+    -0.7608730119328398,
+    0.293773367196206,
+    0.293773367196206,
+    0.293773367196206,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "moment_order": [
+    "m",
+    "x",
+    "y",
+    "z",
+    "xx",
+    "yy",
+    "zz",
+    "yz",
+    "xz",
+    "xy"
+  ],
+  "scaled_error_limit": 1e-06,
+  "columns": {
+    "1": {
+      "perturbations": [
+        {
+          "run_id": "heart-linear-42185824300-1-001",
+          "capture_sha256": "b5a30a354f0c15110d626611fb19a943d4ef5d572094305ecf0a56e2708f35f1",
+          "same_call_material_sha256": "75701cea2b51ad530a2bfdc0b4ee74e357a97355240ada7b63f81b1c8ce8f337",
+          "exact_moments_sha256": "c9e5722bd88b20d233458f20242f1a7f2198724443e143764ca6c2013e0e3f96",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -0.15864061828595125,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-linear-42185824300-1-002",
+          "capture_sha256": "b6189e90d3cda887c602a1c8715fab10704cfe747d1e3e8351594d49ba919867",
+          "same_call_material_sha256": "26b85e9de4b918b1a05e9dc223ac41ade218456d0f5c78e05df3324d14845edd",
+          "exact_moments_sha256": "1ba7bd92189075ebd252bcb5866896da044807052589cd8abee77127cc3864c8",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -0.15863911828595123,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-linear-42185824300-1-003",
+          "capture_sha256": "f792f3b2382180795f223401c2835ddfc805ae6e49fc6f16b2d8b57ec60ade35",
+          "same_call_material_sha256": "6179ea39096be9e480c9e9bff977621cd8f61ec28a78bc04753dbced0748a6dc",
+          "exact_moments_sha256": "dc0790674b1729cd25a9a5ee8d58a52c8491ea9e06d750b61347d8dcea69324d",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -0.15863611828595126,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-linear-42185824300-1-004",
+          "capture_sha256": "dfc5108cf14da292e89bc450d061df902fef604869608b3ad546996e1ff93247",
+          "same_call_material_sha256": "09dd72d440920b0f98ce08049290afc1081b3720e20952cda67dd6ab688f0867",
+          "exact_moments_sha256": "619d83b8f869978e2f6e318ac400d198edb072f961bdcdad87eeaab469f3aefa",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -0.15863461828595124,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        1.0909623372896442,
+        1.5066742880917634,
+        -2.3627501944786948e-06,
+        1.1288027723848972,
+        1.0383595215921035,
+        0.02866592949445576,
+        1.283573261307434,
+        -4.051292654455515e-06,
+        1.800688969173751,
+        -1.2801466389300872e-07
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-108086391057/36028797018963968",
+            "0",
+            "108086391057/36028797018963968"
+          ],
+          "derivative_weights_exact": [
+            "-18014398509481984/108086391057",
+            "0",
+            "18014398509481984/108086391057"
+          ],
+          "finite_difference": [
+            1.090962337237802,
+            1.506674288118363,
+            -2.3627508304344265e-06,
+            1.1288027722820329,
+            1.0383595216370645,
+            0.028665929492893757,
+            1.2835732611302266,
+            -4.051293733227824e-06,
+            1.8006889691775447,
+            -1.2801516033185679e-07
+          ],
+          "absolute_errors": [
+            5.1842297284009064e-11,
+            2.6599648069908405e-11,
+            6.359557318795117e-13,
+            1.0286442021413226e-10,
+            4.4960926378767066e-11,
+            1.5620024929881071e-12,
+            1.7720739693003687e-10,
+            1.0787723083796e-12,
+            3.793525254204691e-12,
+            4.964388480514617e-13
+          ],
+          "scaled_errors": [
+            4.7519786441761674e-11,
+            1.7654544369770492e-11,
+            6.359557318795117e-13,
+            9.112700883680831e-11,
+            4.3299960605002244e-11,
+            1.5620024929881071e-12,
+            1.3805787505228594e-10,
+            1.0787723083796e-12,
+            2.106707665313991e-12,
+            4.964388480514617e-13
+          ],
+          "max_scaled_error": 1.3805787505228594e-10,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496"
+          ],
+          "derivative_weights_exact": [
+            "-2251799813685248/6755399441",
+            "0",
+            "2251799813685248/6755399441"
+          ],
+          "finite_difference": [
+            1.0909623371896635,
+            1.5066742880762973,
+            -2.362750355635288e-06,
+            1.1288027722463074,
+            1.0383595215723247,
+            0.028665929491812903,
+            1.2835732611027075,
+            -4.05129292824798e-06,
+            1.8006889691491805,
+            -1.2801478802305181e-07
+          ],
+          "absolute_errors": [
+            9.998072573338214e-11,
+            1.5466173638085086e-11,
+            1.6115659300266644e-13,
+            1.38589896963302e-10,
+            1.9778823181768682e-11,
+            2.6428597145370956e-12,
+            2.0472654631406206e-10,
+            2.7379246520873534e-13,
+            2.457053212986939e-11,
+            1.2413004308666274e-13
+          ],
+          "scaled_errors": [
+            9.164452549459353e-11,
+            1.0265107568586267e-11,
+            1.6115659300266644e-13,
+            1.2277600689312078e-10,
+            1.9048145435640693e-11,
+            2.6428597145370956e-12,
+            1.5949735981998393e-10,
+            2.7379246520873534e-13,
+            1.3645072830730794e-11,
+            1.2413004308666274e-13
+          ],
+          "max_scaled_error": 1.5949735981998393e-10,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-108086391057/36028797018963968",
+            "-6755399441/4503599627370496",
+            "0",
+            "6755399441/4503599627370496",
+            "108086391057/36028797018963968"
+          ],
+          "derivative_weights_exact": [
+            "52614058943044186867089740264642707456/947053060999107836725504121387505",
+            "-26307029472008871264030745243787722752/59190816311896614736040939438065",
+            "0",
+            "26307029472008871264030745243787722752/59190816311896614736040939438065",
+            "-52614058943044186867089740264642707456/947053060999107836725504121387505"
+          ],
+          "finite_difference": [
+            1.0909623371736172,
+            1.5066742880622752,
+            -2.362750197368908e-06,
+            1.128802772234399,
+            1.0383595215507448,
+            0.028665929491452614,
+            1.2835732610935344,
+            -4.051292659921366e-06,
+            1.8006889691397259,
+            -1.2801466392011682e-07
+          ],
+          "absolute_errors": [
+            1.1602686854944396e-10,
+            2.9488114207070304e-11,
+            2.890213380956042e-15,
+            1.5049838921273146e-10,
+            4.135873970141485e-11,
+            3.0031454550445363e-12,
+            2.138995961085108e-10,
+            5.465850825067109e-15,
+            3.4025217924327485e-11,
+            2.7108101458226247e-17
+          ],
+          "scaled_errors": [
+            1.063527718451746e-10,
+            1.9571658214475578e-11,
+            2.890213380956042e-15,
+            1.3332567291163134e-10,
+            3.9830847448675596e-11,
+            3.0031454550445363e-12,
+            1.6664385474237363e-10,
+            5.465850825067109e-15,
+            1.8895666329282846e-11,
+            2.7108101458226247e-17
+          ],
+          "max_scaled_error": 1.6664385474237363e-10,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true
+    },
+    "2": {
+      "perturbations": [
+        {
+          "run_id": "heart-linear-42185824300-1-005",
+          "capture_sha256": "2e868f61af8b281fe365a852ed6c3138c9ebd2143927e78dda22fd4f95be397e",
+          "same_call_material_sha256": "d6f354aa1e986e76e6af1d4613c608c0883e4471e5c0a90a35ed77ae584a2d6f",
+          "exact_moments_sha256": "ce3cbc035f3c17e72eccb20aec5eb56dbb6aa3eb88b45a341006e26d4fd969b2",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -3e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-linear-42185824300-1-006",
+          "capture_sha256": "f1e01be0873f3872128ff43e1089f98a831ddc15b53dc5df00bd52405fd7a5ee",
+          "same_call_material_sha256": "c034c98855ae3405168c175138a49ed839cd762fa64702f1815a16670069f850",
+          "exact_moments_sha256": "82e5ebaa7a2559de84e8d7bf48f84b8938e5f1bf1ce8ead3ce8fd73cc7c279ed",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": -1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-linear-42185824300-1-007",
+          "capture_sha256": "7a148d601b453888de9e0c74e33b5cb5c42afc521e292dcf6e69610d514e6710",
+          "same_call_material_sha256": "ab3d03ef16fa888df48d4987585b4504e8334c49351a7005d00f2d91e5bc9d4c",
+          "exact_moments_sha256": "bdfd78bdd442107e0f4a6a5735c732d25356b46502877e1f96d3fcadc3aa8375",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 1.5e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        },
+        {
+          "run_id": "heart-linear-42185824300-1-008",
+          "capture_sha256": "0fea47d2c2694a404e15f7b0f613c2203d8b76bee2e799a1466cc484727af73d",
+          "same_call_material_sha256": "6c091ba1ff90b646d4f5145e28763bc57dc38ce17ab909ecea9647118a507a98",
+          "exact_moments_sha256": "c70fdda9369d9b71353148b1b444f7147947a3184a5cfb9051dc07d97164b872",
+          "vertices": 8455,
+          "faces": 16910,
+          "construction_kinds": {
+            "EXPLICIT3D": 7671,
+            "LPI": 784
+          },
+          "native_c0": 0.3701323978732728,
+          "native_derivative_defined": true,
+          "native_coefficient_value": 3e-06,
+          "removed_features": 0,
+          "added_features": 0,
+          "removed_oriented_triangles": 0,
+          "added_oriented_triangles": 0,
+          "same_source_connectivity": true,
+          "sampled_geometry_equal": true
+        }
+      ],
+      "native_column": [
+        5.451535845238224e-05,
+        1.946499657367574e-07,
+        0.12464931426172561,
+        0.00010213592819483397,
+        8.233450583385418e-07,
+        1.1995812467738763e-06,
+        0.00019313917260069082,
+        0.1432144972918905,
+        3.6380659870046996e-07,
+        0.029731015808797886
+      ],
+      "stencils": {
+        "three_point_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/590295810358705651712",
+            "0",
+            "1770887431076117/590295810358705651712"
+          ],
+          "derivative_weights_exact": [
+            "-295147905179352825856/1770887431076117",
+            "0",
+            "295147905179352825856/1770887431076117"
+          ],
+          "finite_difference": [
+            5.4515358847335536e-05,
+            1.9464995217476545e-07,
+            0.12464931425532763,
+            0.00010213592885517349,
+            8.233450549010001e-07,
+            1.1995812688630647e-06,
+            0.00019313917378649837,
+            0.14321449728327365,
+            3.6380658322484677e-07,
+            0.029731015806773883
+          ],
+          "absolute_errors": [
+            3.94953295402481e-13,
+            1.3561991965371981e-14,
+            6.3979826676916385e-12,
+            6.603395261429115e-13,
+            3.43754167580438e-15,
+            2.2089188500293906e-14,
+            1.185807546005759e-12,
+            8.616866897761658e-12,
+            1.5475623181883494e-14,
+            2.0240023845689825e-12
+          ],
+          "scaled_errors": [
+            3.94953295402481e-13,
+            1.3561991965371981e-14,
+            6.3979826676916385e-12,
+            6.603395261429115e-13,
+            3.43754167580438e-15,
+            2.2089188500293906e-14,
+            1.185807546005759e-12,
+            8.616866897761658e-12,
+            1.5475623181883494e-14,
+            2.0240023845689825e-12
+          ],
+          "max_scaled_error": 8.616866897761658e-12,
+          "passed": true
+        },
+        "three_point_half_h": {
+          "actual_offsets_exact": [
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424"
+          ],
+          "derivative_weights_exact": [
+            "-590295810358705651712/1770887431076117",
+            "0",
+            "590295810358705651712/1770887431076117"
+          ],
+          "finite_difference": [
+            5.4515358550959176e-05,
+            1.9464996233396723e-07,
+            0.12464931425988586,
+            0.0001021359283596234,
+            8.233450574694004e-07,
+            1.1995812522924319e-06,
+            0.00019313917289657533,
+            0.14321449728950567,
+            3.638065948099823e-07,
+            0.02973101580824819
+          ],
+          "absolute_errors": [
+            9.857693448405893e-14,
+            3.4027901777578958e-15,
+            1.8397528287527227e-12,
+            1.6478943107080465e-13,
+            8.691413358629697e-16,
+            5.518555596960718e-15,
+            2.95884523616634e-13,
+            2.3848320643409377e-12,
+            3.890487647886018e-15,
+            5.496940989097742e-13
+          ],
+          "scaled_errors": [
+            9.857693448405893e-14,
+            3.4027901777578958e-15,
+            1.8397528287527227e-12,
+            1.6478943107080465e-13,
+            8.691413358629697e-16,
+            5.518555596960718e-15,
+            2.95884523616634e-13,
+            2.3848320643409377e-12,
+            3.890487647886018e-15,
+            5.496940989097742e-13
+          ],
+          "max_scaled_error": 2.3848320643409377e-12,
+          "passed": true
+        },
+        "five_point": {
+          "actual_offsets_exact": [
+            "-1770887431076117/590295810358705651712",
+            "-1770887431076117/1180591620717411303424",
+            "0",
+            "1770887431076117/1180591620717411303424",
+            "1770887431076117/590295810358705651712"
+          ],
+          "derivative_weights_exact": [
+            "295147905179352825856/5312662293228351",
+            "-2361183241434822606848/5312662293228351",
+            "0",
+            "2361183241434822606848/5312662293228351",
+            "-295147905179352825856/5312662293228351"
+          ],
+          "finite_difference": [
+            5.451535845216705e-05,
+            1.9464996572036782e-07,
+            0.12464931426140527,
+            0.00010213592819444003,
+            8.233450583255339e-07,
+            1.1995812467688877e-06,
+            0.00019313917259993434,
+            0.14321449729158303,
+            3.6380659867169413e-07,
+            0.029731015808739627
+          ],
+          "absolute_errors": [
+            2.1518582208177564e-16,
+            1.6389581886534112e-17,
+            3.203428824397507e-13,
+            3.939339532309637e-16,
+            1.3007889215832925e-17,
+            4.988704150344238e-18,
+            7.564838464076808e-16,
+            3.074871198673645e-13,
+            2.877580322019219e-17,
+            5.82580036900382e-14
+          ],
+          "scaled_errors": [
+            2.1518582208177564e-16,
+            1.6389581886534112e-17,
+            3.203428824397507e-13,
+            3.939339532309637e-16,
+            1.3007889215832925e-17,
+            4.988704150344238e-18,
+            7.564838464076808e-16,
+            3.074871198673645e-13,
+            2.877580322019219e-17,
+            5.82580036900382e-14
+          ],
+          "max_scaled_error": 3.203428824397507e-13,
+          "passed": true
+        }
+      },
+      "sampled_geometry_equal": true,
+      "numeric_column_passed": true,
+      "sampled_column_passed": true
+    }
+  },
+  "all_sampled_columns_passed": true,
+  "continuous_neighborhood_certified": false,
+  "J_D": null,
+  "newton_admitted": false,
+  "training_admitted": false
+}
