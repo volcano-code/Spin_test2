@@ -1,0 +1,138 @@
+{
+  "schema": "m37-independent-binary64-surface-flux-v1",
+  "unique_meshes": 12,
+  "arms": {
+    "exact": [
+      {
+        "index": 1,
+        "mesh_sha256": "627898a26173f534bd418cc823daee21a9c4be777b962a29c9c4ce190d83f97f",
+        "max_axis_moment_disagreement": 1.1657341758564144e-14,
+        "reconstructed_mass_fraction": 0.9901728818593044,
+        "reconstructed_axis_inertia": 0.9823135437454399,
+        "raw_residual": 5.446777706571818,
+        "physical_relative": 0.0025165320743439196
+      },
+      {
+        "index": 2,
+        "mesh_sha256": "c93ff190d44b5f43212b6913791008785b4c95c720cf3a556f7608ca6fa9e9e2",
+        "max_axis_moment_disagreement": 1.099120794378905e-14,
+        "reconstructed_mass_fraction": 0.8678916854304161,
+        "reconstructed_axis_inertia": 0.9424792083214197,
+        "raw_residual": 0.20603929719409494,
+        "physical_relative": 0.0033414762612241212
+      },
+      {
+        "index": 3,
+        "mesh_sha256": "5fa01fc549a344d87702cd284b15e63ee37c21e1597a7366226dc59585dd2ecb",
+        "max_axis_moment_disagreement": 5.384581669432009e-15,
+        "reconstructed_mass_fraction": 0.8107022345228152,
+        "reconstructed_axis_inertia": 0.8976351672267812,
+        "raw_residual": 0.07851155400619905,
+        "physical_relative": 0.006336172480474813
+      },
+      {
+        "index": 4,
+        "mesh_sha256": "8a9c3943aa24b5649c1e0484db30ed0d8a1efb257d8cfd03109552b400edf5c0",
+        "max_axis_moment_disagreement": 5.995204332975845e-15,
+        "reconstructed_mass_fraction": 0.8365848612988609,
+        "reconstructed_axis_inertia": 0.9204832010360235,
+        "raw_residual": 0.08546442279955402,
+        "physical_relative": 0.0022452217769643994
+      }
+    ],
+    "learned": [
+      {
+        "index": 1,
+        "mesh_sha256": "627898a26173f534bd418cc823daee21a9c4be777b962a29c9c4ce190d83f97f",
+        "max_axis_moment_disagreement": 1.1657341758564144e-14,
+        "reconstructed_mass_fraction": 0.9901728818593044,
+        "reconstructed_axis_inertia": 0.9823135437454399,
+        "raw_residual": 5.446777706571818,
+        "physical_relative": 0.0025165320743439196
+      },
+      {
+        "index": 2,
+        "mesh_sha256": "19eb639cd4fadb87f9f503fa6f12aa3a492abcc6043e6a8305091462e81837ae",
+        "max_axis_moment_disagreement": 5.2735593669694936e-15,
+        "reconstructed_mass_fraction": 0.7421284947676434,
+        "reconstructed_axis_inertia": 0.8672208411815248,
+        "raw_residual": 0.5094227699712003,
+        "physical_relative": 0.014952931889861647
+      },
+      {
+        "index": 3,
+        "mesh_sha256": "e29469fb1b726b5082670ab4f52d396034e7fe8e15505a12afe1c382d7f5941b",
+        "max_axis_moment_disagreement": 1.1657341758564144e-14,
+        "reconstructed_mass_fraction": 0.986421223031686,
+        "reconstructed_axis_inertia": 0.9917119700514229,
+        "raw_residual": 2.5770025879810525,
+        "physical_relative": 0.0016555753388670833
+      },
+      {
+        "index": 4,
+        "mesh_sha256": "06c93b0f9f4d04a2f49e216935dbb541ce913a3403ccf16dca4966fb29805e32",
+        "max_axis_moment_disagreement": 2.0539125955565396e-15,
+        "reconstructed_mass_fraction": 0.6928277533120937,
+        "reconstructed_axis_inertia": 0.7698615036968479,
+        "raw_residual": 0.6876598594885075,
+        "physical_relative": 0.05215076577375548
+      },
+      {
+        "index": 5,
+        "mesh_sha256": "cc7744e129e65cbb64a3a3491b0aa4cdc24b76ea46ab55140a2627f695716fc3",
+        "max_axis_moment_disagreement": 4.9404924595819466e-15,
+        "reconstructed_mass_fraction": 0.7949368706535115,
+        "reconstructed_axis_inertia": 0.8282515492335709,
+        "raw_residual": 1.6369402999718239,
+        "physical_relative": 0.02784962434469818
+      }
+    ],
+    "unit": [
+      {
+        "index": 1,
+        "mesh_sha256": "627898a26173f534bd418cc823daee21a9c4be777b962a29c9c4ce190d83f97f",
+        "max_axis_moment_disagreement": 1.1657341758564144e-14,
+        "reconstructed_mass_fraction": 0.9901728818593044,
+        "reconstructed_axis_inertia": 0.9823135437454399,
+        "raw_residual": 5.446777706571818,
+        "physical_relative": 0.0025165320743439196
+      },
+      {
+        "index": 2,
+        "mesh_sha256": "4df1b685782cbde26ad5f98b49a597c4b2c2ad0149de9fb7b6371a399ea6f611",
+        "max_axis_moment_disagreement": 4.218847493575595e-15,
+        "reconstructed_mass_fraction": 0.7448481489381444,
+        "reconstructed_axis_inertia": 0.8703417675052892,
+        "raw_residual": 0.4943180191415872,
+        "physical_relative": 0.011990344212516381
+      },
+      {
+        "index": 3,
+        "mesh_sha256": "8e2e7f2466b374f916e3d3d6ceb1c2ab2f424beda887dae42f23a69692c2a59c",
+        "max_axis_moment_disagreement": 1.0436096431476471e-14,
+        "reconstructed_mass_fraction": 0.987350457162323,
+        "reconstructed_axis_inertia": 0.9930259417416107,
+        "raw_residual": 2.5803556204449447,
+        "physical_relative": 0.0011065180972348997
+      },
+      {
+        "index": 4,
+        "mesh_sha256": "cf1221d4960727628f34094df1edf045cb233d2f88a7aa8eb29dae05abf088b9",
+        "max_axis_moment_disagreement": 2.275957200481571e-15,
+        "reconstructed_mass_fraction": 0.7623137678193023,
+        "reconstructed_axis_inertia": 0.7906953960064068,
+        "raw_residual": 2.3779509107463443,
+        "physical_relative": 0.044674543193717525
+      },
+      {
+        "index": 5,
+        "mesh_sha256": "9a5f237113d50d27d8f28ba3cef412de1ec5a2a461c355ff8f8d376e2a41f00c",
+        "max_axis_moment_disagreement": 5.551115123125783e-15,
+        "reconstructed_mass_fraction": 0.8897500871266829,
+        "reconstructed_axis_inertia": 0.8930429905062335,
+        "raw_residual": 2.4587330479231637,
+        "physical_relative": 0.018030400301728533
+      }
+    ]
+  }
+}

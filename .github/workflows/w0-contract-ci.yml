@@ -31,6 +31,8 @@ jobs:
             research/NeuralMoments/contracts/test_m32_mass_bound.py \
             research/NeuralMoments/contracts/test_m35_crossing_newton.py \
             research/NeuralMoments/contracts/test_m36_inertia_gate.py \
+            research/NeuralMoments/contracts/test_m37_continuation.py \
+            research/NeuralMoments/contracts/test_m37_trajectory_audit.py \
             research/NeuralMoments/contracts/test_heart_newton_prefix.py \
             research/NeuralMoments/contracts/test_heart_newton_intersection.py \
             research/NeuralMoments/contracts/test_heart_axis_feasibility.py \

@@ -1,0 +1,319 @@
+{
+  "schema": "M37_MATCHED_TRAJECTORY_AUDIT_V1",
+  "residual_target": 0.1,
+  "physical_target": 0.003,
+  "unmatched_fields": [],
+  "same_target_all_reached": false,
+  "equal_accuracy_query_counts": null,
+  "equal_accuracy_seconds": null,
+  "arms": [
+    {
+      "arm": "exact",
+      "trace_file": "report.json",
+      "trace_sha256": "194101f1fdb11660f3444235723deca6f1b67e404a2f2938da719dda668e1aef",
+      "terminal": {
+        "status": "RESOURCE_LIMIT_REACHED",
+        "calls": "4",
+        "starts": "1",
+        "trace_entries": "3",
+        "event_hash": "f22a31e992353c25d4f408dbb0e0e9f68f34353810f973d92665150f285ca98b"
+      },
+      "physical_target": 0.003,
+      "protocol": {
+        "hashes": {
+          "design": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+          "fixed_ten": "213e485af9604156e156426a1a302e8bceec4bf23bfd7cbdbc3af1844b2ca6ed",
+          "original_ten": "5912e9f1dc44378919f5c00690983d284189edadc857ea3b354f09c4b86a1986",
+          "bounds": "67ddc8327971dd0ca04ba344cc0011e3129fd2f14097ca891ae669e740715575",
+          "source": "2d4e1368fb7cefcda4e1ed0306af594614666aa53c1fb13ea5955eb8e04492ad",
+          "boolean": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+          "kernel": "e876724bb8405d29e55cfb8ede94bbb2c518875dc23de6363bf022d2d945033c"
+        },
+        "inertia_floor": 0.9,
+        "diagnostic_target": {
+          "raw_residual": 0.1,
+          "physical_relative": 0.003
+        },
+        "after_anchor": "exact_moving_face_flux",
+        "m36_manifest_sha256": "d3b507b41f00bb47541cdda28f3b6ea4f86a4156658cee5b011a9ace9f877933"
+      },
+      "limits": {
+        "iterations": 2,
+        "evaluations": 5
+      },
+      "kernel_sha256": "e876724bb8405d29e55cfb8ede94bbb2c518875dc23de6363bf022d2d945033c",
+      "start": [
+        -0.2920860472949892,
+        0.003998158706747257,
+        -0.019984980568121452,
+        0.8147288359917657,
+        -0.1792984604575227,
+        -0.2604304282120897,
+        -0.38788290939418335,
+        0.005744788857619627,
+        -0.00011912991260023211,
+        0.005400556037877188
+      ],
+      "anchor_sha256": "627898a26173f534bd418cc823daee21a9c4be777b962a29c9c4ce190d83f97f",
+      "elapsed_seconds": 362.87922882799467,
+      "phase_seconds": {
+        "prefix_verification": 0.03299365799466614,
+        "exact_callback": 362.8247323179967
+      },
+      "rows_with_phase_seconds": 4,
+      "csg_breakdown_seconds": {
+        "historical_csg": 239.39993715899618,
+        "fresh_csg": 239.48034828200616,
+        "fresh_non_csg": 123.34438403599052
+      },
+      "csg_breakdown_rows": {
+        "replayed": 2,
+        "fresh": 2
+      },
+      "counts": {
+        "queries": 4,
+        "replayed": 2,
+        "verified_meshes": 4,
+        "verified_moment_packets": 4,
+        "fresh_completed_meshes": 2,
+        "accepted_steps": 2,
+        "fresh_requested": 2,
+        "inertia_rejections": 1,
+        "native_rejected_or_failed": 1
+      },
+      "accepted": [
+        {
+          "index": 1,
+          "raw_residual": 5.446777706571614,
+          "inertia_lower": 0.9823135437454417,
+          "mass_fraction": 0.9901728818593061,
+          "physical_relative": 0.0025165320743437197,
+          "initial": true
+        },
+        {
+          "index": 2,
+          "raw_residual": 0.20603929719399158,
+          "inertia_lower": 0.94247920832142,
+          "mass_fraction": 0.8678916854304107,
+          "physical_relative": 0.0033414762612246117,
+          "initial": false
+        },
+        {
+          "index": 4,
+          "raw_residual": 0.08546442279952515,
+          "inertia_lower": 0.9204832010360223,
+          "mass_fraction": 0.8365848612988601,
+          "physical_relative": 0.0022452217769645126,
+          "initial": false
+        }
+      ],
+      "residual_target": 0.1,
+      "first_hit": {
+        "index": 4,
+        "raw_residual": 0.08546442279952515,
+        "inertia_lower": 0.9204832010360223,
+        "mass_fraction": 0.8365848612988601,
+        "physical_relative": 0.0022452217769645126,
+        "initial": false,
+        "queries": 4,
+        "fresh_requested": 2,
+        "elapsed_seconds": 362.87609187299677,
+        "replayed": 2,
+        "unknown_execution": 0
+      },
+      "unledgered_call_directories": []
+    },
+    {
+      "arm": "learned",
+      "trace_file": "report.json",
+      "trace_sha256": "900d7b864c53df474a0f3f171107950ae2e78f46f3ccdb7f2e66f460bb65f2fb",
+      "terminal": {
+        "status": "RESOURCE_LIMIT_REACHED",
+        "calls": "5",
+        "starts": "1",
+        "trace_entries": "2",
+        "event_hash": "0487bdbb1c1a8cea8d1c50f61d959d020085c1a3eea82d5aea36f073d7a7b48e"
+      },
+      "physical_target": 0.003,
+      "protocol": {
+        "hashes": {
+          "design": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+          "fixed_ten": "213e485af9604156e156426a1a302e8bceec4bf23bfd7cbdbc3af1844b2ca6ed",
+          "original_ten": "5912e9f1dc44378919f5c00690983d284189edadc857ea3b354f09c4b86a1986",
+          "bounds": "67ddc8327971dd0ca04ba344cc0011e3129fd2f14097ca891ae669e740715575",
+          "source": "2d4e1368fb7cefcda4e1ed0306af594614666aa53c1fb13ea5955eb8e04492ad",
+          "boolean": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+          "kernel": "e876724bb8405d29e55cfb8ede94bbb2c518875dc23de6363bf022d2d945033c"
+        },
+        "inertia_floor": 0.9,
+        "diagnostic_target": {
+          "raw_residual": 0.1,
+          "physical_relative": 0.003
+        },
+        "after_anchor": "exact_moving_face_flux",
+        "m36_manifest_sha256": "d3b507b41f00bb47541cdda28f3b6ea4f86a4156658cee5b011a9ace9f877933"
+      },
+      "limits": {
+        "iterations": 2,
+        "evaluations": 5
+      },
+      "kernel_sha256": "e876724bb8405d29e55cfb8ede94bbb2c518875dc23de6363bf022d2d945033c",
+      "start": [
+        -0.2920860472949892,
+        0.003998158706747257,
+        -0.019984980568121452,
+        0.8147288359917657,
+        -0.1792984604575227,
+        -0.2604304282120897,
+        -0.38788290939418335,
+        0.005744788857619627,
+        -0.00011912991260023211,
+        0.005400556037877188
+      ],
+      "anchor_sha256": "627898a26173f534bd418cc823daee21a9c4be777b962a29c9c4ce190d83f97f",
+      "elapsed_seconds": 261.63120224400336,
+      "phase_seconds": {
+        "prefix_verification": 0.0459675430029165,
+        "exact_callback": 261.56746874000237
+      },
+      "rows_with_phase_seconds": 5,
+      "csg_breakdown_seconds": {
+        "historical_csg": 422.45870898600697,
+        "fresh_csg": 236.98389598700305,
+        "fresh_non_csg": 24.583572752999316
+      },
+      "csg_breakdown_rows": {
+        "replayed": 3,
+        "fresh": 2
+      },
+      "counts": {
+        "queries": 5,
+        "replayed": 3,
+        "verified_meshes": 5,
+        "verified_moment_packets": 5,
+        "fresh_completed_meshes": 2,
+        "accepted_steps": 1,
+        "inertia_rejections": 3,
+        "native_rejected_or_failed": 3,
+        "fresh_requested": 2
+      },
+      "accepted": [
+        {
+          "index": 1,
+          "raw_residual": 5.446777706571614,
+          "inertia_lower": 0.9823135437454417,
+          "mass_fraction": 0.9901728818593061,
+          "physical_relative": 0.0025165320743437197,
+          "initial": true
+        },
+        {
+          "index": 3,
+          "raw_residual": 2.577002587980697,
+          "inertia_lower": 0.9917119700514234,
+          "mass_fraction": 0.9864212230316846,
+          "physical_relative": 0.0016555753388671018,
+          "initial": false
+        }
+      ],
+      "residual_target": 0.1,
+      "first_hit": null,
+      "unledgered_call_directories": []
+    },
+    {
+      "arm": "unit",
+      "trace_file": "report.json",
+      "trace_sha256": "316c75178691df274653ae22efca8305e49931a742ff95185f42db502ad7af16",
+      "terminal": {
+        "status": "RESOURCE_LIMIT_REACHED",
+        "calls": "5",
+        "starts": "1",
+        "trace_entries": "2",
+        "event_hash": "19050619279041df3f491518fb6ebc9d7533a09e1ac0c4020898e28bcf5366dd"
+      },
+      "physical_target": 0.003,
+      "protocol": {
+        "hashes": {
+          "design": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+          "fixed_ten": "213e485af9604156e156426a1a302e8bceec4bf23bfd7cbdbc3af1844b2ca6ed",
+          "original_ten": "5912e9f1dc44378919f5c00690983d284189edadc857ea3b354f09c4b86a1986",
+          "bounds": "67ddc8327971dd0ca04ba344cc0011e3129fd2f14097ca891ae669e740715575",
+          "source": "2d4e1368fb7cefcda4e1ed0306af594614666aa53c1fb13ea5955eb8e04492ad",
+          "boolean": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+          "kernel": "e876724bb8405d29e55cfb8ede94bbb2c518875dc23de6363bf022d2d945033c"
+        },
+        "inertia_floor": 0.9,
+        "diagnostic_target": {
+          "raw_residual": 0.1,
+          "physical_relative": 0.003
+        },
+        "after_anchor": "exact_moving_face_flux",
+        "m36_manifest_sha256": "d3b507b41f00bb47541cdda28f3b6ea4f86a4156658cee5b011a9ace9f877933"
+      },
+      "limits": {
+        "iterations": 2,
+        "evaluations": 5
+      },
+      "kernel_sha256": "e876724bb8405d29e55cfb8ede94bbb2c518875dc23de6363bf022d2d945033c",
+      "start": [
+        -0.2920860472949892,
+        0.003998158706747257,
+        -0.019984980568121452,
+        0.8147288359917657,
+        -0.1792984604575227,
+        -0.2604304282120897,
+        -0.38788290939418335,
+        0.005744788857619627,
+        -0.00011912991260023211,
+        0.005400556037877188
+      ],
+      "anchor_sha256": "627898a26173f534bd418cc823daee21a9c4be777b962a29c9c4ce190d83f97f",
+      "elapsed_seconds": 280.6386785880022,
+      "phase_seconds": {
+        "prefix_verification": 0.05015380100667244,
+        "exact_callback": 280.5665920740066
+      },
+      "rows_with_phase_seconds": 5,
+      "csg_breakdown_seconds": {
+        "historical_csg": 395.95091977000266,
+        "fresh_csg": 248.05352270199364,
+        "fresh_non_csg": 32.51306937201298
+      },
+      "csg_breakdown_rows": {
+        "replayed": 3,
+        "fresh": 2
+      },
+      "counts": {
+        "queries": 5,
+        "replayed": 3,
+        "verified_meshes": 5,
+        "verified_moment_packets": 5,
+        "fresh_completed_meshes": 2,
+        "accepted_steps": 1,
+        "inertia_rejections": 3,
+        "native_rejected_or_failed": 3,
+        "fresh_requested": 2
+      },
+      "accepted": [
+        {
+          "index": 1,
+          "raw_residual": 5.446777706571614,
+          "inertia_lower": 0.9823135437454417,
+          "mass_fraction": 0.9901728818593061,
+          "physical_relative": 0.0025165320743437197,
+          "initial": true
+        },
+        {
+          "index": 3,
+          "raw_residual": 2.5803556204445286,
+          "inertia_lower": 0.9930259417416125,
+          "mass_fraction": 0.9873504571623221,
+          "physical_relative": 0.0011065180972349548,
+          "initial": false
+        }
+      ],
+      "residual_target": 0.1,
+      "first_hit": null,
+      "unledgered_call_directories": []
+    }
+  ]
+}

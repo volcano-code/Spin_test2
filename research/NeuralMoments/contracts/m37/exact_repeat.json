@@ -1,0 +1,21 @@
+{
+  "canonicalization": "Unchanged ordered rational-string vertices; sort (birth face, lexicographically minimum cyclic oriented vertex-index triple), preserve multiplicity; compact JSON array [vertices,sorted_records].",
+  "checks": [
+    {
+      "index": 3,
+      "old_mesh_sha256": "e9e2fd92ec31cc5c0fb642cef6caa11fea1c2a67fbf3098f48c972add409ad1b",
+      "new_mesh_sha256": "5fa01fc549a344d87702cd284b15e63ee37c21e1597a7366226dc59585dd2ecb",
+      "canonical_mesh_sha256": "7faaf14d63d5c86fdd20cc5d05f17d25b0d83a3c0f43223abd5df567b3b2bb37",
+      "vertices": 28242,
+      "faces": 57000
+    },
+    {
+      "index": 4,
+      "old_mesh_sha256": "f6aaad1843bdd39ea8dacedc0d23287b87b25bdea5b518766348bfd7132c0036",
+      "new_mesh_sha256": "8a9c3943aa24b5649c1e0484db30ed0d8a1efb257d8cfd03109552b400edf5c0",
+      "canonical_mesh_sha256": "03e6a86a58689aa9e35b65c303f035b57723f31ef03cf6aca9288e7ddf22fbe0",
+      "vertices": 29909,
+      "faces": 60350
+    }
+  ]
+}
