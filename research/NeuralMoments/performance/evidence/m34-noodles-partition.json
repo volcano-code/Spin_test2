@@ -1,0 +1,198 @@
+{
+  "schema": "w1-m34-rational-noodles-partition",
+  "raw_order": [
+    "mass",
+    "x",
+    "y",
+    "z",
+    "xx",
+    "yy",
+    "zz",
+    "yz",
+    "xz",
+    "xy"
+  ],
+  "surfaces": {
+    "A": {
+      "source_sha256": "b0a29616092d002daa8e0c0b1e6a5e227ccba7843cd7f2ed6dcdeb32584ba8c8",
+      "vertices": 18495,
+      "faces": 36986,
+      "signed_ten": [
+        1.439449013433319,
+        0.0001533286940973371,
+        1.8867602320764063e-05,
+        1.299425738058753,
+        0.2810224781913316,
+        0.19059357443057365,
+        1.2309289283862341,
+        1.701747554906072e-05,
+        0.00014784082462915152,
+        2.9283087734834313e-06
+      ],
+      "axial_inertia_model": 0.47161605262190526,
+      "embedding_passed": true,
+      "embedding": {
+        "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+        "vertices": "18495",
+        "faces": "36986",
+        "candidate_pairs": "416207",
+        "exact_pairs_checked": "416207",
+        "adjacent_pairs": "370983",
+        "nonadjacent_pairs": "45224"
+      },
+      "minimum_z": -0.16,
+      "lowest_vertex_positions": 1,
+      "exact_fixed_tip": true,
+      "exact_ten_payload_sha256": "5912e9f1dc44378919f5c00690983d284189edadc857ea3b354f09c4b86a1986"
+    },
+    "F": {
+      "source_sha256": "80ad603672e931fef0d4f28d60770a47769cd409fcc9650cabf1b83d6501fb89",
+      "vertices": 57365,
+      "faces": 114942,
+      "signed_ten": [
+        0.3512604116501636,
+        -9.64937230015718e-05,
+        -0.00013586092920124445,
+        0.3199580563020817,
+        0.0728745581052547,
+        0.03288047438652633,
+        0.31096875065936763,
+        -0.00011610401926691694,
+        -9.358759107622677e-05,
+        -1.0696918784271458e-05
+      ],
+      "axial_inertia_model": 0.10575503249178103,
+      "embedding_passed": true,
+      "embedding": {
+        "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+        "vertices": "57365",
+        "faces": "114942",
+        "candidate_pairs": "1041817",
+        "exact_pairs_checked": "1041817",
+        "adjacent_pairs": "891711",
+        "nonadjacent_pairs": "150106"
+      },
+      "minimum_z": -0.16,
+      "lowest_vertex_positions": 1,
+      "exact_fixed_tip": true,
+      "exact_ten_payload_sha256": "70b6f6eabe6b6cf589b0d92292228e4e646e1be890a2b4b391c47f5bb2f8191b"
+    },
+    "Dprime": {
+      "source_sha256": "bd4e6ad0ef3b525e98e386636d2ed3bec4829a06c90844a13bbd7fb0f068d64b",
+      "vertices": 46679,
+      "faces": 94150,
+      "signed_ten": [
+        0.7670594740115333,
+        -7.927551253991001e-05,
+        0.00014240537984360767,
+        0.6901674771189912,
+        0.12053983857538604,
+        0.08811205297120554,
+        0.6425605030028788,
+        0.00011538366015757809,
+        -3.693574140270085e-05,
+        8.454871580297466e-05
+      ],
+      "axial_inertia_model": 0.20865189154659158,
+      "embedding_passed": true,
+      "embedding": {
+        "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+        "vertices": "46679",
+        "faces": "94150",
+        "candidate_pairs": "1027718",
+        "exact_pairs_checked": "1027718",
+        "adjacent_pairs": "820776",
+        "nonadjacent_pairs": "206942"
+      },
+      "minimum_z": 0.5239624842779184,
+      "lowest_vertex_positions": 1,
+      "exact_fixed_tip": false,
+      "exact_ten_payload_sha256": "5fba563fef9c3fb3d1449373a88c6922a68808f345a06b4abe9a99f44e8284fb"
+    },
+    "Fprime": {
+      "source_sha256": "aecc5cad813acd05bbe210a7bed8c0933d066b9eaa557959077f08c1dafbde97",
+      "vertices": 65174,
+      "faces": 131136,
+      "signed_ten": [
+        0.6723895394217857,
+        0.00023260420663724713,
+        -0.00012353777752284361,
+        0.6092582609397618,
+        0.16048263961594555,
+        0.10248152145936809,
+        0.5883684253833552,
+        -9.836618460851737e-05,
+        0.00018477656603185238,
+        -8.162040702949123e-05
+      ],
+      "axial_inertia_model": 0.2629641610753137,
+      "embedding_passed": true,
+      "embedding": {
+        "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+        "vertices": "65174",
+        "faces": "131136",
+        "candidate_pairs": "1446114",
+        "exact_pairs_checked": "1446114",
+        "adjacent_pairs": "1191759",
+        "nonadjacent_pairs": "254355"
+      },
+      "minimum_z": -0.16,
+      "lowest_vertex_positions": 1,
+      "exact_fixed_tip": true,
+      "exact_ten_payload_sha256": "213e485af9604156e156426a1a302e8bceec4bf23bfd7cbdbc3af1844b2ca6ed"
+    }
+  },
+  "ten_exactly_additive": true,
+  "boundary_chain": {
+    "triangles_left_after_literal_cancellation": 0,
+    "residual_support_planes": 0,
+    "oriented_boundary_chain_additive": true
+  },
+  "component_faces": {
+    "A": [
+      36986
+    ],
+    "F": [
+      114942
+    ],
+    "Dprime": [
+      94150
+    ],
+    "Fprime": [
+      36986,
+      94150
+    ]
+  },
+  "regular_solid_winding_verified": true,
+  "first_moment_capacity": {
+    "x": {
+      "minimum_variable": -0.12819225494373215,
+      "maximum_variable": 0.12811297943119224,
+      "fixed": 0.00023260420663724713,
+      "total_range": [
+        -0.12795965073709492,
+        0.1283455836378295
+      ],
+      "zero_in_range": true
+    },
+    "y": {
+      "minimum_variable": -0.10946614149608662,
+      "maximum_variable": 0.10960854687593023,
+      "fixed": -0.00012353777752284361,
+      "total_range": [
+        -0.10958967927360946,
+        0.10948500909840739
+      ],
+      "zero_in_range": true
+    }
+  },
+  "minimum_mass_at_90pct_inertia": {
+    "design_max_model_radius_squared": 0.7743690194634962,
+    "exact_radius_squared_token": "0x10320a72eea64cfecf986e55a757c0cc6f2ec8af391152083c754c863e3889f0fe45dd6302f0d5a04e7b0fb3f85bcdb0a6d1/0x14ea16d6da3568976f6b4ffdf1acd26b227ddb6a15eb9b2c2fc8f80c3fe438a01e68bd211200000000000000000000000000",
+    "mass_lower_bound_fraction": 0.6119938145622241,
+    "fixed_mass_fraction": 0.46711591251018175,
+    "fixed_inertia_fraction": 0.5575810229812769
+  },
+  "capacity_exact_file_sha256": "98814bba1a37ae899694e809d48a5d1992ea37c02054371b8ded38b2f4b34e0c",
+  "interpretation": "Oriented rational solid partition in the source frame; per-axis necessary ranges. Common witness, binary64 transport and Newton are assessed separately."
+}

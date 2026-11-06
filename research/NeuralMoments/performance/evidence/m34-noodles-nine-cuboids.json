@@ -1,0 +1,53 @@
+{
+  "schema": "w1-m34-general-cavity-physical-witness",
+  "A_sha256": "b0a29616092d002daa8e0c0b1e6a5e227ccba7843cd7f2ed6dcdeb32584ba8c8",
+  "Dprime_sha256": "bd4e6ad0ef3b525e98e386636d2ed3bec4829a06c90844a13bbd7fb0f068d64b",
+  "exact_ordered_volume_packet_sha256": "772f825e79fa4520769f14bf382fe40722f0f4fa8e96525b75d3768725e222aa",
+  "source_ten_sha256": "5912e9f1dc44378919f5c00690983d284189edadc857ea3b354f09c4b86a1986",
+  "removal_box_count": 9,
+  "windings": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "mass_fraction": 0.9998577680002626,
+  "axial_inertia_fraction": 0.9997468642617486,
+  "centroid_height_model": 0.9027156789085822,
+  "Cx_Cy_Ixz_Iyz": [
+    "0",
+    "0",
+    "0",
+    "0"
+  ],
+  "box_volume_model": [
+    3.5694348500937103e-06,
+    1.5282265034433755e-05,
+    2.74658203125e-05,
+    2.4472017377654825e-05,
+    2.74658203125e-05,
+    2.74658203125e-05,
+    2.4082892875941657e-05,
+    2.74658203125e-05,
+    2.74658203125e-05
+  ],
+  "removed_volume_sha256": [
+    "c7087334bc7df6c5141b26509586ad7d0536f06c53c75d80f257361a00088a1e",
+    "e84a3cd1d71e8439a4331a263c076ef1dc0548433d4a16375cbf32c1a9313ccf",
+    "dd464d9bfcc39840fad8eb2fafaf5f29611d4a1d790c12791778b484a3efc722",
+    "183ca43679e4937b7e5867a5b2f2400832387fa53f7af09e52743117c961a1fb",
+    "dd464d9bfcc39840fad8eb2fafaf5f29611d4a1d790c12791778b484a3efc722",
+    "dd464d9bfcc39840fad8eb2fafaf5f29611d4a1d790c12791778b484a3efc722",
+    "af5c021ffa8056551c03ff28498f489470e3ec353bf32b153ed1e926d54de58f",
+    "dd464d9bfcc39840fad8eb2fafaf5f29611d4a1d790c12791778b484a3efc722",
+    "dd464d9bfcc39840fad8eb2fafaf5f29611d4a1d790c12791778b484a3efc722"
+  ],
+  "exact_positive_volumes": true,
+  "disjoint_boxes_strictly_inside_Dprime": true,
+  "scope": "Unrestricted axis-aligned box cavities, excludes strict quadric admissibility, native terminal, optimum, manufacturing and dynamical validation."
+}

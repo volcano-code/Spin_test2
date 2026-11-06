@@ -1,0 +1,38 @@
+{
+  "schema": "w1-m34-symmetric-cell-carve-witness",
+  "small_box_witness_sha256": "674f5d83daebee3401127b29550242fa90fdef06a7eddea8eba26cfa7260b80e",
+  "lattice_denominator": 32,
+  "center_index_range": [
+    [
+      -32,
+      32
+    ],
+    [
+      -26,
+      26
+    ],
+    [
+      14,
+      45
+    ]
+  ],
+  "width": "7/256",
+  "certified_free_components_inspected": 48,
+  "all_interior_cell_count": 6879,
+  "all_interior_cell_sha256": "be78242bb9675aa2c69a20c83f31ffef9b378946fab95f6b84cd2519a98be29d",
+  "balanced_pairs_available": 1720,
+  "balanced_pairs_removed": 1720,
+  "removed_pair_centers_hash": "202352097a71f21b6de0d3e619f31fe6fd2e09d538ae8a28b709aca223511acb",
+  "distinct_removed_cavities": 3449,
+  "retained_mass_fraction": 0.9509996898001647,
+  "retained_axial_inertia_fraction": 0.9504531859570717,
+  "signed_first_x_first_y_xz_yz": [
+    "0",
+    "0",
+    "0",
+    "0"
+  ],
+  "unit_density": true,
+  "minimum_gap_between_lattice_boxes_mm": 0.09765625,
+  "construction": "9 exactly balanced cuboids plus equal-volume paired cubes. Grid occupancy is proven by conservative exclusion of triangle AABBs and exact winding on each connected set of remaining cells. One finite family sampled; mathematical only."
+}
