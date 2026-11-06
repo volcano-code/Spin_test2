@@ -1,0 +1,9 @@
+# Heart linear coefficients c[1] and c[2]
+
+Freeze Heart point-000 (M23 run `heart-point000-42177937306-1`, capture SHA-256 `816fc58eda9b20a65efccff00b3b803b2870315d9422957d1d141dbe6f68da04`), the request, evaluator settings, coordinate frame, and exact three native module hashes. Score each column separately, including failures.
+
+1. Vary one literal native coefficient at a time. In order, apply offsets −3×10⁻⁶, −1.5×10⁻⁶, +1.5×10⁻⁶, +3×10⁻⁶ to c[1], then to c[2]. The polynomial coefficients for x and y equal their respective literal native coefficients. Retain the stored binary64 abscissae and the base's signed zero. These offsets correspond to historical H8f point IDs 009–012 and 017–020.
+2. Independently integrate the ten target-frame variable-domain moments using exact oriented tetrahedron sums; verify the fixed contribution stays constant. For each column, compare the base diagnostic Jacobian column to three-point derivatives at both nominal scales and the five-point derivative, using exact interpolation weights at the actual raw coefficient values.
+3. For every moment and all three stencils, require |FD − J[i,k]|/max(1, |J[i,k]|) ≤ 10⁻⁶. The threshold and normalization follow the frozen H8f numerical test. Record values, errors and failure components; no threshold adaptation.
+4. Compare each perturbed packet with the center for normalized construction identities, the multiset of oriented triangles indexed by those identities and source mesh connectivity. Record counts of additions/removals. A sampled column passes only when both all numerical comparisons and all four independent geometry comparisons pass.
+5. Keep smooth-neighborhood, full Jacobian, Newton and training admission closed. The separate c[7] historical event study has no role in grading these two columns.
