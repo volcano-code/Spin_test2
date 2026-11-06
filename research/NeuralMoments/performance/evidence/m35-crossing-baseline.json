@@ -1,0 +1,121 @@
+{
+  "fan": {
+    "sample": "base",
+    "output_sha256": "445c09bedacc5be9fbfa6ac574ebd46582d0541443bbc331ee9553623ac0bced",
+    "cutter_sha256": "f28f260c9acec5a5b5a781567dc8e041ec889f94d5c19a3602cc191ba7c9fc77",
+    "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+    "vertices": 243,
+    "faces": 482,
+    "construction": {
+      "unambiguous_vertex_stars": true,
+      "construction_sha256": "4bade4729589f741894b3b320c2eb4988cd1fa04c15296ac56ab0570bb0fc0b3",
+      "seam_sha256": "aff5ec95c8ccdec1d341e32d4f0bbd9ef951d1ec4fcfa86ae573818e21b331ad",
+      "oriented_triangulation_sha256": "09312c40f5145eb7d3fd9089742dd30b26e0dded9559bfe81da38a13dde9fd04"
+    },
+    "signed_ten": [
+      0.00073604078888988,
+      0.0002694455123951364,
+      2.52507826480482e-07,
+      0.0009001091110757278,
+      0.00010005150077874832,
+      1.0630255377794787e-06,
+      0.0011008705300081716,
+      2.7080229560288934e-07,
+      0.00032933120824576035,
+      2.4274186697938916e-07
+    ],
+    "exact_ten_sha256": "a854218cb4072a2b26cf54f1b26479ede6a548742ea62fe8713fdff8e8fc0bcb",
+    "cutter_embedding_checked": true,
+    "cutter_exact_tetra_count": 320,
+    "embedding": {
+      "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "vertices": "243",
+      "faces": "482",
+      "candidate_pairs": "4634",
+      "exact_pairs_checked": "4634",
+      "adjacent_pairs": "4047",
+      "nonadjacent_pairs": "587"
+    },
+    "outward_winding_component_face_counts": [
+      482
+    ],
+    "parent_coverage": {
+      "design_parent_count": 94150,
+      "design_AABB_candidates": 176,
+      "nonempty_design_parents": 131,
+      "partial_design_parents": 75,
+      "nonempty_cutter_parents": 159,
+      "partial_cutter_parents": 61,
+      "saved_design_faces": 217,
+      "saved_cutter_faces": 265,
+      "exact_seam_loop_lengths": [
+        137
+      ]
+    },
+    "source_position": {
+      "input_pair_AABB_candidates": 852,
+      "strict_feature_signs_tested": 5025,
+      "zero_feature_predicates": 0,
+      "locally_transverse_polyhedra": true
+    },
+    "regularized_intersection_verified": true
+  },
+  "direct_seams": {
+    "schema": "w1-m35-general-exact-regions-v1",
+    "sample": "base",
+    "result_sha256": "445c09bedacc5be9fbfa6ac574ebd46582d0541443bbc331ee9553623ac0bced",
+    "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+    "cutter_sha256": "f28f260c9acec5a5b5a781567dc8e041ec889f94d5c19a3602cc191ba7c9fc77",
+    "operation": "intersection",
+    "exact_input_candidate_pairs": 852,
+    "matching_oriented_seam_segments": 137,
+    "seam_cycles": [
+      137
+    ],
+    "design_carrier": {
+      "nonempty": 131,
+      "partial": 75,
+      "components": [
+        {
+          "facets": 94150,
+          "partial_anchor": 75890
+        }
+      ]
+    },
+    "cutter_carrier": {
+      "nonempty": 159,
+      "partial": 61,
+      "components": [
+        {
+          "facets": 320,
+          "partial_anchor": 2
+        }
+      ]
+    },
+    "cutter_embedding": {
+      "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "vertices": "162",
+      "faces": "320",
+      "candidate_pairs": "1964",
+      "exact_pairs_checked": "1964",
+      "adjacent_pairs": "1890",
+      "nonadjacent_pairs": "74"
+    },
+    "output_embedding": {
+      "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "vertices": "243",
+      "faces": "482",
+      "candidate_pairs": "4634",
+      "exact_pairs_checked": "4634",
+      "adjacent_pairs": "4047",
+      "nonadjacent_pairs": "587"
+    },
+    "cutter_components": [
+      320
+    ],
+    "output_components": [
+      482
+    ],
+    "regularized_set_equality": true
+  }
+}

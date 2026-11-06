@@ -1,0 +1,194 @@
+{
+  "schema": "w1-m35-crossing-family-v1",
+  "independent_full_region_proofs": 13,
+  "all_construction_signatures_equal": true,
+  "construction": {
+    "unambiguous_vertex_stars": true,
+    "construction_sha256": "4bade4729589f741894b3b320c2eb4988cd1fa04c15296ac56ab0570bb0fc0b3",
+    "seam_sha256": "aff5ec95c8ccdec1d341e32d4f0bbd9ef951d1ec4fcfa86ae573818e21b331ad",
+    "oriented_triangulation_sha256": "09312c40f5145eb7d3fd9089742dd30b26e0dded9559bfe81da38a13dde9fd04"
+  },
+  "independent_ten_order": [
+    "mass",
+    "x",
+    "y",
+    "z",
+    "xx",
+    "yy",
+    "zz",
+    "yz",
+    "xz",
+    "xy"
+  ],
+  "samples": [
+    {
+      "sample": "base",
+      "output_sha256": "445c09bedacc5be9fbfa6ac574ebd46582d0541443bbc331ee9553623ac0bced",
+      "cutter_sha256": "f28f260c9acec5a5b5a781567dc8e041ec889f94d5c19a3602cc191ba7c9fc77",
+      "exact_ten_sha256": "a854218cb4072a2b26cf54f1b26479ede6a548742ea62fe8713fdff8e8fc0bcb",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c0_p19",
+      "output_sha256": "031858f4cde8056ab9e1bbe13dc6ea927d05c85f86c9abda9a8b55c77d38bf20",
+      "cutter_sha256": "3dfcfdc6bd19095031ed74783e8d470881f0733f82cb4f1ed09e0229da486141",
+      "exact_ten_sha256": "55759b0a234cacbfe0d5da82d9d30744c8bbea12bedf33efff308825e7f8fa71",
+      "num_verified_embedding_pairs": 4631,
+      "strict_feature_signs": 4995,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c0_m19",
+      "output_sha256": "94ff1062b47d44f90b42dabb2782fb7eb1496ae93802a291493988b2d18e1e86",
+      "cutter_sha256": "26bf47b8e87e295ee0a4a39b65bde46c541e1ac5e79dc08321472bde8eecfcb1",
+      "exact_ten_sha256": "013dfad7f76756c23d5eef90784335e6c58ada20b712ab760ea7c55906d3ed02",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c0_p20",
+      "output_sha256": "cc4860abda8e2f08d8b8979f9a174f8e51401d8a727309c2ce8e46e4fd3a8cda",
+      "cutter_sha256": "32cc3708bb35223dbda74fa85361702eb2c466655eda3f2aa1506f7331419cdb",
+      "exact_ten_sha256": "80aa834ff5f2c58081423faedc9c9f5ae2d841b7c2ec888a497e3eca29ec9150",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c0_m20",
+      "output_sha256": "2f5f835d3dc37253f1bb9f696e39c81927bd243b1c28aab0520f0f6ef5b9be3a",
+      "cutter_sha256": "da159064fc7691f1c0ae9c068de60f3c21410b904421d57a87875e90baedd3b9",
+      "exact_ten_sha256": "ea0332988b07a6cfed149d13c41c0c14c8ced8bb08c1c0dd8019cd991060701d",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c1_p19",
+      "output_sha256": "896fce36a127149f46cd80ff0d582bc39a922695f4f1cc4a53cf21faeca41657",
+      "cutter_sha256": "867bc299ad2ef4032177447840c7df506424f1bee4cdcc750a685c053e808bd7",
+      "exact_ten_sha256": "96103e300856aa87777d0c4b6c999752910130b303d9febc1b5612617621d9d2",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c1_m19",
+      "output_sha256": "719b980fc599b284ce0c77b4eed7dc357f0b118325d9feca9386f0fe18fcbc41",
+      "cutter_sha256": "84dc1798774808a69378a3599907e4232f8b393b36db6303ef8297f1fcbeae03",
+      "exact_ten_sha256": "08ec569338f2bce23e243a696d335fecd98d184c98c1afa23f2be8c714f6b88a",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c1_p20",
+      "output_sha256": "001dc41b17f0f4d8a8f7de05e3f13133b98c2d1e34b67a03f14deabe27e7549b",
+      "cutter_sha256": "928b37477197db28174ed653527c35813dad37071982b70a5e7e1cb3ee9bb69d",
+      "exact_ten_sha256": "316cf0af69e230ae0648cbc8c4d5ba00dd4f205a27f9ef5cdcb587da026d1289",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c1_m20",
+      "output_sha256": "c8c835547b1f37c29e85bad42931b9abbe64265524576acd5c6cf8cdd388bd5d",
+      "cutter_sha256": "aa2405658fd693b35b74e7a274ea3da1cec58b465807e53fca2e8807274d1070",
+      "exact_ten_sha256": "d9adb5aefdf190f713397483c43ecf949c02e31247384ce6d4505d0bc53218f7",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c8_p19",
+      "output_sha256": "a0689a1cb4d783e08edf2a03fce052e4afcb94a8313ad1cbc91c0e59e3a01926",
+      "cutter_sha256": "4c0702964e706f6cb6cff7b7c769a29750461df3720677220aa19cf6e1a02456",
+      "exact_ten_sha256": "7cba15ae5d73515524c7abe2c032b2ad7f3f7eb8dda30d4209457e1fcd42f699",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 4995,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c8_m19",
+      "output_sha256": "060327609e0ae5e891dd77f28d587686a303e0720bd1e80c3a438f120049b8f6",
+      "cutter_sha256": "fc9e753ded20bf01d4a86b04cad31957b38ad38643334cb7ccf3d2aa5bbaded8",
+      "exact_ten_sha256": "fee95e8336702d0a65fa01a6246fc33232a007e936b0fa30a2972587274dd07e",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 4950,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c8_p20",
+      "output_sha256": "a969660718451621e994d7feea9a670b87ded7b2386d30ad5c36af1119f6b190",
+      "cutter_sha256": "bb240653d93821f65127f354ae8c527ae63e5cb39b4f3d17052c482abd2756eb",
+      "exact_ten_sha256": "2312a326a252652fd08c8c1b64f184774f107fd0869ff98405b667e730fac5f6",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    },
+    {
+      "sample": "c8_m20",
+      "output_sha256": "62c642045cf3361842d878cff8ccff5ac3479658652550ad0d2da54f7a77a134",
+      "cutter_sha256": "57307376f82d967720e4a7ecf27a8aa88c85eae9471a0593296eca24919c3be2",
+      "exact_ten_sha256": "1fe64fe5c93fcb116f145cf28a15b8e89b427582c8f56af943f34c3f7bc5e5e6",
+      "num_verified_embedding_pairs": 4634,
+      "strict_feature_signs": 5025,
+      "design_cut_faces": 75,
+      "cutter_cut_faces": 61,
+      "seam_cycles": [
+        137
+      ]
+    }
+  ]
+}

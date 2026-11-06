@@ -98,7 +98,7 @@ def area2(poly):
     return sum(cross(a, b) for a, b in edges(poly))
 
 
-def cut_polygon(tri, htri, planes):
+def cut_polygon(tri, htri, planes, rational_type=Q):
     """Exact intersection of triangle and cutter, empty for zero-area contacts."""
     poly = list(tri)
     for p in planes:
@@ -112,7 +112,7 @@ def cut_polygon(tri, htri, planes):
         if max(ds) <= 0:
             continue
         hp = list(map(homogeneous, poly))
-        poly = clip(poly, [Q(dot(p, h), h[-1]) for h in hp])
+        poly = clip(poly, [rational_type(dot(p, h), h[-1]) for h in hp])
         if len(poly) < 3:
             return []
     return poly

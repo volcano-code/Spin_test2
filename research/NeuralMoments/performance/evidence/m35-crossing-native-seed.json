@@ -1,0 +1,355 @@
+{
+  "initial": {
+    "w2_sha": "7bbb8380d2468a050a077fdec0b1fd0afa90a1adf75a84d962b6f19dbdd90b03",
+    "ten_sha256": "e149a85cfd2bd5909001a02bc71c309a2aac9b7ce816a4eb5993682cf875483a",
+    "ten_bounds": [
+      [
+        "865279587150952182002381671609049/6490371073168534535663120411525120",
+        "20766710091622852368057160118620699/155768905756044828855914889876602880"
+      ],
+      [
+        "5241830400695130478232903146648333/77884452878022414427957444938301440",
+        "3494553600463420318821935431100063/51922968585348276285304963292200960"
+      ],
+      [
+        "-3956019104131176591148730811222173/124615124604835863084731911901282304",
+        "-6593365173551960985247884685365591/207691874341393105141219853168803840"
+      ],
+      [
+        "1519691295365305708772038965035541/12980742146337069071326240823050240",
+        "3647259108876733701052893516086003/31153781151208965771182977975320576"
+      ],
+      [
+        "6024697015075593379830445463012359/155768905756044828855914889876602880",
+        "3012348507537796689915222731507941/77884452878022414427957444938301440"
+      ],
+      [
+        "1959752994941635267816066152837601/124615124604835863084731911901282304",
+        "3266254991569392113026776921400699/207691874341393105141219853168803840"
+      ],
+      [
+        "32819941180622456975005685993458999/311537811512089657711829779753205760",
+        "2187996078708163798333712399564403/20769187434139310514121985316880384"
+      ],
+      [
+        "-5833823332416016451442478468970027/207691874341393105141219853168803840",
+        "-17501469997248049354327435406895989/623075623024179315423659559506411520"
+      ],
+      [
+        "18532427947195788595017111893125211/311537811512089657711829779753205760",
+        "18532427947195788595017111893132257/311537811512089657711829779753205760"
+      ],
+      [
+        "-7147396850404751238760998433297577/623075623024179315423659559506411520",
+        "-1429479370080950247752199686656697/124615124604835863084731911901282304"
+      ]
+    ],
+    "region": {
+      "schema": "w1-m35-general-exact-regions-v1",
+      "sample": "seed0",
+      "result_sha256": "7bbb8380d2468a050a077fdec0b1fd0afa90a1adf75a84d962b6f19dbdd90b03",
+      "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+      "cutter_sha256": "5aff407ebf68ae2293af0ba04768e895e0a1ba3eb060130b4e9c69a2ebe71554",
+      "operation": "intersection",
+      "exact_input_candidate_pairs": 259276,
+      "matching_oriented_seam_segments": 1598,
+      "seam_cycles": [
+        24,
+        24,
+        24,
+        24,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        28,
+        28,
+        28,
+        28,
+        28,
+        29,
+        33,
+        50,
+        57,
+        62,
+        429
+      ],
+      "design_carrier": {
+        "nonempty": 11578,
+        "partial": 1570,
+        "components": [
+          {
+            "facets": 94150,
+            "partial_anchor": 24654
+          }
+        ]
+      },
+      "cutter_carrier": {
+        "nonempty": 4,
+        "partial": 4,
+        "components": [
+          {
+            "facets": 72,
+            "generic_winding_anchor": 0,
+            "other_winding": 0
+          },
+          {
+            "facets": 72,
+            "partial_anchor": 82
+          }
+        ]
+      },
+      "cutter_embedding": {
+        "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+        "vertices": "76",
+        "faces": "144",
+        "candidate_pairs": "2142",
+        "exact_pairs_checked": "2142",
+        "adjacent_pairs": "1236",
+        "nonadjacent_pairs": "906"
+      },
+      "output_embedding": {
+        "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+        "vertices": "6948",
+        "faces": "14092",
+        "candidate_pairs": "126150",
+        "exact_pairs_checked": "126150",
+        "adjacent_pairs": "101969",
+        "nonadjacent_pairs": "24181"
+      },
+      "cutter_components": [
+        72,
+        72
+      ],
+      "output_components": [
+        14092
+      ],
+      "regularized_set_equality": true
+    }
+  },
+  "call-002": {
+    "schema": "w1-m35-general-exact-regions-v1",
+    "sample": "call-002",
+    "result_sha256": "88f2825bb8b74d13b95e2d2b31fb50c6862188fc69734a7bd21e5b984787a1f8",
+    "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+    "cutter_sha256": "4f848c3df4b81bdbfef2b6b302c0227d26d3f88f575fef57c4b1490203004e61",
+    "operation": "intersection",
+    "exact_input_candidate_pairs": 202639,
+    "matching_oriented_seam_segments": 1653,
+    "seam_cycles": [
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      28,
+      28,
+      28,
+      29,
+      29,
+      29,
+      50,
+      50,
+      52,
+      55,
+      355
+    ],
+    "design_carrier": {
+      "nonempty": 13023,
+      "partial": 1619,
+      "components": [
+        {
+          "facets": 94150,
+          "partial_anchor": 24654
+        }
+      ]
+    },
+    "cutter_carrier": {
+      "nonempty": 8,
+      "partial": 8,
+      "components": [
+        {
+          "facets": 368,
+          "partial_anchor": 210
+        }
+      ]
+    },
+    "cutter_embedding": {
+      "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "vertices": "186",
+      "faces": "368",
+      "candidate_pairs": "4065",
+      "exact_pairs_checked": "4065",
+      "adjacent_pairs": "2540",
+      "nonadjacent_pairs": "1525"
+    },
+    "output_embedding": {
+      "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "vertices": "7689",
+      "faces": "15598",
+      "candidate_pairs": "138158",
+      "exact_pairs_checked": "138158",
+      "adjacent_pairs": "113633",
+      "nonadjacent_pairs": "24525"
+    },
+    "cutter_components": [
+      368
+    ],
+    "output_components": [
+      15598
+    ],
+    "regularized_set_equality": true
+  },
+  "call-003": {
+    "schema": "w1-m35-general-exact-regions-v1",
+    "sample": "call-003",
+    "result_sha256": "23a754bc521b7b2f3f14d16a34e4bc713a95afcf96a9610af50e398a441ef221",
+    "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622",
+    "cutter_sha256": "eab70d791ccc3951f6bcafb8653aed7aa7c05f089983648944d30f6e624fa131",
+    "operation": "intersection",
+    "exact_input_candidate_pairs": 397387,
+    "matching_oriented_seam_segments": 1575,
+    "seam_cycles": [
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      24,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      28,
+      28,
+      28,
+      28,
+      28,
+      28,
+      28,
+      29,
+      30,
+      30,
+      32,
+      32,
+      35,
+      51,
+      57,
+      455
+    ],
+    "design_carrier": {
+      "nonempty": 10782,
+      "partial": 1511,
+      "components": [
+        {
+          "facets": 94150,
+          "partial_anchor": 28235
+        }
+      ]
+    },
+    "cutter_carrier": {
+      "nonempty": 11,
+      "partial": 11,
+      "components": [
+        {
+          "facets": 376,
+          "partial_anchor": 167
+        }
+      ]
+    },
+    "cutter_embedding": {
+      "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "vertices": "190",
+      "faces": "376",
+      "candidate_pairs": "6743",
+      "exact_pairs_checked": "6743",
+      "adjacent_pairs": "2516",
+      "nonadjacent_pairs": "4227"
+    },
+    "output_embedding": {
+      "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "vertices": "6528",
+      "faces": "13240",
+      "candidate_pairs": "114948",
+      "exact_pairs_checked": "114948",
+      "adjacent_pairs": "96185",
+      "nonadjacent_pairs": "18763"
+    },
+    "cutter_components": [
+      376
+    ],
+    "output_components": [
+      13240
+    ],
+    "regularized_set_equality": true
+  }
+}
