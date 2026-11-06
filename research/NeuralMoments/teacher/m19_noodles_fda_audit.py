@@ -143,6 +143,11 @@ def exact_signed_ten(vertices, faces, *, target_origin=(0.,0.,0.)):
     origin=tuple(Fraction.from_float(float(o)) for o in target_origin)
     xyz=[tuple(Fraction.from_float(float(v))-origin[i] for i,v in enumerate(row))
          for row in vertices]
+    return fraction_signed_ten(xyz, faces)
+
+
+def fraction_signed_ten(xyz, faces):
+    """Integrate the oriented raw moments of coordinates already converted to Fraction."""
     m=[Fraction(0) for _ in range(10)]
     for ai,bi,ci in faces:
         a,b,c=xyz[ai],xyz[bi],xyz[ci]
