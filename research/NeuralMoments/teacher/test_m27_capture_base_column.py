@@ -4,7 +4,7 @@ import unittest
 from m23_fresh_point0 import HERE, NATIVE_C
 from m24_capture_c0 import H
 from m24_c0_operand_replay import replay
-from m27_capture_base_column import COLUMNS, column_from_group, plan
+from m27_capture_base_column import COLUMNS, stencil_from_group, plan
 
 
 class BaseColumnCaptureTest(unittest.TestCase):
@@ -39,11 +39,26 @@ class BaseColumnCaptureTest(unittest.TestCase):
 
     def test_native_cli_selects_only_the_named_base_group(self):
         for column in COLUMNS:
-            self.assertEqual(column_from_group(f'heart-base-c{column}-42189847862-1'), column)
-        for invalid in ('heart-c7-123-1', 'heart-base-c7-half-123-1', 'heart-base-c3-0-1'):
+            self.assertEqual(stencil_from_group(f'heart-base-c{column}-42189847862-1'), (column, False))
+        for invalid in ('heart-c7-123-1', 'heart-base-c3-0-1'):
             with self.assertRaisesRegex(ValueError, 'UNREGISTERED_BASE_GROUP'):
-                column_from_group(invalid)
+                stencil_from_group(invalid)
 
     def test_cannot_replay_event_as_base_c7(self):
         with self.assertRaisesRegex(ValueError, 'SPECIFY_ONE_STENCIL_PROTOCOL'):
             replay(None, None, None, c7=True, base_column=7)
+
+    def test_smaller_radius_c7_maps_to_its_four_historical_points(self):
+        result = plan('half', self.modules, 'a'*40, column=7, half=True)
+        archive = json.loads((HERE / 'M12_H8F_81_PROJECTIVE_RAYS.json').read_bytes())['certificates']
+        self.assertEqual(result['schema'], 'w2-m28-base-c7-half-plan-v1')
+        self.assertEqual(result['h'], H/2)
+        self.assertEqual(result['columns'], [7])
+        self.assertEqual([p['nominal_offset'] for p in result['samples']], [-H/2, -H/4, H/4, H/2])
+        self.assertEqual([p['native_c_sha256'] for p in result['samples']],
+                         [archive[i]['archived_native_c_sha256'] for i in (58,61,62,59)])
+        with self.assertRaisesRegex(ValueError, 'UNREGISTERED_HALF_RADIUS_COLUMN'):
+            plan('half', self.modules, 'a'*40, column=6, half=True)
+        self.assertEqual(stencil_from_group('heart-base-c7-half-123-1'), (7, True))
+        with self.assertRaisesRegex(ValueError, 'UNREGISTERED_HALF_RADIUS_COLUMN'):
+            stencil_from_group('heart-base-c8-half-123-1')

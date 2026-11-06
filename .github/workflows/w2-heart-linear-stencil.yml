@@ -42,7 +42,7 @@ jobs:
           case "$PROTOCOL" in
             linear) echo "DRIVER=m25_capture_linear.py" >> "$GITHUB_ENV"; echo "SAMPLES=8" >> "$GITHUB_ENV" ;;
             c7) echo "DRIVER=m26_capture_c7.py" >> "$GITHUB_ENV"; echo "SAMPLES=6" >> "$GITHUB_ENV" ;;
-            base-c[3-9]) echo "DRIVER=m27_capture_base_column.py" >> "$GITHUB_ENV"; echo "SAMPLES=4" >> "$GITHUB_ENV" ;;
+            base-c[3-9]|base-c7-half) echo "DRIVER=m27_capture_base_column.py" >> "$GITHUB_ENV"; echo "SAMPLES=4" >> "$GITHUB_ENV" ;;
             c0) echo "DRIVER=m24_capture_c0.py" >> "$GITHUB_ENV"; echo "SAMPLES=4" >> "$GITHUB_ENV" ;;
             *) exit 2 ;;
           esac
@@ -151,7 +151,7 @@ jobs:
           done
           for name in "${files[@]}"; do test -s "$group_dir/$name" && test ! -L "$group_dir/$name"; done
           recipient="$PROTOCOL"
-          if [[ "$PROTOCOL" == base-c[3-9] ]]; then recipient=base; fi
+          if [[ "$PROTOCOL" == base-c[3-9] || "$PROTOCOL" == base-c7-half ]]; then recipient=base; fi
           tar -C "$group_dir" -czf - "${files[@]}" | openssl cms -encrypt -binary -aes-256-gcm -outform DER \
             -out artifacts/sealed/stencil.tar.gz.cms ".github/point0-$recipient-evidence-recipient.pem"
           (cd artifacts/sealed && sha256sum stencil.tar.gz.cms > sha256sums)

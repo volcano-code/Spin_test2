@@ -1,0 +1,15 @@
+name: W2 Heart c7 smaller centered stencil
+on:
+  push:
+    branches: [research/neuralmoments-w2-teacher-20261019]
+    paths:
+      - 'research/NeuralMoments/teacher/launch/m28-base-c7-half.txt'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  capture:
+    uses: ./.github/workflows/w2-heart-linear-stencil.yml
+    with:
+      protocol: base-c7-half

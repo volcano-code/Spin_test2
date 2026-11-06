@@ -1,0 +1,1 @@
+M28: repeat centered c[7] within the preregistered half-radius after the M27 wider stencil crossed the event.
