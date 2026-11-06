@@ -1,0 +1,982 @@
+{
+  "protocol": {
+    "off_sha256": "dda85ca6dc03ed83a0b754611d5c0b1a3c8ba5234e690479ac4a04063e6a7d4d",
+    "design_sha256": "baaabf7f4ccfe8f4d4100ba2b977adb373f8e5bbc088a4b6469d3d1090dc7a13",
+    "fixed_faces": 6966,
+    "transform": {
+      "center": [
+        -0.016860299999999998,
+        0.1101752,
+        -0.0015652999999999986
+      ],
+      "scale": 11.553599716551687
+    },
+    "locations": {
+      "area": 6963,
+      "left": 2096
+    },
+    "source_executable_sha256": "829453167b91712fb4483642d830d2453eb44191c8e1ffb5bb9775ed00c5c3fd",
+    "boolean_executable_sha256": "6d47d4aed9b5ae29f365eaae26a1fdd0c1d59829f1799d71a6546e1991adef81",
+    "embedding_executable_sha256": "96758af9a4d68b7e1dc63c2af4a9448e1c4bcd4f1bb42f22b738dc2e00875bde",
+    "embedding": {
+      "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+      "vertices": "3485",
+      "faces": "6966",
+      "candidate_pairs": "45335",
+      "exact_pairs_checked": "45335",
+      "adjacent_pairs": "43633",
+      "nonadjacent_pairs": "1702"
+    },
+    "outward_components": [
+      6966
+    ]
+  },
+  "cases": [
+    {
+      "vertices": 151,
+      "faces": 298,
+      "moving_faces": 220,
+      "fixed_faces": 78,
+      "source_sha256": "a444b89305fc516de6c7fe1810367851a77a6b9e1740379adb3f766c42eb00ae",
+      "source_motion": {
+        "vertices": 162,
+        "max_abs_quadric": 8.153200337090993e-17,
+        "max_abs_normal_cross": 1.214306433183765e-16,
+        "max_abs_recovered_motion_error": 4.263256414560601e-14,
+        "max_scaled_recovered_motion_error": 9.71445146547012e-15
+      },
+      "exact_region": {
+        "schema": "w1-m35-general-exact-regions-v1",
+        "sample": "largest-face-small",
+        "result_sha256": "b36b0d1e4ef9f851d1e1c07f3b4d31f36c7d82f153001bf9f8990e0699b8659a",
+        "design_sha256": "baaabf7f4ccfe8f4d4100ba2b977adb373f8e5bbc088a4b6469d3d1090dc7a13",
+        "cutter_sha256": "2ab8f79c90461bcfe361e935bfeea1721caa668f28837533aa41f8e9db24d6c6",
+        "operation": "intersection",
+        "exact_input_candidate_pairs": 328,
+        "matching_oriented_seam_segments": 70,
+        "seam_cycles": [
+          70
+        ],
+        "design_carrier": {
+          "nonempty": 22,
+          "partial": 19,
+          "components": [
+            {
+              "facets": 6966,
+              "partial_anchor": 6634
+            }
+          ]
+        },
+        "cutter_carrier": {
+          "nonempty": 174,
+          "partial": 47,
+          "components": [
+            {
+              "facets": 320,
+              "partial_anchor": 88
+            }
+          ]
+        },
+        "cutter_embedding": {
+          "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+          "vertices": "162",
+          "faces": "320",
+          "candidate_pairs": "1960",
+          "exact_pairs_checked": "1960",
+          "adjacent_pairs": "1890",
+          "nonadjacent_pairs": "70"
+        },
+        "output_embedding": {
+          "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+          "vertices": "151",
+          "faces": "298",
+          "candidate_pairs": "2379",
+          "exact_pairs_checked": "2379",
+          "adjacent_pairs": "2049",
+          "nonadjacent_pairs": "330"
+        },
+        "cutter_components": [
+          320
+        ],
+        "output_components": [
+          298
+        ],
+        "regularized_set_equality": true
+      },
+      "topology": {
+        "unambiguous_vertex_stars": true,
+        "construction_sha256": "8bc2f5cb1b6196ac728b86852488023d01cf8524a546f00e85d08a7a065b37e5",
+        "seam_sha256": "5a54e5ac4deb8ed00ce7188c355eb3d39071ecab111c8c5f40b25984e71627fe",
+        "oriented_triangulation_sha256": "19c1e2d93f415a7778afc0ea2ef7642967bfac0035a104eed3c546992d618443"
+      },
+      "scaling_null": 1.0408340855860843e-17,
+      "fd_checks": [
+        {
+          "column": 0,
+          "step_exponent": 19,
+          "max_scaled_error": 2.6855564549954636e-08,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 0,
+          "step_exponent": 20,
+          "max_scaled_error": 6.700337729093064e-09,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 1,
+          "step_exponent": 19,
+          "max_scaled_error": 8.252512007089763e-10,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 1,
+          "step_exponent": 20,
+          "max_scaled_error": 2.1668555838516568e-10,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 2,
+          "step_exponent": 19,
+          "max_scaled_error": 1.7776109251244065e-08,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 2,
+          "step_exponent": 20,
+          "max_scaled_error": 4.458293068054786e-09,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 3,
+          "step_exponent": 19,
+          "max_scaled_error": 3.0154889696376586e-10,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 3,
+          "step_exponent": 20,
+          "max_scaled_error": 9.708311932143943e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 4,
+          "step_exponent": 19,
+          "max_scaled_error": 2.978543800491451e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 4,
+          "step_exponent": 20,
+          "max_scaled_error": 2.7483279541051786e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 5,
+          "step_exponent": 19,
+          "max_scaled_error": 1.1182983594704154e-08,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 5,
+          "step_exponent": 20,
+          "max_scaled_error": 2.787722219732558e-09,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 6,
+          "step_exponent": 19,
+          "max_scaled_error": 3.278592675126646e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 6,
+          "step_exponent": 20,
+          "max_scaled_error": 9.502947040385124e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 7,
+          "step_exponent": 19,
+          "max_scaled_error": 1.574093189127268e-09,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 7,
+          "step_exponent": 20,
+          "max_scaled_error": 4.092862715410206e-10,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 8,
+          "step_exponent": 19,
+          "max_scaled_error": 9.201807371628234e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 8,
+          "step_exponent": 20,
+          "max_scaled_error": 1.957113637818253e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 9,
+          "step_exponent": 19,
+          "max_scaled_error": 4.759018346067734e-09,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 9,
+          "step_exponent": 20,
+          "max_scaled_error": 1.1831978175003144e-09,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        }
+      ],
+      "canonical_mesh_sha256": "05ddf5ae9cff0484651239eda60c6340622a8f0375c03b9ac48bc28e5b93aac6",
+      "w6_original_result_sha256": "80e959c21361700d81d3c92045db64bedab7479606fe3cee2e00c54b960dbd2c",
+      "different_cyclic_start_triangles": 3
+    },
+    {
+      "vertices": 351,
+      "faces": 698,
+      "moving_faces": 272,
+      "fixed_faces": 426,
+      "source_sha256": "15009492f22f6e96751b8b60f6bce3f734cdd2241f61f383b3ecef6778271743",
+      "source_motion": {
+        "vertices": 162,
+        "max_abs_quadric": 1.4224732503009818e-16,
+        "max_abs_normal_cross": 1.5265566588595902e-16,
+        "max_abs_recovered_motion_error": 5.329070518200751e-15,
+        "max_scaled_recovered_motion_error": 1.915134717478395e-15
+      },
+      "exact_region": {
+        "schema": "w1-m35-general-exact-regions-v1",
+        "sample": "largest-face-medium",
+        "result_sha256": "b27b9734e20b0f65af09e4fb3095ac0c27732030d1f3d4f91fe0fb66f4885114",
+        "design_sha256": "baaabf7f4ccfe8f4d4100ba2b977adb373f8e5bbc088a4b6469d3d1090dc7a13",
+        "cutter_sha256": "b85e9d4d068627c87974ffe1f7871c5f5988b050227ebd75503e3c84c3c63009",
+        "operation": "intersection",
+        "exact_input_candidate_pairs": 731,
+        "matching_oriented_seam_segments": 168,
+        "seam_cycles": [
+          168
+        ],
+        "design_carrier": {
+          "nonempty": 317,
+          "partial": 109,
+          "components": [
+            {
+              "facets": 6966,
+              "partial_anchor": 45
+            }
+          ]
+        },
+        "cutter_carrier": {
+          "nonempty": 135,
+          "partial": 58,
+          "components": [
+            {
+              "facets": 320,
+              "partial_anchor": 98
+            }
+          ]
+        },
+        "cutter_embedding": {
+          "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+          "vertices": "162",
+          "faces": "320",
+          "candidate_pairs": "1960",
+          "exact_pairs_checked": "1960",
+          "adjacent_pairs": "1890",
+          "nonadjacent_pairs": "70"
+        },
+        "output_embedding": {
+          "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+          "vertices": "351",
+          "faces": "698",
+          "candidate_pairs": "5591",
+          "exact_pairs_checked": "5591",
+          "adjacent_pairs": "4937",
+          "nonadjacent_pairs": "654"
+        },
+        "cutter_components": [
+          320
+        ],
+        "output_components": [
+          698
+        ],
+        "regularized_set_equality": true
+      },
+      "topology": {
+        "unambiguous_vertex_stars": true,
+        "construction_sha256": "ed041b0812228c6653fbdbf344ddc0b7efb0d0c985d60b4f8f63736c2c88cbb1",
+        "seam_sha256": "fd546aed43852aaac101d27bf5e0ec6b5064c3931d585cf345a57e38fb43777a",
+        "oriented_triangulation_sha256": "e8e9c64a9a4c076b4e3c9de4eb15950a96ac7d9cde3e92844e5ccd4beffdeb1c"
+      },
+      "scaling_null": 2.0816681711721685e-16,
+      "fd_checks": [
+        {
+          "column": 0,
+          "step_exponent": 19,
+          "max_scaled_error": 3.6725514260068635e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 0,
+          "step_exponent": 20,
+          "max_scaled_error": 8.106347533379161e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 1,
+          "step_exponent": 19,
+          "max_scaled_error": 5.607347919323047e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 1,
+          "step_exponent": 20,
+          "max_scaled_error": 2.8309965482975485e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 2,
+          "step_exponent": 19,
+          "max_scaled_error": 2.7779556432960817e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 2,
+          "step_exponent": 20,
+          "max_scaled_error": 1.3331285315588845e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 3,
+          "step_exponent": 19,
+          "max_scaled_error": 1.9329704503689982e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 3,
+          "step_exponent": 20,
+          "max_scaled_error": 2.023919920546291e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 4,
+          "step_exponent": 19,
+          "max_scaled_error": 1.9808016338274115e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 4,
+          "step_exponent": 20,
+          "max_scaled_error": 1.1103618025032347e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 5,
+          "step_exponent": 19,
+          "max_scaled_error": 4.913447426702078e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 5,
+          "step_exponent": 20,
+          "max_scaled_error": 8.182343691487404e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 6,
+          "step_exponent": 19,
+          "max_scaled_error": 4.49941472968618e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 6,
+          "step_exponent": 20,
+          "max_scaled_error": 8.635393788924972e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 7,
+          "step_exponent": 19,
+          "max_scaled_error": 1.830746665376637e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 7,
+          "step_exponent": 20,
+          "max_scaled_error": 3.755551425399517e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 8,
+          "step_exponent": 19,
+          "max_scaled_error": 2.540440080522899e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 8,
+          "step_exponent": 20,
+          "max_scaled_error": 3.6567832095713015e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 9,
+          "step_exponent": 19,
+          "max_scaled_error": 1.7728818413331737e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 9,
+          "step_exponent": 20,
+          "max_scaled_error": 4.7754800114319096e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        }
+      ],
+      "canonical_mesh_sha256": "31d8aec8fb86413473a538fc25a18979690e3fbceeb612a4fcc8c3dcb472c46c",
+      "w6_original_result_sha256": "b27b9734e20b0f65af09e4fb3095ac0c27732030d1f3d4f91fe0fb66f4885114",
+      "different_cyclic_start_triangles": 0
+    },
+    {
+      "vertices": 582,
+      "faces": 1160,
+      "moving_faces": 351,
+      "fixed_faces": 809,
+      "source_sha256": "8af8f0911aaaf1e1bfaab03ff51ad788b1b3b6b3010558edd691f2072122eb61",
+      "source_motion": {
+        "vertices": 162,
+        "max_abs_quadric": 1.3530843112619095e-16,
+        "max_abs_normal_cross": 1.1102230246251565e-16,
+        "max_abs_recovered_motion_error": 3.552713678800501e-15,
+        "max_scaled_recovered_motion_error": 1.1102230246251565e-15
+      },
+      "exact_region": {
+        "schema": "w1-m35-general-exact-regions-v1",
+        "sample": "left-face-large",
+        "result_sha256": "432bb55613707e9e590983470421129e46218f2d74f9b2a9e81c8c8894aa40a4",
+        "design_sha256": "baaabf7f4ccfe8f4d4100ba2b977adb373f8e5bbc088a4b6469d3d1090dc7a13",
+        "cutter_sha256": "733e987b700f0ee291203b7be29170113be3cb7fcf01907eda08d32c5f06eca6",
+        "operation": "intersection",
+        "exact_input_candidate_pairs": 1765,
+        "matching_oriented_seam_segments": 271,
+        "seam_cycles": [
+          271
+        ],
+        "design_carrier": {
+          "nonempty": 635,
+          "partial": 188,
+          "components": [
+            {
+              "facets": 6966,
+              "partial_anchor": 5
+            }
+          ]
+        },
+        "cutter_carrier": {
+          "nonempty": 121,
+          "partial": 76,
+          "components": [
+            {
+              "facets": 320,
+              "partial_anchor": 8
+            }
+          ]
+        },
+        "cutter_embedding": {
+          "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+          "vertices": "162",
+          "faces": "320",
+          "candidate_pairs": "1958",
+          "exact_pairs_checked": "1958",
+          "adjacent_pairs": "1890",
+          "nonadjacent_pairs": "68"
+        },
+        "output_embedding": {
+          "status": "EXACT_POST_BOOLEAN_SELF_INTERSECTION_FREE",
+          "vertices": "582",
+          "faces": "1160",
+          "candidate_pairs": "9141",
+          "exact_pairs_checked": "9141",
+          "adjacent_pairs": "8216",
+          "nonadjacent_pairs": "925"
+        },
+        "cutter_components": [
+          320
+        ],
+        "output_components": [
+          1160
+        ],
+        "regularized_set_equality": true
+      },
+      "topology": {
+        "unambiguous_vertex_stars": true,
+        "construction_sha256": "4aa4c941574dc497052026e73327f60cde820659655799efc1465b8a28e12e83",
+        "seam_sha256": "6c1b1cd5518e41ec7566820c87bd79ad76dc7c298dbc26635930466cf360cda6",
+        "oriented_triangulation_sha256": "bcd3c068e00aadc0d2ad746a5d6dec1e653467521a8504311b19b767bdf5f84f"
+      },
+      "scaling_null": 1.5612511283791264e-17,
+      "fd_checks": [
+        {
+          "column": 0,
+          "step_exponent": 19,
+          "max_scaled_error": 4.4971585138818287e-10,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": false,
+          "changed_hashes_minus_plus": [
+            [
+              "oriented_triangulation_sha256"
+            ],
+            []
+          ]
+        },
+        {
+          "column": 0,
+          "step_exponent": 20,
+          "max_scaled_error": 1.099508182265123e-10,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 1,
+          "step_exponent": 19,
+          "max_scaled_error": 4.333389008802041e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 1,
+          "step_exponent": 20,
+          "max_scaled_error": 2.6999311571924095e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 2,
+          "step_exponent": 19,
+          "max_scaled_error": 3.9404479679205906e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 2,
+          "step_exponent": 20,
+          "max_scaled_error": 9.337558504185495e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 3,
+          "step_exponent": 19,
+          "max_scaled_error": 4.141015308434248e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 3,
+          "step_exponent": 20,
+          "max_scaled_error": 3.844841112154995e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 4,
+          "step_exponent": 19,
+          "max_scaled_error": 3.0891289526380206e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 4,
+          "step_exponent": 20,
+          "max_scaled_error": 1.6339374298013354e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 5,
+          "step_exponent": 19,
+          "max_scaled_error": 7.246536704030859e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 5,
+          "step_exponent": 20,
+          "max_scaled_error": 1.8160473125305998e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 6,
+          "step_exponent": 19,
+          "max_scaled_error": 4.385797280903603e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 6,
+          "step_exponent": 20,
+          "max_scaled_error": 2.621367012345388e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 7,
+          "step_exponent": 19,
+          "max_scaled_error": 9.123382604947494e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 7,
+          "step_exponent": 20,
+          "max_scaled_error": 5.428532623419358e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 8,
+          "step_exponent": 19,
+          "max_scaled_error": 1.3998124881453577e-10,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 8,
+          "step_exponent": 20,
+          "max_scaled_error": 2.356592698760096e-11,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 9,
+          "step_exponent": 19,
+          "max_scaled_error": 8.876233081878127e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        },
+        {
+          "column": 9,
+          "step_exponent": 20,
+          "max_scaled_error": 8.357065039987788e-12,
+          "unambiguous_seam_and_incidence": true,
+          "triangulation_stable": true,
+          "changed_hashes_minus_plus": [
+            [],
+            []
+          ]
+        }
+      ],
+      "canonical_mesh_sha256": "80aebba4aaa9a13c5c777d276c488c39e8538ca0955140c4445ecf7e182e0b2c",
+      "w6_original_result_sha256": "57c0585c05ab37f9ce38bf9ac037b64041fd1bc92a5739db1f0b825f50d1da35",
+      "different_cyclic_start_triangles": 1
+    }
+  ],
+  "heldout_sha256": "4a92d765c5a32cfb19ddcfbe3b669c5288ad4fe6a4090a40501cb8101299fa5c",
+  "frozen_for_W6_sha256": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c",
+  "occupancies": {
+    "bunny": [
+      {
+        "side": 16,
+        "occupied": 498,
+        "grid_sha256": "82a40b46697007b7b252cbe5ce913292f58c2984b11de555106496ccca872125",
+        "design_sha256": "baaabf7f4ccfe8f4d4100ba2b977adb373f8e5bbc088a4b6469d3d1090dc7a13"
+      },
+      {
+        "side": 32,
+        "occupied": 4358,
+        "grid_sha256": "afe7c6ebd2d913c20b6c46b79456406fac6beec850f5ae8398a55b4f828e4d91",
+        "design_sha256": "baaabf7f4ccfe8f4d4100ba2b977adb373f8e5bbc088a4b6469d3d1090dc7a13"
+      }
+    ],
+    "noodles": [
+      {
+        "side": 16,
+        "occupied": 379,
+        "grid_sha256": "d8a72daeac6c6348ced9f2b1336b6b54ccd6d61cb585835eb07d06e7b53ecb32",
+        "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622"
+      },
+      {
+        "side": 32,
+        "occupied": 2826,
+        "grid_sha256": "b0996a685520d316719d2fd3acdfd3e4dc9276afa91b497b6bdb3cdc5bd0f4b2",
+        "design_sha256": "c3633c74bc74c2be488eb22de108454276f28941f0477cfee5837f57db99d622"
+      }
+    ]
+  }
+}

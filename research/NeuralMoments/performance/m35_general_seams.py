@@ -127,13 +127,13 @@ def embedding(binary,stream,seconds):
     return fields
 
 
-def audit(folder, design, binary):
+def audit(folder, design, binary, *, design_sha=DESIGN_SHA):
     raw=(folder/'result.json').read_bytes();obj=json.loads(raw)
     op=obj['operation']
     if not obj['succeeded'] or op not in ('intersection','difference'):raise ValueError('UNSUPPORTED_OPERATION')
     dh,d,fd=packet(design);ch,c,fc=packet(folder/'cutter.txt')
     receipt=json.loads((folder/'receipt.json').read_bytes())
-    if dh!=DESIGN_SHA or receipt['result_sha256']!=sha(raw) or receipt['cutter_sha256']!=ch or receipt['design_sha256']!=dh or receipt['operation']!=op:
+    if dh!=design_sha or receipt['result_sha256']!=sha(raw) or receipt['cutter_sha256']!=ch or receipt['design_sha256']!=dh or receipt['operation']!=op:
         raise ValueError('SOURCE_RECEIPT_MISMATCH')
     o=[tuple(map(Q,v)) for v in obj['vertices']];fo=list(map(tuple,obj['faces']));ow=obj['birth_faces']
     if not fo or len(ow)!=len(fo) or min(ow)<0 or max(ow)>=len(fd)+len(fc):raise ValueError('BAD_BIRTH_FACES')
