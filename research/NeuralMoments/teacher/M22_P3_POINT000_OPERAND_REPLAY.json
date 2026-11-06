@@ -1,0 +1,28 @@
+{
+  "J_D": null,
+  "archive_sha256": "99a050f4604109e0323c0110a029aa5d7601d729d755e6956ad48ed8c77ccda9",
+  "boolean_set_equality_proved": false,
+  "counts": {
+    "EXPLICIT3D_design": 7625,
+    "EXPLICIT3D_quadric": 46,
+    "LPI_design": 696,
+    "LPI_quadric": 88
+  },
+  "design_operand_sha256": "aa20340259e057f5c22d2ae3f29d39685081f4cbd8ab064e2c31788b2f9edfa2",
+  "fresh_same_call_material_recovered": false,
+  "historical_evaluation_map_identity": "c0d6befe4a99ec3d0b34944db14a5e9e69f4b319c23c67493878535b285bcfa9",
+  "historical_material_sha256": "6be4faf58ef2fc31b6a1e6d67e601417150d0b43dbd37104b61565a2ca6708c1",
+  "historical_point_gzip_sha256": "c372f749bf7b85015e2dcdad4a445aeab4f2f6fbd25d622089ec58d471992973",
+  "m21_evaluation_map_identity": "277d02b54d669be340e4435bf5315f91be28c2c563eceb9bebb4df793f087947",
+  "m21_label_sha256": "747101c819d95959020a39ea54eec5af280fd465b786c3f94312bb7447136729",
+  "m21_material_sha256": "b136cbcc09740915cd70615d73fab3ab2aa0b680cdb823cfed12375bed6c20e8",
+  "prepared_request_file_sha256": "1d2b06063c5b2c7010fcb2764518c05c9707f013d6914bc4e20298f8516e061c",
+  "quadric_source_identity": "596d2573abbfee52d77090544f34b11bae17a9a45199df00fe848aa905908850",
+  "real_native_calls_this_replay": 0,
+  "request_sha256": "7084fecb6bbd4d17bca842bfe68299f9711ecead09eb01593364424a3e0c4a8a",
+  "schema": "w2-m22-p3-heart-point000-operand-replay-v1",
+  "split": "excluded",
+  "status": "HISTORICAL_CONSTRUCTION_INCIDENCE_VERIFIED",
+  "training_admitted": false,
+  "vertices_verified": 8455
+}

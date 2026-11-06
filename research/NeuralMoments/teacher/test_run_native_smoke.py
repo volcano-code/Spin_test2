@@ -71,6 +71,32 @@ class TestNativeSmokePreflight(unittest.TestCase):
         self.assertEqual(response['status'],'FAILED_NATIVE_SETUP_OR_EVALUATION')
         self.assertIn('fixture changed',response['error'])
         self.assertEqual(json.loads(path.read_text())['status'],response['status'])
+    def test_capture_and_persist_new_bound_attachment(self):
+        # Synthetic producer exercises publication only; this calls no native routine.
+        material = {'evaluation_map_identity': 'synthetic-map', 'material_proof': {'test': True}}
+        def fake_evaluate(spec, *, capture_material):
+            capture_material.update(material)
+            return seal(model_sha256=spec['expected_model_sha256'],
+                        native_module_sha256=spec['expected_native_module_sha256'],
+                        geometry={}, density=1, frame={}, q=spec['native_c'],
+                        r_d=[1.0]*10, j_d=None, r_f=[0.0]*10,
+                        topology_status='OBSERVED_DISCRETE_MAP', derivative_status='UNKNOWN',
+                        derivative_contract=None, stage_seconds={}, peak_rss_bytes=None,
+                        exact_proof={'native_cherchi': True, 'evaluation_map_identity': 'synthetic-map',
+                                     'same_call_attachment': {'serialized_material_sha256': digest(material)}},
+                        split='excluded')
+        label_file = self.home/'label.json'
+        material_file = self.home/'material.json'
+        with patch('run_native_smoke.evaluate_from_spec', fake_evaluate):
+            result = run(self.spec, label_file, material_output=material_file)
+        self.assertEqual(result['status'], 'LABEL_RECORDED')
+        self.assertEqual(json.loads(material_file.read_text()), material)
+        label = json.loads(label_file.read_text())['payload']
+        self.assertEqual(label['exact_proof']['same_call_attachment']['serialized_material_sha256'],
+                         digest(json.loads(material_file.read_text())))
+        self.assertEqual(label['split'], 'excluded')
+        self.assertIsNone(label['J_D'])
+
     def test_mock_success_cannot_be_published_as_native(self):
         def make_mock_record(spec):
             return seal(model_sha256=spec['expected_model_sha256'],

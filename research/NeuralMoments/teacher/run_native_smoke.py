@@ -72,7 +72,7 @@ def parse_spec(path):
     return spec
 
 
-def evaluate_from_spec(spec):
+def evaluate_from_spec(spec, *, capture_material=None):
     """Lazy imports allow infrastructure failures to be logged without mock data."""
     import numpy as np
     # V2 intentionally remains parseable for historical test-only failures,
@@ -120,11 +120,15 @@ def evaluate_from_spec(spec):
         'outer_mesh_binary64_correspondence_verified':True,
         'model_to_request_geometry_proof':binding,
     }
-    return evaluate_one(evaluator,spec['native_c'],model_path=spec['model_path'],
+    record = evaluate_one(evaluator,spec['native_c'],model_path=spec['model_path'],
         native_module_path=evaluator.native.__file__,geometry=geometry,
         density=request.material_density,frame=spec['frame'],split='excluded',
         reference_absolute_tolerances=spec['reference_absolute_tolerances'],
         exclusion_reason='W0_VERIFIER_AND_INDEPENDENT_SOLID_PROOF_NOT_VERIFIED')
+    if capture_material is not None and record['payload']['topology_status'] == 'OBSERVED_DISCRETE_MAP':
+        # Read the evaluator's same-call cache before it goes out of scope.
+        capture_material.update(evaluator.material(tuple(spec['native_c'])))
+    return record
 
 
 def _write_new_atomically(path,record):
@@ -147,17 +151,33 @@ def _write_new_atomically(path,record):
             tmp.unlink(missing_ok=True)
 
 
-def run(spec_path,output_path):
+def _write_bound_material(path, material, proof):
+    expected = proof['same_call_attachment']['serialized_material_sha256']
+    if digest(material) != expected or material['evaluation_map_identity'] != proof['evaluation_map_identity']:
+        raise ValueError('CAPTURED_MATERIAL_BINDING_MISMATCH')
+    _write_new_atomically(path, material)
+    # Compare the canonical bytes actually persisted, excluding the single trailing LF.
+    if path.read_bytes() != (canonical(material) + '\n').encode('utf-8'):
+        raise ValueError('PERSISTED_MATERIAL_BYTES_MISMATCH')
+
+
+def run(spec_path,output_path, *, material_output=None):
     path=Path(output_path)
     if os.path.lexists(path):
         raise FileExistsError('REFUSE_OVERWRITE_EXISTING_EVIDENCE')
+    material_path = Path(material_output) if material_output is not None else None
+    if material_path is not None:
+        if material_path.resolve() == path.resolve() or os.path.lexists(material_path):
+            raise FileExistsError('MATERIAL_OUTPUT_REQUIRES_DISTINCT_NEW_PATH')
     start=time.perf_counter()
     phase='PREFLIGHT'
     try:
         spec_content_before=sha256_file(spec_path)
         spec=parse_spec(spec_path)
         phase='NATIVE_SETUP_OR_EVALUATION'
-        record=evaluate_from_spec(spec)
+        material = {}
+        record = (evaluate_from_spec(spec, capture_material=material) if material_path is not None
+                  else evaluate_from_spec(spec))
         phase='POSTFLIGHT'
         if sha256_file(spec_path)!=spec_content_before:
             raise ValueError('FROZEN_SPEC_CHANGED_DURING_EVALUATION')
@@ -172,6 +192,8 @@ def run(spec_path,output_path):
             record['identity']['native_module_sha256']!=spec['expected_native_module_sha256'] or
             record['identity']['q_sha256']!=digest(spec['native_c'])):
             raise ValueError('RETURNED_LABEL_SOURCE_IDENTITY_MISMATCH')
+        if material_path is not None and record['payload']['topology_status'] == 'OBSERVED_DISCRETE_MAP':
+            _write_bound_material(material_path, material, record['payload']['exact_proof'])
         # Save only after complete checks and then independently reopen it.
         _write_new_atomically(path,record)
         body=load(path,expected_q=spec['native_c'],
@@ -203,8 +225,9 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--spec',required=True)
     parser.add_argument('--output',required=True)
+    parser.add_argument('--material-output', help='New path for the full native same-call JSON attachment')
     args=parser.parse_args(argv)
-    result=run(args.spec,args.output)
+    result=run(args.spec,args.output,material_output=args.material_output)
     print(canonical(result))
     return 0 if result.get('status')=='LABEL_RECORDED' and result.get('failure_reason') is None else 2
 
