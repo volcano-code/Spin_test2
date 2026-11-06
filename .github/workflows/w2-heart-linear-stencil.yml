@@ -40,6 +40,7 @@ jobs:
           set -euo pipefail
           mkdir -p artifacts/runtime
           case "$PROTOCOL" in
+            trajectory) echo "DRIVER=m30_native_trajectory.py" >> "$GITHUB_ENV" ;;
             newton) echo "DRIVER=m29_native_first_step.py" >> "$GITHUB_ENV" ;;
             linear) echo "DRIVER=m25_capture_linear.py" >> "$GITHUB_ENV"; echo "SAMPLES=8" >> "$GITHUB_ENV" ;;
             c7) echo "DRIVER=m26_capture_c7.py" >> "$GITHUB_ENV"; echo "SAMPLES=6" >> "$GITHUB_ENV" ;;
@@ -116,9 +117,11 @@ jobs:
           cat /proc/meminfo > artifacts/runtime/meminfo-before-call
           awk '/^SwapTotal:/{sw=$2}/^MemAvailable:/{m=$2} END{exit !(m>=11*1024*1024 && sw==0)}' /proc/meminfo
           set +e
+          seconds=1200
+          if [[ "$PROTOCOL" == trajectory ]]; then seconds=720; fi
           sudo systemd-run --unit="$GROUP_ID" --quiet --wait --pipe --collect -p "User=$(id -un)" \
             -p "WorkingDirectory=$GITHUB_WORKSPACE" -p MemoryHigh=7G -p MemoryMax=9G -p MemorySwapMax=0 \
-            -p OOMPolicy=continue -p RuntimeMaxSec=1200s -p CPUQuota=200% \
+            -p OOMPolicy=continue -p "RuntimeMaxSec=${seconds}s" -p CPUQuota=200% \
             --setenv="RUNNER_TEMP=$RUNNER_TEMP" --setenv="PATH=$PATH" --setenv="PYTHONPATH=$PYTHONPATH" --setenv="LD_LIBRARY_PATH=$LD_LIBRARY_PATH" \
             --setenv=OMP_NUM_THREADS=1 --setenv=OPENBLAS_NUM_THREADS=1 --setenv=PYTHONINTMAXSTRDIGITS=100000 --setenv="GROUP_ID=$GROUP_ID" --setenv="DRIVER=$DRIVER" \
             /bin/bash -c '
@@ -138,8 +141,20 @@ jobs:
             cat artifacts/runtime/native-error-codes.txt
           fi
           exit "$status"
+      - name: Save opposite native Boolean and full surface only for a converged terminal
+        if: success() && env.PROTOCOL == 'trajectory'
+        run: |
+          set -euo pipefail
+          cap="artifacts/$GROUP_ID"
+          if ! jq -e '.status == "NATIVE_TERMINAL" and .native_terminal == "CONVERGED"' "$cap/result.json" > /dev/null; then exit 0; fi
+          sudo systemd-run --unit="$GROUP_ID-complement" --quiet --wait --pipe --collect -p "User=$(id -un)" \
+            -p "WorkingDirectory=$GITHUB_WORKSPACE" -p MemoryHigh=7G -p MemoryMax=9G -p MemorySwapMax=0 \
+            -p RuntimeMaxSec=300s -p CPUQuota=200% -p OOMPolicy=continue \
+            --setenv="PATH=$PATH" --setenv="PYTHONPATH=$PYTHONPATH" --setenv="LD_LIBRARY_PATH=$LD_LIBRARY_PATH" \
+            --setenv=OMP_NUM_THREADS=1 --setenv=OPENBLAS_NUM_THREADS=1 --setenv=PYTHONINTMAXSTRDIGITS=100000 \
+            python research/NeuralMoments/teacher/m30_terminal_complement.py "$cap"
       - name: Seal native Newton trace and disposition
-        if: always() && env.PROTOCOL == 'newton'
+        if: always() && (env.PROTOCOL == 'newton' || env.PROTOCOL == 'trajectory')
         run: |
           set -euo pipefail
           group_dir="artifacts/$GROUP_ID"
@@ -152,16 +167,20 @@ jobs:
           if [[ "$(cat artifacts/runtime/exit-code 2>/dev/null || true)" = 0 ]]; then
             test "${#files[@]}" = 6
           fi
+          if [[ "$PROTOCOL" == trajectory && -s "$group_dir/terminal-complement.json" && ! -L "$group_dir/terminal-complement.json" ]]; then
+            files+=(terminal-complement.json)
+            (cd "$group_dir" && sha256sum terminal-complement.json) > artifacts/runtime/terminal-complement.sha256
+          fi
           if (( ${#files[@]} == 0 )); then exit 0; fi
           mkdir -p artifacts/sealed
           tar -C "$group_dir" -czf - "${files[@]}" | openssl cms -encrypt -binary -aes-256-gcm -outform DER \
-            -out artifacts/sealed/newton.tar.gz.cms .github/point0-newton-evidence-recipient.pem
-          (cd artifacts/sealed && sha256sum newton.tar.gz.cms > sha256sums)
+            -out "artifacts/sealed/$PROTOCOL.tar.gz.cms" ".github/point0-$PROTOCOL-evidence-recipient.pem"
+          (cd artifacts/sealed && sha256sum "$PROTOCOL.tar.gz.cms" > sha256sums)
           if [[ -s "$group_dir/result.json" && ! -L "$group_dir/result.json" ]]; then
             cp "$group_dir/result.json" artifacts/runtime/result.json
           fi
       - name: Seal freshly generated material packets and their provenance
-        if: success() && env.PROTOCOL != 'newton'
+        if: success() && env.PROTOCOL != 'newton' && env.PROTOCOL != 'trajectory'
         run: |
           set -euo pipefail
           mkdir -p artifacts/sealed

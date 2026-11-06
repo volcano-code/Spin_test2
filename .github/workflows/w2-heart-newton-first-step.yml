@@ -3,8 +3,8 @@ on:
   push:
     branches: [research/neuralmoments-w2-teacher-20261019]
     paths:
-      - '.github/workflows/w2-heart-newton-first-step.yml'
-      - 'research/NeuralMoments/teacher/m29_native_first_step.py'
+      # M30 reuses the frozen M29 driver. Request a new prefix explicitly.
+      - 'research/NeuralMoments/teacher/launch/m29-first-step.txt'
   workflow_dispatch:
 permissions:
   contents: read

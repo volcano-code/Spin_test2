@@ -40,9 +40,15 @@ class Recorder:
         self.status = None
         self.fatal = False
 
+    def may_evaluate(self):
+        return self.calls < CAP and self.accepted is None
+
+    def receipt_fields(self, native_result):
+        return {}
+
     def evaluate(self, q):
         # Defensive bound even if a future native implementation omits decision events.
-        if self.calls >= CAP or self.accepted is not None or self.fatal:
+        if not self.may_evaluate() or self.fatal:
             raise RuntimeError('UNEXPECTED_NATIVE_PREFIX_CALLBACK')
         self.calls += 1
         row = dict(index=self.calls, native_c=list(q), call_counts_before=dict(self.geometry.call_counts))
@@ -88,7 +94,7 @@ class Recorder:
                 raise PrefixComplete
 
 
-def run(prepared, manifest, out):
+def run(prepared, manifest, out, *, recorder_type=Recorder):
     from make_it_stand import spin
     from make_it_stand.verification.cherchi_inprocess import InProcessCherchiEvaluator
     import _cherchi_core_boolean as bridge
@@ -119,8 +125,9 @@ def run(prepared, manifest, out):
         require(Path(mod.__file__).resolve() == Path(entries[name]['path']), 'ELF_IMPORT_PATH_CHANGED')
     geometry = InProcessCherchiEvaluator(req, settings, rational_arithmetic_backend='NATIVE_GMP_SURFACE_V1')
     native_terminal = None
+    solved = None
     with (out/'events.jsonl').open('x') as events, (out/'evaluations.jsonl').open('x') as evaluations:
-        observer = Recorder(geometry, evaluations, events)
+        observer = recorder_type(geometry, evaluations, events)
         try:
             # Empty initial list invokes the native deterministic sequence at its own seed=0.
             solved = spin.solve_spin_it_faster_with_external_moment_evaluator(req, observer.evaluate,
@@ -146,6 +153,7 @@ def run(prepared, manifest, out):
                   prepared_request_file_sha256=REQUEST_SHA, request_sha256=request_hash, module_sha256=hashes,
                   file_sha256={p.name:file_hash(p) for p in sorted(out.iterdir()) if p.is_file()},
                   independent_step_verified=False, training_admitted=False)
+    result.update(observer.receipt_fields(solved))
     write_json(out/'result.json', result)
     return result
 
