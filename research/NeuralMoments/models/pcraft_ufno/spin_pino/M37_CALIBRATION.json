@@ -1,0 +1,372 @@
+{
+  "protocol_sha256": "fd3e0957b9bb6d12913157c81dd3d7c350c51e8dd6d91928a32194b944a12b96",
+  "pytorch": "2.10.0+cpu",
+  "seed": 131,
+  "selected_step": 20,
+  "coefficient": 1.0,
+  "calibration_geometry_ids": [
+    "0777522fe0821d32da927b876e5696dbe5301a2cf6bdb6c9cf66ac557a6ab051",
+    "0a407a59e9162daf00b8dd88a8e656256f25a5fd4d5bfb5b44d4f8786319b634",
+    "1bed5a6dc0b22fbc627ef129130a755809a4555db125aba62341d543b0d60b56",
+    "25832a2cbf009c2ef5dc8768df276c53fa060940f20be5dea91f220dcd89470f",
+    "280b4401b8d06613997d584fd46e30a881cf4fbca9ba4dca6622ea14debdc7dc",
+    "39c85f73a84e02072df89adb4bf89fd26ceeaa76aa7258a68d42b49f4c2629e7",
+    "3a04f944eac681ee682cbe72d7b2b27d3b8e1720ecf7b25ca5c0e6462932a585",
+    "3b42b4689e1d05a55d857417b6c906bd2eed5790fa80c30794d8cbca0cab19ae",
+    "42ff7434fbe401dd84cc15690a0b20f35266d5d953472b0f9b41d7e94ad5490b",
+    "4520f719e3e46c4eacc478407d10c934815b7f2c9f0aa184cdcfe59d718d3be2",
+    "4b5e76f63603971d8ef7238d464ca17b0df785d54b05160b599804f77b066a22",
+    "534b90226479a604658bf36232d82d9b630438556723017b29688f2faa5f7dcb",
+    "56b9d2aa5f097921e8cca46305063e5b82893092195352621fb58cb1537c75d5",
+    "64cedd1b9f3e54ba95cff820974470f2d2c1b99782be1109bf82e6bb85522a1d",
+    "66392577e4e21a2ba717bff04ee1a16111ae241f49a7422b3309a5a62e500b4a",
+    "6d8b1d6fdbd0aae1cfe4114aa45ef311b8936150491762a0e7c53b2fb9147b0f",
+    "709cb797b3a04f5f9ffed11cf65482879374ad70a5b033663a8b471aaca327e4",
+    "793305f36a8544bf89053d05d0abd8337104740b43049ac6589b81f77612f9e1",
+    "861c0ce1e76535af56b53842d28b4beae45af4ae59e10ebd8e5aeea016c3e95a",
+    "90d14cf1cf7a27207c4b8e1a545728083c692be7a407600c165a0d61ddbf672b",
+    "94f1094c6c8b707fd678fa6e3a30f7b3c24e521f8dbb872c11e603dd3ffa3d92",
+    "9ad8d161ce112cfe5d8f6ee1e8890bbb9eba280d04179a547bc4bbbb5d2505fc",
+    "b188fa45285c0c663dfec2cedc2b4a2d730b2e0c261366d7e8d6c311a31ae649",
+    "b730289a72a7d09c05515438a91595ea7bad2f8d7fdfc51750f10a29a1ed22b3",
+    "c44b071b4013189358b14450a58004400ffbdefc4d48d9e6f532ffb9c586219a",
+    "c4e1d5e1db1d1bc3f1b1e74fe5f509e72939937cc4bc789977871c11d4c4ca77",
+    "d369440c43a2528703724290e658c122d7ee96f22020d31d55cb7023d71301d2",
+    "d5e29ade546fd082c6662786694a6ed78fc711af254547f4e58071b20c2b75de",
+    "d775286c2d1267945b4c9a8cbf5b9f69396853e5fa6cea0c052a5f1edb08b33c",
+    "f15ede60beb9c6fa021159c89904a8603f7406dff966382dfbe63b8dc9d6fa7d",
+    "f1d9b3a4976b6525befb87df3579a97f91495c96d7f09593f32290a4c2ed294b",
+    "f74ccc061211deb544b997a3efc163e432dd04554e78d0c84db495f76b055c36"
+  ],
+  "real_input_sha256": {
+    "Noodles": "ea00df0d7622d05eb1229f17ad7c6fdb4d5456e315722ef542969efb2f2f8f69",
+    "Bunny": "8cca79145c973ca66d28dd64c0be10ab266c4dbc4046a2e1b94719bd2b1cc35c"
+  },
+  "real_training_queries": 0,
+  "mean_relative_r_J": {
+    "analytic": {
+      "unit": [
+        0.48051308588717456,
+        0.4758413294506876
+      ],
+      "frozen_m36": [
+        0.4533655071881767,
+        0.44883621442515514
+      ],
+      "calibrated": [
+        0.4533655071881767,
+        0.44883621442515514
+      ]
+    },
+    "Noodles": {
+      "unit": [
+        0.7705000451114237,
+        0.7841773142307957
+      ],
+      "frozen_m36": [
+        0.8044590798852878,
+        0.8150203202957105
+      ],
+      "calibrated": [
+        0.8044590798852878,
+        0.8150203202957105
+      ]
+    },
+    "Bunny": {
+      "unit": [
+        0.07904974490022937,
+        0.0905680649031314
+      ],
+      "frozen_m36": [
+        0.44453996176974014,
+        0.40185390785887504
+      ],
+      "calibrated": [
+        0.44453996176974014,
+        0.40185390785887504
+      ]
+    }
+  },
+  "rows": [
+    {
+      "group": "analytic",
+      "name": "box-0",
+      "source": "5b9d91a959e1ea253ec3a415ee0a0dab881b762a880ac01a2331d03355a38a8e",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.32669360987813295,
+          0.36022282120139004
+        ],
+        "frozen_m36": [
+          0.24648905708118504,
+          0.25692664444190777
+        ],
+        "calibrated": [
+          0.24648905708118504,
+          0.25692664444190777
+        ]
+      }
+    },
+    {
+      "group": "analytic",
+      "name": "box-1",
+      "source": "3a5006f6f8112ffb219f77cc65f0bc2239d3776eb966d76b8f66ae0da99ac177",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.7531579190429697,
+          0.7654941486020609
+        ],
+        "frozen_m36": [
+          0.545622204605655,
+          0.5675986172985336
+        ],
+        "calibrated": [
+          0.545622204605655,
+          0.5675986172985336
+        ]
+      }
+    },
+    {
+      "group": "analytic",
+      "name": "box-2",
+      "source": "4d375375231a2eb3947ec2a038bf909fdaf1dd3097b409d8e8eedd45b760b2d1",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.8236096384112563,
+          0.7711345123348349
+        ],
+        "frozen_m36": [
+          0.8446775771784545,
+          0.7965170258084319
+        ],
+        "calibrated": [
+          0.8446775771784545,
+          0.7965170258084319
+        ]
+      }
+    },
+    {
+      "group": "analytic",
+      "name": "box-3",
+      "source": "4c08de5199f2c455fcbbd4c1404ac4787073d29248cdd0b3a2b178560ad3db54",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.1728252617608495,
+          0.1617932807400692
+        ],
+        "frozen_m36": [
+          0.2796639575476144,
+          0.26386346181683806
+        ],
+        "calibrated": [
+          0.2796639575476144,
+          0.26386346181683806
+        ]
+      }
+    },
+    {
+      "group": "analytic",
+      "name": "box-4",
+      "source": "94cb0a7769b2909313cc0f05ff1ab3d03ee277fd92fe315813dafcbf8cfa1919",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.33159372747446303,
+          0.3186976344079878
+        ],
+        "frozen_m36": [
+          0.3599696457286118,
+          0.3500469559520185
+        ],
+        "calibrated": [
+          0.3599696457286118,
+          0.3500469559520185
+        ]
+      }
+    },
+    {
+      "group": "analytic",
+      "name": "box-5",
+      "source": "7ae5cd6d9650fba6f88b86a6fd769d770c4187a798f5ac26f93d88cc9d8cb9bb",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.07413273531725095,
+          0.09846327293243948
+        ],
+        "frozen_m36": [
+          0.03818428036229326,
+          0.05087820928003436
+        ],
+        "calibrated": [
+          0.03818428036229326,
+          0.05087820928003436
+        ]
+      }
+    },
+    {
+      "group": "analytic",
+      "name": "box-6",
+      "source": "c1ef10e9685b8499672e56c7c432651f87357e8ed466fdca4747122b9dbe7a61",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.7781588283296416,
+          0.7348073102500177
+        ],
+        "frozen_m36": [
+          0.8213755857848337,
+          0.8066461788780095
+        ],
+        "calibrated": [
+          0.8213755857848337,
+          0.8066461788780095
+        ]
+      }
+    },
+    {
+      "group": "analytic",
+      "name": "box-7",
+      "source": "f3b4c3e679fd379b4a2d5ddc4f7e7736ff7fe250cc83681145bfcca0c80341e8",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.5839329668828326,
+          0.5961176551367003
+        ],
+        "frozen_m36": [
+          0.49094174921676575,
+          0.4982126219254675
+        ],
+        "calibrated": [
+          0.49094174921676575,
+          0.4982126219254675
+        ]
+      }
+    },
+    {
+      "group": "Noodles",
+      "name": "ellipsoid-1",
+      "source": "445c09bedacc5be9fbfa6ac574ebd46582d0541443bbc331ee9553623ac0bced",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.8493714688510269,
+          0.8300222853727526
+        ],
+        "frozen_m36": [
+          0.8739977895978983,
+          0.8632717501860374
+        ],
+        "calibrated": [
+          0.8739977895978983,
+          0.8632717501860374
+        ]
+      }
+    },
+    {
+      "group": "Noodles",
+      "name": "ellipsoid-6",
+      "source": "29bbb5f57c5ceb865948369e8d1231ac7d49b9583b4f0fbf53fae4b1ef222aef",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.8455316579324608,
+          0.8248830513188282
+        ],
+        "frozen_m36": [
+          0.8696523696862114,
+          0.8574388438287598
+        ],
+        "calibrated": [
+          0.8696523696862114,
+          0.8574388438287598
+        ]
+      }
+    },
+    {
+      "group": "Noodles",
+      "name": "hyperboloid-1",
+      "source": "7bbb8380d2468a050a077fdec0b1fd0afa90a1adf75a84d962b6f19dbdd90b03",
+      "rule": "cartesian_fallback",
+      "relative_r_J": {
+        "unit": [
+          0.6165970085507833,
+          0.6976266060008065
+        ],
+        "frozen_m36": [
+          0.6697270803717535,
+          0.724350366872334
+        ],
+        "calibrated": [
+          0.6697270803717535,
+          0.724350366872334
+        ]
+      }
+    },
+    {
+      "group": "Bunny",
+      "name": "largest-face-small",
+      "source": "80e959c21361700d81d3c92045db64bedab7479606fe3cee2e00c54b960dbd2c",
+      "rule": "ellipsoid_coarea",
+      "relative_r_J": {
+        "unit": [
+          0.08116884766543589,
+          0.0551337094332565
+        ],
+        "frozen_m36": [
+          0.6883103449097929,
+          0.6551868318038345
+        ],
+        "calibrated": [
+          0.6883103449097929,
+          0.6551868318038345
+        ]
+      }
+    },
+    {
+      "group": "Bunny",
+      "name": "largest-face-medium",
+      "source": "b27b9734e20b0f65af09e4fb3095ac0c27732030d1f3d4f91fe0fb66f4885114",
+      "rule": "cartesian_fallback",
+      "relative_r_J": {
+        "unit": [
+          0.12467390712572893,
+          0.05962347788491741
+        ],
+        "frozen_m36": [
+          0.4606031199742637,
+          0.4526997088646957
+        ],
+        "calibrated": [
+          0.4606031199742637,
+          0.4526997088646957
+        ]
+      }
+    },
+    {
+      "group": "Bunny",
+      "name": "left-face-large",
+      "source": "57c0585c05ab37f9ce38bf9ac037b64041fd1bc92a5739db1f0b825f50d1da35",
+      "rule": "cartesian_fallback",
+      "relative_r_J": {
+        "unit": [
+          0.031306479909523295,
+          0.15694700739122028
+        ],
+        "frozen_m36": [
+          0.18470642042516391,
+          0.09767518290809497
+        ],
+        "calibrated": [
+          0.18470642042516391,
+          0.09767518290809497
+        ]
+      }
+    }
+  ]
+}

@@ -23,10 +23,10 @@ def half_truth(center, axes):
     return q/norm, vol * T @ m, vol * norm/2 * (T @ G @ T.T) @ B_NATIVE_TO_MONOMIAL
 
 
-def panel():
-    rng = np.random.default_rng(3601)
+def panel(seed=3601, count=8):
+    rng = np.random.default_rng(seed)
     cases = []
-    for i in range(8):
+    for i in range(count):
         origin = rng.uniform(-.12, .12, size=3)
         radii = rng.uniform(.38, .55, size=3)
         box = GeometrySpec("box", tuple(origin), tuple(radii))
