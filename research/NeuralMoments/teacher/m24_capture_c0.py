@@ -20,9 +20,16 @@ SAMPLES = (
 )
 
 
-def plan(group_id, modules, source_checkout, *, columns=None):
+def base_plan(group_id, modules, source_checkout):
     baseline = strict_json((HERE/'M23_HEART_POINT000_FRESH.json').read_bytes())['runner_replay']
     require(modules == baseline['module_sha256'], 'M23_NATIVE_MODULE_DRIFT')
+    return dict(group_id=group_id, source_checkout=source_checkout,
+                base_run_id=baseline['run_id'], base_capture_sha256=baseline['capture_file_sha256'],
+                module_sha256=modules, request_sha256=baseline['request_sha256'])
+
+
+def plan(group_id, modules, source_checkout, *, columns=None):
+    result = base_plan(group_id, modules, source_checkout)
     registered = {0:SAMPLES} if columns is None else columns
     points = []
     for column, samples in registered.items():
@@ -37,9 +44,7 @@ def plan(group_id, modules, source_checkout, *, columns=None):
             if columns is not None:
                 point['column'] = column
             points.append(point)
-    result = dict(group_id=group_id, source_checkout=source_checkout,
-                  base_run_id=baseline['run_id'], base_capture_sha256=baseline['capture_file_sha256'],
-                  module_sha256=modules, request_sha256=baseline['request_sha256'], h=H, samples=points)
+    result.update(h=H, samples=points)
     if columns is None:
         result.update(schema='w2-m24-c0-plan-v1', column=0)
     else:
@@ -47,12 +52,17 @@ def plan(group_id, modules, source_checkout, *, columns=None):
     return result
 
 
-def campaign(out, manifest, prepared_request, *, columns=None):
+def campaign(out, manifest, prepared_request, *, columns=None, event_plan=None):
     out = out.resolve()
     out.mkdir(exist_ok=False)
     modules = {name: m['sha256'] for name, m in validate_module_manifest(manifest).items()}
     source = subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()
-    stencil = plan(out.name, modules, source, columns=columns)
+    if event_plan is None:
+        stencil = plan(out.name, modules, source, columns=columns)
+    else:
+        require(columns is None, 'SPECIFY_ONE_STENCIL_PROTOCOL')
+        stencil = event_plan(out.name, modules, source)
+    protocol = stencil['schema'].removesuffix('-plan-v1')
     plan_path = out/'stencil.json'
     write_json(plan_path, stencil)
     plan_sha = file_hash(plan_path)
@@ -61,7 +71,7 @@ def campaign(out, manifest, prepared_request, *, columns=None):
         sample = out/point['run_id']
         record = capture(sample, manifest, prepared_request,
                          native_c=point['native_c'], expected_c_sha=point['native_c_sha256'],
-                         sample_schema='w2-m25-linear-sample-v1' if columns is not None else 'w2-m24-c0-sample-v1')
+                         sample_schema=protocol+'-sample-v1')
         require(record['run_id'] == point['run_id'] and record['source_checkout'] == source
                 and record['native_c_sha256'] == point['native_c_sha256']
                 and record['request_sha256'] == stencil['request_sha256']
@@ -70,10 +80,9 @@ def campaign(out, manifest, prepared_request, *, columns=None):
         records.append(dict(index=point['index'], run_id=point['run_id'],
                             capture_sha256=file_hash(sample/'capture.json'),
                             same_call_material_sha256=record['same_call_material_sha256']))
-        if columns is not None:
-            records[-1]['column'] = point['column']
+        records[-1].update({k:point[k] for k in ('column','side','location') if k in point})
     require(file_hash(plan_path) == plan_sha, 'STENCIL_PLAN_CHANGED')
-    result = dict(schema='w2-m25-linear-result-v1' if columns is not None else 'w2-m24-c0-result-v1',
+    result = dict(schema=protocol+'-result-v1',
                   group_id=out.name, stencil_sha256=plan_sha,
                   fresh_native_boolean_calls=len(records), samples=records, J_D=None,
                   training_admitted=False)

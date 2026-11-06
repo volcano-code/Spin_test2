@@ -3,8 +3,8 @@ on:
   push:
     branches: [research/neuralmoments-w2-teacher-20261019]
     paths:
-      - '.github/workflows/w2-heart-linear-stencil.yml'
-      - 'research/NeuralMoments/teacher/m25_capture_linear.py'
+      # Editing this shared workflow for another protocol must not launch M25.
+      - 'research/NeuralMoments/teacher/launch/m25-linear.txt'
   workflow_dispatch:
   workflow_call:
     inputs:
@@ -41,6 +41,7 @@ jobs:
           mkdir -p artifacts/runtime
           case "$PROTOCOL" in
             linear) echo "DRIVER=m25_capture_linear.py" >> "$GITHUB_ENV"; echo "SAMPLES=8" >> "$GITHUB_ENV" ;;
+            c7) echo "DRIVER=m26_capture_c7.py" >> "$GITHUB_ENV"; echo "SAMPLES=6" >> "$GITHUB_ENV" ;;
             c0) echo "DRIVER=m24_capture_c0.py" >> "$GITHUB_ENV"; echo "SAMPLES=4" >> "$GITHUB_ENV" ;;
             *) exit 2 ;;
           esac

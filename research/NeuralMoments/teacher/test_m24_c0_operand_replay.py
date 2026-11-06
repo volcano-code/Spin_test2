@@ -5,6 +5,7 @@ import unittest
 from m16_native_acceptance import file_hash, strict_json
 from m23_fresh_point0 import HERE, write_json
 from m24_capture_c0 import plan
+from m25_capture_linear import COLUMNS
 from m24_c0_operand_replay import replay
 
 
@@ -27,3 +28,17 @@ class C0OperandReceiptTest(unittest.TestCase):
             f.write_bytes(f.read_bytes() + b' ')
             with self.assertRaisesRegex(ValueError, 'STENCIL_DIGEST'):
                 replay(root, 'demo', h)
+
+    def test_swapping_column_receipt_is_rejected(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            modules = strict_json((HERE/'M23_HEART_POINT000_FRESH.json').read_bytes())['runner_replay']['module_sha256']
+            stencil = plan('linear', modules, 'a'*40, columns=COLUMNS)
+            plan_path, result_path = root/'stencil.json', root/'stencil-result.json'
+            write_json(plan_path, stencil)
+            entries = [dict(index=x['index'], run_id=x['run_id'], column=3-x['column']) for x in stencil['samples']]
+            write_json(result_path, dict(schema='w2-m25-linear-result-v1', group_id='linear',
+                       J_D=None, training_admitted=False, stencil_sha256=file_hash(plan_path),
+                       fresh_native_boolean_calls=8, samples=entries))
+            with self.assertRaisesRegex(ValueError, 'COLUMN_MISMATCH'):
+                replay(root, 'linear', file_hash(result_path), linear=True)
