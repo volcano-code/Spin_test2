@@ -3,8 +3,8 @@
   "date": "2026-11-13",
   "repository": "volcano-code/Spin_test2",
   "branch": "research/m80-pnmo-large-train-20261112",
-  "phase": "M80.6_ACTIVE_TEACHER_QUERY_SELECTION",
-  "status": "m80_4_5_6_8_cpu_ci_passed_local_gpu_data_and_native_replay_pending",
+  "phase": "M80.7_UQ_AND_ACTIVE_TEACHER_SELECTION",
+  "status": "m80_4_5_6_7_8_cpu_ci_passed_gpu_formal_data_and_native_replay_pending",
   "baseline": {
     "m80_1": "P-CRAFT single-scale + M72 native intervals; retained as permanent control",
     "m80_2": "optional native-interval GNO",
@@ -45,10 +45,19 @@
     "Positive-scale query deduplication while retaining q and -q as distinct complementary queries",
     "Mixed, derivative-only and event-label acquisition modes",
     "Hard teacher-cost budget and optional per-source-group selection cap",
-    "CPU tests for deterministic ranking, cost budget, query equivalence, event/derivative purpose and invalid inputs"
+    "CPU tests for deterministic ranking, cost budget, query equivalence, event/derivative purpose and invalid inputs",
+    "Ensemble moment uncertainty from normalized ten-moment spread",
+    "Ensemble Jacobian uncertainty from normalized 10x10 derivative spread",
+    "Split-conformal error-to-spread calibration for moment and Jacobian",
+    "Fail-closed calibrated risk gate with separate event-regular and derivative-valid requirements",
+    "Active query selector can consume calibrated uncertainty, event margin, solver sensitivity and coverage novelty"
   ],
   "pending": [
-    "Calibrated UQNO/ensemble score producer and calibration audit",
+    "Train/freeze at least three independent M80 seeds or a validated ensemble for uncertainty calibration",
+    "Calibrate on held-out validation queries and report risk-coverage by geometry family",
+    "Bind calibrated admission gate to M80ExternalMomentEvaluator with frozen model/data/calibration hashes",
+    "Connect active query selector to the local Cherchi teacher runner and formal label writer",
+    "Compare active selection with random/stratified selection at equal teacher-call budgets",
     "Connect active query selector to actual Cherchi teacher-call cost and formal label writer",
     "Compare active selection against random and stratified selection at equal teacher-call budgets",
     "Formal M72 67-object x 256-query corpus and independent geometry expansion",
@@ -210,6 +219,10 @@
     "active_query_selection_cpu_passed": true,
     "active_query_selection_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43280654729",
     "calibrated_uq_available": false,
-    "cherchi_active_learning_connected": false
+    "cherchi_active_learning_connected": false,
+    "uncertainty_calibration_cpu_passed": true,
+    "uncertainty_calibration_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43281234590",
+    "calibrated_uq_model_available": false,
+    "active_selector_cpu_passed": true
   }
 }
