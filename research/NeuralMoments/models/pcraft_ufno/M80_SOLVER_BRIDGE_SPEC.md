@@ -136,3 +136,6 @@ The helper requires a finite origin and a right-handed orthonormal target frame.
 Native solver API reference:
 - python/make_it_stand/spin.py: solve_spin_it_faster_with_external_moment_evaluator.
 - bindings/pybind_module.cpp: callback field parsing and strict equation-profile binding.
+
+
+Frame-transform consistency is enforced in code: coefficient_to_model must equal moment_to_target.T. This is required to preserve the dual pairing q^T m under coordinate changes. The target-frame helper is tested pointwise; the actual request/source-mesh transform still requires parity against the native C++ transform.
