@@ -166,9 +166,13 @@ class PINOFeatureEncoder(nn.Module):
         # Average + max pooled decoder features and pooled bottleneck context.
         self.feature_dim = 6 * width
 
-    def _prepare_geometry(self, geometry: Tensor) -> Tensor:
+    def _prepare_geometry(self, geometry: Tensor, *, preserve_resolution: bool = False) -> Tensor:
         x = canonical_geometry(geometry)
-        if x.shape[2:] != (self.grid_size, self.grid_size, self.grid_size):
+        if preserve_resolution:
+            spatial = tuple(int(v) for v in x.shape[2:])
+            if any(v < 8 or v % 4 for v in spatial):
+                raise ValueError("preserved P-CRAFT grids must be >=8 and divisible by four")
+        elif x.shape[2:] != (self.grid_size, self.grid_size, self.grid_size):
             if all(size >= self.grid_size for size in x.shape[2:]):
                 x = F.adaptive_avg_pool3d(x, (self.grid_size,) * 3)
             else:
@@ -178,7 +182,9 @@ class PINOFeatureEncoder(nn.Module):
                 )
         return x.to(dtype=self.lifting.weight.dtype)
 
-    def forward_with_map(self, geometry: Tensor) -> tuple[Tensor, Tensor]:
+    def forward_with_map(
+        self, geometry: Tensor, *, preserve_resolution: bool = False
+    ) -> tuple[Tensor, Tensor]:
         """Return the original pooled latent and the final P-CRAFT spatial map.
 
         This is an additive interface: it introduces no parameters and keeps
@@ -186,8 +192,13 @@ class PINOFeatureEncoder(nn.Module):
         queries can sample the spatial map without rasterizing their detail
         into the coarse spectral context grid.
         """
-        x = self._prepare_geometry(geometry)
-        grid = self.coordinate_grid.to(device=x.device, dtype=x.dtype).expand(x.shape[0], -1, -1, -1, -1)
+        x = self._prepare_geometry(geometry, preserve_resolution=preserve_resolution)
+        coordinate_grid = self.coordinate_grid
+        if coordinate_grid.shape[2:] != x.shape[2:]:
+            coordinate_grid = F.interpolate(
+                coordinate_grid, size=x.shape[2:], mode="trilinear", align_corners=True
+            )
+        grid = coordinate_grid.to(device=x.device, dtype=x.dtype).expand(x.shape[0], -1, -1, -1, -1)
         x = self.lifting(torch.cat((x, grid), dim=1))
 
         skip1 = x
