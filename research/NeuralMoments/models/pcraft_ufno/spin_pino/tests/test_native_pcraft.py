@@ -260,3 +260,71 @@ def test_transolver_checkpoint_roundtrip_preserves_enabled_branch(tmp_path):
         ra=model.predict(a,q)
         rb=restored.predict(b,q)
     assert torch.allclose(ra,rb,rtol=1e-7,atol=1e-9)
+
+
+def small_geometry16():
+    rows=[]
+    for x in range(2,14):
+        for y in range(2,14):
+            rows.append((x,y,2+(x+y)%2,14))
+    return geometry_from_columns(dict(columns=np.asarray(rows,dtype=np.int32),
+        origin=np.asarray([-1.,-1.,-1.]),h=np.asarray(.125),side=np.asarray(16,dtype=np.int32),
+        density=np.asarray(1.)))
+
+
+def test_pino_encoder_preserves_requested_context_resolution():
+    encoder=PINOFeatureEncoder(width=2,modes=1,n_layers=2,grid_size=16).eval()
+    x8=torch.rand(1,4,8,8,8)
+    x16=torch.rand(1,4,16,16,16)
+    with torch.no_grad():
+        pooled8,map8=encoder.forward_with_map(x8,preserve_resolution=True)
+        pooled16,map16=encoder.forward_with_map(x16,preserve_resolution=True)
+    assert pooled8.shape==pooled16.shape==(1,encoder.feature_dim)
+    assert map8.shape==(1,2,8,8,8)
+    assert map16.shape==(1,2,16,16,16)
+
+
+def test_multiscale_pcraft_uses_all_exact_context_grids_and_trains():
+    from dataclasses import replace
+    torch.manual_seed(53)
+    cfg=NativePCRAFTConfig(grid_size=16,pino_width=2,pino_modes=1,pino_layers=2,
+        interval_width=8,interval_depth=1,chunk_intervals=32,min_native_resolution=1,
+        multiscale_enabled=True,multiscale_grids=(8,16))
+    model=PcraftNativeMomentOperator(cfg).train()
+    geometry=small_geometry16()
+    grids=[conservative_coarse_grid(geometry,s) for s in (8,16)]
+    for s,g in zip((8,16),grids):
+        assert g.shape==(4,s,s,s)
+        assert float(g[0].sum())*(geometry["h"]*16/s)**3 == pytest.approx(
+            float(np.prod(geometry["cell_extent"],axis=1).sum()),rel=1e-6)
+    cache=model.encode(geometry,chunk=32)
+    q=torch.tensor([.03,.11,-.07,.04,.02,-.01,.015,.004,-.006,.003],dtype=torch.float64)
+    moments,jac=model.moments_and_jacobian(cache,q,create_graph=True)
+    assert moments.shape==(10,) and jac.shape==(10,10)
+    assert torch.isfinite(moments).all() and torch.isfinite(jac).all()
+    assert torch.allclose(moments,model.predict(cache,7*q),rtol=1e-9,atol=1e-10)
+    assert torch.allclose(moments+model.predict(cache,-q),
+        2*cache.fixed_moments+cache.design_moments,rtol=1e-8,atol=1e-9)
+    (moments.square().mean()+jac.square().mean()).backward()
+    grads=[p.grad for p in model.parameters() if p.grad is not None]
+    assert grads and all(torch.isfinite(g).all() for g in grads)
+    assert model.counters["multiscale_calls"]==1
+    assert len(model.counters["multiscale_global_weights"])==2
+    assert len(model.counters["multiscale_local_weights"])==2
+    assert sum(model.counters["multiscale_global_weights"])==pytest.approx(1.,abs=1e-6)
+    assert sum(model.counters["multiscale_local_weights"])==pytest.approx(1.,abs=1e-5)
+
+
+def test_multiscale_presets_are_opt_in_and_keep_single_scale_baselines_unchanged():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import make_config
+    base=make_config("large")
+    ms=make_config("large_ms")
+    ms_trans=make_config("large_ms_transolver")
+    ms_combo=make_config("large_ms_gno_transolver")
+    assert base.multiscale_enabled is False
+    assert ms.multiscale_enabled is True
+    assert ms.multiscale_grids==(32,64,128)
+    assert ms_trans.transolver_enabled and not ms_trans.gno_enabled
+    assert ms_combo.transolver_enabled and ms_combo.gno_enabled
+    assert ms.pino_width==base.pino_width
+    assert ms.interval_width==base.interval_width
