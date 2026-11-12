@@ -118,3 +118,27 @@ A release may be called large-training ready only when:
 6. the run contract pins source, data, config, environment and seeds.
 
 Until then it is a development branch, not a training-ready release.
+
+
+## Implementation update — 2026-11-12
+
+The first M80 code slice is now present in this Spin_test2 branch:
+
+- `spin_pino/pino_backbone.py`: additive `forward_with_map()` returns the legacy pooled P-CRAFT latent plus the final spatial decoder map. It adds no parameters and the legacy `forward()` delegates to the pooled result.
+- `spin_pino/native_pcraft.py`: P-CRAFT map/global features are sampled/fused at every M72 native interval; the coarse 32^3/64^3/128^3 context grid is exact RLE volume aggregation when it divides the native 512 lattice. Native intervals remain intact.
+- `spin_pino/native_train.py`: M72 formal manifest/audit reader, geometry/label SHA checks, derivative-valid masking, largest-object GPU preflight, AdamW/checkpoint round-trip, group-balanced training and exact resume contract.
+- Tests: `tests/test_native_pcraft.py`, `tests/test_native_train.py`.
+- CI: `.github/workflows/m80-pcraft-native.yml`.
+
+The model keeps the M72 bounded odd moment response and derives its Jacobian from the same differentiable response. The M72 fixed/variable moment split, raw ten-moment order and native quadric coefficient order are retained.
+
+### Current gate status
+
+- Source integration: implemented in this branch.
+- CPU mathematical and M72 adapter tests: initial CI passed; the new end-to-end CPU preflight test exposed two small trainer bugs (cache-hit return shape and missing return value). Both fixes are committed; the latest CI run is pending.
+- RTX 5090D full backward/AdamW/memory acceptance: not yet run.
+- M72 formal 256-query corpus: not yet confirmed complete; long training defaults to 256 queries per qualified record and blocks smaller banks.
+- Spin-It Faster Newton bridge and adaptive exact correction: not yet implemented.
+- No multi-day training has been started.
+
+Do not label this branch large-training-ready until the current CI rerun passes, then the user's local 5090D preflight passes on the largest real training object and the formal 256-query audit is ready.
