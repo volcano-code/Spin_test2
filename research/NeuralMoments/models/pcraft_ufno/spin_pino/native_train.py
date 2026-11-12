@@ -270,17 +270,28 @@ def preflight(args):
     atomic_save(tmp,dict(schema=SCHEMA,semantics=SEMANTICS,config=asdict(cfg),
                          model={k:v.detach().cpu() for k,v in model.state_dict().items()}))
     restored,_=load_model(tmp,args.device); tmp.unlink(missing_ok=True)
-    with torch.no_grad():
+    # Compare both sides under the exact same inference precision policy.
+    # The previous code evaluated the saved model under BF16 autocast but the
+    # reloaded model in full precision, making the checkpoint test compare two
+    # different numerical programs rather than checkpoint integrity.
+    with torch.no_grad(),autocast(args.device,args.amp):
         c3=restored.encode(geometry,args.chunk).detached()
         actual=restored.predict(c3,q)
-    parity=float((expected-actual).abs().max())
-    if parity>1e-10: raise AssertionError(f"checkpoint round-trip mismatch {parity}")
+    delta=(expected-actual).abs()
+    parity=float(delta.max())
+    reference_scale=float(expected.abs().max().clamp_min(1.0))
+    relative_parity=parity/reference_scale
+    if parity>1e-10:
+        raise AssertionError(
+            f"checkpoint round-trip mismatch {parity} (relative={relative_parity}); "
+            "both evaluations used the same autocast policy"
+        )
     report=dict(schema="m80.pcraft-native-preflight.v1",status="passed",record_id=row["id"],
         native_intervals=len(geometry["xyz"]),native_resolution=int(geometry["native_resolution"]),
         parameter_count=sum(p.numel() for p in model.parameters()),config=asdict(cfg),
         batch_queries=len(indices),amp=args.amp,device=args.device,loss=float(loss.detach()),
         moment_loss=float(ml.detach()),jacobian_loss=float(jl.detach()),gradient_norm=float(grad),
-        optimizer_step_seconds=seconds,checkpoint_roundtrip_max_abs=parity,
+        optimizer_step_seconds=seconds,checkpoint_roundtrip_max_abs=parity,checkpoint_roundtrip_relative=relative_parity,
         peak_allocated=(torch.cuda.max_memory_allocated(args.device) if args.device.startswith("cuda") else None),
         peak_reserved=(torch.cuda.max_memory_reserved(args.device) if args.device.startswith("cuda") else None),
         data=corpus.summary(),source=source_fingerprints(),runtime=runtime_info(args.device,args.amp),
