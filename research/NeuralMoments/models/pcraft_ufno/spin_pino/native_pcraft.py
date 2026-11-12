@@ -310,7 +310,7 @@ class PcraftNativeMomentOperator(nn.Module):
         return tuple(p._version for p in self.parameters())
 
     def _get_neighbor_graph(self,geometry_hash,xyz,device):
-        key=(geometry_hash,self.config.gno_neighbors)
+        key=(geometry_hash,self.config.gno_neighbors,str(device))
         if key in self._neighbor_cache:
             graph,size=self._neighbor_cache.pop(key)
             self._neighbor_cache[key]=(graph,size)
