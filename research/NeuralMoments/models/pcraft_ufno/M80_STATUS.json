@@ -3,25 +3,29 @@
   "date": "2026-11-12",
   "repository": "volcano-code/Spin_test2",
   "branch": "research/m80-pnmo-large-train-20261112",
-  "phase": "M80.1_PCRAFT_M72_NATIVE_INTEGRATION",
-  "status": "development_cpu_ci_passed_gpu_preflight_pending",
+  "phase": "M80.2_OPTIONAL_NATIVE_GNO_ABLATION",
+  "status": "large_baseline_preflight_passed_gno_cpu_ci_passed_gpu_ablation_pending",
   "implemented": [
     "PINOFeatureEncoder.forward_with_map additive API",
     "M72 native RLE geometry conversion and exact conservative context aggregation",
-    "P-CRAFT spatial map sampling at each native interval",
+    "P-CRAFT spatial map sampling at every native interval",
     "M72 ten-moment bounded odd query head and AD Jacobian",
     "M72 formal manifest/audit loader with file SHA checks and derivative_valid masking",
     "largest-object preflight with full backward, AdamW and checkpoint roundtrip",
     "group-balanced training and exact resume contract",
-    "CPU CI workflow and mathematical/data adapter tests",
-    "CPU CI: compileall, M80 mathematical/data contracts, P-CRAFT legacy tests, CLI smoke passed"
+    "optional local GNO integral branch over native interval kNN neighborhoods",
+    "geometry-only self-inclusive kNN graph with bounded GPU LRU cache",
+    "GNO kernel uses relative xyz, interval extent ratios, mass ratios and local mass-weighted aggregation",
+    "explicit large_gno/xl_gno presets; base large/xl remain unchanged",
+    "CPU CI: M80 mathematical/data contracts, P-CRAFT legacy tests, GNO backward/invariance/cache tests and CLI smoke passed"
   ],
   "pending": [
-    "local RTX 5090D preflight on largest actual native-512 training object",
-    "local RTX 5090D preflight on largest actual native-512 training object",
+    "RTX 5090D XL baseline preflight",
+    "RTX 5090D large_gno and xl_gno preflight with graph-build/throughput profiling",
+    "same-data same-seed 200-500 step base-vs-GNO pilot",
     "M72 R2 derivative audit reproduction/fix without relaxing tolerances",
     "formal 67-object by 256-query corpus generation and audit",
-    "XL/XXL GPU memory and throughput comparison",
+    "Transolver-style physical-state branch only if matched GPU ablation demonstrates value",
     "Spin-It Faster Newton bridge, active-set/event handling and adaptive exact correction",
     "end-to-end Spin-It/Spin-It Faster same-task speed and material-quality comparison"
   ],
@@ -41,10 +45,24 @@
     "long_training_started": false
   },
   "evidence": {
-    "gpu_5090d_preflight": false,
+    "cpu_ci_passed": true,
+    "cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43248046732",
+    "user_large_preflight_passed": true,
+    "user_large_preflight": {
+      "native_resolution": 512,
+      "native_intervals": 194275,
+      "parameter_count": 457130,
+      "optimizer_step_seconds": 0.533620333,
+      "peak_allocated_bytes": 137177088,
+      "peak_reserved_bytes": 163577856,
+      "moment_scaled_mse": 0.0005148007202625519,
+      "jacobian_scaled_mse": 220.05988297116346,
+      "checkpoint_roundtrip_max_abs": 0
+    },
+    "gno_cpu_contract_passed": true,
+    "gno_gpu_preflight": false,
     "formal_256_query_corpus_confirmed": false,
     "solver_end_to_end": false,
-    "cpu_ci_passed": true,
-    "cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43225865488"
+    "long_training_started": false
   }
 }
