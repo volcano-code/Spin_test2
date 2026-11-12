@@ -417,7 +417,6 @@ class PcraftNativeMomentOperator(nn.Module):
             args=(desc[start:stop],weights[start:stop],sample_grid,pino_map,context)
             if c.gno_enabled:
                 idx=neighbor_graph[start:stop].long()
-                batch_index=torch.arange(stop-start,device=device)[:,None]
                 center_xyz=normalized[start:stop]
                 neighbor_xyz=normalized[idx]
                 relative_xyz=neighbor_xyz-center_xyz[:,None,:]
