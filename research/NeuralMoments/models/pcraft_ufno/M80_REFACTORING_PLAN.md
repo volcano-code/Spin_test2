@@ -147,3 +147,15 @@ CPU tests passed:
 https://github.com/volcano-code/Spin_test2/actions/runs/43280654729
 
 This is a selection utility only. It does not generate UQ scores, label queries, or connect to the local Cherchi runner yet. The formal 256-query corpus remains pending.
+
+
+## M80.7 UQ/active-selection implementation update — 2026-11-13
+
+Two independent utilities now exist:
+- active_query_selection.py: deterministic, cost-aware selection with mixed/derivative/event purposes, positive-scale deduplication and geometry-group caps.
+- uncertainty_calibration.py: ensemble moment/Jacobian spread, split-conformal error-to-spread scaling and a fail-closed calibrated gate with separate event and derivative-valid requirements.
+
+CPU tests passed:
+https://github.com/volcano-code/Spin_test2/actions/runs/43281234590
+
+Neither utility is yet connected to a trained ensemble or the local Cherchi query runner. Calibration scores are not available until held-out validation errors and ensemble predictions are produced. The native Newton adapter remains fail-closed unless a caller explicitly supplies an admission callback.
