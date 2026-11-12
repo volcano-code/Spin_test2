@@ -23,10 +23,14 @@ from torch.utils.checkpoint import checkpoint
 
 from .pino_backbone import PINOFeatureEncoder
 
-SCHEMA = "m80.pcraft-native-query.v2"
-SEMANTICS = "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno.v2"
-LEGACY_SCHEMA = "m80.pcraft-native-query.v1"
-LEGACY_SEMANTICS = "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian.v1"
+SCHEMA = "m80.pcraft-native-query.v3"
+SEMANTICS = "pcraft-ufno-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno-transolver.v3"
+LEGACY_SCHEMAS = {
+    ("m80.pcraft-native-query.v1",
+     "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian.v1"),
+    ("m80.pcraft-native-query.v2",
+     "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno.v2"),
+}
 MOMENT_ORDER = ("mass", "x", "y", "z", "xx", "yy", "zz", "yz", "xz", "xy")
 QUERY_ORDER = ("1", "x", "y", "z", "xx", "yy", "zz", "2yz", "2xz", "2xy")
 POWERS = (0, 1, 1, 1, 2, 2, 2, 2, 2, 2)
@@ -39,11 +43,25 @@ PRESETS = {
     "large_gno": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
                       interval_width=96, interval_depth=2, chunk_intervals=2048,
                       gno_enabled=True, gno_neighbors=8),
+    "large_transolver": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
+                             interval_width=96, interval_depth=2, chunk_intervals=2048,
+                             transolver_enabled=True, transolver_slices=16, transolver_heads=4),
+    "large_gno_transolver": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
+                                 interval_width=96, interval_depth=2, chunk_intervals=1024,
+                                 gno_enabled=True, gno_neighbors=8,
+                                 transolver_enabled=True, transolver_slices=16, transolver_heads=4),
     "xl": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
               interval_width=192, interval_depth=4, chunk_intervals=2048),
     "xl_gno": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
                    interval_width=192, interval_depth=4, chunk_intervals=1024,
                    gno_enabled=True, gno_neighbors=8),
+    "xl_transolver": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
+                          interval_width=192, interval_depth=4, chunk_intervals=1024,
+                          transolver_enabled=True, transolver_slices=32, transolver_heads=8),
+    "xl_gno_transolver": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
+                              interval_width=192, interval_depth=4, chunk_intervals=512,
+                              gno_enabled=True, gno_neighbors=8,
+                              transolver_enabled=True, transolver_slices=32, transolver_heads=8),
     "xxl": dict(grid_size=128, pino_width=48, pino_modes=16, pino_layers=8,
                interval_width=256, interval_depth=6, chunk_intervals=1024),
 }
@@ -63,22 +81,28 @@ class NativePCRAFTConfig:
     gno_enabled: bool = False
     gno_neighbors: int = 8
     gno_cache_mib: int = 512
+    transolver_enabled: bool = False
+    transolver_slices: int = 32
+    transolver_heads: int = 4
 
     def __post_init__(self):
         if self.grid_size < 8 or self.grid_size % 4:
             raise ValueError("grid_size must be >=8 and divisible by four")
         for name in ("pino_width", "pino_modes", "pino_layers", "interval_width",
                      "interval_depth", "chunk_intervals", "min_native_resolution",
-                     "gno_neighbors", "gno_cache_mib"):
+                     "gno_neighbors", "gno_cache_mib", "transolver_slices",
+                     "transolver_heads"):
             value = getattr(self, name)
             if isinstance(value, bool) or not isinstance(value, int) or value < 1:
                 raise ValueError(f"{name} must be a positive integer")
-        if not isinstance(self.gno_enabled, bool):
-            raise ValueError("gno_enabled must be bool")
+        if not isinstance(self.gno_enabled, bool) or not isinstance(self.transolver_enabled, bool):
+            raise ValueError("gno_enabled and transolver_enabled must be bool")
         if self.pino_width < 2 or self.interval_width < 8:
             raise ValueError("pino_width>=2 and interval_width>=8 are required")
         if self.gno_neighbors < 2:
             raise ValueError("gno_neighbors must be >=2")
+        if self.interval_width % self.transolver_heads:
+            raise ValueError("interval_width must be divisible by transolver_heads")
 
 
 def make_config(preset="xl", **overrides):
@@ -238,6 +262,60 @@ class IntervalResidual(nn.Module):
         return x+self.ffn(self.norm(x))
 
 
+class PhysicsStateSlicing(nn.Module):
+    """Transolver-style mass-aware slicing, state attention and deslicing.
+
+    Slice pooling is a softmax over native intervals for each physical slice,
+    with log interval mass added to learned assignment scores. Deslicing is a
+    per-interval softmax over slices. Attention is O(S^2), not O(N^2).
+    """
+    def __init__(self,width:int,n_slices:int,n_heads:int):
+        super().__init__()
+        if width % n_heads:
+            raise ValueError("state width must be divisible by attention heads")
+        self.n_slices=int(n_slices)
+        self.slice_score=nn.Sequential(nn.LayerNorm(width),nn.Linear(width,n_slices))
+        self.attn_norm=nn.LayerNorm(width)
+        self.attn=nn.MultiheadAttention(width,n_heads,batch_first=True)
+        self.ffn_norm=nn.LayerNorm(width)
+        self.ffn=nn.Sequential(nn.Linear(width,2*width),nn.GELU(),nn.Linear(2*width,width))
+        self.deslice_update=nn.Sequential(nn.LayerNorm(2*width),nn.Linear(2*width,2*width),
+                                          nn.GELU(),nn.Linear(2*width,width))
+        nn.init.normal_(self.deslice_update[-1].weight,std=1e-3)
+        nn.init.zeros_(self.deslice_update[-1].bias)
+
+    def forward(self,features:Tensor,mass_weights:Tensor,*,return_details:bool=False):
+        if features.ndim!=2 or mass_weights.ndim!=1 or len(features)!=len(mass_weights):
+            raise ValueError("features must be [N,W] and mass_weights [N]")
+        if not torch.isfinite(features).all() or not torch.isfinite(mass_weights).all():
+            raise ValueError("nonfinite physical state features or masses")
+        if (mass_weights<0).any() or float(mass_weights.sum().detach())<=0:
+            raise ValueError("mass weights must be nonnegative with positive sum")
+        logits=self.slice_score(features).float()
+        log_mass=mass_weights.float().clamp_min(1e-30).log().unsqueeze(-1)
+        assignment=torch.softmax(logits+log_mass,dim=0)
+        slice_tokens=assignment.transpose(0,1) @ features.float()
+        token=slice_tokens.unsqueeze(0)
+        norm=self.attn_norm(token)
+        attended,_=self.attn(norm,norm,norm,need_weights=False)
+        states=slice_tokens+attended.squeeze(0)
+        states=states+self.ffn(self.ffn_norm(states))
+        deslice=torch.softmax(logits,dim=-1)
+        desliced=deslice @ states
+        updated=features.float()+self.deslice_update(torch.cat((features.float(),desliced),dim=-1))
+        mean_usage=deslice.mean(dim=0)
+        entropy=-(mean_usage*mean_usage.clamp_min(1e-30).log()).sum()
+        metrics={
+            "transolver_assignment_column_error":float((assignment.sum(0)-1).abs().max().detach()),
+            "transolver_deslice_row_error":float((deslice.sum(-1)-1).abs().max().detach()),
+            "transolver_effective_slices":float(torch.exp(entropy).detach()),
+            "transolver_assignment_entropy":float((-(assignment*assignment.clamp_min(1e-30).log()).sum(0).mean()).detach()),
+        }
+        if return_details:
+            return updated,metrics,assignment,deslice
+        return updated,metrics
+
+
 def build_local_neighbor_graph(xyz: np.ndarray, neighbors: int = 8) -> np.ndarray:
     """Build a deterministic self-inclusive kNN graph over native interval centers.
 
@@ -295,6 +373,8 @@ class PcraftNativeMomentOperator(nn.Module):
                                           nn.GELU(),nn.Linear(2*w,w))
             nn.init.normal_(self.gno_update[-1].weight,std=1e-3)
             nn.init.zeros_(self.gno_update[-1].bias)
+        if c.transolver_enabled:
+            self.transolver=PhysicsStateSlicing(w,c.transolver_slices,c.transolver_heads)
         self.query_head=nn.Sequential(nn.Linear(w+36+10,2*w),nn.SiLU(),
                                       nn.Linear(2*w,w),nn.SiLU(),nn.Linear(w,10))
         nn.init.normal_(self.query_head[-1].weight,std=.01)
@@ -304,7 +384,10 @@ class PcraftNativeMomentOperator(nn.Module):
         self._neighbor_cache_bytes=0
         self.counters=dict(encode_calls=0,intervals=0,queries=0,jacobians=0,exact_calls=0,
                            gno_graph_builds=0,gno_graph_cache_hits=0,gno_graph_build_seconds=0.0,
-                           gno_edges=0)
+                           gno_edges=0,transolver_calls=0,transolver_effective_slices=0.0,
+                           transolver_assignment_entropy=0.0,
+                           transolver_assignment_column_error=0.0,
+                           transolver_deslice_row_error=0.0)
 
     def _versions(self):
         return tuple(p._version for p in self.parameters())
@@ -404,11 +487,9 @@ class PcraftNativeMomentOperator(nn.Module):
             for a in (xyz_np,mass_np,basis_np,extent_np): d.update(np.asarray(a,dtype="<f8").tobytes())
             geom_hash=d.hexdigest()
         latent=torch.zeros(w,dtype=p.dtype,device=device)
-        if c.gno_enabled:
-            # Encode each native interval once. The resulting N x W feature
-            # table is reused by all local graph edges, avoiding K-fold
-            # recomputation of neighbor encoders. Checkpointing bounds the
-            # activation memory of each base-feature chunk.
+        if c.gno_enabled or c.transolver_enabled:
+            # Encode every native interval once. The feature table is shared
+            # by local GNO messages and global physical-state slicing.
             feature_chunks=[]
             for start in range(0,len(desc),chunk):
                 stop=min(start+chunk,len(desc))
@@ -420,20 +501,32 @@ class PcraftNativeMomentOperator(nn.Module):
                     h=self._interval_features(*args)
                 feature_chunks.append(h)
             all_features=torch.cat(feature_chunks,dim=0)
-            neighbor_graph=self._get_neighbor_graph(geom_hash,xyz_np,device)
-            extent_normalized=extent/length
-            for start in range(0,len(desc),chunk):
-                stop=min(start+chunk,len(desc))
-                idx=neighbor_graph[start:stop].long()
-                center_xyz=normalized[start:stop]
-                neighbor_xyz=normalized[idx]
-                relative_xyz=neighbor_xyz-center_xyz[:,None,:]
-                relative_extent=torch.log((extent_normalized[idx]/extent_normalized[start:stop,None,:]).clamp_min(1e-6))
-                relative_mass=torch.log((mass[idx]/mass[start:stop,None]).clamp_min(1e-12)).unsqueeze(-1)
-                edge_features=torch.cat((relative_xyz,relative_extent,relative_mass),dim=-1).to(p.dtype)
-                updated=self._gno_update_chunk(all_features[start:stop],all_features[idx],
-                                               edge_features,weights[idx])
-                latent=latent+(updated*weights[start:stop,None]).sum(0)
+            if c.gno_enabled:
+                neighbor_graph=self._get_neighbor_graph(geom_hash,xyz_np,device)
+                extent_normalized=extent/length
+                updated_chunks=[]
+                for start in range(0,len(desc),chunk):
+                    stop=min(start+chunk,len(desc))
+                    idx=neighbor_graph[start:stop].long()
+                    center_xyz=normalized[start:stop]
+                    neighbor_xyz=normalized[idx]
+                    relative_xyz=neighbor_xyz-center_xyz[:,None,:]
+                    relative_extent=torch.log((extent_normalized[idx]/extent_normalized[start:stop,None,:]).clamp_min(1e-6))
+                    relative_mass=torch.log((mass[idx]/mass[start:stop,None]).clamp_min(1e-12)).unsqueeze(-1)
+                    edge_features=torch.cat((relative_xyz,relative_extent,relative_mass),dim=-1).to(p.dtype)
+                    args=(all_features[start:stop],all_features[idx],edge_features,weights[idx])
+                    if c.checkpoint_intervals and self.training and torch.is_grad_enabled():
+                        updated=checkpoint(self._gno_update_chunk,*args,use_reentrant=False)
+                    else:
+                        updated=self._gno_update_chunk(*args)
+                    updated_chunks.append(updated)
+                all_features=torch.cat(updated_chunks,dim=0)
+            if c.transolver_enabled:
+                all_features,tm=self.transolver(all_features,weights)
+                self.counters["transolver_calls"]+=1
+                for key,value in tm.items():
+                    self.counters[key]=value
+            latent=(all_features*weights[:,None].to(all_features.dtype)).sum(0)
         else:
             for start in range(0,len(desc),chunk):
                 stop=min(start+chunk,len(desc))
@@ -482,12 +575,15 @@ class PcraftNativeMomentOperator(nn.Module):
 def load_model(path,device="cpu"):
     payload=torch.load(path,map_location="cpu",weights_only=True)
     schema,semantics=payload.get("schema"),payload.get("semantics")
-    if (schema,semantics) not in ((SCHEMA,SEMANTICS),(LEGACY_SCHEMA,LEGACY_SEMANTICS)):
+    if (schema,semantics)!=(SCHEMA,SEMANTICS) and (schema,semantics) not in LEGACY_SCHEMAS:
         raise ValueError("incompatible M80 checkpoint")
     config=dict(payload["config"])
     config.setdefault("gno_enabled",False)
     config.setdefault("gno_neighbors",8)
     config.setdefault("gno_cache_mib",64)
+    config.setdefault("transolver_enabled",False)
+    config.setdefault("transolver_slices",32)
+    config.setdefault("transolver_heads",4)
     model=PcraftNativeMomentOperator(NativePCRAFTConfig(**config))
     model.load_state_dict(payload["model"],strict=True)
     return model.to(device).eval(),payload
