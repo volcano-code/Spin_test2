@@ -263,57 +263,91 @@ class IntervalResidual(nn.Module):
 
 
 class PhysicsStateSlicing(nn.Module):
-    """Transolver-style mass-aware slicing, state attention and deslicing.
+    """Deterministic, mass-aware adaptation of Transolver++ physical slicing.
 
-    Slice pooling is a softmax over native intervals for each physical slice,
-    with log interval mass added to learned assignment scores. Deslicing is a
-    per-interval softmax over slices. Attention is O(S^2), not O(N^2).
+    The upstream Transolver++ mechanism projects native points into multiple
+    heads, learns per-point slice assignments, pools slice tokens, applies
+    attention over the small slice axis, and deslices the updated states back
+    to points. This Spin-specific version weights slice pooling by native
+    material mass and uses deterministic soft assignments (rather than
+    stochastic Gumbel sampling) to keep repeated geometry queries reproducible.
+
+    Complexity is O(N * H * S * D + H * S^2 * D), not O(N^2).
     """
     def __init__(self,width:int,n_slices:int,n_heads:int):
         super().__init__()
         if width % n_heads:
             raise ValueError("state width must be divisible by attention heads")
+        self.width=int(width)
         self.n_slices=int(n_slices)
-        self.slice_score=nn.Sequential(nn.LayerNorm(width),nn.Linear(width,n_slices))
-        self.attn_norm=nn.LayerNorm(width)
-        self.attn=nn.MultiheadAttention(width,n_heads,batch_first=True)
+        self.n_heads=int(n_heads)
+        self.dim_head=width//n_heads
+        self.norm=nn.LayerNorm(width)
+        self.in_project_x=nn.Linear(width,width)
+        self.in_project_slice=nn.Linear(self.dim_head,n_slices)
+        nn.init.orthogonal_(self.in_project_slice.weight)
+        nn.init.zeros_(self.in_project_slice.bias)
+        self.proj_temperature=nn.Sequential(
+            nn.Linear(self.dim_head,n_slices),nn.GELU(),
+            nn.Linear(n_slices,1),nn.GELU()
+        )
+        self.temperature_bias=nn.Parameter(torch.full((1,n_heads,1),0.5))
+        self.to_q=nn.Linear(self.dim_head,self.dim_head,bias=False)
+        self.to_k=nn.Linear(self.dim_head,self.dim_head,bias=False)
+        self.to_v=nn.Linear(self.dim_head,self.dim_head,bias=False)
+        self.to_out=nn.Linear(width,width)
+        self.attn_dropout=nn.Dropout(0.0)
         self.ffn_norm=nn.LayerNorm(width)
-        self.ffn=nn.Sequential(nn.Linear(width,2*width),nn.GELU(),nn.Linear(2*width,width))
-        self.deslice_update=nn.Sequential(nn.LayerNorm(2*width),nn.Linear(2*width,2*width),
-                                          nn.GELU(),nn.Linear(2*width,width))
-        nn.init.normal_(self.deslice_update[-1].weight,std=1e-3)
-        nn.init.zeros_(self.deslice_update[-1].bias)
+        self.ffn=nn.Sequential(nn.Linear(width,4*width),nn.GELU(),nn.Linear(4*width,width))
+        self.ffn_dropout=nn.Dropout(0.0)
 
     def forward(self,features:Tensor,mass_weights:Tensor,*,return_details:bool=False):
-        if features.ndim!=2 or mass_weights.ndim!=1 or len(features)!=len(mass_weights):
-            raise ValueError("features must be [N,W] and mass_weights [N]")
+        if features.ndim!=2 or features.shape[1]!=self.width:
+            raise ValueError("features must have shape [N,width]")
+        if mass_weights.ndim!=1 or len(features)!=len(mass_weights):
+            raise ValueError("mass_weights must have shape [N]")
         if not torch.isfinite(features).all() or not torch.isfinite(mass_weights).all():
             raise ValueError("nonfinite physical state features or masses")
         if (mass_weights<0).any() or float(mass_weights.sum().detach())<=0:
             raise ValueError("mass weights must be nonnegative with positive sum")
-        logits=self.slice_score(features).float()
-        log_mass=mass_weights.float().clamp_min(1e-30).log().unsqueeze(-1)
-        assignment=torch.softmax(logits+log_mass,dim=0)
-        slice_tokens=assignment.transpose(0,1) @ features.float()
-        token=slice_tokens.unsqueeze(0)
-        norm=self.attn_norm(token)
-        attended,_=self.attn(norm,norm,norm,need_weights=False)
-        states=slice_tokens+attended.squeeze(0)
-        states=states+self.ffn(self.ffn_norm(states))
-        deslice=torch.softmax(logits,dim=-1)
-        desliced=deslice @ states
-        updated=features.float()+self.deslice_update(torch.cat((features.float(),desliced),dim=-1))
-        mean_usage=deslice.mean(dim=0)
+
+        n=len(features)
+        x_mid=self.in_project_x(self.norm(features)).reshape(n,self.n_heads,self.dim_head)
+        logits=self.in_project_slice(x_mid)
+        temperature=(self.proj_temperature(x_mid)+self.temperature_bias).clamp_min(0.01)
+        # Deterministic soft assignment per interval/head; no stochastic
+        # Gumbel noise, so a fixed geometry/query is reproducible.
+        assignment=torch.softmax((logits.float()/temperature.float()),dim=-1)
+        mass=mass_weights.float()
+        mass=mass/mass.sum().clamp_min(1e-30)
+        weighted_assignment=assignment*mass[:,None,None]
+        slice_mass=weighted_assignment.sum(dim=0)  # [heads,slices]
+        slice_tokens=torch.einsum("nhd,nhs->hsd",x_mid.float(),weighted_assignment)
+        slice_tokens=slice_tokens/(slice_mass.unsqueeze(-1)+1e-8)
+
+        q=self.to_q(slice_tokens).unsqueeze(0)
+        k=self.to_k(slice_tokens).unsqueeze(0)
+        v=self.to_v(slice_tokens).unsqueeze(0)
+        attended=F.scaled_dot_product_attention(q,k,v).squeeze(0)
+        # Deslicing uses the same learned assignment as the pooling stage.
+        point_update=torch.einsum("hsd,nhs->nhd",attended,assignment).reshape(n,self.width)
+        x=features+self.attn_dropout(self.to_out(point_update).to(features.dtype))
+        x=x+self.ffn_dropout(self.ffn(self.ffn_norm(x)).to(x.dtype))
+
+        mean_usage=slice_mass.mean(dim=0)
         entropy=-(mean_usage*mean_usage.clamp_min(1e-30).log()).sum()
         metrics={
-            "transolver_assignment_column_error":float((assignment.sum(0)-1).abs().max().detach()),
-            "transolver_deslice_row_error":float((deslice.sum(-1)-1).abs().max().detach()),
+            "transolver_assignment_row_error":float((assignment.sum(-1)-1).abs().max().detach()),
+            "transolver_slice_mass_sum_error":float((slice_mass.sum(-1)-1).abs().max().detach()),
             "transolver_effective_slices":float(torch.exp(entropy).detach()),
-            "transolver_assignment_entropy":float((-(assignment*assignment.clamp_min(1e-30).log()).sum(0).mean()).detach()),
+            "transolver_assignment_entropy":float((-(assignment*assignment.clamp_min(1e-30).log()).sum(-1).mean()).detach()),
+            "transolver_temperature_mean":float(temperature.mean().detach()),
+            "transolver_temperature_min":float(temperature.min().detach()),
+            "transolver_temperature_max":float(temperature.max().detach()),
         }
         if return_details:
-            return updated,metrics,assignment,deslice
-        return updated,metrics
+            return x,metrics,assignment,slice_mass
+        return x,metrics
 
 
 def build_local_neighbor_graph(xyz: np.ndarray, neighbors: int = 8) -> np.ndarray:
@@ -386,8 +420,12 @@ class PcraftNativeMomentOperator(nn.Module):
                            gno_graph_builds=0,gno_graph_cache_hits=0,gno_graph_build_seconds=0.0,
                            gno_edges=0,transolver_calls=0,transolver_effective_slices=0.0,
                            transolver_assignment_entropy=0.0,
-                           transolver_assignment_column_error=0.0,
-                           transolver_deslice_row_error=0.0)
+                           transolver_assignment_row_error=0.0,
+                           transolver_slice_mass_sum_error=0.0,
+                           transolver_assignment_entropy=0.0,
+                           transolver_temperature_mean=0.0,
+                           transolver_temperature_min=0.0,
+                           transolver_temperature_max=0.0)
 
     def _versions(self):
         return tuple(p._version for p in self.parameters())
