@@ -52,14 +52,18 @@ Current production head:
 - Exact full/empty endpoint handling where certified by bounds.
 - Jacobian is derived by AD from the same response function.
 
-Not yet implemented:
-- Convex moment potential head.
+Optional M80.5 candidate now implemented but not promoted:
+- Convex homogeneous moment potential head. It is selected only by explicit config; the bounded odd head remains the default and control.
+- The convex candidate builds positive sums of geometry-conditioned SPD norms, derives moments by AD and structurally yields a symmetric PSD Jacobian in the smooth surrogate.
+- It preserves q/-q complement, positive coefficient-scale invariance and the absolute-moment envelope by construction.
+
+Still not implemented:
 - QuadrANN-inspired positive quadrature readout.
 - Calibrated UQ.
 - Explicit event classifier and event margin in the production predictor.
 - Public HVP service API.
 
-These must be independent candidates. Do not silently replace the current head.
+These must remain independent candidates. Smoothness/convexity of the learned surrogate does not certify the exact geometry event state; native event gates remain mandatory.
 
 ## 4. Cache contract
 
