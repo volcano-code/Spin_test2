@@ -343,6 +343,19 @@ def preflight(args):
             f"checkpoint round-trip mismatch {parity} (relative={relative_parity}); "
             "both evaluations used the same autocast policy"
         )
+    physical_diagnostics={}
+    if cfg.convex_potential_enabled:
+        sync(args.device); diagnostic_start=perf_counter()
+        with torch.enable_grad(),autocast(args.device,args.amp):
+            _,diagnostic_jac=model.moments_and_jacobian(c2,q,create_graph=False)
+        symmetric=.5*(diagnostic_jac+diagnostic_jac.transpose(-1,-2))
+        eigenvalues=torch.linalg.eigvalsh(symmetric)
+        physical_diagnostics=dict(
+            jacobian_symmetry_max_abs=float((diagnostic_jac-diagnostic_jac.transpose(-1,-2)).abs().max().detach()),
+            jacobian_min_eigenvalue=float(eigenvalues.min().detach()),
+            jacobian_max_eigenvalue=float(eigenvalues.max().detach()),
+            diagnostic_seconds=perf_counter()-diagnostic_start
+        )
     report=dict(schema="m80.pcraft-native-preflight.v1",status="passed",record_id=row["id"],
         native_intervals=len(geometry["xyz"]),native_resolution=int(geometry["native_resolution"]),
         parameter_count=sum(p.numel() for p in model.parameters()),config=asdict(cfg),
@@ -352,6 +365,7 @@ def preflight(args):
         peak_allocated=(torch.cuda.max_memory_allocated(args.device) if args.device.startswith("cuda") else None),
         peak_reserved=(torch.cuda.max_memory_reserved(args.device) if args.device.startswith("cuda") else None),
         data=corpus.summary(),source=source_fingerprints(),runtime=runtime_info(args.device,args.amp),
+        physical_diagnostics=physical_diagnostics,
         counters=dict(model.counters,gno_graph_cache_bytes=model._neighbor_cache_bytes),
         limitations=["preflight is not a multi-day training result","query fit is not design-success proof",
                      "Spin-It Faster Newton bridge is a separate gate"])
