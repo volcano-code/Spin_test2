@@ -42,3 +42,13 @@ The library contains **24 entries**:
 ## Update rule
 
 When a candidate changes, add a new audit entry with the new upstream commit and exact source blob SHA. Do not silently update old pins. A candidate becomes INTEGRATED only after source import, license review, tests, matched ablation and an explicit W6 commit.
+
+## M80 current adoption view
+
+The file above remains the historical W6 registry snapshot and must not be rewritten as if it were a current integration report. For the current expanded review, see:
+
+- M80_CANDIDATE_ADOPTION_MATRIX.md — 31 expanded candidates plus 14 extended research sources.
+- M80_REFACTORING_PLAN.md — M80.4–M80.10 remediation roadmap.
+- M80_ARCHITECTURE_CONTRACT.md — current and target model/physical/solver interfaces.
+
+Important clarification: the current Spin_test2 tree contains an internal refined_quadrature.py numerical path. It is not the upstream QuadrANN adapter. The QuadrANN adapter status remains "re-audit required".
