@@ -76,3 +76,10 @@ DensiCrafter candidates are separate design proposals; they do not become geomet
 ## 7. Current implementation boundary
 
 The M72 reader now loads and validates the optional event/derivative audit arrays if present. The current training objective still consumes the required moment/Jacobian arrays only. A later dataset release must version the manifest/audit schema and update the training contract before any optional metadata affects optimization.
+
+
+## 8. Active query selection
+
+A deterministic cost-aware selector is now available in spin_pino/active_query_selection.py. It consumes (but does not generate) calibrated uncertainty, event margin, solver sensitivity, coverage novelty and estimated teacher cost. It supports mixed, derivative-only and event-label purposes, positive-scale query deduplication, per-source-group caps and a hard teacher-cost budget.
+
+It is not yet connected to a calibrated UQNO/ensemble or the local Cherchi query runner. Until those are connected, use it only with explicitly calibrated input scores or synthetic tests. Every selected query still requires exact teacher evaluation and dataset admission.
