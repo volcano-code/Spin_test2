@@ -119,3 +119,20 @@ The callback adapter is not yet a complete production bridge. Before calling the
 8. Independently audit the final material geometry and terminal constraints using the exact native path.
 
 The exact evaluator and neural surrogate must use the same source geometry and target frame. A model trained on an RLE approximation may be used only if its training labels are tied to the same source geometry and the approximation/provenance relationship is explicitly recorded.
+
+
+### Frame-transform helper
+
+The adapter now provides target_frame_moment_transforms(target_origin, target_axes). It constructs the 10x10 raw-moment transform T for the basis (1,x,y,z,x²,y²,z²,yz,xz,xy), with:
+
+- moment_to_target = T;
+- coefficient_to_model = T.T;
+- q_model = T.T @ q_target;
+- r_target = T @ r_model;
+- J_target = T @ J_model @ T.T.
+
+The helper requires a finite origin and a right-handed orthonormal target frame. It is tested pointwise against polynomial basis evaluation. It does not infer the relationship between an arbitrary M72 RLE preprocessing frame and the original mesh frame; that source-to-cache transform/provenance must still be supplied and audited.
+
+Native solver API reference:
+- python/make_it_stand/spin.py: solve_spin_it_faster_with_external_moment_evaluator.
+- bindings/pybind_module.cpp: callback field parsing and strict equation-profile binding.
