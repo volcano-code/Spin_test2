@@ -131,3 +131,9 @@ CPU tests pass:
 https://github.com/volcano-code/Spin_test2/actions/runs/43279718463
 
 This is an adapter prototype only. It has not yet been bound to a real SpinItFasterRequest/source mesh, target-frame transforms have not been validated on a nontrivial frame, and no real geometry Newton replay or final material audit has been completed.
+
+
+The adapter now also includes a tested affine target-frame transform helper for the ten raw moments and dual coefficient vector. The latest CPU CI covers callback fail-closed behavior, exact fallback, stale-cache rejection, chain-rule transforms, convex Jacobian admission and pointwise frame-transform identities:
+https://github.com/volcano-code/Spin_test2/actions/runs/43279900942
+
+Still pending: binding to a real SpinItFasterRequest/source mesh and verifying the target-frame transform against the native C++/analytic path.
