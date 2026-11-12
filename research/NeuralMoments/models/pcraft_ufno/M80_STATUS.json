@@ -17,7 +17,8 @@
     "geometry-only self-inclusive kNN graph with bounded GPU LRU cache",
     "GNO kernel uses relative xyz, interval extent ratios, mass ratios and local mass-weighted aggregation",
     "explicit large_gno/xl_gno presets; base large/xl remain unchanged",
-    "CPU CI: M80 mathematical/data contracts, P-CRAFT legacy tests, GNO backward/invariance/cache tests and CLI smoke passed"
+    "CPU CI: M80 mathematical/data contracts, P-CRAFT legacy tests, GNO backward/invariance/cache tests and CLI smoke passed",
+    "GNO reuses one encoded feature vector per native interval instead of recomputing each neighbor K times"
   ],
   "pending": [
     "RTX 5090D XL baseline preflight",
@@ -63,6 +64,8 @@
     "gno_gpu_preflight": false,
     "formal_256_query_corpus_confirmed": false,
     "solver_end_to_end": false,
-    "long_training_started": false
+    "long_training_started": false,
+    "gno_cpu_ci_passed": true,
+    "gno_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43249087939"
   }
 }
