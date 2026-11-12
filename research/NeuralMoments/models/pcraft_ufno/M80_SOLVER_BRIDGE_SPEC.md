@@ -76,3 +76,46 @@ Report exact-call count, fallback rate, Newton iterations, residual history, ter
 ## 7. Correctness gate
 
 The final design must pass the independent native physical audit. A neural prediction or an internal model confidence score is never itself a terminal acceptance certificate.
+
+
+## 8. Existing native bridge discovered and M80 adapter status
+
+The repository already contains a native strict-Newton external-evaluator path:
+- Python wrapper: python/make_it_stand/spin.py, function solve_spin_it_faster_with_external_moment_evaluator.
+- Pybind callback contract: bindings/pybind_module.cpp.
+- Native solver implementation: src/spin/QuadricHollowingSolver.cpp and the related solver headers.
+- Required equation profile: DUAL_MONOMIAL_RAW_V1.
+- Required callback fields: raw_moments[10], moment_jacobian[10,10], derivative_defined, geometry_hash, topology_hash, evaluation_map_identity, boolean_backend_identity and derivative_identity. Optional variable_raw_moments and timing/diagnostic fields are supported.
+
+The wrapper documentation explicitly states that this path produces numerical Newton evidence only; it does not seal or independently validate the final material geometry.
+
+Existing Cherchi/strict integration experiments are not a successful end-to-end neural result. The 2026-09-25 integration note records a non-converged synthetic boundary diagnostic; the 2026-09-27 locked-shell note records a seed-only in-process pilot with an unsupported terminal state. These must remain historical diagnostics, not be described as a completed solver bridge.
+
+M80.8 now has an initial callback adapter at:
+- spin_pino/neural_solver_bridge.py
+- tests/test_neural_solver_bridge.py
+
+The adapter:
+- requires explicit coefficient-to-model and moment-to-target 10x10 transforms;
+- distinguishes the original solver geometry hash from the M72/RLE cache hash;
+- validates model/cache ownership and parameter versions;
+- requires an exact evaluator fallback;
+- fails closed when no admission callback is supplied;
+- supports event/UQ/physical admission through a caller-supplied gate;
+- checks finite values and the existing absolute-moment envelope;
+- additionally checks symmetry/PSD before admitting the convex-potential Jacobian;
+- uses one declared hybrid map identity across neural and exact-fallback calls while recording the per-call path in diagnostics.
+
+## 9. Remaining integration gates
+
+The callback adapter is not yet a complete production bridge. Before calling the native wrapper:
+1. Bind each M72 record to the original source mesh and the exact SpinItFasterRequest geometry/topology identity.
+2. Derive and independently test coefficient_to_model and moment_to_target from the request target frame; do not assume identity transforms.
+3. Bind the exact Cherchi evaluator for the same source geometry and topology.
+4. Construct a calibrated admission callback. Until UQ/event certification is ready, leave admission=None so every call uses the exact fallback.
+5. Run native callback parity tests with identity transforms first, then nontrivial rigid/affine frame transforms.
+6. Run a synthetic native Newton replay, then a real geometry replay with neural path disabled (exact fallback) to prove callback parity.
+7. Enable neural calls only after model/teacher parity, derivative validity and risk gates pass.
+8. Independently audit the final material geometry and terminal constraints using the exact native path.
+
+The exact evaluator and neural surrogate must use the same source geometry and target frame. A model trained on an RLE approximation may be used only if its training labels are tied to the same source geometry and the approximation/provenance relationship is explicitly recorded.
