@@ -328,3 +328,41 @@ def test_multiscale_presets_are_opt_in_and_keep_single_scale_baselines_unchanged
     assert ms_combo.transolver_enabled and ms_combo.gno_enabled
     assert ms.pino_width==base.pino_width
     assert ms.interval_width==base.interval_width
+
+
+def test_native_interval_components_prevent_cross_layer_knn_edges():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import (
+        build_local_neighbor_graph,native_interval_components
+    )
+    columns=np.asarray([
+        (1,1,1,3),(2,1,1,3),
+        (1,1,4,6),(2,1,4,6),
+    ],dtype=np.int32)
+    geometry=geometry_from_columns(dict(columns=columns,
+        origin=np.asarray([0.,0.,0.]),h=np.asarray(1.),side=np.asarray(8,dtype=np.int32),
+        density=np.asarray(1.)))
+    components=native_interval_components(geometry["columns"])
+    assert len(np.unique(components))==2
+    graph=build_local_neighbor_graph(geometry["xyz"],neighbors=4,component_ids=components)
+    for i in range(len(components)):
+        assert np.all(components[graph[i]]==components[i])
+    # Without the topology filter, the two nearby layers are allowed to mix.
+    global_graph=build_local_neighbor_graph(geometry["xyz"],neighbors=4)
+    assert any(components[j]!=components[0] for j in global_graph[0,1:])
+
+
+def test_gno_topology_filter_is_opt_in_and_records_component_count():
+    from dataclasses import replace
+    base=small_model()
+    cfg=replace(base.config,gno_enabled=True,gno_topology_filter=True,gno_neighbors=4)
+    model=PcraftNativeMomentOperator(cfg).eval()
+    columns=np.asarray([
+        (1,1,1,3),(2,1,1,3),
+        (1,1,4,6),(2,1,4,6),
+    ],dtype=np.int32)
+    geometry=geometry_from_columns(dict(columns=columns,
+        origin=np.asarray([0.,0.,0.]),h=np.asarray(1.),side=np.asarray(8,dtype=np.int32),
+        density=np.asarray(1.)))
+    cache=model.encode(geometry,chunk=4)
+    assert cache.native_intervals==4
+    assert model.counters["gno_component_count"]==2
