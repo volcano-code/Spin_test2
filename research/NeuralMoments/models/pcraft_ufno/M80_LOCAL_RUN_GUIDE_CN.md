@@ -367,9 +367,10 @@ git log -1 --oneline
 
 ### Large 四组 Preflight
 
-为了公平比较，四组统一 chunk=1024、batch=16、同一 manifest/audit：
+为了公平比较，四组统一 chunk=1024、batch=16、同一 manifest/audit。开启 pipefail，确保任一训练前置命令失败时循环立即停止：
 
 ~~~bash
+set -o pipefail
 for PRESET in large large_gno large_transolver large_gno_transolver; do
   RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
   OUT="runs/m80/preflight-${PRESET}-${RUN_ID}.json"
@@ -390,6 +391,7 @@ done
 只有四组 Large 都通过，才执行 XL。统一 chunk=512：
 
 ~~~bash
+set -o pipefail
 for PRESET in xl xl_gno xl_transolver xl_gno_transolver; do
   RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
   OUT="runs/m80/preflight-${PRESET}-${RUN_ID}.json"
