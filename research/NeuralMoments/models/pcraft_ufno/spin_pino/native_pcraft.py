@@ -597,10 +597,13 @@ class PcraftNativeMomentOperator(nn.Module):
             nn.init.zeros_(self.gno_update[-1].bias)
         if c.transolver_enabled:
             self.transolver=PhysicsStateSlicing(w,c.transolver_slices,c.transolver_heads)
-        self.query_head=nn.Sequential(nn.Linear(w+36+10,2*w),nn.SiLU(),
-                                      nn.Linear(2*w,w),nn.SiLU(),nn.Linear(w,10))
-        nn.init.normal_(self.query_head[-1].weight,std=.01)
-        nn.init.zeros_(self.query_head[-1].bias)
+        if c.convex_potential_enabled:
+            self.convex_potential_head=ConvexMomentPotentialHead(w,c.convex_potential_components)
+        else:
+            self.query_head=nn.Sequential(nn.Linear(w+36+10,2*w),nn.SiLU(),
+                                          nn.Linear(2*w,w),nn.SiLU(),nn.Linear(w,10))
+            nn.init.normal_(self.query_head[-1].weight,std=.01)
+            nn.init.zeros_(self.query_head[-1].bias)
         self.register_buffer("native_B",torch.tensor([1.,1.,1.,1.,1.,1.,1.,2.,2.,2.],dtype=torch.float64))
         self._neighbor_cache=OrderedDict()
         self._neighbor_cache_bytes=0
@@ -615,7 +618,9 @@ class PcraftNativeMomentOperator(nn.Module):
                            transolver_temperature_max=0.0,
                            multiscale_calls=0,
                            multiscale_global_weights=[],
-                           multiscale_local_weights=[])
+                           multiscale_local_weights=[],
+                           convex_potential_calls=0,
+                           convex_potential_scale_fraction=0.0)
 
     def _versions(self):
         return tuple(p._version for p in self.parameters())
@@ -830,9 +835,24 @@ class PcraftNativeMomentOperator(nn.Module):
         scaled=(q/maxabs)*cache.coordinate_scales
         unit=scaled/torch.linalg.vector_norm(scaled,dim=-1,keepdim=True)
         latent=cache.latent.expand(len(q),-1); stats=cache.statistics.expand(len(q),-1)
-        u=unit.to(latent.dtype)
-        odd=(self.query_head(torch.cat((latent,stats,u),-1))-self.query_head(torch.cat((latent,stats,-u),-1))).double()/2
-        result=cache.fixed_moments+.5*cache.design_moments+.5*cache.absolute_moments*torch.tanh(odd)
+        if self.config.convex_potential_enabled:
+            outer_grad_enabled=torch.is_grad_enabled()
+            need_graph=outer_grad_enabled and q.requires_grad
+            with torch.enable_grad():
+                q_tilde=q*cache.coordinate_scales
+                if not q_tilde.requires_grad:
+                    q_tilde=q_tilde.detach().requires_grad_(True)
+                amplitude_bound=.5*(cache.absolute_moments/cache.coordinate_scales).min()
+                potential,fraction=self.convex_potential_head(cache.latent,q_tilde,amplitude_bound)
+                gradient=torch.autograd.grad(potential.sum(),q_tilde,
+                    create_graph=need_graph,retain_graph=True)[0]
+                result=cache.fixed_moments+.5*cache.design_moments+cache.coordinate_scales*gradient
+            self.counters["convex_potential_calls"]+=1
+            self.counters["convex_potential_scale_fraction"]=float(fraction.detach())
+        else:
+            u=unit.to(latent.dtype)
+            odd=(self.query_head(torch.cat((latent,stats,u),-1))-self.query_head(torch.cat((latent,stats,-u),-1))).double()/2
+            result=cache.fixed_moments+.5*cache.design_moments+.5*cache.absolute_moments*torch.tanh(odd)
         lower,upper=_quadric_bounds(cache.normalized_bounds,unit)
         result=torch.where((lower>0)[:,None],cache.fixed_moments+cache.design_moments,result)
         result=torch.where((upper<0)[:,None],cache.fixed_moments,result)
@@ -866,6 +886,8 @@ def load_model(path,device="cpu"):
     config.setdefault("transolver_heads",4)
     config.setdefault("multiscale_enabled",False)
     config.setdefault("multiscale_grids",(32,64,128))
+    config.setdefault("convex_potential_enabled",False)
+    config.setdefault("convex_potential_components",4)
     if isinstance(config.get("multiscale_grids"),list):
         config["multiscale_grids"]=tuple(config["multiscale_grids"])
     model=PcraftNativeMomentOperator(NativePCRAFTConfig(**config))
