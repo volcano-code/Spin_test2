@@ -427,7 +427,10 @@ class PcraftNativeMomentOperator(nn.Module):
                            transolver_slice_mass_sum_error=0.0,
                            transolver_temperature_mean=0.0,
                            transolver_temperature_min=0.0,
-                           transolver_temperature_max=0.0)
+                           transolver_temperature_max=0.0,
+                           multiscale_calls=0,
+                           multiscale_global_weights=[],
+                           multiscale_local_weights=[])
 
     def _versions(self):
         return tuple(p._version for p in self.parameters())
