@@ -82,7 +82,7 @@ def test_cpu_preflight_runs_real_pcraft_m72_backward_and_checkpoint_roundtrip(tm
     )
     report=preflight(args)
     assert report["status"]=="passed"
-    assert report["selected_native_intervals"]>0
+    assert report["native_intervals"]>0
     assert report["checkpoint_roundtrip_max_abs"]<=1e-10
     assert report["parameter_count"]>0\n    assert report["gradient_norm"]>0
 
