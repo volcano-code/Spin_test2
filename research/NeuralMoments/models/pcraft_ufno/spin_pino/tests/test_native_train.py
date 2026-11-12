@@ -85,3 +85,18 @@ def test_cpu_preflight_runs_real_pcraft_m72_backward_and_checkpoint_roundtrip(tm
     assert report["selected_native_intervals"]>0
     assert report["checkpoint_roundtrip_max_abs"]<=1e-10
     assert report["parameter_count"]>0
+
+
+def test_cpu_preflight_runs_real_pcraft_m72_backward_and_checkpoint_roundtrip(tmp_path):
+    from argparse import Namespace
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train import preflight
+    manifest,audit=make_corpus(tmp_path)
+    args=Namespace(device="cpu",amp="none",threads=1,seed=800071,preset="smoke",
+        min_native_resolution=1,manifest=manifest,audit=audit,cache_mib=16.,
+        batch_queries=2,chunk=16,learning_rate=3e-4,weight_decay=1e-4,
+        jacobian_weight=.05,gradient_clip=1.,out=tmp_path/"preflight.json")
+    report=preflight(args)
+    assert report["status"]=="passed"
+    assert report["selected_native_intervals"]>0
+    assert report["checkpoint_roundtrip_max_abs"]<=1e-10
+    assert report["parameter_count"]>0
