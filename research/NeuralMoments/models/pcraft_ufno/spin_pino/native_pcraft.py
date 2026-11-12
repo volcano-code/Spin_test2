@@ -303,7 +303,8 @@ class PcraftNativeMomentOperator(nn.Module):
         self._neighbor_cache=OrderedDict()
         self._neighbor_cache_bytes=0
         self.counters=dict(encode_calls=0,intervals=0,queries=0,jacobians=0,exact_calls=0,
-                           gno_graph_builds=0,gno_edges=0)
+                           gno_graph_builds=0,gno_graph_cache_hits=0,gno_graph_build_seconds=0.0,
+                           gno_edges=0)
 
     def _versions(self):
         return tuple(p._version for p in self.parameters())
@@ -313,7 +314,9 @@ class PcraftNativeMomentOperator(nn.Module):
         if key in self._neighbor_cache:
             graph,size=self._neighbor_cache.pop(key)
             self._neighbor_cache[key]=(graph,size)
+            self.counters["gno_graph_cache_hits"]+=1
             return graph
+        graph_start=perf_counter()
         graph_np=build_local_neighbor_graph(xyz,self.config.gno_neighbors)
         graph=torch.as_tensor(graph_np,device=device,dtype=torch.int32)
         size=graph.numel()*graph.element_size()
@@ -325,6 +328,7 @@ class PcraftNativeMomentOperator(nn.Module):
             self._neighbor_cache[key]=(graph,size)
             self._neighbor_cache_bytes+=size
         self.counters["gno_graph_builds"]+=1
+        self.counters["gno_graph_build_seconds"]+=perf_counter()-graph_start
         self.counters["gno_edges"]+=int(graph.numel())
         return graph
 
