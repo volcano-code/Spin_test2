@@ -242,6 +242,7 @@ def validate(model,corpus,device,amp,chunk,max_records=8,max_queries=256,split="
         raise ValueError(f"unknown validation split {split!r}")
     model.eval(); rows=[]; scores=[]; jac_scores=[]
     all_moment_query_rmse=[]; all_jacobian_query_rmse=[]
+    all_jacobian_symmetry_error=[]; all_jacobian_min_eigenvalue=[]
     selected=corpus.splits[split] if max_records is None else corpus.splits[split][:max_records]
     for row in selected:
         geometry,labels=corpus.get(row)
@@ -257,28 +258,40 @@ def validate(model,corpus,device,amp,chunk,max_records=8,max_queries=256,split="
         moment_query_rmse=torch.sqrt(normalized_moment.square().mean(dim=-1))
         all_moment_query_rmse.extend(moment_query_rmse.detach().cpu().tolist())
         valid=labels["derivative_valid"][:n].astype(bool)
-        jl=None; jac_query_rmse=None
+        jl=None; jac_query_rmse=None; symmetry_query=None; min_eigen_query=None
         if valid.any():
             mask=torch.as_tensor(valid,device=device)
             jt=torch.tensor(np.array(labels["jacobian"][:n][valid],copy=True),device=device,dtype=torch.float64)
             scale=cache.moment_scales[:,None]*cache.coordinate_scales[None,:]
-            normalized_jacobian=(jac[mask]-jt)/scale
+            jac_valid=jac[mask]
+            normalized_jacobian=(jac_valid-jt)/scale
             jl=normalized_jacobian.square().mean()
             jac_query_rmse=torch.sqrt(normalized_jacobian.square().mean(dim=(-2,-1)))
             all_jacobian_query_rmse.extend(jac_query_rmse.detach().cpu().tolist())
             jac_scores.append(float(jl.detach()))
+            symmetry_query=(jac_valid-jac_valid.transpose(-1,-2)).abs().amax(dim=(-2,-1))
+            symmetric_part=.5*(jac_valid+jac_valid.transpose(-1,-2))
+            min_eigen_query=torch.linalg.eigvalsh(symmetric_part).amin(dim=-1)
+            all_jacobian_symmetry_error.extend(symmetry_query.detach().cpu().tolist())
+            all_jacobian_min_eigenvalue.extend(min_eigen_query.detach().cpu().tolist())
         scores.append(float(ml.detach()))
         rows.append(dict(id=row["id"],group_id=row["group_id"],queries=n,
             derivative_valid=int(valid.sum()),moment_scaled_mse=float(ml.detach()),
             jacobian_scaled_mse=None if jl is None else float(jl.detach()),
             moment_query_rmse=_distribution_summary(moment_query_rmse.detach().cpu().numpy()),
             jacobian_query_rmse=None if jac_query_rmse is None else
-                _distribution_summary(jac_query_rmse.detach().cpu().numpy())))
+                _distribution_summary(jac_query_rmse.detach().cpu().numpy()),
+            jacobian_symmetry_error=None if symmetry_query is None else
+                _distribution_summary(symmetry_query.detach().cpu().numpy()),
+            jacobian_min_eigenvalue=None if min_eigen_query is None else
+                _distribution_summary(min_eigen_query.detach().cpu().numpy())))
     model.train()
     return dict(split=split,moment_scaled_mse=float(np.mean(scores)) if scores else None,
         jacobian_scaled_mse=float(np.mean(jac_scores)) if jac_scores else None,
         moment_query_rmse=_distribution_summary(all_moment_query_rmse),
         jacobian_query_rmse=_distribution_summary(all_jacobian_query_rmse),
+        jacobian_symmetry_error=_distribution_summary(all_jacobian_symmetry_error),
+        jacobian_min_eigenvalue=_distribution_summary(all_jacobian_min_eigenvalue),
         records=len(rows),source_groups=len({r["group_id"] for r in rows}),details=rows)
 
 
