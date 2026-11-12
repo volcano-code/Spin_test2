@@ -4,7 +4,7 @@
   "repository": "volcano-code/Spin_test2",
   "branch": "research/m80-pnmo-large-train-20261112",
   "phase": "M80.3_TRANSOLVER_PLUS_PHYSICAL_STATE_ABLATION",
-  "status": "transolver_cpu_implementation_committed_ci_pending_gpu_ablation_pending",
+  "status": "transolver_cpu_ci_passed_gpu_factorial_ablation_pending",
   "implemented": [
     "PINOFeatureEncoder.forward_with_map additive API",
     "M72 native RLE geometry conversion and exact conservative context aggregation",
@@ -24,10 +24,15 @@
     "QKV scaled-dot-product attention over the compact physical-slice axis",
     "deslicing updated physical states back to all native intervals and residual FFN",
     "independent GNO-only, Transolver-only and combined GNO+Transolver presets",
-    "preflight diagnostics for slice usage, entropy, temperatures and normalization"
+    "preflight diagnostics for slice usage, entropy, temperatures and normalization",
+    "Transolver++-style multi-head physical slicing with learned per-point temperatures",
+    "native interval mass-weighted slice pooling and deterministic soft assignments",
+    "QKV scaled-dot-product attention over compact physical-slice axis",
+    "deslicing updated physical states back to all native intervals and residual feed-forward update",
+    "independent GNO-only, Transolver-only and combined GNO+Transolver presets",
+    "CPU CI passed for physical slicing normalization, mass conservation, finite gradients, moment invariants, AD Jacobian and combined GNO+Transolver backward"
   ],
   "pending": [
-    "final multi-head Transolver CPU CI pass",
     "RTX 5090D paired Large/Large-GNO/Large-Transolver/combined preflights",
     "same-data same-seed 200-500 step 2x2 GNO x Transolver pilot",
     "RTX 5090D XL factorial preflight after Large gate",
@@ -83,8 +88,9 @@
       "license": "MIT",
       "implementation": "Spin-specific reimplementation; deterministic soft assignment and native-mass-weighted slice pooling; not an upstream code port"
     },
-    "transolver_cpu_ci_passed": false,
+    "transolver_cpu_ci_passed": true,
     "transolver_gpu_preflight": false,
-    "transolver_quality_gain": false
+    "transolver_quality_gain": false,
+    "transolver_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43254014739"
   }
 }
