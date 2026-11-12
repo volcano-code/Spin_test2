@@ -471,6 +471,7 @@ class PcraftNativeMomentOperator(nn.Module):
                 scores.append(self.local_scale_gate(torch.cat((descriptor,ctx,local),dim=-1)))
             score=torch.cat(scores,dim=-1)
             gate=torch.softmax(score.float(),dim=-1).to(projected[0].dtype)
+            self.counters["multiscale_local_weights"]=[float(v) for v in gate.detach().float().mean(0).cpu()]
             stacked=torch.stack(projected,dim=1)
             local_fused=(stacked*gate.unsqueeze(-1)).sum(dim=1)
             h=self.interval_embedding(descriptor)+local_fused
@@ -669,6 +670,10 @@ def load_model(path,device="cpu"):
     config.setdefault("transolver_enabled",False)
     config.setdefault("transolver_slices",32)
     config.setdefault("transolver_heads",4)
+    config.setdefault("multiscale_enabled",False)
+    config.setdefault("multiscale_grids",(32,64,128))
+    if isinstance(config.get("multiscale_grids"),list):
+        config["multiscale_grids"]=tuple(config["multiscale_grids"])
     model=PcraftNativeMomentOperator(NativePCRAFTConfig(**config))
     model.load_state_dict(payload["model"],strict=True)
     return model.to(device).eval(),payload
