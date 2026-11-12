@@ -43,8 +43,10 @@
     "CPU bridge tests cover transform chain rule, exact fallback, admission rejection, stale cache and convex Jacobian gate"
   ],
   "pending": [
+    "Bind target_frame_moment_transforms to the actual SpinItFasterRequest and verify against native C++/analytic transform cases",
+    "Bind original source mesh/topology identity to the M72 RLE cache provenance",
+    "Run native exact-fallback callback parity replay before enabling neural calls",
     "Bind M80 evaluator to actual SpinItFasterRequest and original source-mesh provenance",
-    "Derive and test nontrivial coefficient/moment transforms from native target frame",
     "Bind exact Cherchi callback for identical source geometry/topology",
     "Run native exact-fallback callback parity replay before enabling any neural calls",
     "Run a real geometry Newton replay with all neural calls fail-closed, then gated neural pilot",
@@ -184,9 +186,18 @@
       "note": "These are implementation-level CPU mathematical tests, not empirical trained accuracy or exact-teacher agreement."
     },
     "neural_solver_bridge_cpu_ci_passed": true,
-    "neural_solver_bridge_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43279718463",
+    "neural_solver_bridge_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43279900942",
     "native_solver_bridge_end_to_end": false,
     "real_geometry_newton_replay": false,
-    "exact_terminal_geometry_audit": false
+    "exact_terminal_geometry_audit": false,
+    "neural_solver_bridge_cpu_ci_includes": [
+      "fail-closed exact fallback when no admission callback is supplied",
+      "coefficient-to-model and moment-to-target Jacobian chain rule",
+      "admission rejection fallback",
+      "stale model/cache version fallback",
+      "convex-potential Jacobian symmetry/PSD gate",
+      "pointwise target-frame raw-moment transform and coefficient duality",
+      "rejection of non-orthonormal target axes"
+    ]
   }
 }
