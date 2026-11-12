@@ -420,3 +420,87 @@ done
 - GNO graph build/cache/edge metrics（GNO 组）。
 
 Preflight 只说明完整训练图和资源可运行，不说明模型已经学到更好的物理响应。四组都通过后，再使用同一个 seed、同样 200–500 步预算进行短 Pilot。只有验证集 Jacobian 尾部误差或下游求解收益足以抵消新增计算成本，才考虑把 Transolver 放进最终 XL/XXL 主模型。
+
+
+## 12. M80.4 多尺度 P-CRAFT 与拓扑 GNO GPU 验收
+
+M80.4 在原 M80.1/M80.2/M80.3 基线上新增：
+- 共享权重 P-CRAFT 在 32³、64³、128³ 三个精确保守网格上运行；
+- 全局 pooled context 学习 scale gate；
+- 每个 M72 原生区间从三个 spatial maps 采样，再学习 local scale gate；
+- 新的 multiscale-GNO presets 使用 RLE 6-connected component filter，避免欧氏 kNN 跨越不连通薄壁层；
+- 原有 large/xl 单尺度 preset 和 large_gno Euclidean-kNN 语义保持不变。
+
+### 12.1 更新代码和环境
+
+~~~bash
+cd /data/xvxinyao/Spin_test2
+git fetch origin
+git pull --ff-only origin research/m80-pnmo-large-train-20261112
+git log -1 --oneline
+
+export SPIN_ROOT=/data/xvxinyao/Spin_test2
+export SPIN_PY=/home/lin/anaconda3/bin/python
+export M72_ROOT=/data/xvxinyao/Spin_M68_Trellis_Data_Kit
+export M72_MANIFEST="$M72_ROOT/data/combined70-v2/operator-manifest.json"
+export M72_AUDIT="$M72_ROOT/data/combined70-v2/audit.json"
+export PYTHONPATH="$SPIN_ROOT"
+export MKL_THREADING_LAYER=GNU
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export CUDA_VISIBLE_DEVICES=0
+unset MKL_SERVICE_FORCE_INTEL KMP_DUPLICATE_LIB_OK
+mkdir -p "$SPIN_ROOT/runs/m80"
+cd "$SPIN_ROOT"
+set -o pipefail
+~~~
+
+### 12.2 Large multi-resolution 2×2 factorial preflight
+
+四组共享 P-CRAFT 主干、相同 32/64/128 网格、batch=16、chunk=512、同一 manifest/audit。GNO 组启用原生 6-connectivity 过滤。
+
+~~~bash
+for PRESET in large_ms large_ms_gno large_ms_transolver large_ms_gno_transolver; do
+  RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
+  OUT="runs/m80/preflight-${PRESET}-${RUN_ID}.json"
+  LOG="runs/m80/preflight-${PRESET}-${RUN_ID}.log"
+  echo "===== ${PRESET} ====="
+  "$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+    --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+    --out "$OUT" --preset "$PRESET" --device cuda --amp bf16 \
+    --batch-queries 16 --chunk 512 --threads 1 --cache-mib 512 \
+    2>&1 | tee "$LOG" || break
+done
+~~~
+
+任何一组失败立即停止。保留 JSON/log，不要自动切换 preset 或放宽精度阈值。
+
+### 12.3 Large 通过后再跑 XL multi-resolution
+
+~~~bash
+for PRESET in xl_ms xl_ms_gno xl_ms_transolver xl_ms_gno_transolver; do
+  RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
+  OUT="runs/m80/preflight-${PRESET}-${RUN_ID}.json"
+  LOG="runs/m80/preflight-${PRESET}-${RUN_ID}.log"
+  echo "===== ${PRESET} ====="
+  "$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+    --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+    --out "$OUT" --preset "$PRESET" --device cuda --amp bf16 \
+    --batch-queries 16 --chunk 512 --threads 1 --cache-mib 512 \
+    2>&1 | tee "$LOG" || break
+done
+~~~
+
+### 12.4 必须回传的字段
+
+- status、native_intervals、native_resolution；
+- parameter_count、optimizer_step_seconds；
+- peak_allocated、peak_reserved；
+- moment_loss、jacobian_loss、gradient_norm；
+- multiscale_global_weights、multiscale_local_weights；
+- GNO 组的 gno_component_count、gno_graph_build_seconds、gno_graph_cache_hits、gno_edges；
+- Transolver 组的 effective_slices、assignment entropy、temperature min/mean/max；
+- checkpoint_roundtrip_max_abs。
+
+Preflight 只证明完整计算图和资源可运行。通过后仍需同数据、同 seed、同 optimizer 的 200–500 步 pilot，比较验证集 Jacobian P95/P99 与每物体结果。不要立即启动多日长训练。
