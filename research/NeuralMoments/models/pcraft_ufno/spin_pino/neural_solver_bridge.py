@@ -46,6 +46,68 @@ def _matrix10(value: Any, name: str) -> np.ndarray:
     return matrix
 
 
+
+
+_MOMENT_EXPONENTS = (
+    (0,0,0),(1,0,0),(0,1,0),(0,0,1),(2,0,0),
+    (0,2,0),(0,0,2),(0,1,1),(1,0,1),(1,1,0),
+)
+
+
+def target_frame_moment_transforms(target_origin: Any,target_axes: Any):
+    """Return (coefficient_to_model, moment_to_target) for an affine target frame.
+
+    Coordinates are x_target = R @ (x_model - origin), where rows of R are
+    target axes expressed in the model/source frame. Raw-moment order is
+    (1,x,y,z,x²,y²,z²,yz,xz,xy); coefficient cross terms are represented in
+    the native symmetric-matrix convention. The returned matrix T satisfies
+    basis(x_target)=T@basis(x_model), hence r_target=T@r_model and
+    q_model=T.T@q_target.
+    """
+    origin=np.asarray(target_origin,dtype=np.float64)
+    axes=np.asarray(target_axes,dtype=np.float64)
+    if origin.shape!=(3,) or not np.isfinite(origin).all():
+        raise ValueError("target_origin must be a finite 3-vector")
+    if axes.shape!=(3,3) or not np.isfinite(axes).all():
+        raise ValueError("target_axes must be a finite 3x3 matrix")
+    if not np.allclose(axes@axes.T,np.eye(3),rtol=1e-8,atol=1e-8):
+        raise ValueError("target_axes rows must be orthonormal")
+    if not np.isclose(np.linalg.det(axes),1.0,rtol=1e-8,atol=1e-8):
+        raise ValueError("target_axes must form a right-handed frame")
+    zero=(0,0,0); unit=((1,0,0),(0,1,0),(0,0,1))
+    linear=[]
+    offset=-(axes@origin)
+    for i in range(3):
+        poly={zero:float(offset[i])}
+        for j in range(3):
+            if axes[i,j]!=0:
+                poly[unit[j]]=float(axes[i,j])
+        linear.append(poly)
+    def multiply(a,b):
+        out={}
+        for ea,ca in a.items():
+            for eb,cb in b.items():
+                exponent=tuple(ea[k]+eb[k] for k in range(3))
+                if sum(exponent)<=2:
+                    out[exponent]=out.get(exponent,0.0)+ca*cb
+        return out
+    polynomials=[
+        {zero:1.0},linear[0],linear[1],linear[2],
+        multiply(linear[0],linear[0]),
+        multiply(linear[1],linear[1]),
+        multiply(linear[2],linear[2]),
+        multiply(linear[1],linear[2]),
+        multiply(linear[0],linear[2]),
+        multiply(linear[0],linear[1]),
+    ]
+    T=np.zeros((10,10),dtype=np.float64)
+    for i,poly in enumerate(polynomials):
+        for j,exponent in enumerate(_MOMENT_EXPONENTS):
+            T[i,j]=poly.get(exponent,0.0)
+    if not np.isfinite(T).all() or np.linalg.matrix_rank(T)!=10:
+        raise ValueError("target-frame moment transform is not finite/invertible")
+    return T.T.copy(),T
+
 def _identity(value: str, name: str) -> str:
     if not isinstance(value, str) or not value or ";" in value:
         raise ValueError(f"{name} must be nonempty and must not contain ';'")
