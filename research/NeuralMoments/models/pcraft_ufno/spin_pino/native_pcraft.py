@@ -692,6 +692,7 @@ class PcraftNativeMomentOperator(nn.Module):
         span=side*float(geometry["h"])
         normalized=2*(xyz-origin)/span-1
         coords=torch.stack((normalized[:,2],normalized[:,1],normalized[:,0]),-1)
+        pino_dtype=pino_map[0].dtype if isinstance(pino_map,(tuple,list)) else pino_map.dtype
         geom_hash=str(geometry.get("geometry_sha256",""))
         if not geom_hash:
             d=sha256()
@@ -704,7 +705,7 @@ class PcraftNativeMomentOperator(nn.Module):
             feature_chunks=[]
             for start in range(0,len(desc),chunk):
                 stop=min(start+chunk,len(desc))
-                sample_grid=coords[start:stop].to(pino_map.dtype).reshape(1,-1,1,1,3)
+                sample_grid=coords[start:stop].to(pino_dtype).reshape(1,-1,1,1,3)
                 args=(desc[start:stop],sample_grid,pino_map,context)
                 if c.checkpoint_intervals and self.training and torch.is_grad_enabled():
                     h=checkpoint(self._interval_features,*args,use_reentrant=False)
@@ -741,7 +742,7 @@ class PcraftNativeMomentOperator(nn.Module):
         else:
             for start in range(0,len(desc),chunk):
                 stop=min(start+chunk,len(desc))
-                sample_grid=coords[start:stop].to(pino_map.dtype).reshape(1,-1,1,1,3)
+                sample_grid=coords[start:stop].to(pino_dtype).reshape(1,-1,1,1,3)
                 args=(desc[start:stop],weights[start:stop],sample_grid,pino_map,context)
                 if c.checkpoint_intervals and self.training and torch.is_grad_enabled():
                     latent=latent+checkpoint(self._chunk_pool,*args,use_reentrant=False)
