@@ -111,3 +111,13 @@ Use multiple geometry families, held-out parent objects, arbitrary SO(3) orienta
 - No learned derivative is admitted near an unknown/non-smooth event.
 - No exact correction or fallback is omitted from online timing.
 - No claim of CCF-A readiness is made from architecture size, preflight, or training loss alone.
+
+
+## M80.5 implementation update — 2026-11-13
+
+A separate opt-in convex homogeneous moment potential head has been implemented as a research candidate. It uses a positive sum of geometry-conditioned SPD norms, derives editable moments by AD, preserves the q/-q complement and positive-scale invariance, and bounds its response by the native absolute-moment envelope. The existing bounded odd M72 head remains the default/control.
+
+CPU tests for Jacobian symmetry/PSD, finite differences, complement, scale invariance, envelope and checkpoint round-trip passed:
+https://github.com/volcano-code/Spin_test2/actions/runs/43277790530
+
+The candidate has not yet passed a 5090D preflight, trained-quality comparison or exact-teacher validation. QuadrANN remains a separate next experiment; it is not merged into this head.
