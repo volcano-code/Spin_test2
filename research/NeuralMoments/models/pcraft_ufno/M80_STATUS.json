@@ -3,8 +3,8 @@
   "date": "2026-11-12",
   "repository": "volcano-code/Spin_test2",
   "branch": "research/m80-pnmo-large-train-20261112",
-  "phase": "M80.2_OPTIONAL_NATIVE_GNO_ABLATION",
-  "status": "large_baseline_preflight_passed_gno_cpu_ci_passed_gpu_ablation_pending",
+  "phase": "M80.3_TRANSOLVER_PLUS_PHYSICAL_STATE_ABLATION",
+  "status": "transolver_cpu_implementation_committed_ci_pending_gpu_ablation_pending",
   "implemented": [
     "PINOFeatureEncoder.forward_with_map additive API",
     "M72 native RLE geometry conversion and exact conservative context aggregation",
@@ -18,15 +18,24 @@
     "GNO kernel uses relative xyz, interval extent ratios, mass ratios and local mass-weighted aggregation",
     "explicit large_gno/xl_gno presets; base large/xl remain unchanged",
     "CPU CI: M80 mathematical/data contracts, P-CRAFT legacy tests, GNO backward/invariance/cache tests and CLI smoke passed",
-    "GNO reuses one encoded feature vector per native interval instead of recomputing each neighbor K times"
+    "GNO reuses one encoded feature vector per native interval instead of recomputing each neighbor K times",
+    "Transolver++-style multi-head physical slicing with learned per-point temperatures",
+    "native interval mass-weighted slice pooling and deterministic soft assignments",
+    "QKV scaled-dot-product attention over the compact physical-slice axis",
+    "deslicing updated physical states back to all native intervals and residual FFN",
+    "independent GNO-only, Transolver-only and combined GNO+Transolver presets",
+    "preflight diagnostics for slice usage, entropy, temperatures and normalization"
   ],
   "pending": [
+    "final multi-head Transolver CPU CI pass",
+    "RTX 5090D paired Large/Large-GNO/Large-Transolver/combined preflights",
+    "same-data same-seed 200-500 step 2x2 GNO x Transolver pilot",
+    "RTX 5090D XL factorial preflight after Large gate",
     "RTX 5090D XL baseline preflight",
     "RTX 5090D large_gno and xl_gno preflight with graph-build/throughput profiling",
     "same-data same-seed 200-500 step base-vs-GNO pilot",
     "M72 R2 derivative audit reproduction/fix without relaxing tolerances",
     "formal 67-object by 256-query corpus generation and audit",
-    "Transolver-style physical-state branch only if matched GPU ablation demonstrates value",
     "Spin-It Faster Newton bridge, active-set/event handling and adaptive exact correction",
     "end-to-end Spin-It/Spin-It Faster same-task speed and material-quality comparison"
   ],
@@ -66,6 +75,16 @@
     "solver_end_to_end": false,
     "long_training_started": false,
     "gno_cpu_ci_passed": true,
-    "gno_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43249087939"
+    "gno_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43249087939",
+    "transolver_upstream_reference": {
+      "repository": "https://github.com/thuml/Transolver_plus",
+      "commit": "d5a23bc734a0ebac56384cf72049a26af9673452",
+      "file": "models/Transolver_plus.py",
+      "license": "MIT",
+      "implementation": "Spin-specific reimplementation; deterministic soft assignment and native-mass-weighted slice pooling; not an upstream code port"
+    },
+    "transolver_cpu_ci_passed": false,
+    "transolver_gpu_preflight": false,
+    "transolver_quality_gain": false
   }
 }
