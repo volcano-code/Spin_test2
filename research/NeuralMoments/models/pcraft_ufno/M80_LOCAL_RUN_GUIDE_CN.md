@@ -504,3 +504,54 @@ done
 - checkpoint_roundtrip_max_abs。
 
 Preflight 只证明完整计算图和资源可运行。通过后仍需同数据、同 seed、同 optimizer 的 200–500 步 pilot，比较验证集 Jacobian P95/P99 与每物体结果。不要立即启动多日长训练。
+
+
+## 13. M80.5 Convex Moment Potential GPU 对照
+
+M80.5 增加一个可选的凸齐次物理势读出头。它不替换 M72 bounded odd head；默认 large/xl 仍使用旧头。新配置：
+- large_convex
+- xl_convex
+- large_ms_convex
+
+先更新代码并沿用第 12 节环境变量。确认 SPIN_ROOT、SPIN_PY、M72_MANIFEST、M72_AUDIT 已设置。
+
+### 13.1 Large 同预算 Preflight
+
+~~~bash
+set -o pipefail
+for PRESET in large large_convex; do
+  RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
+  OUT="runs/m80/preflight-${PRESET}-${RUN_ID}.json"
+  LOG="runs/m80/preflight-${PRESET}-${RUN_ID}.log"
+  echo "===== ${PRESET} ====="
+  "$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+    --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+    --out "$OUT" --preset "$PRESET" --device cuda --amp bf16 \
+    --batch-queries 16 --chunk 2048 --threads 1 --cache-mib 512 \
+    2>&1 | tee "$LOG" || break
+done
+~~~
+
+### 13.2 重点检查
+
+Convex 配置的 JSON 应额外包含 physical_diagnostics：
+- jacobian_symmetry_max_abs；
+- jacobian_min_eigenvalue；
+- jacobian_max_eigenvalue；
+- diagnostic_seconds。
+
+同时记录：
+- convex_potential_scale_fraction；
+- Moment/Jacobian loss；
+- gradient norm；
+- optimizer step；
+- peak allocated/reserved；
+- checkpoint round-trip。
+
+对凸头，要求 Jacobian 对称误差接近数值精度且最小特征值不显著小于零；同时必须检查有限差分、q/-q complement、正比例缩放不变性和 absolute-moment envelope。不能只凭 PSD 通过就判定预测准确。
+
+### 13.3 XL 阶段
+
+只有 Large 两组都通过后，再对 xl 与 xl_convex 使用相同 chunk、batch、AMP 和数据合同进行比较。多尺度 large_ms_convex 应在 Large 单尺度凸头通过后再测。
+
+Preflight 通过只代表计算图和资源可行。Convex head 是否晋级，必须等待同数据、同 seed、同训练预算的验证集 Moment/Jacobian 尾部误差和独立教师对照。
