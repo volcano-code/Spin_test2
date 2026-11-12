@@ -131,3 +131,36 @@ def test_convex_neural_evaluator_passes_psd_gate_when_admitted():
     assert result["derivative_defined"] is True
     assert adapter.stats.neural_calls==1
     assert adapter.stats.rejected_convex_jacobian==0
+
+
+def test_target_frame_moment_transform_matches_pointwise_polynomial_basis():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.neural_solver_bridge import (
+        target_frame_moment_transforms
+    )
+    theta=.37
+    axes=np.asarray([
+        [np.cos(theta),-np.sin(theta),0.],
+        [np.sin(theta), np.cos(theta),0.],
+        [0.,0.,1.]
+    ],dtype=np.float64)
+    origin=np.asarray([.3,-.2,.5],dtype=np.float64)
+    coefficient_to_model,moment_to_target=target_frame_moment_transforms(origin,axes)
+    rng=np.random.default_rng(123)
+    q_target=rng.normal(size=10)
+    points=rng.normal(size=(32,3))
+    def basis(x):
+        a,b,c=x
+        return np.asarray([1.,a,b,c,a*a,b*b,c*c,b*c,a*c,a*b])
+    for x in points:
+        target=axes@(x-origin)
+        assert np.allclose(basis(target),moment_to_target@basis(x),rtol=1e-12,atol=1e-12)
+        q_model=coefficient_to_model@q_target
+        assert np.dot(q_target,basis(target))==pytest.approx(np.dot(q_model,basis(x)),abs=1e-12)
+
+
+def test_target_frame_transform_rejects_nonorthonormal_axes():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.neural_solver_bridge import (
+        target_frame_moment_transforms
+    )
+    with pytest.raises(ValueError,match="orthonormal"):
+        target_frame_moment_transforms(np.zeros(3),np.asarray([[1.,0,0],[0,2.,0],[0,0,1.]]))
