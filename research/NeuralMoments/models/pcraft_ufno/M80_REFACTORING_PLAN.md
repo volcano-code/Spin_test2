@@ -121,3 +121,13 @@ CPU tests for Jacobian symmetry/PSD, finite differences, complement, scale invar
 https://github.com/volcano-code/Spin_test2/actions/runs/43277790530
 
 The candidate has not yet passed a 5090D preflight, trained-quality comparison or exact-teacher validation. QuadrANN remains a separate next experiment; it is not merged into this head.
+
+
+## M80.8 bridge implementation update — 2026-11-13
+
+Repository inspection found an existing strict native external-moment-evaluator callback in python/make_it_stand/spin.py and bindings/pybind_module.cpp. An initial M80 callback adapter has been added at spin_pino/neural_solver_bridge.py. It applies explicit coefficient/moment transforms, checks cache identity/version, requires an admission callback, and falls back to the exact evaluator by default.
+
+CPU tests pass:
+https://github.com/volcano-code/Spin_test2/actions/runs/43279718463
+
+This is an adapter prototype only. It has not yet been bound to a real SpinItFasterRequest/source mesh, target-frame transforms have not been validated on a nontrivial frame, and no real geometry Newton replay or final material audit has been completed.
