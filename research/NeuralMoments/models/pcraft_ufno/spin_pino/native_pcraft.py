@@ -255,7 +255,7 @@ class PcraftNativeMomentOperator(nn.Module):
         return (h*weights[:,None]).sum(0)
 
     def encode(self,geometry: Mapping[str,object],chunk: int|None=None):
-        c=self.config; chunk=c.chunk_intervals if chunk is None else chunk
+        c=self.config; w=c.interval_width; chunk=c.chunk_intervals if chunk is None else chunk
         if chunk<1: raise ValueError("chunk must be positive")
         if "xyz" not in geometry: geometry=geometry_from_columns(geometry)
         xyz_np=np.asarray(geometry["xyz"],dtype=np.float64)
