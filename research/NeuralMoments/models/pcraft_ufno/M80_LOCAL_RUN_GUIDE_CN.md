@@ -597,3 +597,28 @@ The helper target_frame_moment_transforms(target_origin, target_axes) computes t
 ### Not yet authorized
 
 Do not enable neural calls in the native Newton loop yet. First bind the actual request's original mesh and M72 cache provenance, verify the frame transform against native C++/analytic cases, and run the existing exact callback path with the new wrapper. The native external-evaluator Newton result is not an independent final material geometry acceptance; final output must still pass the exact native material/constraint audit.
+
+
+## 15. M80.6/M80.7 Active Learning 与 UQ 工具测试
+
+当前新增两个独立工具：
+- spin_pino/active_query_selection.py：消费已校准的 uncertainty、event margin、solver sensitivity、coverage novelty 和 teacher cost，按预算选择查询。
+- spin_pino/uncertainty_calibration.py：从 ensemble spread 和验证集真实误差拟合 split-conformal 风险上界。
+
+CPU 测试：
+
+~~~bash
+cd /data/xvxinyao/Spin_test2
+export SPIN_PY=/home/lin/anaconda3/bin/python
+export PYTHONPATH="$PWD"
+
+"$SPIN_PY" -m pytest -q \
+  research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_active_query_selection.py \
+  research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_uncertainty_calibration.py
+~~~
+
+注意：
+- 目前尚未训练多模型 ensemble，因此没有真实校准 UQ 参数。
+- Active selector 尚未连接 Cherchi 本地教师调用和正式 manifest 写入。
+- 不要把 acquisition score 当作 derivative validity。
+- event-purpose 选出的事件查询用于事件标签；不能自动作为有效 Jacobian 监督。
