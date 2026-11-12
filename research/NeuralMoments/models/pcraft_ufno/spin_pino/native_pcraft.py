@@ -62,7 +62,7 @@ class NativePCRAFTConfig:
     checkpoint_intervals: bool = True
     gno_enabled: bool = False
     gno_neighbors: int = 8
-    gno_cache_mib: int = 64
+    gno_cache_mib: int = 512
 
     def __post_init__(self):
         if self.grid_size < 8 or self.grid_size % 4:
