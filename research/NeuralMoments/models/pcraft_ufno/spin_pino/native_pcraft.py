@@ -459,9 +459,25 @@ class PcraftNativeMomentOperator(nn.Module):
         return graph
 
     def _interval_features(self,descriptor,grid,pino_map,context):
-        sampled=F.grid_sample(pino_map,grid,mode="bilinear",padding_mode="border",align_corners=True)
-        sampled=sampled.reshape(pino_map.shape[1],-1).T
-        h=self.interval_embedding(descriptor)+self.pino_local(sampled)
+        if isinstance(pino_map,(tuple,list)):
+            projected=[]
+            scores=[]
+            ctx=context.expand(len(descriptor),-1)
+            for fmap in pino_map:
+                sampled=F.grid_sample(fmap,grid,mode="bilinear",padding_mode="border",align_corners=True)
+                sampled=sampled.reshape(fmap.shape[1],-1).T
+                local=self.pino_local(sampled)
+                projected.append(local)
+                scores.append(self.local_scale_gate(torch.cat((descriptor,ctx,local),dim=-1)))
+            score=torch.cat(scores,dim=-1)
+            gate=torch.softmax(score.float(),dim=-1).to(projected[0].dtype)
+            stacked=torch.stack(projected,dim=1)
+            local_fused=(stacked*gate.unsqueeze(-1)).sum(dim=1)
+            h=self.interval_embedding(descriptor)+local_fused
+        else:
+            sampled=F.grid_sample(pino_map,grid,mode="bilinear",padding_mode="border",align_corners=True)
+            sampled=sampled.reshape(pino_map.shape[1],-1).T
+            h=self.interval_embedding(descriptor)+self.pino_local(sampled)
         h=self.interval_fusion(h+context)
         for block in self.interval_blocks:
             h=block(h)
