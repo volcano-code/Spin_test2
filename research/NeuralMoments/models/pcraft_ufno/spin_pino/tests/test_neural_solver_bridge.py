@@ -85,8 +85,8 @@ def test_neural_evaluator_is_fail_closed_without_admission():
 
 def test_neural_evaluator_applies_coefficient_and_moment_chain_rule():
     model,cache=_model_and_cache()
-    C=np.diag(np.linspace(.8,1.2,10))
     M=np.diag(np.linspace(1.3,.9,10))
+    C=M.T
     adapter=_adapter(model,cache,admission=lambda qn,qm,pred:(True,"test_gate_passed"),C=C,M=M)
     q=np.asarray([.03,.11,-.07,.04,.02,-.01,.015,.004,-.006,.003])
     result=adapter(q)
@@ -164,3 +164,11 @@ def test_target_frame_transform_rejects_nonorthonormal_axes():
     )
     with pytest.raises(ValueError,match="orthonormal"):
         target_frame_moment_transforms(np.zeros(3),np.asarray([[1.,0,0],[0,2.,0],[0,0,1.]]))
+
+
+def test_neural_evaluator_rejects_nondual_frame_transform_pair():
+    model,cache=_model_and_cache()
+    with pytest.raises(ValueError,match="must equal moment_to_target.T"):
+        _adapter(model,cache,admission=lambda qn,qm,pred:True,
+                 C=np.diag(np.linspace(.8,1.2,10)),
+                 M=np.diag(np.linspace(1.3,.9,10)))
