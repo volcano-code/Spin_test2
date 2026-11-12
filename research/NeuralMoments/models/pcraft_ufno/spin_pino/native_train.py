@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import argparse
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from dataclasses import asdict
 from hashlib import sha256
 import json
@@ -106,7 +106,7 @@ class M72Corpus:
         self.grid_size=int(grid_size)
         self.cache_budget=int(cache_mib*1024**2)
         if self.cache_budget<0: raise ValueError("cache_mib must be nonnegative")
-        self.cache={}; self.cache_bytes=0
+        self.cache=OrderedDict(); self.cache_bytes=0; self.cache_budget=int(cache_mib*1024**2)
 
     @staticmethod
     def _group(rows):
@@ -173,7 +173,7 @@ class M72Corpus:
             fingerprint=self.doc["fingerprint"],registered=len(self.doc["records"]),
             qualified=len(self.rows),split_rows={k:len(v) for k,v in self.splits.items()},
             split_groups={k:len(self._group(v)) for k,v in self.splits.items()},
-            cache_bytes=self.cache_bytes)
+            cache_bytes=self.cache_bytes,cache_budget_bytes=self.cache_budget)
 
 
 def autocast(device,amp):
