@@ -3,8 +3,8 @@
   "date": "2026-11-13",
   "repository": "volcano-code/Spin_test2",
   "branch": "research/m80-pnmo-large-train-20261112",
-  "phase": "M80.7_UQ_AND_ACTIVE_TEACHER_SELECTION",
-  "status": "m80_4_5_6_7_8_cpu_ci_passed_gpu_formal_data_and_native_replay_pending",
+  "phase": "M80.4_M80.8_FOUNDATION_REFACTOR",
+  "status": "cpu_contracts_passed_local_multiscale_gpu_formal_data_and_native_replay_pending",
   "baseline": {
     "m80_1": "P-CRAFT single-scale + M72 native intervals; retained as permanent control",
     "m80_2": "optional native-interval GNO",
@@ -223,6 +223,8 @@
     "uncertainty_calibration_cpu_passed": true,
     "uncertainty_calibration_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43281234590",
     "calibrated_uq_model_available": false,
-    "active_selector_cpu_passed": true
+    "active_selector_cpu_passed": true,
+    "latest_cpu_ci_passed": true,
+    "latest_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43281432791"
   }
 }
