@@ -276,7 +276,7 @@ def preflight(args):
     parity=float((expected-actual).abs().max())
     if parity>1e-10: raise AssertionError(f"checkpoint round-trip mismatch {parity}")
     report=dict(schema="m80.pcraft-native-preflight.v1",status="passed",record_id=row["id"],
-        native_intervals=len(geometry["xyz"]),native_resolution=int(geometry["native_resolution"]),
+        native_intervals=len(geometry["xyz"]),selected_native_intervals=len(geometry["xyz"]),native_resolution=int(geometry["native_resolution"]),
         parameter_count=sum(p.numel() for p in model.parameters()),config=asdict(cfg),
         batch_queries=len(indices),amp=args.amp,device=args.device,loss=float(loss.detach()),
         moment_loss=float(ml.detach()),jacobian_loss=float(jl.detach()),gradient_norm=float(grad),
