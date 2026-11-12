@@ -397,15 +397,27 @@ def train(args):
                 best_score,best_step=score,step
                 best_state={k:v.detach().cpu().clone() for k,v in model.state_dict().items()}
         if step%args.save_every==0: save()
-    final=validate(model,corpus,args.device,args.amp,args.chunk,args.val_max_records,args.val_max_queries)
+    final_last=validate(model,corpus,args.device,args.amp,args.chunk,args.val_max_records,args.val_max_queries)
+    last_state={k:v.detach().cpu().clone() for k,v in model.state_dict().items()}
+    model.load_state_dict(best_state)
+    best_validation=validate(model,corpus,args.device,args.amp,args.chunk,args.val_max_records,args.val_max_queries)
+    test_evaluation=None
+    if getattr(args,"evaluate_test",False):
+        # Test is evaluated only on the selected best checkpoint. Do not use
+        # this result for architecture or hyperparameter selection.
+        test_evaluation=validate(model,corpus,args.device,args.amp,args.chunk,None,args.val_max_queries,split="test")
+    model.load_state_dict(last_state)
     save()
     report=dict(schema=TRAIN_SCHEMA,steps_completed=step,stop_reason=stop,elapsed_seconds=perf_counter()-start,
         time_budget_scope="checked between complete optimizer steps; final validation/save is additional",
-        best_step=best_step,best_validation_score=best_score,initial_validation=initial,final_validation=final,
+        best_step=best_step,best_validation_score=best_score,initial_validation=initial,
+        final_last_validation=final_last,best_checkpoint_validation=best_validation,
+        one_time_test_evaluation=test_evaluation,
         parameter_count=sum(p.numel() for p in model.parameters()),config=asdict(cfg),contract=contract,
         data=corpus.summary(),query_coverage_min=int(min(query_coverage.values())),query_coverage_max=int(max(query_coverage.values())),
         counters=dict(model.counters,gno_graph_cache_bytes=model._neighbor_cache_bytes),
-        limitations=["validation is query-response selection, not design acceptance",
+        limitations=["query-response validation is not design acceptance",
+                     "test evaluation is one-time and must not guide model selection",
                      "no Faster Newton speedup is claimed until solver bridge tests pass"])
     (out/"report.json").write_text(json.dumps(report,indent=2,allow_nan=False)+"\n")
     print(json.dumps(report,indent=2,allow_nan=False))
@@ -430,6 +442,8 @@ def main():
             q.add_argument("--min-test-groups",type=int,default=10); q.add_argument("--save-every",type=int,default=25)
             q.add_argument("--val-every",type=int,default=20); q.add_argument("--val-max-records",type=int,default=8)
             q.add_argument("--val-max-queries",type=int,default=256); q.add_argument("--resume",type=Path)
+            q.add_argument("--evaluate-test",action="store_true",
+                           help="evaluate the selected best checkpoint on test exactly once; never use for tuning")
     args=p.parse_args()
     return preflight(args) if args.cmd=="preflight" else train(args)
 
