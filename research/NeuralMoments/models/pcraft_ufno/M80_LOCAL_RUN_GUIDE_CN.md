@@ -296,3 +296,46 @@ Preflight 只比较资源与计算图是否可运行，不足以决定 GNO 是�
 之后才做同数据、同 seed、同 optimizer、同 batch、同 chunk、同 200–500 steps 的 base-vs-GNO 工程 pilot。当前 32-query 数据只能用于短 pilot；正式长训仍需每个合格对象至少 256 条通过审计的查询。
 
 GNO 若不能在困难几何的 Jacobian 尾部误差或下游求解指标上带来收益，或端到端成本过高，就保留为消融而不进入最终主模型。不要只凭 GNO 的模型参数量或单步耗时决定晋级。
+
+
+### 10. Large / Large-GNO 200 步同预算工程 Pilot
+
+只有 Large 和 Large-GNO 两个 preflight 都通过后，才比较短训练。两次运行必须使用同一个 manifest/audit、seed、优化器、batch、chunk、步数和时间预算。当前 32-query 数据仅用于工程对照，不作为正式长训数据。
+
+Base Large：
+
+~~~bash
+"$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train train \
+  --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+  --out "runs/m80/pilot-large-200-seed800071" \
+  --preset large --device cuda --amp bf16 \
+  --max-steps 200 --max-seconds 1800 \
+  --min-queries-per-record 32 \
+  --min-train-groups 50 --min-val-groups 7 --min-test-groups 10 \
+  --batch-queries 16 --chunk 2048 --threads 1 --cache-mib 512 \
+  --seed 800071
+~~~
+
+Large + GNO：
+
+~~~bash
+"$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train train \
+  --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+  --out "runs/m80/pilot-large-gno-200-seed800071" \
+  --preset large_gno --device cuda --amp bf16 \
+  --max-steps 200 --max-seconds 1800 \
+  --min-queries-per-record 32 \
+  --min-train-groups 50 --min-val-groups 7 --min-test-groups 10 \
+  --batch-queries 16 --chunk 2048 --threads 1 --cache-mib 512 \
+  --seed 800071
+~~~
+
+比较两个目录的 `report.json`：
+- initial/final validation Moment scaled MSE；
+- initial/final validation Jacobian scaled MSE；
+- per-geometry validation details；
+- steps_completed、elapsed_seconds；
+- peak memory（若需完整峰值，配合 nvidia-smi 采样）；
+- `counters.gno_graph_builds`、`gno_graph_cache_hits`、`gno_graph_build_seconds`、`gno_edges`、`gno_graph_cache_bytes`。
+
+不要只看总体 MSE。若 GNO 只提升平均误差、但困难对象 p95、训练耗时或显存明显变差，就不晋级 XL 主模型。
