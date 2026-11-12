@@ -208,3 +208,91 @@ test -f "$M72_256_AUDIT"
 - M72 原始 32-query 语料可用于 preflight/短 pilot；正式 10k 训练默认要求每个合格对象至少 256 查询。
 - M72 R2 导数审计修复尚需在真实本地数据上确认；本指南不放宽阈值。
 - M80 当前实现的是 P-CRAFT + M72 native interval moment/Jacobian 训练模型。Spin-It Faster Newton bridge、自适应精确校正和完整端到端速度实验仍是后续研发阶段。
+
+
+## 9. M80.2 GNO 局部分支公平验收
+
+M80.2 新增可选的原生区间 GNO 分支：
+- 在原生区间中心上建立 self-inclusive kNN 图；
+- 每条边使用相对坐标、区间尺寸比和质量比；
+- 通过正核权重与邻域质量权重做局部积分聚合；
+- 图只依赖几何，可跨同一模型的训练步骤缓存；缓存与模型权重分离；
+- 默认 `large`/`xl` 不启用 GNO；`large_gno`/`xl_gno` 是独立消融配置。
+
+先更新代码：
+
+~~~bash
+cd /data/xvxinyao/Spin_test2
+git fetch origin
+git pull --ff-only origin research/m80-pnmo-large-train-20261112
+git log -1 --oneline
+~~~
+
+先对照 Large 与 Large+GNO。为了让分块设置相同，两边都显式使用 chunk=2048：
+
+~~~bash
+export SPIN_ROOT=/data/xvxinyao/Spin_test2
+export SPIN_PY=/home/lin/anaconda3/bin/python
+export M72_ROOT=/data/xvxinyao/Spin_M68_Trellis_Data_Kit
+export M72_MANIFEST="$M72_ROOT/data/combined70-v2/operator-manifest.json"
+export M72_AUDIT="$M72_ROOT/data/combined70-v2/audit.json"
+export PYTHONPATH="$SPIN_ROOT"
+export MKL_THREADING_LAYER=GNU
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export CUDA_VISIBLE_DEVICES=0
+unset MKL_SERVICE_FORCE_INTEL KMP_DUPLICATE_LIB_OK
+cd "$SPIN_ROOT"
+mkdir -p runs/m80
+~~~
+
+Large baseline（同样 chunk=2048）：
+
+~~~bash
+"$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+  --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+  --out "runs/m80/preflight-large-fair-$(date -u +%Y%m%dT%H%M%SZ).json" \
+  --preset large --device cuda --amp bf16 --batch-queries 16 \
+  --chunk 2048 --threads 1 --cache-mib 512
+~~~
+
+Large + GNO:
+
+~~~bash
+"$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+  --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+  --out "runs/m80/preflight-large-gno-$(date -u +%Y%m%dT%H%M%SZ).json" \
+  --preset large_gno --device cuda --amp bf16 --batch-queries 16 \
+  --chunk 2048 --threads 1 --cache-mib 512
+~~~
+
+只有 Large+GNO 通过后，才比较 XL 与 XL+GNO。为降低首轮风险，两边统一 chunk=1024：
+
+~~~bash
+"$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+  --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+  --out "runs/m80/preflight-xl-$(date -u +%Y%m%dT%H%M%SZ).json" \
+  --preset xl --device cuda --amp bf16 --batch-queries 16 \
+  --chunk 1024 --threads 1 --cache-mib 512
+
+"$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+  --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+  --out "runs/m80/preflight-xl-gno-$(date -u +%Y%m%dT%H%M%SZ).json" \
+  --preset xl_gno --device cuda --amp bf16 --batch-queries 16 \
+  --chunk 1024 --threads 1 --cache-mib 512
+~~~
+
+### 如何比较
+
+Preflight 只比较资源与计算图是否可运行，不足以决定 GNO 是否改善模型精度。需要记录：
+- parameter_count；
+- optimizer_step_seconds；
+- peak_allocated / peak_reserved；
+- gno_graph_builds、gno_graph_cache_hits；
+- gno_graph_build_seconds、gno_edges；
+- Moment/Jacobian loss、gradient_norm。
+
+之后才做同数据、同 seed、同 optimizer、同 batch、同 chunk、同 200–500 steps 的 base-vs-GNO 工程 pilot。当前 32-query 数据只能用于短 pilot；正式长训仍需每个合格对象至少 256 条通过审计的查询。
+
+GNO 若不能在困难几何的 Jacobian 尾部误差或下游求解指标上带来收益，或端到端成本过高，就保留为消融而不进入最终主模型。不要只凭 GNO 的模型参数量或单步耗时决定晋级。
