@@ -1,56 +1,59 @@
 {
-  "schema": "m80.status.v1",
-  "date": "2026-11-12",
+  "schema": "m80.status.v2",
+  "date": "2026-11-13",
   "repository": "volcano-code/Spin_test2",
   "branch": "research/m80-pnmo-large-train-20261112",
-  "phase": "M80.3_TRANSOLVER_PLUS_PHYSICAL_STATE_ABLATION",
-  "status": "transolver_cpu_ci_passed_gpu_factorial_ablation_pending",
+  "phase": "M80.4_ARCHITECTURE_AND_EVALUATION_REFACTOR",
+  "status": "single_scale_gpu_factorial_passed_multiscale_cpu_passed_gpu_pending",
+  "baseline": {
+    "m80_1": "P-CRAFT single-scale + M72 native intervals; retained as permanent control",
+    "m80_2": "optional native-interval GNO",
+    "m80_3": "optional mass-aware Transolver++-style physical slicing",
+    "m80_4": "shared-weight P-CRAFT 32/64/128 context pyramid, local/global scale gates, optional 6-connected GNO neighborhood filter, validation tail statistics and optional event-audit label fields"
+  },
   "implemented": [
-    "PINOFeatureEncoder.forward_with_map additive API",
-    "M72 native RLE geometry conversion and exact conservative context aggregation",
-    "P-CRAFT spatial map sampling at every native interval",
-    "M72 ten-moment bounded odd query head and AD Jacobian",
-    "M72 formal manifest/audit loader with file SHA checks and derivative_valid masking",
-    "largest-object preflight with full backward, AdamW and checkpoint roundtrip",
-    "group-balanced training and exact resume contract",
-    "optional local GNO integral branch over native interval kNN neighborhoods",
-    "geometry-only self-inclusive kNN graph with bounded GPU LRU cache",
-    "GNO kernel uses relative xyz, interval extent ratios, mass ratios and local mass-weighted aggregation",
-    "explicit large_gno/xl_gno presets; base large/xl remain unchanged",
-    "CPU CI: M80 mathematical/data contracts, P-CRAFT legacy tests, GNO backward/invariance/cache tests and CLI smoke passed",
-    "GNO reuses one encoded feature vector per native interval instead of recomputing each neighbor K times",
-    "Transolver++-style multi-head physical slicing with learned per-point temperatures",
-    "native interval mass-weighted slice pooling and deterministic soft assignments",
-    "QKV scaled-dot-product attention over the compact physical-slice axis",
-    "deslicing updated physical states back to all native intervals and residual FFN",
-    "independent GNO-only, Transolver-only and combined GNO+Transolver presets",
-    "preflight diagnostics for slice usage, entropy, temperatures and normalization",
-    "Transolver++-style multi-head physical slicing with learned per-point temperatures",
-    "native interval mass-weighted slice pooling and deterministic soft assignments",
-    "QKV scaled-dot-product attention over compact physical-slice axis",
-    "deslicing updated physical states back to all native intervals and residual feed-forward update",
-    "independent GNO-only, Transolver-only and combined GNO+Transolver presets",
-    "CPU CI passed for physical slicing normalization, mass conservation, finite gradients, moment invariants, AD Jacobian and combined GNO+Transolver backward"
+    "M80.1 P-CRAFT single-scale Native baseline retained",
+    "M72 native RLE interval geometry and exact conservative context aggregation retained",
+    "Optional GNO local integral branch over native intervals",
+    "Optional Transolver++-style mass-aware physical slicing and deslicing",
+    "Shared-weight P-CRAFT encoder can preserve input context resolution",
+    "Opt-in multi-resolution 32/64/128 P-CRAFT contexts with global and per-native-interval learned scale gates",
+    "Opt-in 6-connected RLE component filtering for GNO neighborhoods; no cross-component kNN edges",
+    "Per-query Moment and Jacobian RMSE P50/P95/P99/max validation summaries",
+    "Best-checkpoint validation and optional one-time held-out test evaluation",
+    "M72 reader accepts optional event_type, derivative_valid_reason, event_margin, finite_difference_audit, moment_error_bound and jacobian_error_bound arrays",
+    "Legacy checkpoint schemas v1/v2/v3 remain loadable with new optional modules disabled",
+    "M80.4 CPU CI passed: multi-resolution forward/backward, topology-filtered GNO, Transolver, moment invariants, event metadata and training CLI contracts",
+    "Complete 31-expanded-candidate and 14-extension adoption matrix documented",
+    "Architecture, dataset V2, experiment, solver bridge and release-gate specifications documented"
   ],
   "pending": [
-    "RTX 5090D paired Large/Large-GNO/Large-Transolver/combined preflights",
-    "same-data same-seed 200-500 step 2x2 GNO x Transolver pilot",
-    "RTX 5090D XL factorial preflight after Large gate",
-    "RTX 5090D XL baseline preflight",
-    "RTX 5090D large_gno and xl_gno preflight with graph-build/throughput profiling",
-    "same-data same-seed 200-500 step base-vs-GNO pilot",
-    "M72 R2 derivative audit reproduction/fix without relaxing tolerances",
-    "formal 67-object by 256-query corpus generation and audit",
-    "Spin-It Faster Newton bridge, active-set/event handling and adaptive exact correction",
-    "end-to-end Spin-It/Spin-It Faster same-task speed and material-quality comparison"
+    "RTX 5090D preflight for large_ms and its GNO/Transolver factorial variants",
+    "RTX 5090D preflight for xl_ms and its GNO/Transolver factorial variants",
+    "Matched 200-500 step training pilot for selected single-scale and multiscale variants",
+    "At least three-seed 2k-5k architecture screening before model promotion",
+    "M72 combined70-v2 per-record query-count and derivative audit recheck",
+    "Formal 67-object by at least 256 diverse queries corpus generation and frozen audit",
+    "Convex Moment Potential head as a separate candidate against current bounded odd head",
+    "QuadrANN adapter re-audit and positive quadrature experiments",
+    "UQNO/ensemble calibration and active teacher-query selection",
+    "Spin-It Faster source audit and native Newton bridge implementation",
+    "Adaptive exact correction, event gate and fail-closed fallback",
+    "End-to-end same-task Spin-It/Spin-It Faster comparison and independent physical audit",
+    "Conditional GeoTransolver/FNOGNO/fVDB/e3nn studies only after measured bottleneck or failure"
   ],
   "training_gate": {
     "default_preset": "xl",
-    "default_grid": 64,
-    "pino_width": 32,
-    "pino_depth": 6,
-    "pino_modes": 12,
-    "interval_width": 192,
+    "multiscale_presets": [
+      "large_ms",
+      "large_ms_gno",
+      "large_ms_transolver",
+      "large_ms_gno_transolver",
+      "xl_ms",
+      "xl_ms_gno",
+      "xl_ms_transolver",
+      "xl_ms_gno_transolver"
+    ],
     "default_min_queries_per_qualified_record": 256,
     "minimum_source_groups": {
       "train": 50,
@@ -60,10 +63,17 @@
     "long_training_started": false
   },
   "evidence": {
-    "cpu_ci_passed": true,
-    "cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43248046732",
-    "user_large_preflight_passed": true,
-    "user_large_preflight": {
+    "single_scale_large_gpu_preflight_passed": true,
+    "single_scale_factorial_gpu_preflights_passed": true,
+    "multiscale_cpu_ci_passed": true,
+    "multiscale_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43275986716",
+    "multiscale_gpu_preflight": false,
+    "topology_gno_cpu_contract_passed": true,
+    "topology_gno_gpu_preflight": false,
+    "formal_256_query_corpus_confirmed": false,
+    "solver_end_to_end": false,
+    "long_training_started": false,
+    "initial_large_preflight": {
       "native_resolution": 512,
       "native_intervals": 194275,
       "parameter_count": 457130,
@@ -74,31 +84,67 @@
       "jacobian_scaled_mse": 220.05988297116346,
       "checkpoint_roundtrip_max_abs": 0
     },
-    "gno_cpu_contract_passed": true,
-    "gno_gpu_preflight": false,
-    "formal_256_query_corpus_confirmed": false,
-    "solver_end_to_end": false,
-    "long_training_started": false,
-    "gno_cpu_ci_passed": true,
-    "gno_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43249087939",
-    "transolver_upstream_reference": {
-      "repository": "https://github.com/thuml/Transolver_plus",
-      "commit": "d5a23bc734a0ebac56384cf72049a26af9673452",
-      "file": "models/Transolver_plus.py",
-      "license": "MIT",
-      "implementation": "Spin-specific reimplementation; deterministic soft assignment and native-mass-weighted slice pooling; not an upstream code port"
+    "single_scale_factorial_preflights": {
+      "common": {
+        "native_resolution": 512,
+        "native_intervals": 194275,
+        "registered": 104,
+        "qualified": 67,
+        "split_rows": {
+          "train": 50,
+          "val": 7,
+          "test": 10
+        },
+        "batch_queries": 16,
+        "chunk_intervals": 1024,
+        "amp": "bf16",
+        "interpretation": "one-step random-initialization resource/graph checks, not trained-quality results"
+      },
+      "pcraft": {
+        "parameter_count": 457130,
+        "optimizer_step_seconds": 0.6689021739985037,
+        "peak_allocated_bytes": 129334272,
+        "moment_loss": 0.0005148007202625519,
+        "jacobian_loss": 220.05988297116346
+      },
+      "pcraft_gno": {
+        "parameter_count": 522747,
+        "optimizer_step_seconds": 1.143654935000086,
+        "peak_allocated_bytes": 721118208,
+        "moment_loss": 0.0005145231984571501,
+        "jacobian_loss": 220.07761214170628,
+        "graph_edges": 1554200,
+        "graph_build_seconds": 0.172,
+        "graph_cache_hits": 1,
+        "graph_cache_bytes": 6217728
+      },
+      "pcraft_transolver": {
+        "parameter_count": 552895,
+        "optimizer_step_seconds": 0.6952034430032654,
+        "peak_allocated_bytes": 1319721472,
+        "moment_loss": 0.0005141312300931131,
+        "jacobian_loss": 220.0561016173222,
+        "effective_slices": 13.51
+      },
+      "pcraft_gno_transolver": {
+        "parameter_count": 618512,
+        "optimizer_step_seconds": 1.133678759997565,
+        "peak_allocated_bytes": 1775736320,
+        "moment_loss": 0.0005144202461549012,
+        "jacobian_loss": 220.05422489669832,
+        "effective_slices": 14.51
+      }
     },
-    "transolver_cpu_ci_passed": true,
-    "transolver_gpu_preflight": false,
-    "transolver_quality_gain": false,
-    "transolver_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43254610683",
-    "transolver_cpu_ci_includes": [
-      "multi-head mass-aware slice assignment normalization",
-      "mass-weighted slice mass conservation",
-      "finite gradients and M72 moment/Jacobian invariants",
-      "combined GNO plus Transolver second-order backward",
-      "native point permutation equivariance",
-      "Transolver-enabled checkpoint roundtrip"
-    ]
+    "current_m72_corpus": {
+      "registered": 104,
+      "qualified": 67,
+      "split_groups": {
+        "train": 50,
+        "val": 7,
+        "test": 10
+      },
+      "cache_bytes": 531462952,
+      "formal_256_query_corpus_confirmed": false
+    }
   }
 }
