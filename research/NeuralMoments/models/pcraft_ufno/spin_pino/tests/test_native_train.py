@@ -107,3 +107,33 @@ def test_validation_distribution_reports_tail_quantiles_and_rejects_nonfinite():
     assert _distribution_summary([]) is None
     with pytest.raises(FloatingPointError,match="nonfinite"):
         _distribution_summary([0.,float("nan")])
+
+
+def test_m72_optional_event_and_derivative_audit_fields_are_loaded_and_validated(tmp_path):
+    manifest,audit=make_corpus(tmp_path)
+    doc=json.loads(manifest.read_text())
+    row=doc["records"][0]
+    label_path=tmp_path/row["labels_file"]
+    with np.load(label_path,allow_pickle=False) as z:
+        arrays={k:np.array(z[k],copy=True) for k in z.files}
+    arrays.update(
+        event_type=np.asarray(["regular","regular","tangent","regular"],dtype="U16"),
+        derivative_valid_reason=np.asarray(["smooth","smooth","event","smooth"],dtype="U16"),
+        event_margin=np.asarray([.2,.1,0.,.3],dtype=np.float64),
+        finite_difference_audit=np.asarray([True,True,False,True],dtype=bool),
+        moment_error_bound=np.full(4,1e-8,dtype=np.float64),
+        jacobian_error_bound=np.asarray([1e-6,2e-6,0.,1e-6],dtype=np.float64),
+    )
+    np.savez(label_path,**arrays)
+    row["labels_sha256"]=sha(label_path)
+    doc["fingerprint"]=fingerprint(doc)
+    manifest.write_text(json.dumps(doc,sort_keys=True))
+    audit_doc=json.loads(audit.read_text())
+    audit_doc["fingerprint"]=doc["fingerprint"]
+    audit.write_text(json.dumps(audit_doc))
+    corpus=M72Corpus(manifest,audit,grid_size=8,min_queries=4)
+    geometry,labels=corpus.get(corpus.splits["train"][0])
+    assert labels["event_type"].tolist()==["regular","regular","tangent","regular"]
+    assert labels["derivative_valid_reason"][2]=="event"
+    assert labels["finite_difference_audit"].dtype==bool
+    assert labels["jacobian_error_bound"][1]==pytest.approx(2e-6)
