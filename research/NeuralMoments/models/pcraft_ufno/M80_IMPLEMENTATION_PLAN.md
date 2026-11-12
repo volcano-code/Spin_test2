@@ -155,3 +155,21 @@ The GNO branch is controlled by `gno_enabled`; the original `large`/`xl`/`xxl` c
 CPU CI now covers graph integrity, GNO moment complement/scale invariance, AD Jacobian finite-difference agreement, second-order backward, cache reuse and base-vs-GNO preset separation. This is code/CPU evidence only. GPU resource and quality comparisons remain mandatory before promoting GNO.
 
 See `M80.2_GNO_ABLATION.md` and the paired commands in `M80_LOCAL_RUN_GUIDE_CN.md`.
+
+
+## M80.4 implementation update — 2026-11-13
+
+The refactor now includes:
+- shared-weight P-CRAFT execution at exact conservative 32/64/128 context grids;
+- a geometry-conditioned global scale gate and per-native-interval local scale gate;
+- optional 6-connected RLE component filtering for GNO kNN, preventing edges between disconnected nearby layers;
+- per-query Moment/Jacobian RMSE P50/P95/P99/max validation summaries;
+- best-checkpoint validation and an explicit one-time held-out test option;
+- optional event/derivative audit arrays accepted by the M72 reader, while the current loss still uses only required moment/Jacobian arrays.
+
+New multiscale presets are opt-in. Existing single-scale presets and the M80.1 baseline remain available. The single-scale GNO preset preserves the earlier Euclidean-kNN behavior; new multiscale GNO presets enable topology filtering.
+
+CPU evidence: M80.4 multi-resolution, topology, validation-tail and optional-label contracts passed in CI:
+https://github.com/volcano-code/Spin_test2/actions/runs/43275986716
+
+GPU boundary: the supplied four single-scale Large factorial preflights passed. No M80.4 multiscale GPU preflight or trained-quality promotion has yet been reported.
