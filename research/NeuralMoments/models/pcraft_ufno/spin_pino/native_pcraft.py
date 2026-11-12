@@ -7,6 +7,7 @@ decoder feature map, and included in the mass-weighted interval reduction.
 """
 from __future__ import annotations
 
+from collections import OrderedDict
 from dataclasses import asdict, dataclass, replace
 from hashlib import sha256
 import math
@@ -22,8 +23,10 @@ from torch.utils.checkpoint import checkpoint
 
 from .pino_backbone import PINOFeatureEncoder
 
-SCHEMA = "m80.pcraft-native-query.v1"
-SEMANTICS = "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian.v1"
+SCHEMA = "m80.pcraft-native-query.v2"
+SEMANTICS = "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno.v2"
+LEGACY_SCHEMA = "m80.pcraft-native-query.v1"
+LEGACY_SEMANTICS = "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian.v1"
 MOMENT_ORDER = ("mass", "x", "y", "z", "xx", "yy", "zz", "yz", "xz", "xy")
 QUERY_ORDER = ("1", "x", "y", "z", "xx", "yy", "zz", "2yz", "2xz", "2xy")
 POWERS = (0, 1, 1, 1, 2, 2, 2, 2, 2, 2)
@@ -33,8 +36,14 @@ PRESETS = {
                   interval_width=8, interval_depth=1, chunk_intervals=16),
     "large": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
                   interval_width=96, interval_depth=2, chunk_intervals=4096),
+    "large_gno": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
+                      interval_width=96, interval_depth=2, chunk_intervals=2048,
+                      gno_enabled=True, gno_neighbors=8),
     "xl": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
               interval_width=192, interval_depth=4, chunk_intervals=2048),
+    "xl_gno": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
+                   interval_width=192, interval_depth=4, chunk_intervals=1024,
+                   gno_enabled=True, gno_neighbors=8),
     "xxl": dict(grid_size=128, pino_width=48, pino_modes=16, pino_layers=8,
                interval_width=256, interval_depth=6, chunk_intervals=1024),
 }
@@ -51,17 +60,25 @@ class NativePCRAFTConfig:
     chunk_intervals: int = 2048
     min_native_resolution: int = 512
     checkpoint_intervals: bool = True
+    gno_enabled: bool = False
+    gno_neighbors: int = 8
+    gno_cache_mib: int = 64
 
     def __post_init__(self):
         if self.grid_size < 8 or self.grid_size % 4:
             raise ValueError("grid_size must be >=8 and divisible by four")
         for name in ("pino_width", "pino_modes", "pino_layers", "interval_width",
-                     "interval_depth", "chunk_intervals", "min_native_resolution"):
+                     "interval_depth", "chunk_intervals", "min_native_resolution",
+                     "gno_neighbors", "gno_cache_mib"):
             value = getattr(self, name)
             if isinstance(value, bool) or not isinstance(value, int) or value < 1:
                 raise ValueError(f"{name} must be a positive integer")
+        if not isinstance(self.gno_enabled, bool):
+            raise ValueError("gno_enabled must be bool")
         if self.pino_width < 2 or self.interval_width < 8:
             raise ValueError("pino_width>=2 and interval_width>=8 are required")
+        if self.gno_neighbors < 2:
+            raise ValueError("gno_neighbors must be >=2")
 
 
 def make_config(preset="xl", **overrides):
@@ -221,6 +238,41 @@ class IntervalResidual(nn.Module):
         return x+self.ffn(self.norm(x))
 
 
+def build_local_neighbor_graph(xyz: np.ndarray, neighbors: int = 8) -> np.ndarray:
+    """Build a deterministic self-inclusive kNN graph over native interval centers.
+
+    The graph is geometry-only and can be cached across optimizer steps. It is
+    not a dense N-by-N adjacency matrix. Output is int32 [N,K] to limit memory.
+    """
+    xyz=np.asarray(xyz,dtype=np.float64)
+    if xyz.ndim!=2 or xyz.shape[1]!=3 or len(xyz)==0 or not np.isfinite(xyz).all():
+        raise ValueError("xyz must be finite [N,3]")
+    if neighbors<2:
+        raise ValueError("neighbors must be >=2")
+    from scipy.spatial import cKDTree
+    n=len(xyz); k=min(n,int(neighbors))
+    if n==1:
+        return np.zeros((1,neighbors),dtype=np.int32)
+    tree=cKDTree(xyz)
+    _,indices=tree.query(xyz,k=k,workers=1)
+    if indices.ndim==1:
+        indices=indices[:,None]
+    indices=np.asarray(indices,dtype=np.int64)
+    # cKDTree returns each unique point itself at distance zero in column zero.
+    own=np.arange(n,dtype=np.int64)
+    if not np.array_equal(indices[:,0],own):
+        # Defensive path for duplicate centers: put self first, then retain
+        # the nearest non-self indices in their returned order.
+        rows=[]
+        for i,row in enumerate(indices):
+            rows.append(np.concatenate(([i],row[row!=i]))[:k])
+        indices=np.stack(rows,axis=0)
+    if k<neighbors:
+        pad=np.repeat(indices[:,:1],neighbors-k,axis=1)
+        indices=np.concatenate((indices,pad),axis=1)
+    return indices[:,:neighbors].astype(np.int32,copy=False)
+
+
 class PcraftNativeMomentOperator(nn.Module):
     """P-CRAFT spatial operator + M72 native interval response head."""
     def __init__(self,config: NativePCRAFTConfig|None=None):
@@ -235,23 +287,70 @@ class PcraftNativeMomentOperator(nn.Module):
         self.interval_embedding=nn.Sequential(nn.Linear(13,w),nn.GELU(),nn.Linear(w,w))
         self.interval_fusion=nn.Sequential(nn.LayerNorm(w),nn.Linear(w,2*w),nn.GELU(),nn.Linear(2*w,w))
         self.interval_blocks=nn.ModuleList(IntervalResidual(w) for _ in range(c.interval_depth))
+        if c.gno_enabled:
+            hidden=max(16,w//2)
+            self.gno_kernel=nn.Sequential(nn.Linear(7,hidden),nn.SiLU(),nn.Linear(hidden,1))
+            self.gno_value=nn.Linear(w,w,bias=False)
+            self.gno_update=nn.Sequential(nn.LayerNorm(2*w),nn.Linear(2*w,2*w),
+                                          nn.GELU(),nn.Linear(2*w,w))
+            nn.init.normal_(self.gno_update[-1].weight,std=1e-3)
+            nn.init.zeros_(self.gno_update[-1].bias)
         self.query_head=nn.Sequential(nn.Linear(w+36+10,2*w),nn.SiLU(),
                                       nn.Linear(2*w,w),nn.SiLU(),nn.Linear(w,10))
         nn.init.normal_(self.query_head[-1].weight,std=.01)
         nn.init.zeros_(self.query_head[-1].bias)
         self.register_buffer("native_B",torch.tensor([1.,1.,1.,1.,1.,1.,1.,2.,2.,2.],dtype=torch.float64))
-        self.counters=dict(encode_calls=0,intervals=0,queries=0,jacobians=0,exact_calls=0)
+        self._neighbor_cache=OrderedDict()
+        self._neighbor_cache_bytes=0
+        self.counters=dict(encode_calls=0,intervals=0,queries=0,jacobians=0,exact_calls=0,
+                           gno_graph_builds=0,gno_edges=0)
 
     def _versions(self):
         return tuple(p._version for p in self.parameters())
 
-    def _chunk_pool(self,descriptor,weights,grid,pino_map,context):
+    def _get_neighbor_graph(self,geometry_hash,xyz,device):
+        key=(geometry_hash,self.config.gno_neighbors)
+        if key in self._neighbor_cache:
+            graph,size=self._neighbor_cache.pop(key)
+            self._neighbor_cache[key]=(graph,size)
+            return graph
+        graph_np=build_local_neighbor_graph(xyz,self.config.gno_neighbors)
+        graph=torch.as_tensor(graph_np,device=device,dtype=torch.int32)
+        size=graph.numel()*graph.element_size()
+        budget=self.config.gno_cache_mib*1024**2
+        if size<=budget:
+            while self._neighbor_cache and self._neighbor_cache_bytes+size>budget:
+                _,(_,old_size)=self._neighbor_cache.popitem(last=False)
+                self._neighbor_cache_bytes-=old_size
+            self._neighbor_cache[key]=(graph,size)
+            self._neighbor_cache_bytes+=size
+        self.counters["gno_graph_builds"]+=1
+        self.counters["gno_edges"]+=int(graph.numel())
+        return graph
+
+    def _interval_features(self,descriptor,grid,pino_map,context):
         sampled=F.grid_sample(pino_map,grid,mode="bilinear",padding_mode="border",align_corners=True)
         sampled=sampled.reshape(pino_map.shape[1],-1).T
         h=self.interval_embedding(descriptor)+self.pino_local(sampled)
         h=self.interval_fusion(h+context)
         for block in self.interval_blocks:
             h=block(h)
+        return h
+
+    def _chunk_pool(self,descriptor,weights,grid,pino_map,context,
+                    neighbor_descriptor=None,neighbor_grid=None,edge_features=None,neighbor_weights=None):
+        h=self._interval_features(descriptor,grid,pino_map,context)
+        if self.config.gno_enabled:
+            if any(x is None for x in (neighbor_descriptor,neighbor_grid,edge_features,neighbor_weights)):
+                raise ValueError("GNO-enabled model requires native neighbor tensors")
+            b=len(descriptor); k=self.config.gno_neighbors
+            nh=self._interval_features(neighbor_descriptor.reshape(-1,13),neighbor_grid,pino_map,context)
+            nh=nh.reshape(b,k,-1)
+            kernel=F.softplus(self.gno_kernel(edge_features.to(h.dtype)).squeeze(-1))
+            kernel=kernel*neighbor_weights.to(kernel.dtype).clamp_min(1e-12)
+            alpha=kernel/(kernel.sum(-1,keepdim=True)+1e-12)
+            local_integral=(alpha.unsqueeze(-1)*self.gno_value(nh)).sum(1)
+            h=h+self.gno_update(torch.cat((h,local_integral),dim=-1))
         return (h*weights[:,None]).sum(0)
 
     def encode(self,geometry: Mapping[str,object],chunk: int|None=None):
@@ -300,20 +399,35 @@ class PcraftNativeMomentOperator(nn.Module):
         span=side*float(geometry["h"])
         normalized=2*(xyz-origin)/span-1
         coords=torch.stack((normalized[:,2],normalized[:,1],normalized[:,0]),-1)
-        latent=torch.zeros(w,dtype=p.dtype,device=device)
-        for start in range(0,len(desc),chunk):
-            stop=min(start+chunk,len(desc))
-            sample_grid=coords[start:stop].to(pino_map.dtype).reshape(1,-1,1,1,3)
-            args=(desc[start:stop],weights[start:stop],sample_grid,pino_map,context)
-            if c.checkpoint_intervals and self.training and torch.is_grad_enabled():
-                latent=latent+checkpoint(self._chunk_pool,*args,use_reentrant=False)
-            else:
-                latent=latent+self._chunk_pool(*args)
         geom_hash=str(geometry.get("geometry_sha256",""))
         if not geom_hash:
             d=sha256()
             for a in (xyz_np,mass_np,basis_np,extent_np): d.update(np.asarray(a,dtype="<f8").tobytes())
             geom_hash=d.hexdigest()
+        neighbor_graph=self._get_neighbor_graph(geom_hash,xyz_np,device) if c.gno_enabled else None
+        extent_normalized=extent/length
+        latent=torch.zeros(w,dtype=p.dtype,device=device)
+        for start in range(0,len(desc),chunk):
+            stop=min(start+chunk,len(desc))
+            sample_grid=coords[start:stop].to(pino_map.dtype).reshape(1,-1,1,1,3)
+            args=(desc[start:stop],weights[start:stop],sample_grid,pino_map,context)
+            if c.gno_enabled:
+                idx=neighbor_graph[start:stop].long()
+                batch_index=torch.arange(stop-start,device=device)[:,None]
+                center_xyz=normalized[start:stop]
+                neighbor_xyz=normalized[idx]
+                relative_xyz=neighbor_xyz-center_xyz[:,None,:]
+                relative_extent=torch.log((extent_normalized[idx]/extent_normalized[start:stop,None,:]).clamp_min(1e-6))
+                relative_mass=torch.log((mass[idx]/mass[start:stop,None]).clamp_min(1e-12)).unsqueeze(-1)
+                edge_features=torch.cat((relative_xyz,relative_extent,relative_mass),dim=-1).to(p.dtype)
+                neighbor_descriptor=desc[idx].reshape(-1,13)
+                neighbor_grid=coords[idx].to(pino_map.dtype).reshape(1,-1,1,1,3)
+                neighbor_weights=weights[idx]
+                args=args+(neighbor_descriptor,neighbor_grid,edge_features,neighbor_weights)
+            if c.checkpoint_intervals and self.training and torch.is_grad_enabled():
+                latent=latent+checkpoint(self._chunk_pool,*args,use_reentrant=False)
+            else:
+                latent=latent+self._chunk_pool(*args)
         self.counters["encode_calls"]+=1; self.counters["intervals"]+=len(xyz_np)
         return EncodedNativeGeometry(latent[None],stats,fixed,design,absolute,scale,coord,
             torch.stack((lo/length,hi/length)),geom_hash,side,len(xyz_np),id(self),self._versions())
@@ -352,7 +466,13 @@ class PcraftNativeMomentOperator(nn.Module):
 
 def load_model(path,device="cpu"):
     payload=torch.load(path,map_location="cpu",weights_only=True)
-    if payload.get("schema")!=SCHEMA or payload.get("semantics")!=SEMANTICS: raise ValueError("incompatible M80 checkpoint")
-    model=PcraftNativeMomentOperator(NativePCRAFTConfig(**payload["config"]))
-    model.load_state_dict(payload["model"])
+    schema,semantics=payload.get("schema"),payload.get("semantics")
+    if (schema,semantics) not in ((SCHEMA,SEMANTICS),(LEGACY_SCHEMA,LEGACY_SEMANTICS)):
+        raise ValueError("incompatible M80 checkpoint")
+    config=dict(payload["config"])
+    config.setdefault("gno_enabled",False)
+    config.setdefault("gno_neighbors",8)
+    config.setdefault("gno_cache_mib",64)
+    model=PcraftNativeMomentOperator(NativePCRAFTConfig(**config))
+    model.load_state_dict(payload["model"],strict=True)
     return model.to(device).eval(),payload
