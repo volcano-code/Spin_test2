@@ -341,21 +341,16 @@ class PcraftNativeMomentOperator(nn.Module):
             h=block(h)
         return h
 
-    def _chunk_pool(self,descriptor,weights,grid,pino_map,context,
-                    neighbor_descriptor=None,neighbor_grid=None,edge_features=None,neighbor_weights=None):
+    def _chunk_pool(self,descriptor,weights,grid,pino_map,context):
         h=self._interval_features(descriptor,grid,pino_map,context)
-        if self.config.gno_enabled:
-            if any(x is None for x in (neighbor_descriptor,neighbor_grid,edge_features,neighbor_weights)):
-                raise ValueError("GNO-enabled model requires native neighbor tensors")
-            b=len(descriptor); k=self.config.gno_neighbors
-            nh=self._interval_features(neighbor_descriptor.reshape(-1,13),neighbor_grid,pino_map,context)
-            nh=nh.reshape(b,k,-1)
-            kernel=F.softplus(self.gno_kernel(edge_features.to(h.dtype)).squeeze(-1))
-            kernel=kernel*neighbor_weights.to(kernel.dtype).clamp_min(1e-12)
-            alpha=kernel/(kernel.sum(-1,keepdim=True)+1e-12)
-            local_integral=(alpha.unsqueeze(-1)*self.gno_value(nh)).sum(1)
-            h=h+self.gno_update(torch.cat((h,local_integral),dim=-1))
         return (h*weights[:,None]).sum(0)
+
+    def _gno_update_chunk(self,center_features,neighbor_features,edge_features,neighbor_weights):
+        kernel=F.softplus(self.gno_kernel(edge_features.to(center_features.dtype)).squeeze(-1))
+        kernel=kernel*neighbor_weights.to(kernel.dtype).clamp_min(1e-12)
+        alpha=kernel/(kernel.sum(-1,keepdim=True)+1e-12)
+        local_integral=(alpha.unsqueeze(-1)*self.gno_value(neighbor_features)).sum(1)
+        return center_features+self.gno_update(torch.cat((center_features,local_integral),dim=-1))
 
     def encode(self,geometry: Mapping[str,object],chunk: int|None=None):
         c=self.config; w=c.interval_width; chunk=c.chunk_intervals if chunk is None else chunk
@@ -408,14 +403,27 @@ class PcraftNativeMomentOperator(nn.Module):
             d=sha256()
             for a in (xyz_np,mass_np,basis_np,extent_np): d.update(np.asarray(a,dtype="<f8").tobytes())
             geom_hash=d.hexdigest()
-        neighbor_graph=self._get_neighbor_graph(geom_hash,xyz_np,device) if c.gno_enabled else None
-        extent_normalized=extent/length
         latent=torch.zeros(w,dtype=p.dtype,device=device)
-        for start in range(0,len(desc),chunk):
-            stop=min(start+chunk,len(desc))
-            sample_grid=coords[start:stop].to(pino_map.dtype).reshape(1,-1,1,1,3)
-            args=(desc[start:stop],weights[start:stop],sample_grid,pino_map,context)
-            if c.gno_enabled:
+        if c.gno_enabled:
+            # Encode each native interval once. The resulting N x W feature
+            # table is reused by all local graph edges, avoiding K-fold
+            # recomputation of neighbor encoders. Checkpointing bounds the
+            # activation memory of each base-feature chunk.
+            feature_chunks=[]
+            for start in range(0,len(desc),chunk):
+                stop=min(start+chunk,len(desc))
+                sample_grid=coords[start:stop].to(pino_map.dtype).reshape(1,-1,1,1,3)
+                args=(desc[start:stop],sample_grid,pino_map,context)
+                if c.checkpoint_intervals and self.training and torch.is_grad_enabled():
+                    h=checkpoint(self._interval_features,*args,use_reentrant=False)
+                else:
+                    h=self._interval_features(*args)
+                feature_chunks.append(h)
+            all_features=torch.cat(feature_chunks,dim=0)
+            neighbor_graph=self._get_neighbor_graph(geom_hash,xyz_np,device)
+            extent_normalized=extent/length
+            for start in range(0,len(desc),chunk):
+                stop=min(start+chunk,len(desc))
                 idx=neighbor_graph[start:stop].long()
                 center_xyz=normalized[start:stop]
                 neighbor_xyz=normalized[idx]
@@ -423,14 +431,18 @@ class PcraftNativeMomentOperator(nn.Module):
                 relative_extent=torch.log((extent_normalized[idx]/extent_normalized[start:stop,None,:]).clamp_min(1e-6))
                 relative_mass=torch.log((mass[idx]/mass[start:stop,None]).clamp_min(1e-12)).unsqueeze(-1)
                 edge_features=torch.cat((relative_xyz,relative_extent,relative_mass),dim=-1).to(p.dtype)
-                neighbor_descriptor=desc[idx].reshape(-1,13)
-                neighbor_grid=coords[idx].to(pino_map.dtype).reshape(1,-1,1,1,3)
-                neighbor_weights=weights[idx]
-                args=args+(neighbor_descriptor,neighbor_grid,edge_features,neighbor_weights)
-            if c.checkpoint_intervals and self.training and torch.is_grad_enabled():
-                latent=latent+checkpoint(self._chunk_pool,*args,use_reentrant=False)
-            else:
-                latent=latent+self._chunk_pool(*args)
+                updated=self._gno_update_chunk(all_features[start:stop],all_features[idx],
+                                               edge_features,weights[idx])
+                latent=latent+(updated*weights[start:stop,None]).sum(0)
+        else:
+            for start in range(0,len(desc),chunk):
+                stop=min(start+chunk,len(desc))
+                sample_grid=coords[start:stop].to(pino_map.dtype).reshape(1,-1,1,1,3)
+                args=(desc[start:stop],weights[start:stop],sample_grid,pino_map,context)
+                if c.checkpoint_intervals and self.training and torch.is_grad_enabled():
+                    latent=latent+checkpoint(self._chunk_pool,*args,use_reentrant=False)
+                else:
+                    latent=latent+self._chunk_pool(*args)
         self.counters["encode_calls"]+=1; self.counters["intervals"]+=len(xyz_np)
         return EncodedNativeGeometry(latent[None],stats,fixed,design,absolute,scale,coord,
             torch.stack((lo/length,hi/length)),geom_hash,side,len(xyz_np),id(self),self._versions())
