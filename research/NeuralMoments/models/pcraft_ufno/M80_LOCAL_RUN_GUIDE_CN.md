@@ -339,3 +339,82 @@ Large + GNO：
 - `counters.gno_graph_builds`、`gno_graph_cache_hits`、`gno_graph_build_seconds`、`gno_edges`、`gno_graph_cache_bytes`。
 
 不要只看总体 MSE。若 GNO 只提升平均误差、但困难对象 p95、训练耗时或显存明显变差，就不晋级 XL 主模型。
+
+
+## 11. M80.3 Transolver++ 物理状态切片消融
+
+M80.3 已新增 Transolver++-style 多头物理状态切片分支。它采用确定性 soft assignment（不使用随机 Gumbel 采样），并将原生区间质量纳入 slice pooling；对 slice tokens 做 Q/K/V scaled-dot-product attention，再回写全部原生区间。P-CRAFT、M72 moment head 和 Jacobian 合同保持不变。
+
+新增配置：
+- `large_transolver`
+- `large_gno_transolver`
+- `xl_transolver`
+- `xl_gno_transolver`
+
+旧的 `large`、`large_gno`、`xl`、`xl_gno` 均保持原样。
+
+先更新 Spin_test2：
+
+~~~bash
+cd /data/xvxinyao/Spin_test2
+git fetch origin
+git pull --ff-only origin research/m80-pnmo-large-train-20261112
+git log -1 --oneline
+~~~
+
+环境变量沿用本指南第 9 节的设置。确认：
+`M72_MANIFEST`、`M72_AUDIT`、`SPIN_PY`、`PYTHONPATH` 均已设置。
+
+### Large 四组 Preflight
+
+为了公平比较，四组统一 chunk=1024、batch=16、同一 manifest/audit：
+
+~~~bash
+for PRESET in large large_gno large_transolver large_gno_transolver; do
+  RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
+  OUT="runs/m80/preflight-${PRESET}-${RUN_ID}.json"
+  LOG="runs/m80/preflight-${PRESET}-${RUN_ID}.log"
+  echo "===== ${PRESET} ====="
+  "$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+    --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+    --out "$OUT" --preset "$PRESET" --device cuda --amp bf16 \
+    --batch-queries 16 --chunk 1024 --threads 1 --cache-mib 512 \
+    2>&1 | tee "$LOG" || break
+done
+~~~
+
+如果任何一组失败，停止后续组，保留日志和 JSON。不要自动跳过失败配置。
+
+### XL 四组 Preflight
+
+只有四组 Large 都通过，才执行 XL。统一 chunk=512：
+
+~~~bash
+for PRESET in xl xl_gno xl_transolver xl_gno_transolver; do
+  RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
+  OUT="runs/m80/preflight-${PRESET}-${RUN_ID}.json"
+  LOG="runs/m80/preflight-${PRESET}-${RUN_ID}.log"
+  echo "===== ${PRESET} ====="
+  "$SPIN_PY" -m research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train preflight \
+    --manifest "$M72_MANIFEST" --audit "$M72_AUDIT" \
+    --out "$OUT" --preset "$PRESET" --device cuda --amp bf16 \
+    --batch-queries 16 --chunk 512 --threads 1 --cache-mib 512 \
+    2>&1 | tee "$LOG" || break
+done
+~~~
+
+### Preflight 比较要求
+
+每份 JSON 记录：
+- parameter_count；
+- optimizer_step_seconds；
+- peak_allocated / peak_reserved；
+- moment_loss / jacobian_loss / gradient_norm；
+- transolver_effective_slices；
+- transolver_assignment_entropy；
+- transolver_temperature_min/mean/max；
+- transolver_assignment_row_error；
+- transolver_slice_mass_sum_error；
+- GNO graph build/cache/edge metrics（GNO 组）。
+
+Preflight 只说明完整训练图和资源可运行，不说明模型已经学到更好的物理响应。四组都通过后，再使用同一个 seed、同样 200–500 步预算进行短 Pilot。只有验证集 Jacobian 尾部误差或下游求解收益足以抵消新增计算成本，才考虑把 Transolver 放进最终 XL/XXL 主模型。
