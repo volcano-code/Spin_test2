@@ -126,10 +126,27 @@ class M72Corpus:
         geometry=load_geometry(gp)
         geometry["pcraft_grid"]=conservative_coarse_grid(geometry,self.grid_size)
         with np.load(lp,allow_pickle=False) as z:
-            labels={k:np.array(z[k],copy=True) for k in ("queries","moments","jacobian","derivative_valid")}
+            required=("queries","moments","jacobian","derivative_valid")
+            optional=("event_type","derivative_valid_reason","event_margin",
+                      "finite_difference_audit","moment_error_bound","jacobian_error_bound")
+            labels={k:np.array(z[k],copy=True) for k in required}
+            labels.update({k:np.array(z[k],copy=True) for k in optional if k in z.files})
         n=len(labels["queries"])
         if labels["queries"].shape!=(n,10) or labels["moments"].shape!=(n,10) or labels["jacobian"].shape!=(n,10,10) or labels["derivative_valid"].shape!=(n,):
             raise ValueError(f"{key}: invalid M72 label array shapes")
+        for name in ("event_type","derivative_valid_reason"):
+            if name in labels and (labels[name].shape!=(n,) or labels[name].dtype.kind not in "US"):
+                raise ValueError(f"{key}: {name} must be a string array with shape [queries]")
+        if "finite_difference_audit" in labels and (labels["finite_difference_audit"].shape!=(n,)
+                or labels["finite_difference_audit"].dtype.kind!="b"):
+            raise ValueError(f"{key}: finite_difference_audit must be bool [queries]")
+        for name in ("event_margin","moment_error_bound","jacobian_error_bound"):
+            if name in labels:
+                value=labels[name]
+                if value.shape!=(n,) or value.dtype.kind not in "fiu" or not np.isfinite(value).all():
+                    raise ValueError(f"{key}: {name} must be finite numeric [queries]")
+                if name.endswith("_error_bound") and (value<0).any():
+                    raise ValueError(f"{key}: {name} must be nonnegative")
         if n<self.min_queries: raise ValueError(f"{key}: {n} queries < required {self.min_queries}")
         if not np.isfinite(labels["queries"]).all() or not np.isfinite(labels["moments"]).all():
             raise ValueError(f"{key}: nonfinite query/moment labels")
