@@ -118,7 +118,9 @@ class M72Corpus:
         gp=safe_member(self.root,row["geometry_file"])
         lp=safe_member(self.root,row["labels_file"])
         key=row["id"]
-        if key in self.cache: return self.cache[key]
+        if key in self.cache:
+            geometry, labels, _ = self.cache[key]
+            return geometry, labels
         if file_sha(gp)!=row["geometry_sha256"] or file_sha(lp)!=row["labels_sha256"]:
             raise ValueError(f"{key}: geometry or label SHA-256 mismatch")
         geometry=load_geometry(gp)
