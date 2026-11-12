@@ -154,6 +154,8 @@ class M80ExternalMomentEvaluator:
         self.topology_hash = _identity(topology_hash, "topology_hash")
         self.coefficient_to_model = _matrix10(coefficient_to_model, "coefficient_to_model")
         self.moment_to_target = _matrix10(moment_to_target, "moment_to_target")
+        if not np.allclose(self.coefficient_to_model,self.moment_to_target.T,rtol=1e-9,atol=1e-10):
+            raise ValueError("coefficient_to_model must equal moment_to_target.T to preserve the dual moment/coefficient pairing")
         self.exact_evaluator = exact_evaluator
         self.admission = admission
         self.hybrid_identity = _identity(hybrid_identity, "hybrid_identity")
