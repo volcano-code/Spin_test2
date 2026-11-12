@@ -25,8 +25,8 @@ def make_corpus(root):
         cols=np.asarray([(x,y,1,7) for x in range(1,7) for y in range(1,7)],dtype=np.int32)
         np.savez(gp,columns=cols,origin=np.asarray([-1.,-1.,-1.]),h=np.asarray(.25),
             side=np.asarray(8,dtype=np.int32),fixed_moments=np.zeros(10),density=np.asarray(1.))
-        q=np.asarray([[.1,.1,0,0,.01,0,0,0,0,0],[-.1,.1,0,0,.01,0,0,0,0,0],
-            [.1,0,.1,0,0,.01,0,0,0,0],[-.1,0,.1,0,0,.01,0,0,0,0]],dtype=np.float64)
+        q=np.asarray([[0.,1.,0,0,0,0,0,0,0,0],[0.,0,1.,0,0,0,0,0,0,0],
+            [0.,0,0,1.,0,0,0,0,0,0],[0.,-1.,0,0,0,0,0,0,0,0]],dtype=np.float64)
         np.savez(lp,queries=q,moments=np.zeros((4,10)),jacobian=np.zeros((4,10,10)),
                  derivative_valid=np.asarray([True,True,False,True]))
         records.append(dict(id=f"{split}-0",status="qualified",split=split,group_id=f"group-{split}",
@@ -84,7 +84,7 @@ def test_cpu_preflight_runs_real_pcraft_m72_backward_and_checkpoint_roundtrip(tm
     assert report["status"]=="passed"
     assert report["selected_native_intervals"]>0
     assert report["checkpoint_roundtrip_max_abs"]<=1e-10
-    assert report["parameter_count"]>0
+    assert report["parameter_count"]>0\n    assert report["gradient_norm"]>0
 
 
 def test_cpu_preflight_runs_real_pcraft_m72_backward_and_checkpoint_roundtrip(tmp_path):
