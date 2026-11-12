@@ -768,7 +768,10 @@ class PcraftNativeMomentOperator(nn.Module):
         geom_hash=str(geometry.get("geometry_sha256",""))
         if not geom_hash:
             d=sha256()
-            for a in (xyz_np,mass_np,basis_np,extent_np): d.update(np.asarray(a,dtype="<f8").tobytes())
+            for a in (xyz_np,mass_np,basis_np,extent_np):
+                d.update(np.asarray(a,dtype="<f8").tobytes())
+            if geometry.get("columns") is not None:
+                d.update(np.asarray(geometry["columns"],dtype="<i8").tobytes())
             geom_hash=d.hexdigest()
         latent=torch.zeros(w,dtype=p.dtype,device=device)
         if c.gno_enabled or c.transolver_enabled:
