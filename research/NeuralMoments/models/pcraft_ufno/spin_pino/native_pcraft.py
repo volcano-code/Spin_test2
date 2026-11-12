@@ -422,7 +422,6 @@ class PcraftNativeMomentOperator(nn.Module):
                            transolver_assignment_entropy=0.0,
                            transolver_assignment_row_error=0.0,
                            transolver_slice_mass_sum_error=0.0,
-                           transolver_assignment_entropy=0.0,
                            transolver_temperature_mean=0.0,
                            transolver_temperature_min=0.0,
                            transolver_temperature_max=0.0)
