@@ -416,6 +416,55 @@ class PhysicsStateSlicing(nn.Module):
         return x,metrics
 
 
+
+
+class ConvexMomentPotentialHead(nn.Module):
+    """Smooth even convex 1-homogeneous potential for editable-domain moments.
+
+    Psi(q_tilde) = sum_k a_k * sqrt(q_tilde^T C_k q_tilde), where each C_k
+    is an SPD correlation matrix (unit diagonal) and a_k >= 0. The response
+    is r_D(q) = 0.5 * M_D + D * grad(Psi(D q)), with D=coordinate_scales.
+    This gives a symmetric PSD Jacobian in smooth nonzero query directions,
+    positive-scale invariance and the M72 complement relation. A geometry-
+    dependent amplitude bound keeps the deviation within the existing
+    absolute-moment envelope.
+    """
+    def __init__(self,width:int,components:int=4,min_diag:float=1e-3):
+        super().__init__()
+        if components<1 or min_diag<=0:
+            raise ValueError("components and min_diag must be positive")
+        self.components=int(components)
+        self.min_diag=float(min_diag)
+        self.parameter_net=nn.Sequential(
+            nn.LayerNorm(width),nn.Linear(width,2*width),nn.GELU(),
+            nn.Linear(2*width,self.components*56)
+        )
+        self.total_gate=nn.Linear(width,1)
+        nn.init.constant_(self.total_gate.bias,-1.0)
+
+    def forward(self,latent:Tensor,q_tilde:Tensor,amplitude_bound:Tensor):
+        if q_tilde.ndim!=2 or q_tilde.shape[-1]!=10:
+            raise ValueError("q_tilde must have shape [Q,10]")
+        raw=self.parameter_net(latent).reshape(self.components,56).double()
+        amp_logits=raw[:,0]
+        tri=raw[:,1:]
+        rows,cols=torch.tril_indices(10,10,device=q_tilde.device)
+        lower=torch.zeros((self.components,10,10),dtype=torch.float64,device=q_tilde.device)
+        lower[:,rows,cols]=tri
+        diag_index=torch.arange(10,device=q_tilde.device)
+        diagonal=F.softplus(lower[:,diag_index,diag_index])+self.min_diag
+        lower[:,diag_index,diag_index]=diagonal
+        gram=lower@lower.transpose(-1,-2)
+        gram_diag=torch.diagonal(gram,dim1=-2,dim2=-1).clamp_min(1e-24).sqrt()
+        correlation=gram/(gram_diag.unsqueeze(-1)*gram_diag.unsqueeze(-2))
+        fraction=torch.sigmoid(self.total_gate(latent).reshape(()).double())
+        total_amplitude=amplitude_bound.to(torch.float64)*fraction
+        amplitudes=torch.softmax(amp_logits,dim=0)*total_amplitude
+        quadratic=torch.einsum("qi,kij,qj->qk",q_tilde,correlation,q_tilde)
+        norms=torch.sqrt(quadratic.clamp_min(torch.finfo(torch.float64).tiny))
+        potential=(norms*amplitudes.unsqueeze(0)).sum(-1)
+        return potential,fraction
+
 def native_interval_components(columns: np.ndarray) -> np.ndarray:
     """Label 6-connected components of M72 x/y/z RLE intervals.
 
