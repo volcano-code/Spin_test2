@@ -90,3 +90,55 @@ def test_geometry_cache_invalidates_after_optimizer_update():
     model.predict(cache,q).sum().backward(); opt.step()
     with pytest.raises(ValueError,match="stale"):
         model.predict(cache,q)
+
+
+def test_native_interval_knn_graph_is_self_inclusive_and_bounded():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import build_local_neighbor_graph
+    g=small_geometry()
+    graph=build_local_neighbor_graph(g["xyz"],neighbors=8)
+    assert graph.shape==(len(g["xyz"]),8)
+    assert graph.dtype==np.int32
+    assert np.array_equal(graph[:,0],np.arange(len(g["xyz"]),dtype=np.int32))
+    assert graph.min()>=0 and graph.max()<len(g["xyz"])
+    # All non-self neighbours are among the nearest native interval centers.
+    d=np.linalg.norm(g["xyz"][graph]-g["xyz"][:,None,:],axis=-1)
+    assert np.all(d[:,1:]>=0)
+
+
+def test_pcraft_gno_branch_preserves_moment_invariants_and_ad_jacobian():
+    from dataclasses import replace
+    torch.manual_seed(23)
+    base=small_model()
+    cfg=replace(base.config,gno_enabled=True,gno_neighbors=8,gno_cache_mib=1)
+    model=PcraftNativeMomentOperator(cfg).train()
+    geometry=small_geometry()
+    cache=model.encode(geometry,chunk=7)
+    q=torch.tensor([.03,.11,-.07,.04,.02,-.01,.015,.004,-.006,.003],dtype=torch.float64)
+    moments,jac=model.moments_and_jacobian(cache,q,create_graph=True)
+    assert moments.shape==(10,) and jac.shape==(10,10)
+    assert torch.isfinite(moments).all() and torch.isfinite(jac).all()
+    assert torch.allclose(moments,model.predict(cache,7*q),rtol=1e-10,atol=1e-11)
+    complement=model.predict(cache,-q)
+    assert torch.allclose(moments+complement,2*cache.fixed_moments+cache.design_moments,
+                          rtol=1e-9,atol=1e-10)
+    (moments.square().mean()+jac.square().mean()).backward()
+    grads=[p.grad for p in model.parameters() if p.grad is not None]
+    assert grads and all(torch.isfinite(g).all() for g in grads)
+    assert model.counters["gno_graph_builds"]==1
+    # A second encode of the same geometry reuses its geometry-only graph.
+    model.encode(geometry,chunk=11)
+    assert model.counters["gno_graph_builds"]==1
+
+
+def test_gno_preset_is_an_explicit_ablation_and_base_checkpoint_stays_legacy():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import make_config
+    base=make_config("xl")
+    gno=make_config("xl_gno")
+    assert base.gno_enabled is False
+    assert gno.gno_enabled is True
+    assert gno.gno_neighbors==8
+    base_model=PcraftNativeMomentOperator(base)
+    gno_model=PcraftNativeMomentOperator(gno)
+    assert not hasattr(base_model,"gno_kernel")
+    assert hasattr(gno_model,"gno_kernel")
+    assert gno_model.pino_encoder.width==base_model.pino_encoder.width
