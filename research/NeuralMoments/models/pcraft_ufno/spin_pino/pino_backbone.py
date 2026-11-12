@@ -178,7 +178,14 @@ class PINOFeatureEncoder(nn.Module):
                 )
         return x.to(dtype=self.lifting.weight.dtype)
 
-    def forward(self, geometry: Tensor) -> Tensor:
+    def forward_with_map(self, geometry: Tensor) -> tuple[Tensor, Tensor]:
+        """Return the original pooled latent and the final P-CRAFT spatial map.
+
+        This is an additive interface: it introduces no parameters and keeps
+        the legacy forward/checkpoint contract unchanged. Native interval
+        queries can sample the spatial map without rasterizing their detail
+        into the coarse spectral context grid.
+        """
         x = self._prepare_geometry(geometry)
         grid = self.coordinate_grid.to(device=x.device, dtype=x.dtype).expand(x.shape[0], -1, -1, -1, -1)
         x = self.lifting(torch.cat((x, grid), dim=1))
@@ -212,4 +219,7 @@ class PINOFeatureEncoder(nn.Module):
         avg = F.adaptive_avg_pool3d(x, 1).flatten(1)
         peak = F.adaptive_max_pool3d(x, 1).flatten(1)
         global_context = F.adaptive_avg_pool3d(bottleneck, 1).flatten(1)
-        return torch.cat((avg, peak, global_context), dim=-1)
+        return torch.cat((avg, peak, global_context), dim=-1), x
+
+    def forward(self, geometry: Tensor) -> Tensor:
+        return self.forward_with_map(geometry)[0]
