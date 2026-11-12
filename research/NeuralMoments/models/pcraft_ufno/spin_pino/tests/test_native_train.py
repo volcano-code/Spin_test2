@@ -93,3 +93,17 @@ def test_cpu_preflight_runs_real_pcraft_m72_backward_and_checkpoint_roundtrip(tm
     assert report["checkpoint_roundtrip_max_abs"]<=1e-10
     assert report["parameter_count"]>0
     assert report["gradient_norm"]>0
+
+
+def test_validation_distribution_reports_tail_quantiles_and_rejects_nonfinite():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_train import _distribution_summary
+    summary=_distribution_summary([0.,1.,2.,3.,4.,5.,6.,7.,8.,9.])
+    assert summary["count"]==10
+    assert summary["mean"]==pytest.approx(4.5)
+    assert summary["p50"]==pytest.approx(4.5)
+    assert summary["p95"]==pytest.approx(8.55)
+    assert summary["p99"]==pytest.approx(8.91)
+    assert summary["max"]==9.
+    assert _distribution_summary([]) is None
+    with pytest.raises(FloatingPointError,match="nonfinite"):
+        _distribution_summary([0.,float("nan")])
