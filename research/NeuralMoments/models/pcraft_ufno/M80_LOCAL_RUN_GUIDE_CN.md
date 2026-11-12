@@ -555,3 +555,45 @@ Convex 配置的 JSON 应额外包含 physical_diagnostics：
 只有 Large 两组都通过后，再对 xl 与 xl_convex 使用相同 chunk、batch、AMP 和数据合同进行比较。多尺度 large_ms_convex 应在 Large 单尺度凸头通过后再测。
 
 Preflight 通过只代表计算图和资源可行。Convex head 是否晋级，必须等待同数据、同 seed、同训练预算的验证集 Moment/Jacobian 尾部误差和独立教师对照。
+
+
+## 14. M80.8 native Newton callback adapter — CPU contract first
+
+M80 now contains spin_pino/neural_solver_bridge.py. It returns the native external-moment-evaluator mapping, but it is deliberately fail-closed:
+- exact evaluator callback is mandatory;
+- admission callback is mandatory for neural predictions;
+- if admission is omitted, every query uses exact fallback;
+- stale cache/model versions, nonfinite predictions, envelope violations and convex Jacobian failures use exact fallback;
+- coefficient/moment frame transforms must be explicit;
+- a callback adapter test is not a real native Newton replay or terminal material audit.
+
+After pulling the latest branch, run:
+
+~~~bash
+cd /data/xvxinyao/Spin_test2
+git fetch origin
+git pull --ff-only origin research/m80-pnmo-large-train-20261112
+export PYTHONPATH="$PWD"
+export SPIN_PY=/home/lin/anaconda3/bin/python
+
+"$SPIN_PY" -m compileall -q research/NeuralMoments/models/pcraft_ufno/spin_pino
+
+"$SPIN_PY" -m pytest -q \
+  research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_neural_solver_bridge.py \
+  research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_native_pcraft.py \
+  research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_native_train.py
+~~~
+
+The adapter uses:
+- source geometry hash from the actual SpinItFasterRequest/source mesh;
+- separate M72 cache geometry hash;
+- source material topology hash;
+- coefficient_to_model and moment_to_target matrices;
+- exact Cherchi evaluator for fallback;
+- a calibrated admission callback.
+
+The helper target_frame_moment_transforms(target_origin, target_axes) computes the affine target-frame transform for the ten raw moments and coefficient vector. Do not assume identity transforms unless the source and target frames are demonstrably identical.
+
+### Not yet authorized
+
+Do not enable neural calls in the native Newton loop yet. First bind the actual request's original mesh and M72 cache provenance, verify the frame transform against native C++/analytic cases, and run the existing exact callback path with the new wrapper. The native external-evaluator Newton result is not an independent final material geometry acceptance; final output must still pass the exact native material/constraint audit.
