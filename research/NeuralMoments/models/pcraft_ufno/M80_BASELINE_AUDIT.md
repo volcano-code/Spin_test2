@@ -56,3 +56,13 @@ The first training-ready release is blocked until the data adapter, mathematical
 - Do not call analytic P0 labels "Cherchi" or "native CAD" labels.
 - Do not call a Newton equality core a general constrained solver.
 - Do not start a multi-day training run before the M80 readiness gate is satisfied.
+
+
+## M80 implementation delta — 2026-11-12
+
+The earlier "not yet present" items have been partially addressed in this branch:
+- A versioned M72 native RLE-to-P-CRAFT adapter now exists in `spin_pino/native_pcraft.py`.
+- The P-CRAFT encoder now exposes its final spatial feature map without changing its parameter/state-dict contract.
+- A strict M72 manifest/audit and label loader plus GPU preflight/training entry point now exists in `spin_pino/native_train.py`.
+
+These changes do **not** yet close the native 512 GPU acceptance, formal 256-query dataset, derivative audit, or Spin-It Faster Newton bridge gates. The earlier caveats about not claiming end-to-end speedup remain in force.
