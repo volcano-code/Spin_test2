@@ -23,13 +23,15 @@ from torch.utils.checkpoint import checkpoint
 
 from .pino_backbone import PINOFeatureEncoder
 
-SCHEMA = "m80.pcraft-native-query.v3"
-SEMANTICS = "pcraft-ufno-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno-transolver.v3"
+SCHEMA = "m80.pcraft-native-query.v4"
+SEMANTICS = "pcraft-ufno-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno-transolver-multiscale.v4"
 LEGACY_SCHEMAS = {
     ("m80.pcraft-native-query.v1",
      "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian.v1"),
     ("m80.pcraft-native-query.v2",
      "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno.v2"),
+    ("m80.pcraft-native-query.v3",
+     "pcraft-ufno-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno-transolver.v3"),
 }
 MOMENT_ORDER = ("mass", "x", "y", "z", "xx", "yy", "zz", "yz", "xz", "xy")
 QUERY_ORDER = ("1", "x", "y", "z", "xx", "yy", "zz", "2yz", "2xz", "2xy")
@@ -42,7 +44,7 @@ PRESETS = {
                   interval_width=96, interval_depth=2, chunk_intervals=4096),
     "large_gno": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
                       interval_width=96, interval_depth=2, chunk_intervals=2048,
-                      gno_enabled=True, gno_neighbors=8, gno_topology_filter=True),
+                      gno_enabled=True, gno_neighbors=8),
     "large_transolver": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
                              interval_width=96, interval_depth=2, chunk_intervals=2048,
                              transolver_enabled=True, transolver_slices=16, transolver_heads=4),
@@ -64,6 +66,38 @@ PRESETS = {
                               transolver_enabled=True, transolver_slices=32, transolver_heads=8),
     "xxl": dict(grid_size=128, pino_width=48, pino_modes=16, pino_layers=8,
                interval_width=256, interval_depth=6, chunk_intervals=1024),
+    "large_ms": dict(grid_size=64, pino_width=16, pino_modes=8, pino_layers=4,
+                     interval_width=96, interval_depth=2, chunk_intervals=512,
+                     multiscale_enabled=True, multiscale_grids=(32,64,128)),
+    "large_ms_gno": dict(grid_size=64, pino_width=16, pino_modes=8, pino_layers=4,
+                         interval_width=96, interval_depth=2, chunk_intervals=512,
+                         multiscale_enabled=True, multiscale_grids=(32,64,128),
+                         gno_enabled=True, gno_neighbors=8, gno_topology_filter=True),
+    "large_ms_transolver": dict(grid_size=64, pino_width=16, pino_modes=8, pino_layers=4,
+                                interval_width=96, interval_depth=2, chunk_intervals=512,
+                                multiscale_enabled=True, multiscale_grids=(32,64,128),
+                                transolver_enabled=True, transolver_slices=16, transolver_heads=4),
+    "large_ms_gno_transolver": dict(grid_size=64, pino_width=16, pino_modes=8, pino_layers=4,
+                                    interval_width=96, interval_depth=2, chunk_intervals=512,
+                                    multiscale_enabled=True, multiscale_grids=(32,64,128),
+                                    gno_enabled=True, gno_neighbors=8, gno_topology_filter=True,
+                                    transolver_enabled=True, transolver_slices=16, transolver_heads=4),
+    "xl_ms": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
+                  interval_width=192, interval_depth=4, chunk_intervals=512,
+                  multiscale_enabled=True, multiscale_grids=(32,64,128)),
+    "xl_ms_gno": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
+                      interval_width=192, interval_depth=4, chunk_intervals=512,
+                      multiscale_enabled=True, multiscale_grids=(32,64,128),
+                      gno_enabled=True, gno_neighbors=8, gno_topology_filter=True),
+    "xl_ms_transolver": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
+                             interval_width=192, interval_depth=4, chunk_intervals=512,
+                             multiscale_enabled=True, multiscale_grids=(32,64,128),
+                             transolver_enabled=True, transolver_slices=32, transolver_heads=8),
+    "xl_ms_gno_transolver": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
+                                 interval_width=192, interval_depth=4, chunk_intervals=512,
+                                 multiscale_enabled=True, multiscale_grids=(32,64,128),
+                                 gno_enabled=True, gno_neighbors=8, gno_topology_filter=True,
+                                 transolver_enabled=True, transolver_slices=32, transolver_heads=8),
 }
 
 
@@ -85,6 +119,8 @@ class NativePCRAFTConfig:
     transolver_enabled: bool = False
     transolver_slices: int = 32
     transolver_heads: int = 4
+    multiscale_enabled: bool = False
+    multiscale_grids: tuple[int, ...] = (32, 64, 128)
 
     def __post_init__(self):
         if self.grid_size < 8 or self.grid_size % 4:
@@ -100,6 +136,15 @@ class NativePCRAFTConfig:
             raise ValueError("gno_enabled and transolver_enabled must be bool")
         if not isinstance(self.gno_topology_filter, bool):
             raise ValueError("gno_topology_filter must be bool")
+        if not isinstance(self.multiscale_enabled, bool):
+            raise ValueError("multiscale_enabled must be bool")
+        if (not isinstance(self.multiscale_grids, tuple) or len(self.multiscale_grids) < 2
+                or any(isinstance(v,bool) or not isinstance(v,int) or v < 8 or v % 4
+                       for v in self.multiscale_grids)
+                or tuple(sorted(set(self.multiscale_grids))) != self.multiscale_grids):
+            raise ValueError("multiscale_grids must be a sorted tuple of unique >=8 grids divisible by four")
+        if self.multiscale_enabled and self.grid_size not in self.multiscale_grids:
+            raise ValueError("grid_size must be one of multiscale_grids when multiscale is enabled")
         if self.pino_width < 2 or self.interval_width < 8:
             raise ValueError("pino_width>=2 and interval_width>=8 are required")
         if self.gno_neighbors < 2:
