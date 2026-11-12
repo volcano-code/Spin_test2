@@ -23,8 +23,8 @@ from torch.utils.checkpoint import checkpoint
 
 from .pino_backbone import PINOFeatureEncoder
 
-SCHEMA = "m80.pcraft-native-query.v4"
-SEMANTICS = "pcraft-ufno-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno-transolver-multiscale.v4"
+SCHEMA = "m80.pcraft-native-query.v5"
+SEMANTICS = "pcraft-ufno-native-interval-m72-bounded-odd-or-convex-potential-moment-head-ad-jacobian-optional-gno-transolver-multiscale.v5"
 LEGACY_SCHEMAS = {
     ("m80.pcraft-native-query.v1",
      "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian.v1"),
@@ -32,6 +32,8 @@ LEGACY_SCHEMAS = {
      "pcraft-ufno-map-sampled-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno.v2"),
     ("m80.pcraft-native-query.v3",
      "pcraft-ufno-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno-transolver.v3"),
+    ("m80.pcraft-native-query.v4",
+     "pcraft-ufno-native-interval-m72-bounded-odd-head-ad-jacobian-optional-gno-transolver-multiscale.v4"),
 }
 MOMENT_ORDER = ("mass", "x", "y", "z", "xx", "yy", "zz", "yz", "xz", "xy")
 QUERY_ORDER = ("1", "x", "y", "z", "xx", "yy", "zz", "2yz", "2xz", "2xy")
@@ -66,6 +68,16 @@ PRESETS = {
                               transolver_enabled=True, transolver_slices=32, transolver_heads=8),
     "xxl": dict(grid_size=128, pino_width=48, pino_modes=16, pino_layers=8,
                interval_width=256, interval_depth=6, chunk_intervals=1024),
+    "large_convex": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
+                          interval_width=96, interval_depth=2, chunk_intervals=2048,
+                          convex_potential_enabled=True, convex_potential_components=4),
+    "xl_convex": dict(grid_size=64, pino_width=32, pino_modes=12, pino_layers=6,
+                      interval_width=192, interval_depth=4, chunk_intervals=1024,
+                      convex_potential_enabled=True, convex_potential_components=8),
+    "large_ms_convex": dict(grid_size=64, pino_width=16, pino_modes=8, pino_layers=4,
+                            interval_width=96, interval_depth=2, chunk_intervals=512,
+                            multiscale_enabled=True, multiscale_grids=(32,64,128),
+                            convex_potential_enabled=True, convex_potential_components=4),
     "large_ms": dict(grid_size=64, pino_width=16, pino_modes=8, pino_layers=4,
                      interval_width=96, interval_depth=2, chunk_intervals=512,
                      multiscale_enabled=True, multiscale_grids=(32,64,128)),
@@ -121,6 +133,8 @@ class NativePCRAFTConfig:
     transolver_heads: int = 4
     multiscale_enabled: bool = False
     multiscale_grids: tuple[int, ...] = (32, 64, 128)
+    convex_potential_enabled: bool = False
+    convex_potential_components: int = 4
 
     def __post_init__(self):
         if self.grid_size < 8 or self.grid_size % 4:
@@ -138,6 +152,10 @@ class NativePCRAFTConfig:
             raise ValueError("gno_topology_filter must be bool")
         if not isinstance(self.multiscale_enabled, bool):
             raise ValueError("multiscale_enabled must be bool")
+        if not isinstance(self.convex_potential_enabled, bool):
+            raise ValueError("convex_potential_enabled must be bool")
+        if isinstance(self.convex_potential_components,bool) or not isinstance(self.convex_potential_components,int) or self.convex_potential_components<1:
+            raise ValueError("convex_potential_components must be a positive integer")
         if (not isinstance(self.multiscale_grids, tuple) or len(self.multiscale_grids) < 2
                 or any(isinstance(v,bool) or not isinstance(v,int) or v < 8 or v % 4
                        for v in self.multiscale_grids)
