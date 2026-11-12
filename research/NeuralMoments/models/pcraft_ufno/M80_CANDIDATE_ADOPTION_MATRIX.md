@@ -44,7 +44,7 @@ This matrix expands composite registry entries into individual model/utility can
 | 26 | e3nn | Not integrated | **Research next — conditional** | Strict SO(3)/E(3) feature equivariance ablation after current arbitrary-rotation tests identify a real failure. | e3nn/e3nn pinned source; MIT. |
 | 27 | TorchOpt | Not integrated | **Conditional / optimizer baseline** | Implicit/unrolled differentiation experiment only. Native Spin-It Faster Newton remains final solver. | TorchOpt pinned source; Apache-2.0. |
 | 28 | torchquad | External baseline only | **Isolated benchmark** | Integration/runtime comparison in a separate process/environment. Do not vendor/link into the core without a separate compatibility review. | torchquad pinned source; GPL-3.0. |
-| 29 | Active Operator Learning with Predictive UQ (JCP 2026) | Paper only; no verified code repository in historical audit | **Research next — high** | Implement independently from the paper to allocate expensive Cherchi queries by uncertainty, event margin and expected solver-risk reduction. | Paper reference; no verified code repository/license. |
+| 29 | Active Operator Learning with Predictive UQ (JCP 2026) | Deterministic cost-aware query-selection utility implemented independently; calibrated UQ and Cherchi integration pending | **Research next — high** | Allocate expensive Cherchi queries by calibrated uncertainty, event margin, solver sensitivity and geometry coverage. | Paper reference; no verified code repository/license. Spin utility is an independent implementation. |
 | 30 | Transolver-3 | Announced but separate official code repository not verified | **Watchlist** | Revisit only when official code, commit and license are available and large-geometry bottleneck is measured. | No verified repository/commit/license. |
 | 31 | Opt-RNO | Repository identity not verified | **Hold** | Do not cite as an available implementation until the exact official project is identified. | No verified repository/commit/license. |
 
@@ -86,3 +86,6 @@ A project can be useful as a paper/method reference without its code being legal
 ### Quadrature provenance clarification
 
 The current Spin_test2 tree contains spin_pino/refined_quadrature.py and its tests. That is an internal deterministic Cartesian/ellipsoid-coarea integration path; it is **not** the QuadrANN upstream adapter and must not be described as QuadrANN integration. It can be evaluated as a separate numerical comparator after its M72 RLE input and teacher-parity contract are re-audited.
+
+
+The current active-query utility is not an import of the paper's unavailable code. It is a deterministic budgeted selector consuming externally calibrated scores. It does not produce uncertainty or certify derivatives.
