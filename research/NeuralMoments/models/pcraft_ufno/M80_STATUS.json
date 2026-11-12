@@ -3,8 +3,8 @@
   "date": "2026-11-13",
   "repository": "volcano-code/Spin_test2",
   "branch": "research/m80-pnmo-large-train-20261112",
-  "phase": "M80.4_ARCHITECTURE_AND_EVALUATION_REFACTOR",
-  "status": "single_scale_gpu_factorial_passed_multiscale_cpu_passed_gpu_pending",
+  "phase": "M80.5_CONVEX_MOMENT_POTENTIAL_AND_PHYSICAL_READOUT",
+  "status": "m80_4_cpu_passed_convex_head_cpu_passed_gpu_preflight_pending",
   "baseline": {
     "m80_1": "P-CRAFT single-scale + M72 native intervals; retained as permanent control",
     "m80_2": "optional native-interval GNO",
@@ -25,16 +25,26 @@
     "Legacy checkpoint schemas v1/v2/v3 remain loadable with new optional modules disabled",
     "M80.4 CPU CI passed: multi-resolution forward/backward, topology-filtered GNO, Transolver, moment invariants, event metadata and training CLI contracts",
     "Complete 31-expanded-candidate and 14-extension adoption matrix documented",
-    "Architecture, dataset V2, experiment, solver bridge and release-gate specifications documented"
+    "Architecture, dataset V2, experiment, solver bridge and release-gate specifications documented",
+    "Optional convex homogeneous moment potential head using positive sums of geometry-conditioned SPD norms",
+    "Convex head derives editable moments by AD and preserves positive coefficient-scale invariance and q/-q complement",
+    "Convex head amplitude is bounded by the native absolute-moment envelope",
+    "Convex head is opt-in; existing bounded odd M72 head remains default and permanent control",
+    "CPU tests cover convex Jacobian symmetry/PSD, finite-difference agreement, complement, scale invariance, envelope and checkpoint roundtrip",
+    "Validation reports Jacobian symmetry error and minimum-eigenvalue distributions on derivative-valid queries",
+    "Convex preflight reports symmetry and eigenvalue diagnostics"
   ],
   "pending": [
+    "RTX 5090D large versus large_convex preflight",
+    "RTX 5090D xl versus xl_convex preflight after Large gate",
+    "Same-data same-seed trained-quality comparison for bounded odd versus convex potential head",
+    "QuadrANN adapter source/label/derivative re-audit and positive quadrature experiments",
     "RTX 5090D preflight for large_ms and its GNO/Transolver factorial variants",
     "RTX 5090D preflight for xl_ms and its GNO/Transolver factorial variants",
     "Matched 200-500 step training pilot for selected single-scale and multiscale variants",
     "At least three-seed 2k-5k architecture screening before model promotion",
     "M72 combined70-v2 per-record query-count and derivative audit recheck",
     "Formal 67-object by at least 256 diverse queries corpus generation and frozen audit",
-    "Convex Moment Potential head as a separate candidate against current bounded odd head",
     "QuadrANN adapter re-audit and positive quadrature experiments",
     "UQNO/ensemble calibration and active teacher-query selection",
     "Spin-It Faster source audit and native Newton bridge implementation",
@@ -145,6 +155,20 @@
       },
       "cache_bytes": 531462952,
       "formal_256_query_corpus_confirmed": false
+    },
+    "convex_potential_cpu_ci_passed": true,
+    "convex_potential_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43277790530",
+    "convex_potential_gpu_preflight": false,
+    "convex_potential_quality_gain": false,
+    "convex_potential_properties": {
+      "positive_homogeneous": true,
+      "even_potential": true,
+      "convex_spd_norm_mixture": true,
+      "complement_relation_tested": true,
+      "positive_scale_invariance_tested": true,
+      "absolute_moment_envelope_tested": true,
+      "jacobian_symmetry_psd_tested": true,
+      "note": "These are implementation-level CPU mathematical tests, not empirical trained accuracy or exact-teacher agreement."
     }
   }
 }
