@@ -3,8 +3,8 @@
   "date": "2026-11-13",
   "repository": "volcano-code/Spin_test2",
   "branch": "research/m80-pnmo-large-train-20261112",
-  "phase": "M80.5_CONVEX_MOMENT_POTENTIAL_AND_PHYSICAL_READOUT",
-  "status": "m80_4_cpu_passed_convex_head_cpu_passed_gpu_preflight_pending",
+  "phase": "M80.8_NEURAL_NEWTON_ADAPTER_PROTOTYPE",
+  "status": "m80_4_5_8_cpu_ci_passed_local_gpu_and_native_solver_replay_pending",
   "baseline": {
     "m80_1": "P-CRAFT single-scale + M72 native intervals; retained as permanent control",
     "m80_2": "optional native-interval GNO",
@@ -32,9 +32,23 @@
     "Convex head is opt-in; existing bounded odd M72 head remains default and permanent control",
     "CPU tests cover convex Jacobian symmetry/PSD, finite-difference agreement, complement, scale invariance, envelope and checkpoint roundtrip",
     "Validation reports Jacobian symmetry error and minimum-eigenvalue distributions on derivative-valid queries",
-    "Convex preflight reports symmetry and eigenvalue diagnostics"
+    "Convex preflight reports symmetry and eigenvalue diagnostics",
+    "M80 external moment evaluator adapter for native Spin-It Faster callback contract",
+    "Explicit coefficient-to-model and moment-to-target transforms with Jacobian chain rule",
+    "Separate original solver geometry hash, M72 cache geometry hash and topology hash",
+    "Fail-closed default: no admission callback means exact evaluator fallback",
+    "Exact evaluator fallback and stable hybrid map identities for native Newton callback",
+    "Cache ownership/model-version checks, finite-output and absolute-moment-envelope checks",
+    "Convex-potential Jacobian symmetry/PSD admission check",
+    "CPU bridge tests cover transform chain rule, exact fallback, admission rejection, stale cache and convex Jacobian gate"
   ],
   "pending": [
+    "Bind M80 evaluator to actual SpinItFasterRequest and original source-mesh provenance",
+    "Derive and test nontrivial coefficient/moment transforms from native target frame",
+    "Bind exact Cherchi callback for identical source geometry/topology",
+    "Run native exact-fallback callback parity replay before enabling any neural calls",
+    "Run a real geometry Newton replay with all neural calls fail-closed, then gated neural pilot",
+    "Independent terminal material/constraint audit; external-evaluator Newton result alone is not final geometry acceptance",
     "RTX 5090D large versus large_convex preflight",
     "RTX 5090D xl versus xl_convex preflight after Large gate",
     "Same-data same-seed trained-quality comparison for bounded odd versus convex potential head",
@@ -47,7 +61,6 @@
     "Formal 67-object by at least 256 diverse queries corpus generation and frozen audit",
     "QuadrANN adapter re-audit and positive quadrature experiments",
     "UQNO/ensemble calibration and active teacher-query selection",
-    "Spin-It Faster source audit and native Newton bridge implementation",
     "Adaptive exact correction, event gate and fail-closed fallback",
     "End-to-end same-task Spin-It/Spin-It Faster comparison and independent physical audit",
     "Conditional GeoTransolver/FNOGNO/fVDB/e3nn studies only after measured bottleneck or failure"
@@ -157,7 +170,7 @@
       "formal_256_query_corpus_confirmed": false
     },
     "convex_potential_cpu_ci_passed": true,
-    "convex_potential_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43277790530",
+    "convex_potential_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43278275697",
     "convex_potential_gpu_preflight": false,
     "convex_potential_quality_gain": false,
     "convex_potential_properties": {
@@ -169,6 +182,11 @@
       "absolute_moment_envelope_tested": true,
       "jacobian_symmetry_psd_tested": true,
       "note": "These are implementation-level CPU mathematical tests, not empirical trained accuracy or exact-teacher agreement."
-    }
+    },
+    "neural_solver_bridge_cpu_ci_passed": true,
+    "neural_solver_bridge_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43279718463",
+    "native_solver_bridge_end_to_end": false,
+    "real_geometry_newton_replay": false,
+    "exact_terminal_geometry_audit": false
   }
 }
