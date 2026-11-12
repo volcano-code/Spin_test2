@@ -142,3 +142,16 @@ The model keeps the M72 bounded odd moment response and derives its Jacobian fro
 - No multi-day training has been started.
 
 Do not label this branch large-training-ready until the current CI rerun passes, then the user's local 5090D preflight passes on the largest real training object and the formal 256-query audit is ready.
+
+
+## M80.2 implementation update — 2026-11-12
+
+An optional native-interval GNO local integral branch has now been implemented in `spin_pino/native_pcraft.py`.
+
+It builds a self-inclusive kNN graph over the original M72 interval centers, uses relative center coordinates, interval extent ratios and mass ratios as edge descriptors, applies a positive learned kernel weighted by native interval mass, and performs a residual local feature update before the existing mass-weighted global reduction.
+
+The GNO branch is controlled by `gno_enabled`; the original `large`/`xl`/`xxl` configurations remain the non-GNO controls. New `large_gno` and `xl_gno` presets enable the branch. Geometry-only graph caches are bounded, stored as int32, and keyed by geometry hash, neighbor count and device.
+
+CPU CI now covers graph integrity, GNO moment complement/scale invariance, AD Jacobian finite-difference agreement, second-order backward, cache reuse and base-vs-GNO preset separation. This is code/CPU evidence only. GPU resource and quality comparisons remain mandatory before promoting GNO.
+
+See `M80.2_GNO_ABLATION.md` and the paired commands in `M80_LOCAL_RUN_GUIDE_CN.md`.
