@@ -34,7 +34,7 @@ This matrix expands composite registry entries into individual model/utility can
 | 16 | PhysGTO | Method inspected; no root LICENSE found | **Hold** | Manifold-aware mesh operator for thin-wall/near-layer failure studies only after permission. | pengwei07/PhysGTO@fc2dbc54e6b8205252534afddc20ca1fd61b8b4b; no root LICENSE in historical audit. |
 | 17 | EqGINO | Method inspected; no root LICENSE found; repository has modified NeuralOperator files | **Hold** | SO(3)/E(3) equivariance comparator only after file-level license and modification audit. | sung-won-kim/EqGINO@8465697cad54b7875dff4b5b65db5cdb71a332a6; no root LICENSE in historical audit. |
 | 18 | UNOP | README MIT badge, no root LICENSE found | **Hold / method reference** | Study LIPE/GALA/curvature gating as ideas; no source copying until license text is confirmed. | chengxinrui/UNOP@7e3f4e9b332bc9d6207d74ccd3d52930386b24fc; license unresolved. |
-| 19 | QuadrANN | Prior W6 adapter reported; production status requires re-audit | **Research next — high** | Nonnegative learned quadrature head. Compare fixed numerical quadrature, learned weights and exact-corrected learned weights on ten moments and Jacobians. | kesmarag/QuadrANN@111dd611aaeac1fb98c76385706b003ea8ef94be; MIT. |
+| 19 | QuadrANN | No QuadrANN adapter was found in the current Spin_test2 tree; prior W6 adapter claim requires source re-audit | **Research next — high** | Reproduce the MIT baseline and build a ten-moment/Jacobian adapter. Compare fixed numerical quadrature, learned weights and exact-corrected learned weights. | kesmarag/QuadrANN@111dd611aaeac1fb98c76385706b003ea8ef94be; MIT. |
 | 20 | NQR | Paper/source inspected; no root LICENSE found | **Hold / method reference** | Adaptive sampling and neural quadrature concepts; do not vendor code/shaders/assets until permission. | SuikaSibyl/nqr at historical audited snapshot; no root LICENSE. |
 | 21 | Algoim | R4 adapter exists; official build not verified | **Reference / exact numerical baseline** | Independent implicit-geometry quadrature comparator. Cherchi remains the authoritative Spin teacher. | Pinned Algoim source in historical catalog; custom BSD-style license with enhancement-grant clause. Preserve full notice. |
 | 22 | fVDB | Not integrated | **Conditional** | Sparse SDF/voxel/ray backend only if 512+/1024+ geometry preprocessing, storage or query is measured as a bottleneck. | NVIDIA fVDB pinned source; Apache-2.0. Local CUDA build required. |
@@ -81,3 +81,8 @@ A candidate is called integrated only after:
 7. A reproducible report and status update are committed.
 
 A project can be useful as a paper/method reference without its code being legally or technically integrated. Do not confuse those states.
+
+
+### Quadrature provenance clarification
+
+The current Spin_test2 tree contains spin_pino/refined_quadrature.py and its tests. That is an internal deterministic Cartesian/ellipsoid-coarea integration path; it is **not** the QuadrANN upstream adapter and must not be described as QuadrANN integration. It can be evaluated as a separate numerical comparator after its M72 RLE input and teacher-parity contract are re-audited.
