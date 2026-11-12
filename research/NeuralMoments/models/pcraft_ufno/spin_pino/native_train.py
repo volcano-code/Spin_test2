@@ -295,6 +295,7 @@ def preflight(args):
         peak_allocated=(torch.cuda.max_memory_allocated(args.device) if args.device.startswith("cuda") else None),
         peak_reserved=(torch.cuda.max_memory_reserved(args.device) if args.device.startswith("cuda") else None),
         data=corpus.summary(),source=source_fingerprints(),runtime=runtime_info(args.device,args.amp),
+        counters=dict(model.counters,gno_graph_cache_bytes=model._neighbor_cache_bytes),
         limitations=["preflight is not a multi-day training result","query fit is not design-success proof",
                      "Spin-It Faster Newton bridge is a separate gate"])
     Path(args.out).parent.mkdir(parents=True,exist_ok=True)
@@ -375,7 +376,8 @@ def train(args):
         time_budget_scope="checked between complete optimizer steps; final validation/save is additional",
         best_step=best_step,best_validation_score=best_score,initial_validation=initial,final_validation=final,
         parameter_count=sum(p.numel() for p in model.parameters()),config=asdict(cfg),contract=contract,
-        data=corpus.summary(),query_coverage_min=int(min(query_coverage.values())),query_coverage_max=int(max(query_coverage.values())),counters=model.counters,
+        data=corpus.summary(),query_coverage_min=int(min(query_coverage.values())),query_coverage_max=int(max(query_coverage.values())),
+        counters=dict(model.counters,gno_graph_cache_bytes=model._neighbor_cache_bytes),
         limitations=["validation is query-response selection, not design acceptance",
                      "no Faster Newton speedup is claimed until solver bridge tests pass"])
     (out/"report.json").write_text(json.dumps(report,indent=2,allow_nan=False)+"\n")
