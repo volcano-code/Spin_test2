@@ -219,3 +219,44 @@ def test_transolver_presets_are_opt_in_and_do_not_change_existing_baselines():
     trans_model=PcraftNativeMomentOperator(trans)
     assert not hasattr(base_model,"transolver")
     assert hasattr(trans_model,"transolver")
+
+
+def test_transolver_state_operator_is_permutation_equivariant():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import PhysicsStateSlicing
+    torch.manual_seed(43)
+    module=PhysicsStateSlicing(width=16,n_slices=4,n_heads=4).eval()
+    features=torch.randn(29,16)
+    mass=torch.rand(29); mass=mass/mass.sum()
+    permutation=torch.randperm(len(features))
+    with torch.no_grad():
+        updated,_=module(features,mass)
+        permuted,_=module(features[permutation],mass[permutation])
+    assert torch.allclose(permuted,updated[permutation],rtol=1e-5,atol=1e-6)
+    pooled=(updated*mass[:,None]).sum(0)
+    pooled_permuted=(permuted*mass[permutation,None]).sum(0)
+    assert torch.allclose(pooled,pooled_permuted,rtol=1e-6,atol=1e-7)
+
+
+def test_transolver_checkpoint_roundtrip_preserves_enabled_branch(tmp_path):
+    from dataclasses import asdict, replace
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import (
+        SCHEMA, SEMANTICS, load_model
+    )
+    torch.manual_seed(47)
+    base=small_model()
+    cfg=replace(base.config,transolver_enabled=True,transolver_slices=4,transolver_heads=2)
+    model=PcraftNativeMomentOperator(cfg).eval()
+    checkpoint=tmp_path/"transolver.pt"
+    torch.save(dict(schema=SCHEMA,semantics=SEMANTICS,config=asdict(cfg),
+                    model=model.state_dict()),checkpoint)
+    restored,payload=load_model(checkpoint,"cpu")
+    assert restored.config.transolver_enabled
+    assert hasattr(restored,"transolver")
+    geometry=small_geometry()
+    with torch.no_grad():
+        a=model.encode(geometry,chunk=7).detached()
+        b=restored.encode(geometry,chunk=7).detached()
+        q=torch.tensor([.03,.11,-.07,.04,.02,-.01,.015,.004,-.006,.003],dtype=torch.float64)
+        ra=model.predict(a,q)
+        rb=restored.predict(b,q)
+    assert torch.allclose(ra,rb,rtol=1e-7,atol=1e-9)
