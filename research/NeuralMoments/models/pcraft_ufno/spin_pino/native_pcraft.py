@@ -395,6 +395,9 @@ class PcraftNativeMomentOperator(nn.Module):
             n_layers=c.pino_layers,grid_size=c.grid_size,use_gradient_checkpoint=True)
         self.pino_global=nn.Sequential(nn.Linear(self.pino_encoder.feature_dim,w),nn.GELU(),nn.Linear(w,w))
         self.pino_local=nn.Linear(c.pino_width,w,bias=False)
+        if c.multiscale_enabled:
+            self.pino_scale_score=nn.Sequential(nn.Linear(w+36,w),nn.GELU(),nn.Linear(w,1))
+            self.local_scale_gate=nn.Sequential(nn.Linear(13+2*w,w),nn.GELU(),nn.Linear(w,1))
         self.statistics_context=nn.Sequential(nn.Linear(36,w),nn.SiLU(),nn.Linear(w,w))
         self.interval_embedding=nn.Sequential(nn.Linear(13,w),nn.GELU(),nn.Linear(w,w))
         self.interval_fusion=nn.Sequential(nn.LayerNorm(w),nn.Linear(w,2*w),nn.GELU(),nn.Linear(2*w,w))
