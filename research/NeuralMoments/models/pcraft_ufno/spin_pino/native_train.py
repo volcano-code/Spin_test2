@@ -209,9 +209,24 @@ def atomic_save(path,payload):
         if tmp is not None: tmp.unlink(missing_ok=True)
 
 
-def validate(model,corpus,device,amp,chunk,max_records=8,max_queries=256):
+def _distribution_summary(values):
+    array=np.asarray(values,dtype=np.float64).reshape(-1)
+    if not len(array):
+        return None
+    if not np.isfinite(array).all():
+        raise FloatingPointError("nonfinite validation error distribution")
+    return dict(count=int(len(array)),mean=float(array.mean()),
+        p50=float(np.percentile(array,50)),p95=float(np.percentile(array,95)),
+        p99=float(np.percentile(array,99)),max=float(array.max()))
+
+
+def validate(model,corpus,device,amp,chunk,max_records=8,max_queries=256,split="val"):
+    if split not in corpus.splits:
+        raise ValueError(f"unknown validation split {split!r}")
     model.eval(); rows=[]; scores=[]; jac_scores=[]
-    for row in corpus.splits["val"][:max_records]:
+    all_moment_query_rmse=[]; all_jacobian_query_rmse=[]
+    selected=corpus.splits[split] if max_records is None else corpus.splits[split][:max_records]
+    for row in selected:
         geometry,labels=corpus.get(row)
         with torch.no_grad(),autocast(device,amp):
             cache=model.encode(geometry,chunk).detached()
@@ -220,22 +235,34 @@ def validate(model,corpus,device,amp,chunk,max_records=8,max_queries=256):
         target=torch.tensor(np.array(labels["moments"][:n],copy=True),device=device,dtype=torch.float64)
         with torch.enable_grad(),autocast(device,amp):
             pred,jac=model.moments_and_jacobian(cache,q,create_graph=False)
-        ml=((pred-target)/cache.moment_scales).square().mean()
+        normalized_moment=(pred-target)/cache.moment_scales
+        ml=normalized_moment.square().mean()
+        moment_query_rmse=torch.sqrt(normalized_moment.square().mean(dim=-1))
+        all_moment_query_rmse.extend(moment_query_rmse.detach().cpu().tolist())
         valid=labels["derivative_valid"][:n].astype(bool)
-        jl=ml*0
+        jl=None; jac_query_rmse=None
         if valid.any():
             mask=torch.as_tensor(valid,device=device)
             jt=torch.tensor(np.array(labels["jacobian"][:n][valid],copy=True),device=device,dtype=torch.float64)
             scale=cache.moment_scales[:,None]*cache.coordinate_scales[None,:]
-            jl=((jac[mask]-jt)/scale).square().mean()
+            normalized_jacobian=(jac[mask]-jt)/scale
+            jl=normalized_jacobian.square().mean()
+            jac_query_rmse=torch.sqrt(normalized_jacobian.square().mean(dim=(-2,-1)))
+            all_jacobian_query_rmse.extend(jac_query_rmse.detach().cpu().tolist())
             jac_scores.append(float(jl.detach()))
         scores.append(float(ml.detach()))
         rows.append(dict(id=row["id"],group_id=row["group_id"],queries=n,
-                         moment_scaled_mse=float(ml.detach()),jacobian_scaled_mse=float(jl.detach()),
-                         derivative_valid=int(valid.sum())))
+            derivative_valid=int(valid.sum()),moment_scaled_mse=float(ml.detach()),
+            jacobian_scaled_mse=None if jl is None else float(jl.detach()),
+            moment_query_rmse=_distribution_summary(moment_query_rmse.detach().cpu().numpy()),
+            jacobian_query_rmse=None if jac_query_rmse is None else
+                _distribution_summary(jac_query_rmse.detach().cpu().numpy())))
     model.train()
-    return dict(moment_scaled_mse=float(np.mean(scores)),jacobian_scaled_mse=float(np.mean(jac_scores)) if jac_scores else None,
-                records=len(rows),source_groups=len({r["group_id"] for r in rows}),details=rows)
+    return dict(split=split,moment_scaled_mse=float(np.mean(scores)) if scores else None,
+        jacobian_scaled_mse=float(np.mean(jac_scores)) if jac_scores else None,
+        moment_query_rmse=_distribution_summary(all_moment_query_rmse),
+        jacobian_query_rmse=_distribution_summary(all_jacobian_query_rmse),
+        records=len(rows),source_groups=len({r["group_id"] for r in rows}),details=rows)
 
 
 def preflight(args):
