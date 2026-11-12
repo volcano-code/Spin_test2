@@ -137,3 +137,13 @@ The adapter now also includes a tested affine target-frame transform helper for 
 https://github.com/volcano-code/Spin_test2/actions/runs/43279900942
 
 Still pending: binding to a real SpinItFasterRequest/source mesh and verifying the target-frame transform against the native C++/analytic path.
+
+
+## M80.6 active-selection implementation update — 2026-11-13
+
+A deterministic cost-aware teacher-query selector has been added at spin_pino/active_query_selection.py. It supports mixed, derivative-only and event-label acquisition, cost budgets, per-source-group caps and positive-scale q deduplication while retaining -q as a distinct complementary query.
+
+CPU tests passed:
+https://github.com/volcano-code/Spin_test2/actions/runs/43280654729
+
+This is a selection utility only. It does not generate UQ scores, label queries, or connect to the local Cherchi runner yet. The formal 256-query corpus remains pending.
