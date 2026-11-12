@@ -152,14 +152,15 @@ def test_transolver_physics_slicing_normalizes_mass_pooling_and_deslicing():
     mass=torch.rand(23); mass=mass/mass.sum()
     updated,metrics,assignment,deslice=module(features,mass,return_details=True)
     assert updated.shape==features.shape
-    assert assignment.shape==(23,4)
-    assert deslice.shape==(23,4)
-    assert torch.allclose(assignment.sum(0),torch.ones(4),atol=1e-6)
-    assert torch.allclose(deslice.sum(-1),torch.ones(23),atol=1e-6)
+    assert assignment.shape==(23,4,4)
+    assert deslice.shape==(4,4)
+    assert torch.allclose(assignment.sum(-1),torch.ones(23,4),atol=1e-6)
+    assert torch.allclose(deslice.sum(-1),torch.ones(4),atol=1e-6)
     assert metrics["transolver_effective_slices"]>=1.0
     assert metrics["transolver_effective_slices"]<=4.0+1e-5
-    assert metrics["transolver_assignment_column_error"]<1e-5
-    assert metrics["transolver_deslice_row_error"]<1e-5
+    assert metrics["transolver_assignment_row_error"]<1e-5
+    assert metrics["transolver_slice_mass_sum_error"]<1e-5
+    assert metrics["transolver_temperature_min"]>=0.01
     updated.square().mean().backward()
     grads=[p.grad for p in module.parameters() if p.grad is not None]
     assert grads and all(torch.isfinite(g).all() for g in grads)
@@ -183,8 +184,8 @@ def test_pcraft_transolver_branch_preserves_moment_invariants_and_jacobian():
     grads=[p.grad for p in model.parameters() if p.grad is not None]
     assert grads and all(torch.isfinite(g).all() for g in grads)
     assert model.counters["transolver_calls"]==1
-    assert model.counters["transolver_assignment_column_error"]<1e-5
-    assert model.counters["transolver_deslice_row_error"]<1e-5
+    assert model.counters["transolver_assignment_row_error"]<1e-5
+    assert model.counters["transolver_slice_mass_sum_error"]<1e-5
 
 
 def test_pcraft_gno_transolver_combination_has_finite_second_order_backward():
