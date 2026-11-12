@@ -530,12 +530,38 @@ class PcraftNativeMomentOperator(nn.Module):
         stats=torch.cat((original/scale,fixed/scale,design/scale,(lo+hi)/(2*length),(hi-lo)/length)).to(p.dtype)[None]
         desc=torch.cat((basis/coord[None],extent/length),-1).to(p.dtype)
         weights=(mass/mass.sum()).to(p.dtype)
-        grid=geometry.get("pcraft_grid")
-        if grid is None: grid=conservative_coarse_grid(geometry,c.grid_size)
-        grid=torch.as_tensor(np.array(grid,dtype=np.float32,copy=True),device=device).unsqueeze(0)
-        if grid.shape!=(1,4,c.grid_size,c.grid_size,c.grid_size): raise ValueError("invalid P-CRAFT conservative grid")
-        pino_global,pino_map=self.pino_encoder.forward_with_map(grid)
-        context=(self.statistics_context(stats)+self.pino_global(pino_global)).squeeze(0)
+        if c.multiscale_enabled:
+            scale_grids=[]
+            for grid_size in c.multiscale_grids:
+                if grid_size==c.grid_size and geometry.get("pcraft_grid") is not None:
+                    grid_np=np.asarray(geometry["pcraft_grid"],dtype=np.float32)
+                else:
+                    grid_np=conservative_coarse_grid(geometry,grid_size)
+                if grid_np.shape!=(4,grid_size,grid_size,grid_size):
+                    raise ValueError(f"invalid conservative P-CRAFT grid at resolution {grid_size}")
+                scale_grids.append(torch.as_tensor(np.array(grid_np,dtype=np.float32,copy=True),
+                                                   device=device).unsqueeze(0))
+            scale_globals=[]; scale_maps=[]
+            for grid_tensor in scale_grids:
+                pooled,fmap=self.pino_encoder.forward_with_map(grid_tensor,preserve_resolution=True)
+                scale_globals.append(self.pino_global(pooled))
+                scale_maps.append(fmap)
+            global_stack=torch.stack(scale_globals,dim=1)
+            stats_expanded=stats[:,None,:].expand(-1,len(scale_globals),-1)
+            global_scores=self.pino_scale_score(torch.cat((global_stack,stats_expanded),dim=-1))
+            global_weights=torch.softmax(global_scores.float(),dim=1).to(global_stack.dtype)
+            pino_context=(global_stack*global_weights).sum(dim=1)
+            pino_map=tuple(scale_maps)
+            self.counters["multiscale_calls"]+=1
+            self.counters["multiscale_global_weights"]=[float(v) for v in global_weights[0,:,0].detach().cpu()]
+        else:
+            grid=geometry.get("pcraft_grid")
+            if grid is None: grid=conservative_coarse_grid(geometry,c.grid_size)
+            grid=torch.as_tensor(np.array(grid,dtype=np.float32,copy=True),device=device).unsqueeze(0)
+            if grid.shape!=(1,4,c.grid_size,c.grid_size,c.grid_size): raise ValueError("invalid P-CRAFT conservative grid")
+            pino_global,pino_map=self.pino_encoder.forward_with_map(grid)
+            pino_context=self.pino_global(pino_global)
+        context=(self.statistics_context(stats)+pino_context).squeeze(0)
         origin=torch.as_tensor(np.asarray(geometry["origin"],dtype=np.float64),device=device)
         span=side*float(geometry["h"])
         normalized=2*(xyz-origin)/span-1
