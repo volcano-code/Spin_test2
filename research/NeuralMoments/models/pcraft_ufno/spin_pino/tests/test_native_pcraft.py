@@ -142,3 +142,79 @@ def test_gno_preset_is_an_explicit_ablation_and_base_checkpoint_stays_legacy():
     assert not hasattr(base_model,"gno_kernel")
     assert hasattr(gno_model,"gno_kernel")
     assert gno_model.pino_encoder.width==base_model.pino_encoder.width
+
+
+def test_transolver_physics_slicing_normalizes_mass_pooling_and_deslicing():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import PhysicsStateSlicing
+    torch.manual_seed(31)
+    module=PhysicsStateSlicing(width=16,n_slices=4,n_heads=4)
+    features=torch.randn(23,16,requires_grad=True)
+    mass=torch.rand(23); mass=mass/mass.sum()
+    updated,metrics,assignment,deslice=module(features,mass,return_details=True)
+    assert updated.shape==features.shape
+    assert assignment.shape==(23,4)
+    assert deslice.shape==(23,4)
+    assert torch.allclose(assignment.sum(0),torch.ones(4),atol=1e-6)
+    assert torch.allclose(deslice.sum(-1),torch.ones(23),atol=1e-6)
+    assert metrics["transolver_effective_slices"]>=1.0
+    assert metrics["transolver_effective_slices"]<=4.0+1e-5
+    assert metrics["transolver_assignment_column_error"]<1e-5
+    assert metrics["transolver_deslice_row_error"]<1e-5
+    updated.square().mean().backward()
+    grads=[p.grad for p in module.parameters() if p.grad is not None]
+    assert grads and all(torch.isfinite(g).all() for g in grads)
+
+
+def test_pcraft_transolver_branch_preserves_moment_invariants_and_jacobian():
+    from dataclasses import replace
+    torch.manual_seed(37)
+    base=small_model()
+    cfg=replace(base.config,transolver_enabled=True,transolver_slices=4,transolver_heads=2)
+    model=PcraftNativeMomentOperator(cfg).train()
+    cache=model.encode(small_geometry(),chunk=7)
+    q=torch.tensor([.03,.11,-.07,.04,.02,-.01,.015,.004,-.006,.003],dtype=torch.float64)
+    moments,jac=model.moments_and_jacobian(cache,q,create_graph=True)
+    assert moments.shape==(10,) and jac.shape==(10,10)
+    assert torch.isfinite(moments).all() and torch.isfinite(jac).all()
+    assert torch.allclose(moments,model.predict(cache,7*q),rtol=1e-10,atol=1e-11)
+    assert torch.allclose(moments+model.predict(cache,-q),
+        2*cache.fixed_moments+cache.design_moments,rtol=1e-9,atol=1e-10)
+    (moments.square().mean()+jac.square().mean()).backward()
+    grads=[p.grad for p in model.parameters() if p.grad is not None]
+    assert grads and all(torch.isfinite(g).all() for g in grads)
+    assert model.counters["transolver_calls"]==1
+    assert model.counters["transolver_assignment_column_error"]<1e-5
+    assert model.counters["transolver_deslice_row_error"]<1e-5
+
+
+def test_pcraft_gno_transolver_combination_has_finite_second_order_backward():
+    from dataclasses import replace
+    torch.manual_seed(41)
+    base=small_model()
+    cfg=replace(base.config,gno_enabled=True,gno_neighbors=8,
+                transolver_enabled=True,transolver_slices=4,transolver_heads=2)
+    model=PcraftNativeMomentOperator(cfg).train()
+    cache=model.encode(small_geometry(),chunk=7)
+    q=torch.tensor([.03,.11,-.07,.04,.02,-.01,.015,.004,-.006,.003],dtype=torch.float64)
+    moments,jac=model.moments_and_jacobian(cache,q,create_graph=True)
+    (moments.square().mean()+jac.square().mean()).backward()
+    grads=[p.grad for p in model.parameters() if p.grad is not None]
+    assert grads and all(torch.isfinite(g).all() for g in grads)
+    assert model.counters["gno_graph_builds"]==1
+    assert model.counters["transolver_calls"]==1
+
+
+def test_transolver_presets_are_opt_in_and_do_not_change_existing_baselines():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import make_config
+    base=make_config("xl")
+    trans=make_config("xl_transolver")
+    combo=make_config("xl_gno_transolver")
+    assert base.transolver_enabled is False and base.gno_enabled is False
+    assert trans.transolver_enabled is True and trans.gno_enabled is False
+    assert combo.transolver_enabled is True and combo.gno_enabled is True
+    assert trans.transolver_slices==32 and trans.transolver_heads==8
+    assert combo.interval_width % combo.transolver_heads==0
+    base_model=PcraftNativeMomentOperator(base)
+    trans_model=PcraftNativeMomentOperator(trans)
+    assert not hasattr(base_model,"transolver")
+    assert hasattr(trans_model,"transolver")
