@@ -366,3 +366,71 @@ def test_gno_topology_filter_is_opt_in_and_records_component_count():
     cache=model.encode(geometry,chunk=4)
     assert cache.native_intervals==4
     assert model.counters["gno_component_count"]==2
+
+
+def test_convex_potential_head_is_scale_invariant_complementary_and_psd():
+    from dataclasses import replace
+    torch.manual_seed(61)
+    base=small_model()
+    cfg=replace(base.config,convex_potential_enabled=True,convex_potential_components=3)
+    model=PcraftNativeMomentOperator(cfg).train()
+    cache=model.encode(small_geometry(),chunk=7)
+    q=torch.tensor([.03,.11,-.07,.04,.02,-.01,.015,.004,-.006,.003],dtype=torch.float64)
+    moments,jac=model.moments_and_jacobian(cache,q,create_graph=True)
+    assert moments.shape==(10,) and jac.shape==(10,10)
+    assert torch.isfinite(moments).all() and torch.isfinite(jac).all()
+    assert torch.allclose(moments,model.predict(cache,7*q),rtol=1e-8,atol=1e-9)
+    assert torch.allclose(moments+model.predict(cache,-q),
+        2*cache.fixed_moments+cache.design_moments,rtol=1e-8,atol=1e-9)
+    deviation=moments-cache.fixed_moments-.5*cache.design_moments
+    assert torch.all(deviation.abs()<=.5*cache.absolute_moments+1e-9)
+    assert torch.allclose(jac,jac.T,rtol=1e-7,atol=1e-8)
+    eigenvalues=torch.linalg.eigvalsh((jac+jac.T)/2)
+    assert float(eigenvalues.min())>=-1e-7
+    eps=2e-5; fd=torch.empty_like(jac)
+    with torch.no_grad():
+        for j in range(10):
+            delta=torch.zeros_like(q); delta[j]=eps
+            fd[:,j]=(model.predict(cache,q+delta)-model.predict(cache,q-delta))/(2*eps)
+    assert torch.allclose(jac,fd,rtol=2e-2,atol=2e-4)
+    (moments.square().mean()+jac.square().mean()).backward()
+    grads=[p.grad for p in model.parameters() if p.grad is not None]
+    assert grads and all(torch.isfinite(g).all() for g in grads)
+    assert model.counters["convex_potential_calls"]>0
+    assert 0.0<model.counters["convex_potential_scale_fraction"]<1.0
+
+
+def test_convex_potential_checkpoint_roundtrip_and_exact_endpoints(tmp_path):
+    from dataclasses import asdict,replace
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import (
+        SCHEMA,SEMANTICS,load_model
+    )
+    torch.manual_seed(67)
+    base=small_model()
+    cfg=replace(base.config,convex_potential_enabled=True,convex_potential_components=3)
+    model=PcraftNativeMomentOperator(cfg).eval()
+    checkpoint=tmp_path/"convex.pt"
+    torch.save(dict(schema=SCHEMA,semantics=SEMANTICS,config=asdict(cfg),
+                    model=model.state_dict()),checkpoint)
+    restored,_=load_model(checkpoint,"cpu")
+    geometry=small_geometry()
+    cache=model.encode(geometry,chunk=7).detached()
+    restored_cache=restored.encode(geometry,chunk=7).detached()
+    q=torch.tensor([.03,.11,-.07,.04,.02,-.01,.015,.004,-.006,.003],dtype=torch.float64)
+    with torch.no_grad():
+        a=model.predict(cache,q)
+        b=restored.predict(restored_cache,q)
+    assert torch.allclose(a,b,rtol=1e-8,atol=1e-9)
+    full=model.predict(cache,torch.tensor([1.,0,0,0,0,0,0,0,0,0],dtype=torch.float64))
+    empty=model.predict(cache,torch.tensor([-1.,0,0,0,0,0,0,0,0,0],dtype=torch.float64))
+    assert torch.allclose(full,cache.fixed_moments+cache.design_moments)
+    assert torch.allclose(empty,cache.fixed_moments)
+
+
+def test_convex_potential_presets_are_opt_in():
+    from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import make_config
+    base=make_config("large")
+    convex=make_config("large_convex")
+    assert not base.convex_potential_enabled
+    assert convex.convex_potential_enabled
+    assert convex.convex_potential_components==4
