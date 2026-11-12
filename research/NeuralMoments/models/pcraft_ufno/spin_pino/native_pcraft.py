@@ -42,7 +42,7 @@ PRESETS = {
                   interval_width=96, interval_depth=2, chunk_intervals=4096),
     "large_gno": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
                       interval_width=96, interval_depth=2, chunk_intervals=2048,
-                      gno_enabled=True, gno_neighbors=8),
+                      gno_enabled=True, gno_neighbors=8, gno_topology_filter=True),
     "large_transolver": dict(grid_size=32, pino_width=16, pino_modes=8, pino_layers=4,
                              interval_width=96, interval_depth=2, chunk_intervals=2048,
                              transolver_enabled=True, transolver_slices=16, transolver_heads=4),
@@ -81,6 +81,7 @@ class NativePCRAFTConfig:
     gno_enabled: bool = False
     gno_neighbors: int = 8
     gno_cache_mib: int = 512
+    gno_topology_filter: bool = False
     transolver_enabled: bool = False
     transolver_slices: int = 32
     transolver_heads: int = 4
@@ -97,6 +98,8 @@ class NativePCRAFTConfig:
                 raise ValueError(f"{name} must be a positive integer")
         if not isinstance(self.gno_enabled, bool) or not isinstance(self.transolver_enabled, bool):
             raise ValueError("gno_enabled and transolver_enabled must be bool")
+        if not isinstance(self.gno_topology_filter, bool):
+            raise ValueError("gno_topology_filter must be bool")
         if self.pino_width < 2 or self.interval_width < 8:
             raise ValueError("pino_width>=2 and interval_width>=8 are required")
         if self.gno_neighbors < 2:
@@ -350,39 +353,109 @@ class PhysicsStateSlicing(nn.Module):
         return x,metrics
 
 
-def build_local_neighbor_graph(xyz: np.ndarray, neighbors: int = 8) -> np.ndarray:
-    """Build a deterministic self-inclusive kNN graph over native interval centers.
+def native_interval_components(columns: np.ndarray) -> np.ndarray:
+    """Label 6-connected components of M72 x/y/z RLE intervals.
 
-    The graph is geometry-only and can be cached across optimizer steps. It is
-    not a dense N-by-N adjacency matrix. Output is int32 [N,K] to limit memory.
+    RLE rows are (x, y, z_lo, z_hi), with half-open z ranges. Intervals
+    connect vertically when they touch in the same x/y column, and connect
+    across x/y faces only when their z ranges overlap. Edge/corner-only
+    contacts do not connect. This prevents Euclidean kNN from linking nearby
+    but disconnected thin-wall layers.
+    """
+    columns=np.asarray(columns)
+    if columns.ndim!=2 or columns.shape[1]!=4 or columns.dtype.kind not in "iu" or len(columns)==0:
+        raise ValueError("columns must be nonempty integer [N,4] RLE intervals")
+    rows=np.asarray(columns,dtype=np.int64)
+    if (rows[:,3]<=rows[:,2]).any():
+        raise ValueError("RLE intervals must have positive z extent")
+    groups={}
+    for i,(x,y,z0,z1) in enumerate(rows):
+        groups.setdefault((int(x),int(y)),[]).append((int(z0),int(z1),i))
+    parent=np.arange(len(rows),dtype=np.int64)
+    rank=np.zeros(len(rows),dtype=np.int8)
+    def find(a):
+        while parent[a]!=a:
+            parent[a]=parent[parent[a]]
+            a=int(parent[a])
+        return a
+    def union(a,b):
+        ra,rb=find(a),find(b)
+        if ra==rb:return
+        if rank[ra]<rank[rb]:ra,rb=rb,ra
+        parent[rb]=ra
+        if rank[ra]==rank[rb]:rank[ra]+=1
+    ordered={}
+    for key,items in groups.items():
+        items=sorted(items)
+        for left,right in zip(items,items[1:]):
+            if left[1]>right[0]:
+                raise ValueError("overlapping RLE intervals in one x/y column")
+            if left[1]==right[0]:
+                union(left[2],right[2])
+        ordered[key]=items
+    for (x,y),items in ordered.items():
+        for neighbor_key in ((x+1,y),(x,y+1)):
+            other=ordered.get(neighbor_key)
+            if not other:continue
+            i=j=0
+            while i<len(items) and j<len(other):
+                a0,a1,ai=items[i];b0,b1,bi=other[j]
+                if max(a0,b0)<min(a1,b1):
+                    union(ai,bi)
+                if a1<=b1:i+=1
+                if b1<=a1:j+=1
+    roots=[find(i) for i in range(len(rows))]
+    remap={root:index for index,root in enumerate(sorted(set(roots)))}
+    return np.asarray([remap[root] for root in roots],dtype=np.int32)
+
+
+def build_local_neighbor_graph(
+    xyz: np.ndarray, neighbors: int = 8, component_ids: np.ndarray | None = None
+) -> np.ndarray:
+    """Build deterministic self-inclusive kNN, optionally within 6-connected components.
+
+    The graph is geometry-only, not a dense N-by-N matrix. If component_ids
+    are supplied, no edge crosses a disconnected native material component.
+    Output is int32 [N,K] to limit memory.
     """
     xyz=np.asarray(xyz,dtype=np.float64)
     if xyz.ndim!=2 or xyz.shape[1]!=3 or len(xyz)==0 or not np.isfinite(xyz).all():
         raise ValueError("xyz must be finite [N,3]")
     if neighbors<2:
         raise ValueError("neighbors must be >=2")
+    n=len(xyz)
+    if component_ids is None:
+        groups=[np.arange(n,dtype=np.int64)]
+    else:
+        labels=np.asarray(component_ids)
+        if labels.shape!=(n,) or labels.dtype.kind not in "iu":
+            raise ValueError("component_ids must be integer [N]")
+        groups=[np.flatnonzero(labels==label) for label in np.unique(labels)]
     from scipy.spatial import cKDTree
-    n=len(xyz); k=min(n,int(neighbors))
-    if n==1:
-        return np.zeros((1,neighbors),dtype=np.int32)
-    tree=cKDTree(xyz)
-    _,indices=tree.query(xyz,k=k,workers=1)
-    if indices.ndim==1:
-        indices=indices[:,None]
-    indices=np.asarray(indices,dtype=np.int64)
-    # cKDTree returns each unique point itself at distance zero in column zero.
-    own=np.arange(n,dtype=np.int64)
-    if not np.array_equal(indices[:,0],own):
-        # Defensive path for duplicate centers: put self first, then retain
-        # the nearest non-self indices in their returned order.
-        rows=[]
-        for i,row in enumerate(indices):
-            rows.append(np.concatenate(([i],row[row!=i]))[:k])
-        indices=np.stack(rows,axis=0)
-    if k<neighbors:
-        pad=np.repeat(indices[:,:1],neighbors-k,axis=1)
-        indices=np.concatenate((indices,pad),axis=1)
-    return indices[:,:neighbors].astype(np.int32,copy=False)
+    result=np.empty((n,neighbors),dtype=np.int32)
+    for indices_global in groups:
+        points=xyz[indices_global]
+        k=min(len(indices_global),int(neighbors))
+        if k==1:
+            result[indices_global,:]=indices_global[:,None].astype(np.int32)
+            continue
+        tree=cKDTree(points)
+        _,indices=tree.query(points,k=k,workers=1)
+        if indices.ndim==1:
+            indices=indices[:,None]
+        indices=np.asarray(indices,dtype=np.int64)
+        own=np.arange(len(indices_global),dtype=np.int64)
+        if not np.array_equal(indices[:,0],own):
+            rows_local=[]
+            for i,row in enumerate(indices):
+                rows_local.append(np.concatenate(([i],row[row!=i]))[:k])
+            indices=np.stack(rows_local,axis=0)
+        global_indices=indices_global[indices]
+        if k<neighbors:
+            pad=np.repeat(indices_global[:,None],neighbors-k,axis=1)
+            global_indices=np.concatenate((global_indices,pad),axis=1)
+        result[indices_global]=global_indices[:,:neighbors].astype(np.int32,copy=False)
+    return result
 
 
 class PcraftNativeMomentOperator(nn.Module):
@@ -421,7 +494,7 @@ class PcraftNativeMomentOperator(nn.Module):
         self._neighbor_cache_bytes=0
         self.counters=dict(encode_calls=0,intervals=0,queries=0,jacobians=0,exact_calls=0,
                            gno_graph_builds=0,gno_graph_cache_hits=0,gno_graph_build_seconds=0.0,
-                           gno_edges=0,transolver_calls=0,transolver_effective_slices=0.0,
+                           gno_edges=0,gno_component_count=0,transolver_calls=0,transolver_effective_slices=0.0,
                            transolver_assignment_entropy=0.0,
                            transolver_assignment_row_error=0.0,
                            transolver_slice_mass_sum_error=0.0,
@@ -435,7 +508,7 @@ class PcraftNativeMomentOperator(nn.Module):
     def _versions(self):
         return tuple(p._version for p in self.parameters())
 
-    def _get_neighbor_graph(self,geometry_hash,xyz,device):
+    def _get_neighbor_graph(self,geometry_hash,xyz,device,geometry_columns=None):
         key=(geometry_hash,self.config.gno_neighbors,str(device))
         if key in self._neighbor_cache:
             graph,size=self._neighbor_cache.pop(key)
@@ -443,7 +516,14 @@ class PcraftNativeMomentOperator(nn.Module):
             self.counters["gno_graph_cache_hits"]+=1
             return graph
         graph_start=perf_counter()
-        graph_np=build_local_neighbor_graph(xyz,self.config.gno_neighbors)
+        component_ids=None
+        if self.config.gno_topology_filter:
+            columns=geometry_columns
+            if columns is None:
+                raise ValueError("topology-filtered GNO requires native RLE columns")
+            component_ids=native_interval_components(columns)
+            self.counters["gno_component_count"]=int(len(np.unique(component_ids)))
+        graph_np=build_local_neighbor_graph(xyz,self.config.gno_neighbors,component_ids=component_ids)
         graph=torch.as_tensor(graph_np,device=device,dtype=torch.int32)
         size=graph.numel()*graph.element_size()
         budget=self.config.gno_cache_mib*1024**2
@@ -588,7 +668,7 @@ class PcraftNativeMomentOperator(nn.Module):
                 feature_chunks.append(h)
             all_features=torch.cat(feature_chunks,dim=0)
             if c.gno_enabled:
-                neighbor_graph=self._get_neighbor_graph(geom_hash,xyz_np,device)
+                neighbor_graph=self._get_neighbor_graph(geom_hash,xyz_np,device,geometry.get("columns"))
                 extent_normalized=extent/length
                 updated_chunks=[]
                 for start in range(0,len(desc),chunk):
@@ -667,6 +747,7 @@ def load_model(path,device="cpu"):
     config.setdefault("gno_enabled",False)
     config.setdefault("gno_neighbors",8)
     config.setdefault("gno_cache_mib",64)
+    config.setdefault("gno_topology_filter",False)
     config.setdefault("transolver_enabled",False)
     config.setdefault("transolver_slices",32)
     config.setdefault("transolver_heads",4)
