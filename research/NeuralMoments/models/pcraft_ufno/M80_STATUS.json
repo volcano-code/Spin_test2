@@ -91,6 +91,14 @@
     "transolver_cpu_ci_passed": true,
     "transolver_gpu_preflight": false,
     "transolver_quality_gain": false,
-    "transolver_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43254014739"
+    "transolver_cpu_ci_run": "https://github.com/volcano-code/Spin_test2/actions/runs/43254610683",
+    "transolver_cpu_ci_includes": [
+      "multi-head mass-aware slice assignment normalization",
+      "mass-weighted slice mass conservation",
+      "finite gradients and M72 moment/Jacobian invariants",
+      "combined GNO plus Transolver second-order backward",
+      "native point permutation equivariance",
+      "Transolver-enabled checkpoint roundtrip"
+    ]
   }
 }
