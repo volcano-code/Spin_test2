@@ -84,8 +84,9 @@ class M72Corpus:
             raise ValueError("M80 large training requires a frozen formal M69/M72 corpus")
         if self.doc.get("fingerprint")!=manifest_fingerprint(self.doc):
             raise ValueError("M69/M72 manifest fingerprint mismatch")
-        if self.audit.get("ready_for_training") is not True or self.audit.get("blockers"):
-            raise ValueError("M72 corpus audit is not ready_for_training")
+        if (self.audit.get("schema") != "m69.corpus-audit.v1" or self.audit.get("valid") is not True
+                or self.audit.get("ready_for_training") is not True or self.audit.get("blockers")):
+            raise ValueError("M72 corpus audit is not a valid ready_for_training receipt")
         if self.audit.get("fingerprint")!=self.doc.get("fingerprint") or self.audit.get("scope")!="formal":
             raise ValueError("M72 audit does not bind the supplied formal manifest")
         self.rows=[r for r in self.doc.get("records",[]) if r.get("status")=="qualified"]
@@ -150,6 +151,20 @@ class M72Corpus:
             n=len(geometry["xyz"])
             if best is None or n>best[0]: best=(n,row)
         return best[1]
+
+    def verify_query_coverage(self, minimum):
+        """Check every qualified label bank before a formal long run."""
+        counts = {}
+        for row in self.rows:
+            path = safe_member(self.root, row["labels_file"])
+            if file_sha(path) != row["labels_sha256"]:
+                raise ValueError(f"{row['id']}: label SHA-256 mismatch during coverage audit")
+            with np.load(path, allow_pickle=False) as data:
+                n = len(data["queries"])
+                if n < minimum:
+                    raise ValueError(f"{row['id']}: only {n} queries; formal run requires {minimum}")
+                counts[row["id"]] = n
+        return counts
 
     def summary(self):
         return dict(manifest_sha256=self.manifest_sha,audit_sha256=self.audit_sha,
@@ -283,6 +298,7 @@ def train(args):
     rng=np.random.default_rng(args.seed)
     cfg=make_config(args.preset,min_native_resolution=args.min_native_resolution,chunk_intervals=args.chunk)
     corpus=M72Corpus(args.manifest,args.audit,cfg.grid_size,min_queries=args.min_queries_per_record,cache_mib=args.cache_mib)
+    query_coverage=corpus.verify_query_coverage(args.min_queries_per_record)
     groups={s:corpus._group(corpus.splits[s]) for s in ("train","val","test")}
     if len(groups["train"])<args.min_train_groups or len(groups["val"])<args.min_val_groups or len(groups["test"])<args.min_test_groups:
         raise ValueError("formal corpus does not meet configured independent source-group minimums")
@@ -345,7 +361,7 @@ def train(args):
         time_budget_scope="checked between complete optimizer steps; final validation/save is additional",
         best_step=best_step,best_validation_score=best_score,initial_validation=initial,final_validation=final,
         parameter_count=sum(p.numel() for p in model.parameters()),config=asdict(cfg),contract=contract,
-        data=corpus.summary(),counters=model.counters,
+        data=corpus.summary(),query_coverage_min=int(min(query_coverage.values())),query_coverage_max=int(max(query_coverage.values())),counters=model.counters,
         limitations=["validation is query-response selection, not design acceptance",
                      "no Faster Newton speedup is claimed until solver bridge tests pass"])
     (out/"report.json").write_text(json.dumps(report,indent=2,allow_nan=False)+"\n")
