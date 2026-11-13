@@ -47,6 +47,8 @@ jobs:
             research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_native_train.py \
             research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_spin_pino.py \
             research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_dataset.py
+            research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_neural_solver_bridge.py \
+            research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_refined_quadrature.py
       - name: Verify training CLI
         env:
           PYTHONPATH: .
