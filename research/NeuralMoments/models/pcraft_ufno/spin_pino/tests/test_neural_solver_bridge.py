@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 import torch
 
 from research.NeuralMoments.models.pcraft_ufno.spin_pino.native_pcraft import (
