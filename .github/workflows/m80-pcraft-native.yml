@@ -42,13 +42,7 @@ jobs:
           OPENBLAS_NUM_THREADS: "1"
           MKL_NUM_THREADS: "1"
         run: |
-          python -m pytest -q \
-            research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_native_pcraft.py \
-            research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_native_train.py \
-            research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_spin_pino.py \
-            research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_dataset.py \
-            research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_neural_solver_bridge.py \
-            research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/test_refined_quadrature.py
+          python -m pytest -q research/NeuralMoments/models/pcraft_ufno/spin_pino/tests/
       - name: Verify training CLI
         env:
           PYTHONPATH: .
