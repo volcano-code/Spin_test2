@@ -40,7 +40,8 @@ class RefinedCutTest(unittest.TestCase):
         expected_r,expected_J=cartesian(v,gates,2*q,24,.0075)
         np.testing.assert_allclose(r,expected_r)
         np.testing.assert_allclose(J,2*expected_J)
-        np.testing.assert_allclose(J@q,0,atol=6e-15)
+        # The identity is exact analytically; allow a small float64 cancellation residual.
+        np.testing.assert_allclose(J@q,0,atol=3e-14,rtol=0)
 
     def test_paired_frozen_scores_cover_all_registered_arms(self):
         import hashlib
